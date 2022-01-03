@@ -13,7 +13,7 @@ describe("Patchwork Kingdoms", function () {
 
     const PatchworkKingdoms = await ethers.getContractFactory("PatchworkKingdoms");
     [owner, addr1, addr2, ...addrs] = await ethers.getSigners();
-    contract = await PatchworkKingdoms.deploy()
+    contract = await PatchworkKingdoms.deploy(addr1.address)
     await contract.deployed()
 
   });
