@@ -118,6 +118,10 @@ describe("Patchwork Kingdoms", function () {
     expect(metadataUri).to.equal("https://example.com/" + tokenId);
     expect(await contract.connect(addr1).ownerOf(tokenId)).to.equal(addr1.address)
 
+    overrides.nonce = addr1.getTransactionCount()
+
+    await expect(contract.connect(addr1).mint(proof, overrides)).to.be.revertedWith("You already got your chance.");
+
   });
 
   it("Should ignore whitelist if public sale is active", async function () {
