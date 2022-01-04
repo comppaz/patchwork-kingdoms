@@ -4,7 +4,21 @@ pragma solidity ^0.8.0;
 import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 import "@openzeppelin/contracts/utils/cryptography/MerkleProof.sol";
-import "hardhat/console.sol";
+
+/*
+  _____      _       _                       _      _  ___                 _                     
+ |  __ \    | |     | |                     | |    | |/ (_)               | |                    
+ | |__) |_ _| |_ ___| |____      _____  _ __| | __ | ' / _ _ __   __ _  __| | ___  _ __ ___  ___ 
+ |  ___/ _` | __/ __| '_ \ \ /\ / / _ \| '__| |/ / |  < | | '_ \ / _` |/ _` |/ _ \| '_ ` _ \/ __|
+ | |  | (_| | || (__| | | \ V  V / (_) | |  |   <  | . \| | | | | (_| | (_| | (_) | | | | | \__ \
+ |_|   \__,_|\__\___|_| |_|\_/\_/ \___/|_|  |_|\_\ |_|\_\_|_| |_|\__, |\__,_|\___/|_| |_| |_|___/
+                                                                  __/ |                          
+                                                                 |___/                           
+*/
+
+/// @title Patchwork Kingdoms
+/// @author GigaConnect
+/// @notice Let's build a community of supporters for the Giga initiative and raise funds to bring reliable, robust connectivity to schools across the globe.
 
 contract PatchworkKingdoms is ERC721, Ownable {
     bool private _whitelistSaleIsActive = false;
@@ -16,32 +30,30 @@ contract PatchworkKingdoms is ERC721, Ownable {
 
     mapping(address => bool) private _claimed;
 
+    /// @notice The entry point of the contract. The artist - Nadieh Bremer - gets the first token with the token id "1".
+    /// @param artist Nadieh's wallet address.
     constructor(address artist) ERC721("PatchworkKingdoms", "PWKD") {
         _mint(artist, 1);
     }
 
+    /// @notice This is the public mint function of the project that requires the sender to be on the whitelist if the public sale is not active.
+    /// @param merkleProof The computed merkle proof to check whether the sender is on the whitelist.
     function mint(bytes32[] calldata merkleProof) external payable {
         if (!_publicSaleIsActive) {
-            require(
-                _whitelistSaleIsActive,
-                "The whitelist sale is not active yet."
-            );
-            require(onWhitelist(merkleProof), "You're not on the whitelist.");
-            require(!_claimed[msg.sender], "You already got your chance.");
+            require(_whitelistSaleIsActive, "whitelist sale not active");
+            require(onWhitelist(merkleProof), "sender not on the whitelist");
+            require(!_claimed[msg.sender], "sender already claimed");
         }
 
-        require(_tokenId <= 999, "We're out of tokens.");
-        require(
-            msg.value == 0.175 ether,
-            "The amount of ether sent is incorrect."
-        );
+        require(_tokenId <= 999, "max supply reached");
+        require(msg.value == 0.175 ether, "amount sent is incorrect");
 
         _mint(msg.sender, _tokenId);
         _tokenId++;
         _claimed[msg.sender] = true;
     }
 
-    // PRIVATE (READ_ONLY)
+    /// ############# PRIVATE (READ_ONLY) #############
     function onWhitelist(bytes32[] calldata merkleProof)
         internal
         view
@@ -55,12 +67,12 @@ contract PatchworkKingdoms is ERC721, Ownable {
             );
     }
 
-    // PUBLIC (READ_ONLY)
+    /// ############# PUBLIC (READ_ONLY) #############
     function _baseURI() internal view virtual override returns (string memory) {
         return _baseUrl;
     }
 
-    // ADMIN FUNCTIONS
+    /// ############# ADMIN FUNCTIONS #############
     function toggleWhitelistSaleState() external onlyOwner {
         _whitelistSaleIsActive = !_whitelistSaleIsActive;
     }
@@ -81,6 +93,6 @@ contract PatchworkKingdoms is ERC721, Ownable {
         (bool sent, ) = payable(msg.sender).call{value: address(this).balance}(
             ""
         );
-        require(sent, "Failed to withdraw balance");
+        require(sent, "failed to withdraw");
     }
 }

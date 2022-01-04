@@ -62,20 +62,20 @@ describe("Patchwork Kingdoms", function () {
 
   it("Should revert if sale is not active", async function () {
     const proof = computeProof(addr1.address)
-    await expect(contract.connect(addr1).mint(proof)).to.be.revertedWith("The whitelist sale is not active yet.");
+    await expect(contract.connect(addr1).mint(proof)).to.be.revertedWith("whitelist sale not active");
   });
 
   it("Should revert if not on whitelist", async function () {
     const proof = computeProof(addr3.address);
     await contract.toggleWhitelistSaleState();
-    await expect(contract.connect(addr3).mint(proof)).to.be.revertedWith("You're not on the whitelist.");
-    await expect(contract.connect(addr2).mint(proof)).to.be.revertedWith("You're not on the whitelist.");
+    await expect(contract.connect(addr3).mint(proof)).to.be.revertedWith("sender not on the whitelist");
+    await expect(contract.connect(addr2).mint(proof)).to.be.revertedWith("sender not on the whitelist");
   });
 
   it("Should revert if amount of ether is wrong", async function () {
     const proof = computeProof(addr1.address);
     await contract.toggleWhitelistSaleState();
-    await expect(contract.connect(addr1).mint(proof)).to.be.revertedWith("The amount of ether sent is incorrect.");
+    await expect(contract.connect(addr1).mint(proof)).to.be.revertedWith("amount sent is incorrect");
   });
 
   it("Should update the merkle tree", async function () {
@@ -89,7 +89,7 @@ describe("Patchwork Kingdoms", function () {
     const proof = computeProof(addr1.address);
     await contract.toggleWhitelistSaleState();
 
-    await expect(contract.connect(addr1).mint(proof)).to.be.revertedWith("You're not on the whitelist.")
+    await expect(contract.connect(addr1).mint(proof)).to.be.revertedWith("sender not on the whitelist")
 
   });
 
@@ -120,7 +120,7 @@ describe("Patchwork Kingdoms", function () {
 
     overrides.nonce = addr1.getTransactionCount()
 
-    await expect(contract.connect(addr1).mint(proof, overrides)).to.be.revertedWith("You already got your chance.");
+    await expect(contract.connect(addr1).mint(proof, overrides)).to.be.revertedWith("sender already claimed");
 
   });
 
