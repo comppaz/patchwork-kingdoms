@@ -39,6 +39,8 @@
     "solidity-coverage": "^0.7.17"
   },
   "dependencies": {
-    "@openzeppelin/contracts": "^4.4.1"
+    "@openzeppelin/contracts": "^4.4.1",
+    "keccak256": "^1.0.6",
+    "merkletreejs": "^0.2.27"
   }
 }
