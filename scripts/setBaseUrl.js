@@ -1,5 +1,4 @@
 const hre = require("hardhat");
-const generateMerkleRoot = require("./generateMerkleRoot");
 
 async function main() {
 
@@ -7,13 +6,12 @@ async function main() {
 
     const contract = await PatchworkKingdoms.attach(process.env.CONTRACT_ADDRESS);
 
-    let merkleRoot = await generateMerkleRoot();
-
-    let tx = await contract.setMerkleRoot(merkleRoot);
+    let tx = await contract.setBaseUrl(process.env.BASE_URL);
 
     await tx.wait()
 
-    console.log(`Set merkle root to ${merkleRoot.toString('hex')}`);
+    console.log(`Base Url was set: ${tx.hash}`)
+
 }
 
 main().catch((error) => {

@@ -4,7 +4,7 @@ const whitelist = require('../data/whitelist.json');
 
 async function generateMerkleRoot() {
 
-    const leafNodes = whitelist.map((addr) => keccak256(addr));
+    const leafNodes = whitelist.map((addr) => keccak256(addr.toLocaleLowerCase()));
     const merkleTree = new MerkleTree(leafNodes, keccak256, { sortPairs: true });
     return merkleTree.getHexRoot();
 

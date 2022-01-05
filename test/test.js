@@ -122,6 +122,11 @@ describe("Patchwork Kingdoms", function () {
 
     await expect(contract.connect(addr1).mint(proof, overrides)).to.be.revertedWith("sender already claimed");
 
+    let hasClaimedAddr1 = await contract.connect(addr1).hasClaimed(addr1.address)
+    expect(hasClaimedAddr1).to.equal(true);
+    let hasClaimedAddr3 = await contract.connect(addr3).hasClaimed(addr3.address)
+    expect(hasClaimedAddr3).to.equal(false);
+
   });
 
   it("Should ignore whitelist if public sale is active", async function () {

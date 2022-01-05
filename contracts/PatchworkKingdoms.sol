@@ -68,6 +68,11 @@ contract PatchworkKingdoms is ERC721, Ownable {
     }
 
     /// ############# PUBLIC (READ_ONLY) #############
+
+    function hasClaimed(address addr) external view returns (bool) {
+        return _claimed[addr];
+    }
+
     function _baseURI() internal view virtual override returns (string memory) {
         return _baseUrl;
     }
