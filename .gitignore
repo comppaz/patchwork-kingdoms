@@ -7,6 +7,7 @@ typechain
 #Hardhat files
 cache
 artifacts
-data/whitelist.json
+data/*.json
+data/*.csv
 data/metadata/*
 .DS_Store
