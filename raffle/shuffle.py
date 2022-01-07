@@ -13,7 +13,7 @@ df = pd.read_csv(os.path.join(dirname, '../data/Whitelist_cleaned.csv'), encodin
 # frac - specifies the fraction of rows to return. The value of "1" means return all rows.
 # random_state - specifies a seed for the underlying randomizer. This makes sure that we generate the same result if we run this again!
 
-shuffled = df.sample(frac=1, random_state=75)
+shuffled = df.sample(frac=1, random_state=75).reset_index()
 
 # 3) Save the output as CSV again
 shuffled.to_csv(outfileWhitelist, sep=';', encoding='utf-8')
