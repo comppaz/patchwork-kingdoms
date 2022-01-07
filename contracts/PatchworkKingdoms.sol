@@ -45,7 +45,7 @@ contract PatchworkKingdoms is ERC721, Ownable {
             require(!_claimed[msg.sender], "sender already claimed");
         }
 
-        require(_tokenId <= 999, "max supply reached");
+        require(_tokenId <= 1000, "max supply reached");
         require(msg.value == 0.175 ether, "amount sent is incorrect");
 
         _mint(msg.sender, _tokenId);
