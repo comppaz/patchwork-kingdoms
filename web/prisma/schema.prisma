@@ -1,0 +1,35 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Whitelist {
+  id            Int       @default(autoincrement()) @id
+  address       String?   @unique
+  twitterHandle String?   @unique
+  discordId     String?   
+  tweetUrl      String?   @unique
+  signature     String?   
+  contactPermission Boolean @default(true) 
+  createdAt     DateTime  @default(now()) @map(name: "created_at")
+  updatedAt     DateTime  @updatedAt @map(name: "updated_at")
+  @@map(name: "whitelist")
+}
+
+model Raffle {
+  id            Int       @default(autoincrement()) @id
+  ethAddress       String?   @unique
+  solAddress       String?   @unique
+  twitterHandle String?   @unique
+  contactPermission Boolean @default(true) 
+  createdAt     DateTime  @default(now()) @map(name: "created_at")
+  updatedAt     DateTime  @updatedAt @map(name: "updated_at")
+  @@map(name: "raffle")
+}
