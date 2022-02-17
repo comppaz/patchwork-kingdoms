@@ -121,6 +121,30 @@ const partners = [
         twitterUrl: 'https://twitter.com/austingriffith',
         linkedinUrl: ''
     },
+    {
+        name: 'Praneeth Reddy A',
+        role: 'Developer',
+        imageUrl:
+            '/images/team/with-bg/praneeth.png',
+        twitterUrl: 'https://twitter.com/0xViking',
+        linkedinUrl: 'https://www.linkedin.com/in/praneethreddyarikatla/'
+    },
+    {
+        name: 'Payam Azadi',
+        role: 'Developer',
+        imageUrl:
+            '/images/team/with-bg/payam.png',
+        twitterUrl: '',
+        linkedinUrl: 'https://www.linkedin.com/in/payamazadi-nyc/'
+    },
+    {
+        name: 'Majdy Miqdady',
+        role: 'Community Manager',
+        imageUrl:
+            '/images/team/with-bg/majdy.png',
+        twitterUrl: '',
+        linkedinUrl: 'https://www.linkedin.com/in/majdy-miqdady-06747716a/'
+    },
 
 ]
 
@@ -266,7 +290,7 @@ export default function Team() {
                         </div>
                         <ul
                             role="list"
-                            className="mx-auto space-y-16 sm:grid sm:grid-cols-2 sm:gap-8 sm:space-y-0 lg:grid-cols-4 lg:max-w-5xl"
+                            className="mx-auto space-y-16 sm:grid sm:grid-cols-2 sm:gap-8 sm:space-y-0 lg:grid-cols-5 lg:max-w-7xl"
                         >
                             {partners.map((person) => (
                                 <li key={person.name}>
