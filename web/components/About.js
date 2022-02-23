@@ -4,9 +4,7 @@ import { Transition } from '@headlessui/react'
 
 const stats = [
   { label: 'Total Supply Of NFTs', value: '1000' },
-  { label: 'Price', value: '0.175 ETH' },
-  { label: 'Whitelist Opening', value: '23 December, 2021' },
-  { label: 'Drop Date', value: 'January, 2022' },
+  { label: 'Minting Price', value: '0.175 ETH' },
 ]
 
 export default function About() {
@@ -131,6 +129,13 @@ export default function About() {
                   <p>
                     Bremer incorporates data for 283,000 schools from 21 countries which Giga has collected on its live map and each one of the 1,000 Patchwork Kingdoms represents a subset of these schools. You can collect one or several, and you can have a snapshot of Giga’s work as the project evolves. The team hopes to add many more features to these NFTs over time, including the ability to collect individual schools, to connect your Patchwork Kingdom to others, and to watch the network of kingdoms grow as we give every child access to information, opportunity, and choice.
                   </p>
+                  {/* <button onclick="location.href='https://www.visualcinnamon.com/collection/patchwork-kingdoms/'">Visit Page Now</button> */}
+                </div>                
+                <div className="mt-8 lg:mt-0">
+                  <div className="mt-5">
+                    <a href='https://www.visualcinnamon.com/collection/patchwork-kingdoms/' target="_blank" class="underline text-teal-600" >
+                      Detailed blog by Nadieh Bremer</a>
+                  </div>                  
                 </div>
               </div>
             </div>
