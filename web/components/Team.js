@@ -133,7 +133,7 @@ const partners = [
         name: 'Payam Azadi',
         role: 'Developer',
         imageUrl:
-            '/images/team/with-bg/payam.png',
+            '/images/team/with-bg/Payam.png',
         twitterUrl: '',
         linkedinUrl: 'https://www.linkedin.com/in/payamazadi-nyc/'
     },
