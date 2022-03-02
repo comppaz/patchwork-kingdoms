@@ -7,6 +7,7 @@ import Slider from "react-slick";
 import { useWeb3React } from "@web3-react/core"
 import { injected, mint, hasClaimed } from "./_web3"
 import Banner from '../components/Banner'
+import web3 from '@web3-react/core'
 
 const navigation = [
   {
@@ -74,9 +75,8 @@ export default function Hero() {
     ]
   };
 
-  const { chainId, active, account, activate, deactivate, provider } = useWeb3React()
-  const [proof, setProof] = useState(null)
-  const [valid, setValid] = useState(false)
+  const { chainId, active, account, activate, deactivate, library } = useWeb3React()
+  const [signedIn, setSignedIn] = useState(false)
   const [running, setRunning] = useState(false)
   const [loading, setLoading] = useState(false)
   const [statusMessage, setStatus] = useState('')
@@ -85,19 +85,8 @@ export default function Hero() {
   useEffect(async () => {
 
     if (active) {
-      let claimed = false
-      // if (chainId === 1) {
-      //   claimed = await hasClaimed(account)
-      // }
-      const res = await fetch(`/api/proof?address=` + account)
-      const response = await res.json()
-      setStatus('')
-      setProof(response.proof)
-      setValid(response.valid)
 
-      if (claimed) {
-        setError(`<span class="text-red-600">⚠️</span> You already minted your NFT!`)
-      }
+      console.log(account)
 
     }
   }, [active, account])
@@ -108,7 +97,7 @@ export default function Hero() {
 
     if (chainId !== 1) {
       setStatus('')
-      setError(`< span class= "text-red-600" >⚠️</span > Please make sure you're connected to the Mainnet.`)
+      setError(`<span class= "text-red-600" >⚠️</span > Please make sure you're connected to the Mainnet.`)
     } else {
       setError(false)
     }
@@ -132,27 +121,30 @@ export default function Hero() {
 
   }
 
-  async function initMint() {
+  async function signIn() {
+    setError('')
 
-    setRunning(true)
-    setLoading(true)
+    if (account && !signedIn) {
 
-    if (!running && active && proof && valid) {
 
-      // const claimed = await hasClaimed(account)
+      let signature = await library.eth.personal.sign(library.utils.fromUtf8(`I want to login to Patchwork Kingdoms.`), account)
 
-      // if (claimed) {
-      //   return setError(`<span class="text-red-600">⚠️</span> You already minted your NFT!`)
-      // }
-
-      mint(account, proof).on('transactionHash', function (hash) {
-        setStatus(`👏 Check your transaction on <a class="text-teal-900 underline" target="_blank" href="https://etherscan.io/tx/${hash}">Etherscan</a>!`)
-        setLoading(false)
-      }).on('error', function (err) {
-        setStatus('😞 Something went wrong...')
-        setLoading(false)
+      const res = await fetch(`/api/login`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          account: account,
+          signature: signature
+        })
       })
 
+      console.log(res)
+      setSignedIn(true)
+
+    } else {
+      setSignedIn(false)
     }
 
   }
@@ -189,6 +181,22 @@ export default function Hero() {
                       <item.icon className="h-6 w-6" aria-hidden="true" />
                     </a>
                   ))}
+                  <button
+                    onClick={() => toggleConnect()}
+                    type="button"
+                    className="inline-flex items-center -mt-2 px-4 py-2 border border-teal-600 text-sm font-base rounded-md shadow-sm text-teal-600 bg-transparent hover:text-white hover:bg-teal-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-500 disabled:opacity-30"
+                  >
+                    <img className="pr-2" src="/images/metamask_logo.svg" width="25" />
+                    {!active ? "Connect wallet" : "Disconnect wallet"}
+                  </button>
+
+                  {account && <button
+                    onClick={() => signIn()}
+                    type="button"
+                    className="inline-flex items-center -mt-2 px-4 py-2 border border-teal-600 text-sm font-base rounded-md shadow-sm text-teal-600 bg-transparent hover:text-white hover:bg-teal-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-500 disabled:opacity-30"
+                  >
+                    {!signedIn ? "Sign In" : "Sign Out"}
+                  </button>}
                 </div>
               </nav>
             </div>
