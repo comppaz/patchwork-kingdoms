@@ -1,66 +1,46 @@
-import Cors from 'cors'
 import { ethers } from 'ethers'
-import contractAbi from '../../data/PatchworkKingdoms.json'
+import { withIronSessionApiRoute } from 'iron-session/next'
+import { sessionOptions } from '../../lib/session'
+import { createAlchemyWeb3 } from "@alch/alchemy-web3";
 
-const provider = new ethers.providers.AlchemyProvider(
-    'mainnet',
-    process.env.API_KEY,
-)
-
-const signer = new ethers.Wallet(process.env.PRIVATE_KEY, provider)
-
-function initMiddleware(middleware) {
-    return (req, res) =>
-        new Promise((resolve, reject) => {
-            middleware(req, res, (result) => {
-                if (result instanceof Error) {
-                    return reject(result)
-                }
-                return resolve(result)
-            })
-        })
-}
+const web3 = createAlchemyWeb3(
+    `https://eth-mainnet.alchemyapi.io/v2/${process.env.API_KEY}`,
+);
 
 
-// Initialize the cors middleware
-const cors = initMiddleware(
-    Cors({
-        methods: ['POST', 'OPTIONS'],
-        origin: ['http:localhost:3000', 'https://patchwork-kingdoms.com', 'https://pathwork-kingdom-git-feature-whitelist-craft-clarity.vercel.app'],
+async function loginRoute(req, res) {
 
-    })
-)
+    console.log(`Received new login request: ${JSON.stringify(req.body)}`)
 
+    const message = 'I want to login to Patchwork Kingdoms.';
+    let actualAddress = ethers.utils.verifyMessage(message, req.body.signature).toLowerCase();
 
-export default async function login(req, res) {
+    if (actualAddress === req.body.account.toLowerCase()) {
+        console.log('User is legit')
 
-    await cors(req, res)
+        actualAddress = '0xcd6BD0329A485e4d3bd95bcF0227ea8F21207042' // TOOD REMOVE
 
-    if (req.method === 'POST') {
-        console.log(`Received new login request: ${JSON.stringify(req.body)}`)
+        const nfts = await web3.alchemy.getNfts({ owner: actualAddress, contractAddresses: [process.env.CONTRACT_ADDRESS] })
 
-        const message = 'I want to login to Patchwork Kingdoms.';
-        const actualAddress = ethers.utils.verifyMessage(message, req.body.signature).toLowerCase();
+        if (nfts.totalCount) {
 
-        if (actualAddress === req.body.account.toLowerCase()) {
-            console.log('User is legit')
+            let user = {
+                isLoggedIn: true,
+                account: actualAddress,
+                totalNfts: nfts.totalCount
+            }
 
-            const contract = new ethers.Contract(
-                process.env.CONTRACT_ADDRESS,
-                contractAbi,
-                signer,
-            )
+            req.session.user = user
+            await req.session.save()
+            res.json(user)
 
-
-            let balance = (await contract.balanceOf(actualAddress)).toNumber()
-
-            console.log(balance)
+        } else {
+            res.status(401).json({ error: 'You do not own a Patchwork Kingdom.', code: 401 })
         }
 
-        res.status(200).json({ error: null, code: 200 })
-    } else {
-        return res.status(500).json({ error: 'Internal Server Error', code: 500 })
     }
 
 
 }
+
+export default withIronSessionApiRoute(loginRoute, sessionOptions)
