@@ -18,25 +18,17 @@ async function loginRoute(req, res) {
     if (actualAddress === req.body.account.toLowerCase()) {
         console.log('User is legit')
 
-        actualAddress = '0xcd6BD0329A485e4d3bd95bcF0227ea8F21207042' // TOOD REMOVE
-
         const nfts = await web3.alchemy.getNfts({ owner: actualAddress, contractAddresses: [process.env.CONTRACT_ADDRESS] })
 
-        if (nfts.totalCount) {
-
-            let user = {
-                isLoggedIn: true,
-                account: actualAddress,
-                totalNfts: nfts.totalCount
-            }
-
-            req.session.user = user
-            await req.session.save()
-            res.json(user)
-
-        } else {
-            res.status(401).json({ error: 'You do not own a Patchwork Kingdom.', code: 401 })
+        let user = {
+            isLoggedIn: true,
+            account: actualAddress,
+            totalNfts: nfts.totalCount
         }
+
+        req.session.user = user
+        await req.session.save()
+        res.json(user)
 
     }
 

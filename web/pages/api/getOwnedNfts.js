@@ -30,9 +30,7 @@ async function getOwnedNftsRoute(req, res) {
 
     try {
 
-        let actualAddress = '0xcd6BD0329A485e4d3bd95bcF0227ea8F21207042' // TOOD REMOVE
-
-        const nfts = await web3.alchemy.getNfts({ owner: actualAddress, contractAddresses: [process.env.CONTRACT_ADDRESS] })
+        const nfts = await web3.alchemy.getNfts({ owner: user.account, contractAddresses: [process.env.CONTRACT_ADDRESS] })
 
         let nftList = []
 
