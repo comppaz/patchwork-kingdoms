@@ -119,7 +119,7 @@ export default function Navbar() {
 
         <div className="relative pt-6">
             <Popover>
-                <div className="max-w-7xl mx-auto px-4 sm:px-6">
+                <div className="max-w-7xl mx-auto px-4 sm:px-6 pr-6 md:pr-0">
                     <nav className="relative flex items-center justify-between sm:h-10 md:justify-center" aria-label="Global">
                         <div className="flex items-center flex-1 md:absolute md:inset-y-0 md:-left-10">
                             <div className="flex items-center justify-between w-full md:w-auto">
@@ -127,14 +127,14 @@ export default function Navbar() {
                                     <a>
                                         <span className="sr-only">Patchwork Kingdoms</span>
                                         <img
-                                            className="h-24 w-auto sm:h-24"
+                                            className="h-16 w-auto md:h-24"
                                             src="/images/GIGA_allcolour_RGB_horizontal.png"
                                             alt=""
                                         />
                                     </a>
                                 </Link>
                                 <div className="-mr-2 flex items-center md:hidden">
-                                    <Popover.Button className="bg-gray-50 rounded-md p-2 inline-flex items-center justify-center text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500">
+                                    <Popover.Button className="bg-gray-50 rounded-md p-2 inline-flex items-center justify-center text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-teal-500">
                                         <span className="sr-only">Open main menu</span>
                                         <MenuIcon className="h-6 w-6" aria-hidden="true" />
                                     </Popover.Button>
@@ -177,10 +177,10 @@ export default function Navbar() {
                 >
                     <Popover.Panel
                         focus
-                        className="absolute z-10 top-0 inset-x-0 p-2 transition transform origin-top-right md:hidden"
+                        className="absolute top-2 pr-2 z-10 inset-x-0 transition transform origin-top-right md:hidden"
                     >
                         <div className="rounded-lg shadow-md bg-white ring-1 ring-black ring-opacity-5 overflow-hidden">
-                            <div className="px-5 pt-4 flex items-center justify-between">
+                            <div className="px-4 pt-4 flex items-center justify-between">
                                 <div>
                                     <img
                                         className="h-16 w-auto"
@@ -189,7 +189,7 @@ export default function Navbar() {
                                     />
                                 </div>
                                 <div className="-mr-2">
-                                    <Popover.Button className="bg-white rounded-md p-2 inline-flex items-center justify-center text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500">
+                                    <Popover.Button className="bg-white rounded-md p-2 inline-flex items-center justify-center text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-teal-500">
                                         <span className="sr-only">Close menu</span>
                                         <XIcon className="h-6 w-6" aria-hidden="true" />
                                     </Popover.Button>
