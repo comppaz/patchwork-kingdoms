@@ -9,8 +9,7 @@ export default function Dashboard() {
 
     const { nfts } = useOwnedNfts(user);
 
-    console.log(nfts)
-
+    console.log(user)
     if (!user?.isLoggedIn) {
         return (
             <div className="min-h-full pt-16 pb-12 flex flex-col bg-white">
@@ -28,6 +27,26 @@ export default function Dashboard() {
             </div>
         )
     }
+
+    if (user?.isLoggedIn && !user?.totalNfts) {
+        return (
+            <div className="min-h-full pt-16 pb-12 flex flex-col bg-white">
+                <main className="flex-grow flex flex-col justify-center max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8">
+
+                    <div className="py-16 mt-8">
+                        <div className="text-center">
+                            <p className="text-sm font-semibold text-teal-600 uppercase tracking-wide">You are not a member of Patchwork Kingdoms yet.</p>
+
+                            <p className="mt-2 text-base text-gray-500">Become part of the community by buying one on <a href="https://opensea.io/collection/patchworkkingdoms" target="_blank" className="underline">Opensea</a></p>
+
+                        </div>
+                    </div>
+                </main>
+            </div>
+        )
+    }
+
+
 
 
     return (
