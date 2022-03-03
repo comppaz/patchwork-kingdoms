@@ -196,6 +196,11 @@ export default function Navbar() {
                                 </div>
                             </div>
                             <div className="px-2 pt-2 pb-3">
+                                <Link href="/dashboard">
+                                    <a className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-50">
+                                        Dashboard
+                                    </a>
+                                </Link>
                                 {navigation.map((item) => (
                                     <a
                                         key={item.name}
@@ -205,6 +210,16 @@ export default function Navbar() {
                                         {item.name}
                                     </a>
                                 ))}
+                                <div className="flex items-center w-full justify-center mt-4">
+                                    <button
+                                        onClick={() => toggleSignIn()}
+                                        type="button"
+                                        className="inline-flex items-center px-4 py-2 border border-teal-600 text-sm font-base rounded-md shadow-sm text-teal-600 bg-transparent hover:text-white hover:bg-teal-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-500 disabled:opacity-30"
+                                    >
+                                        <img className="pr-2" src="/images/metamask_logo.svg" width="25" />
+                                        {!signedIn ? "Sign In" : "Sign Out"}
+                                    </button>
+                                </div>
                             </div>
                         </div>
                     </Popover.Panel>
