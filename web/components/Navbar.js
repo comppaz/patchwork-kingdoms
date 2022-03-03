@@ -6,6 +6,7 @@ import { injected } from "./_web3"
 import Link from 'next/link'
 import useUser from '../lib/useUser'
 import fetchJson from '../lib/fetchJson'
+import { useRouter } from 'next/router'
 
 const navigation = [
     {
@@ -38,6 +39,7 @@ const navigation = [
 
 export default function Navbar() {
 
+    const router = useRouter()
     const { mutateUser, user } = useUser()
 
     const { chainId, active, account, activate, deactivate, library } = useWeb3React()
@@ -73,6 +75,7 @@ export default function Navbar() {
             )
 
             setSignedIn(true)
+            router.push('/dashboard')
 
         }
     }, [active, account])
