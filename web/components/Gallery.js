@@ -17,7 +17,7 @@ export default function Gallery({ nfts: nfts }) {
                             {nfts.map((nft) => (
                                 <li key={nft.title}>
                                     <div className="space-y-4">
-                                        <div className="aspect-w-3 aspect-h-2">
+                                        <div className="aspect-w-3 aspect-h-3">
                                             <img className="object-cover shadow-lg rounded-lg" src={nft.imageUrl} alt="" />
                                         </div>
 
