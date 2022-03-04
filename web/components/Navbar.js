@@ -7,6 +7,9 @@ import Link from 'next/link'
 import useUser from '../lib/useUser'
 import fetchJson from '../lib/fetchJson'
 import { useRouter } from 'next/router'
+import { ToastContainer, toast } from 'react-toastify';
+
+import 'react-toastify/dist/ReactToastify.min.css';
 
 const navigation = [
     {
@@ -42,10 +45,9 @@ export default function Navbar() {
     const router = useRouter()
     const { mutateUser, user } = useUser()
 
-    const { chainId, active, account, activate, deactivate, library } = useWeb3React()
+    const { active, account, activate, deactivate, library } = useWeb3React()
     const [signedIn, setSignedIn] = useState(false)
-    const [statusMessage, setStatus] = useState('')
-    const [errorMessage, setError] = useState(false)
+
 
     useEffect(async () => {
 
@@ -53,6 +55,7 @@ export default function Navbar() {
             setSignedIn(true)
         } else {
             setSignedIn(false)
+
         }
 
     }, [user])
@@ -80,22 +83,12 @@ export default function Navbar() {
         }
     }, [active, account])
 
-    useEffect(async () => {
-
-        if (chainId === undefined) return;
-
-        if (chainId !== 1) {
-            setStatus('')
-            setError(`<span class= "text-red-600" >⚠️</span > Please make sure you're connected to the Mainnet.`)
-        } else {
-            setError(false)
-        }
-
-    }, [chainId])
-
 
     async function toggleSignIn() {
-        setError('')
+
+        if (!window.web3) {
+            toast.error("The Metamask extension is not installed.");
+        }
 
         if (signedIn) {
             mutateUser(
@@ -110,7 +103,7 @@ export default function Navbar() {
 
             await activate(injected, err => {
                 if (err.name === "UnsupportedChainIdError") {
-                    setError(`<span class="text-red-600">⚠️</span> Please make sure you're connected to the Mainnet.`)
+                    toast.error("Please make sure you're connected to the Mainnet.");
                 }
             })
 
@@ -119,115 +112,129 @@ export default function Navbar() {
     }
 
     return (
-
-        <div className="relative pt-6">
-            <Popover>
-                <div className="max-w-7xl mx-auto px-4 sm:px-6 pr-6 md:pr-0">
-                    <nav className="relative flex items-center justify-between sm:h-10 md:justify-center" aria-label="Global">
-                        <div className="flex items-center flex-1 md:absolute md:inset-y-0 md:-left-10">
-                            <div className="flex items-center justify-between w-full md:w-auto">
-                                <Link href="/">
-                                    <a>
-                                        <span className="sr-only">Patchwork Kingdoms</span>
-                                        <img
-                                            className="h-16 w-auto md:h-24"
-                                            src="/images/GIGA_allcolour_RGB_horizontal.png"
-                                            alt=""
-                                        />
-                                    </a>
-                                </Link>
-                                <div className="-mr-2 flex items-center md:hidden">
-                                    <Popover.Button className="bg-gray-50 rounded-md p-2 inline-flex items-center justify-center text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-teal-500">
-                                        <span className="sr-only">Open main menu</span>
-                                        <MenuIcon className="h-6 w-6" aria-hidden="true" />
-                                    </Popover.Button>
+        <>
+            <div className="relative pt-6">
+                <Popover>
+                    <div className="max-w-7xl mx-auto px-4 sm:px-6 pr-6 md:pr-0">
+                        <nav className="relative flex items-center justify-between sm:h-10 md:justify-center" aria-label="Global">
+                            <div className="flex items-center flex-1 md:absolute md:inset-y-0 md:-left-10">
+                                <div className="flex items-center justify-between w-full md:w-auto">
+                                    <Link href="/">
+                                        <a>
+                                            <span className="sr-only">Patchwork Kingdoms</span>
+                                            <img
+                                                className="h-16 w-auto md:h-24"
+                                                src="/images/GIGA_allcolour_RGB_horizontal.png"
+                                                alt=""
+                                            />
+                                        </a>
+                                    </Link>
+                                    <div className="-mr-2 flex items-center md:hidden">
+                                        <Popover.Button className="bg-gray-50 rounded-md p-2 inline-flex items-center justify-center text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-teal-500">
+                                            <span className="sr-only">Open main menu</span>
+                                            <MenuIcon className="h-6 w-6" aria-hidden="true" />
+                                        </Popover.Button>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        <div className="hidden md:absolute md:space-x-10 md:flex md:justify-end md:right-0">
-                            <Link href="/dashboard">
-                                <a className="inline-flex font-medium text-gray-500 hover:text-gray-900">
-                                    Dashboard
-                                </a>
-                            </Link>
-                            {navigation.map((item) => (
-                                <a key={item.name} href={item.href} target="_blank" className="inline-flex font-medium text-gray-500 hover:text-gray-900">
-                                    <item.icon className="h-6 w-6" aria-hidden="true" />
-                                </a>
-                            ))}
-                            <div className="md:space-x-2 md:flex">
-                                <button
-                                    onClick={() => toggleSignIn()}
-                                    type="button"
-                                    className="inline-flex items-center -mt-2 px-4 py-2 border border-teal-600 text-sm font-base rounded-md shadow-sm text-teal-600 bg-transparent hover:text-white hover:bg-teal-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-500 disabled:opacity-30"
-                                >
-                                    <img className="pr-2" src="/images/metamask_logo.svg" width="25" />
-                                    {!signedIn ? "Sign In" : "Sign Out"}
-                                </button>
-                            </div>
-                        </div>
-                    </nav>
-                </div>
-
-                <Transition
-                    as={Fragment}
-                    enter="duration-150 ease-out"
-                    enterFrom="opacity-0 scale-95"
-                    enterTo="opacity-100 scale-100"
-                    leave="duration-100 ease-in"
-                    leaveFrom="opacity-100 scale-100"
-                    leaveTo="opacity-0 scale-95"
-                >
-                    <Popover.Panel
-                        focus
-                        className="absolute top-2 pr-2 z-10 inset-x-0 transition transform origin-top-right md:hidden"
-                    >
-                        <div className="rounded-lg shadow-md bg-white ring-1 ring-black ring-opacity-5 overflow-hidden">
-                            <div className="px-4 pt-4 flex items-center justify-between">
-                                <div>
-                                    <img
-                                        className="h-16 w-auto"
-                                        src="/images/GIGA_allcolour_RGB_horizontal.png"
-                                        alt=""
-                                    />
-                                </div>
-                                <div className="-mr-2">
-                                    <Popover.Button className="bg-white rounded-md p-2 inline-flex items-center justify-center text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-teal-500">
-                                        <span className="sr-only">Close menu</span>
-                                        <XIcon className="h-6 w-6" aria-hidden="true" />
-                                    </Popover.Button>
-                                </div>
-                            </div>
-                            <div className="px-2 pt-2 pb-3">
+                            <div className="hidden md:absolute md:space-x-10 md:flex md:justify-end md:right-0">
                                 <Link href="/dashboard">
-                                    <a className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-50">
+                                    <a className="inline-flex font-medium text-gray-500 hover:text-gray-900">
                                         Dashboard
                                     </a>
                                 </Link>
                                 {navigation.map((item) => (
-                                    <a
-                                        key={item.name}
-                                        href={item.href}
-                                        className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-50"
-                                    >
-                                        {item.name}
+                                    <a key={item.name} href={item.href} target="_blank" className="inline-flex font-medium text-gray-500 hover:text-gray-900">
+                                        <item.icon className="h-6 w-6" aria-hidden="true" />
                                     </a>
                                 ))}
-                                <div className="flex items-center w-full justify-center mt-4">
+                                <div className="md:space-x-2 md:flex">
                                     <button
                                         onClick={() => toggleSignIn()}
                                         type="button"
-                                        className="inline-flex items-center px-4 py-2 border border-teal-600 text-sm font-base rounded-md shadow-sm text-teal-600 bg-transparent hover:text-white hover:bg-teal-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-500 disabled:opacity-30"
+                                        className="inline-flex items-center -mt-2 px-4 py-2 border border-teal-600 text-sm font-base rounded-md shadow-sm text-teal-600 bg-transparent hover:text-white hover:bg-teal-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-500 disabled:opacity-30"
                                     >
                                         <img className="pr-2" src="/images/metamask_logo.svg" width="25" />
                                         {!signedIn ? "Sign In" : "Sign Out"}
                                     </button>
                                 </div>
                             </div>
-                        </div>
-                    </Popover.Panel>
-                </Transition>
-            </Popover>
-        </div>
+                        </nav>
+                    </div>
+
+                    <Transition
+                        as={Fragment}
+                        enter="duration-150 ease-out"
+                        enterFrom="opacity-0 scale-95"
+                        enterTo="opacity-100 scale-100"
+                        leave="duration-100 ease-in"
+                        leaveFrom="opacity-100 scale-100"
+                        leaveTo="opacity-0 scale-95"
+                    >
+                        <Popover.Panel
+                            focus
+                            className="absolute top-2 pr-2 z-10 inset-x-0 transition transform origin-top-right md:hidden"
+                        >
+                            <div className="rounded-lg shadow-md bg-white ring-1 ring-black ring-opacity-5 overflow-hidden">
+                                <div className="px-4 pt-4 flex items-center justify-between">
+                                    <div>
+                                        <img
+                                            className="h-16 w-auto"
+                                            src="/images/GIGA_allcolour_RGB_horizontal.png"
+                                            alt=""
+                                        />
+                                    </div>
+                                    <div className="-mr-2">
+                                        <Popover.Button className="bg-white rounded-md p-2 inline-flex items-center justify-center text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-teal-500">
+                                            <span className="sr-only">Close menu</span>
+                                            <XIcon className="h-6 w-6" aria-hidden="true" />
+                                        </Popover.Button>
+                                    </div>
+                                </div>
+                                <div className="px-2 pt-2 pb-3">
+                                    <Link href="/dashboard">
+                                        <a className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-50">
+                                            Dashboard
+                                        </a>
+                                    </Link>
+                                    <div className="flex items-center w-full justify-center mt-4 border-t-2 pt-8">
+
+                                        <button
+                                            onClick={() => toggleSignIn()}
+                                            type="button"
+                                            className="inline-flex items-center px-4 py-2 border border-teal-600 text-sm font-base rounded-md shadow-sm text-teal-600 bg-transparent hover:text-white hover:bg-teal-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-500 disabled:opacity-30"
+                                        >
+                                            <img className="pr-2" src="/images/metamask_logo.svg" width="25" />
+                                            {!signedIn ? "Sign In" : "Sign Out"}
+                                        </button>
+                                    </div>
+                                    <div class="flex items-center w-full justify-center mt-8">
+                                        {navigation.map((item) => (
+                                            <a
+                                                key={item.name}
+                                                href={item.href}
+                                                className="inline-flex px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-50"
+                                            >
+                                                <item.icon className="h-6 w-6" aria-hidden="true" />
+
+                                            </a>
+                                        ))}
+                                    </div>
+
+                                </div>
+                            </div>
+                        </Popover.Panel>
+                    </Transition>
+                </Popover>
+            </div>
+            <ToastContainer position="top-center"
+                autoClose={5000}
+                hideProgressBar={false}
+                newestOnTop={false}
+                closeOnClick
+                rtl={false}
+                pauseOnFocusLoss={false}
+            />
+        </>
     )
 }
