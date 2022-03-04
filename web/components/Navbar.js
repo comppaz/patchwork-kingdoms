@@ -103,9 +103,7 @@ export default function Navbar() {
 
             await activate(injected, err => {
                 console.log(err)
-                if (err.name === "UnsupportedChainIdError") {
-                    toast.error("Please make sure you're connected to the Mainnet.");
-                }
+                toast.error("Please make sure you're connected to the Mainnet.");
             })
 
         }
