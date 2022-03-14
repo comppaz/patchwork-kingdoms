@@ -22,14 +22,13 @@ export default withIronSessionApiRoute(getOwnedNftsRoute, sessionOptions);
 
 async function getOwnedNftsRoute(req, res) {
     const user = req.session.user;
-
+    
     if (!user || user.isLoggedIn === false) {
         res.status(401).end();
         return;
     }
 
     try {
-
         const nfts = await web3.alchemy.getNfts({ owner: user.account, contractAddresses: [process.env.CONTRACT_ADDRESS] })
 
         let nftList = []
