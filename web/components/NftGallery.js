@@ -1,12 +1,12 @@
-export default function Gallery({ nfts: nfts }) {
+export default function NftGallery({nfts:nfts, heading:heading, caption:caption}) {
     return (
         <div className="bg-white">
             <div className="mx-auto py-12 px-4 max-w-7xl sm:px-6 lg:px-8 lg:py-24">
                 <div className="space-y-12">
                     <div className="space-y-5 sm:space-y-4 md:max-w-xl lg:max-w-3xl xl:max-w-none">
-                        <h2 className="text-3xl font-extrabold tracking-tight sm:text-4xl">Your Collection</h2>
+                        <h2 className="text-3xl font-extrabold tracking-tight sm:text-4xl">{heading}</h2>
                         <p className="text-xl text-gray-500">
-                            All Patchwork Kingdoms that belong to you.
+                            {caption}
                         </p>
                     </div>
                     {nfts && nfts.length &&
