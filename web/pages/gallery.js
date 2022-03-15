@@ -12,9 +12,9 @@ export default function Gallery() {
       ret.push({
         key: i,
         title: kingdoms[i].title,
-        imageUrl: `https://patchwork-kingdoms.fra1.digitaloceanspaces.com/thumbnail/${i}.png`,
+        imageUrl: `https://${process.env.NEXT_PUBLIC_BUCKET_NAME}.fra1.digitaloceanspaces.com/thumbnail/${i}.png`,
         tokenId: i,
-        openseaUrl: `https://opensea.io/assets/0xD24a7C412f2279B1901E591898c1E96C140be8c5/${i}`,
+        openseaUrl: `https://opensea.io/assets/${process.env.NEXT_PUBLIC_CONTRACT_ADDRESS}/${i}`,
         highresDownloadUrl: ''
       });
     }
