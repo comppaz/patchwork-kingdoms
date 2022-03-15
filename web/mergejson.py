@@ -1,5 +1,7 @@
 # needs glob installed, with pip install
-# just run python mergejson.py and it will generate the file data/kingdoms.js
+# just run python mergejson.py
+# point the filepath to the folder that has extracted metadata json
+# and it will generate the file data/kingdoms.js
 import os
 import multiprocessing as mp
 from glob import glob
