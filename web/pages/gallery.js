@@ -1,24 +1,34 @@
 import { useEffect, useState, setLoading } from 'react'
 import useAllNfts from '../lib/useAllNfts'
 import NftGallery from '../components/NftGallery';
+import kingdoms from '../data/kingdoms';
 
 export default function Gallery() {
-  // const [data, setData] = useState([])
+  const [data, setData] = useState([])
   
-  // useEffect(() => {
-  //   fetch('api/gallery')
-  //     .then((res) => res.json())
-  //     .then((data) => {
-  //       console.log(data.data)
-  //       setData(data.data)
-  //       // setData([{image: "/a1.jpg", hash: "123"}, {image: "/a2.jpg", hash: "321"}, {image: "/a3.jpg", hash: "456"}])
-  //     })
-  // }, []);
-  const { nfts } = useAllNfts();
+  function buildNftList(){
+    let ret = [];
+    for(let i=1; i<1001; i++){
+      ret.push({
+        key: i,
+        title: kingdoms[i].title,
+        imageUrl: `https://patchwork-kingdoms.fra1.digitaloceanspaces.com/thumbnail/${i}.png`,
+        tokenId: i,
+        openseaUrl: `https://opensea.io/assets/0xD24a7C412f2279B1901E591898c1E96C140be8c5/${i}`,
+        highresDownloadUrl: ''
+      });
+    }
+
+    return ret;
+  }
+
+  useEffect(() => {
+    setData(buildNftList());
+  }, [])
 
   return (
     <div className="flex flex-col py-2">
-      <NftGallery heading="Patchwork Kingdoms Gallery" caption="All Patchwork Kingdoms that have been minted." nfts={nfts}></NftGallery>
+      <NftGallery heading="Patchwork Kingdoms Gallery" caption="All Patchwork Kingdoms that have been minted." nfts={data}></NftGallery>
     </div>
 
   )

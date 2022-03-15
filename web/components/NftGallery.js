@@ -34,11 +34,14 @@ export default function NftGallery({nfts:nfts, heading:heading, caption:caption}
                                                     </a>
                                                 </li>
                                                 <li>
-                                                    <a href={nft.highresDownloadUrl} target="_blank" className="text-gray-400 hover:text-gray-500">
-                                                        <span className="sr-only"> Download High-Res</span>
-                                                        Download High-Res
-                                                    </a>
+                                                    {(nft.highresDownloadUrl != '' ?
+                                                        (<a href={nft.highresDownloadUrl} target="_blank" className="text-gray-400 hover:text-gray-500"><span className="sr-only"> Download High-Res</span>Download High-Res</a>)
+                                                        : (<span></span>)
+                                                    )}
                                                 </li>
+
+
+                                                
                                             </ul>
                                         </div>
                                     </div>
