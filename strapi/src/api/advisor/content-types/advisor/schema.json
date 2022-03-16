@@ -1,0 +1,31 @@
+{
+  "kind": "collectionType",
+  "collectionName": "advisors",
+  "info": {
+    "singularName": "advisor",
+    "pluralName": "advisors",
+    "displayName": "Advisor"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "Name": {
+      "type": "string"
+    },
+    "Role": {
+      "type": "string"
+    },
+    "Image": {
+      "allowedTypes": [
+        "images",
+        "files",
+        "videos",
+        "audios"
+      ],
+      "type": "media",
+      "multiple": false
+    }
+  }
+}
