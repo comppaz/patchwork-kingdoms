@@ -1,29 +1,28 @@
-# Next.js + Tailwind CSS Example
+# Patchwork Kingdoms - Frontend
 
-This example shows how to use [Tailwind CSS](https://tailwindcss.com/) [(v2.2)](https://blog.tailwindcss.com/tailwindcss-2-2) with Next.js. It follows the steps outlined in the official [Tailwind docs](https://tailwindcss.com/docs/guides/nextjs).
+The frontend for the Patchwork Kingdoms project (https://patchwork-kingdoms.com) in next.js.
 
-It uses the new [`Just-in-Time Mode`](https://tailwindcss.com/docs/just-in-time-mode) for Tailwind CSS.
+**Requirements**
+- Node.js >= v14.17.0
 
-## Preview
-
-Preview the example live on [StackBlitz](http://stackblitz.com/):
-
-[![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz.svg)](https://stackblitz.com/github/vercel/next.js/tree/canary/examples/with-tailwindcss)
-
-## Deploy your own
-
-Deploy the example using [Vercel](https://vercel.com?utm_source=github&utm_medium=readme&utm_campaign=next-example):
-
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/git/external?repository-url=https://github.com/vercel/next.js/tree/canary/examples/with-tailwindcss&project-name=with-tailwindcss&repository-name=with-tailwindcss)
-
-## How to use
-
-Execute [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app) with [npm](https://docs.npmjs.com/cli/init) or [Yarn](https://yarnpkg.com/lang/en/docs/cli/create/) to bootstrap the example:
-
-```bash
-npx create-next-app --example with-tailwindcss with-tailwindcss-app
-# or
-yarn create next-app --example with-tailwindcss with-tailwindcss-app
+**Setup** 
+```
+npm install 
 ```
 
-Deploy it to the cloud with [Vercel](https://vercel.com/new?utm_source=github&utm_medium=readme&utm_campaign=next-example) ([Documentation](https://nextjs.org/docs/deployment)).
+Prepare a *.env.local* file:
+```
+CONTRACT_ADDRESS=0xD24a7C412f2279B1901E591898c1E96C140be8c5
+NEXT_PUBLIC_CONTRACT_ADDRESS=0xD24a7C412f2279B1901E591898c1E96C140be8c5
+API_KEY=
+SECRET_COOKIE_PASSWORD=
+DO_ACCESS_KEY_ID=
+DO_SECRET_ACCES_KEY=
+BUCKET_NAME=
+NEXT_PUBLIC_BUCKET_NAME=
+```
+
+**Run project locally** 
+```
+npm run dev
+```

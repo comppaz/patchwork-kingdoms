@@ -46,7 +46,7 @@ export default function Hero() {
       <div className="relative overflow-hidden">
 
         <div className="relative pt-6">
-
+          
           <main className="mt-8 mx-auto max-w-7xl px-4 sm:mt-12">
             <div className="text-left">
               <h1 className="text-4xl tracking-tight font-extrabold text-gray-900 sm:text-5xl md:text-6xl">
@@ -115,25 +115,7 @@ export default function Hero() {
               </div>
             </Slider>
           </div>
-        </div>
-        {/* <Banner></Banner> */}
-        {/* <div className="text-center pb-2 mt-8">
-          <h3 className="text-xl font-bold tracking-tight"><span className="text-teal-600">Public mint</span> is over! Checkout the collection on <a href="https://opensea.io/collection/patchworkkingdoms" target="_blank" className="underline text-teal-600">Opensea</a>.</h3>
-        </div> */}
-        <div class="flex justify-center mt-12" >
-          <div>
-            <a href="https://discord.gg/vS9QguncHu" target="_blank">
-              <button class="bg-teal-600 hover:bg-teal-600 text-white font-bold py-2 px-5 mr-2 rounded center uppercase">
-                Join Discord
-              </button>
-            </a>
-            <a href="https://opensea.io/collection/patchworkkingdoms" target="_blank">
-              <button class="bg-teal-600 hover:bg-teal-600 text-white font-bold py-2 px-4 ml-2 rounded center uppercase">
-                Join kingdom
-              </button>
-            </a>
-          </div>
-        </div>
+        </div>     
       </div>
     </>
   )
