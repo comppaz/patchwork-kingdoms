@@ -10,15 +10,43 @@ export default function NftGallery({nfts:nfts, heading:heading, caption:caption}
     const [hasMore, setHasMore] = useState(true);
 
     useEffect(() => {
-        if(nfts == undefined){
-            setAllnfts([]);
-        }
-        else if(allnfts.length === 0){
-            setAllnfts(nfts.slice(0,pageIncrement));
-            if(nfts.length <= pageIncrement)
+        if(nfts === undefined){
+            console.log("not ready");
+        } else {
+            if(nfts.length > 0 && allnfts.length === 0 ){
+                setAllnfts(nfts.slice(0,pageIncrement));
+                setHasMore(true);
+                
+                if(nfts.length < pageIncrement)
+                    setHasMore(false);
+            }
+
+            if(nfts.length === 0 && allnfts.length === 0){
+                console.log("wuttttttttttt");
                 setHasMore(false);
+            }
+            console.log("ready");
+            console.log(nfts.length);
+            console.log(allnfts.length);
         }
+        //  else if(nfts.length > 0){
+        //     console.log(allnfts.length);
+        //     
+        // }
+        // else if(nfts.length === 0){
+        //     setHasMore(false);
+        // } else if(allnfts.length > 0){
+        //     setAllnfts(nfts.slice(0,pageIncrement));
+        // }
+        // else if(allnfts.length === 0 && nfts.length > 0){
+        //     setAllnfts(nfts.slice(0,pageIncrement));
+        //     console.log("here");
+        //     console.log(allnfts.length);
+        //     console.log(nfts.length);
+        // }
     });
+
+    
 
     function fetchData(){
         setAllnfts(allnfts.concat(nfts.slice(pageCounter, pageCounter + pageIncrement)));
@@ -36,7 +64,7 @@ export default function NftGallery({nfts:nfts, heading:heading, caption:caption}
           loader={<h4>Loading...</h4>}
           endMessage={
             <p style={{ textAlign: 'center' }}>
-              <b>Yay! You have seen it all</b>
+              <b>Yay! You have seen all the Kingdoms.</b>
             </p>
           }
         >
@@ -49,12 +77,12 @@ export default function NftGallery({nfts:nfts, heading:heading, caption:caption}
                             {caption}
                         </p>
                     </div>
-                    {nfts &&
+                    {allnfts &&
                         <ul
                             role="list"
                             className="space-y-12 sm:grid sm:grid-cols-2 sm:gap-x-6 sm:gap-y-12 sm:space-y-0 lg:grid-cols-3 lg:gap-x-8"
                         >
-                            {nfts.map((nft) => (
+                            {allnfts.map((nft) => (
                                 <li key={nft.title}>
                                     <div className="space-y-4">
                                         <div className="aspect-w-3 aspect-h-3">
