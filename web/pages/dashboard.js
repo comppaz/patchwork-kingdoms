@@ -1,7 +1,7 @@
 import useUser from '../lib/useUser'
 import useOwnedNfts from '../lib/useOwnedNfts'
 import fetchJson from '../lib/fetchJson'
-import Gallery from '../components/Gallery';
+import NftGallery from '../components/NftGallery';
 
 export default function Dashboard() {
 
@@ -51,7 +51,7 @@ export default function Dashboard() {
 
     return (
         <div>
-            <Gallery nfts={nfts}></Gallery>
+            <NftGallery heading="Your Collections" caption="All Patchwork Kingdoms that belong to you." nfts={nfts}></NftGallery>
         </div>
     )
 

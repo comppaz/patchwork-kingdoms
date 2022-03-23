@@ -142,6 +142,13 @@ export default function Navbar() {
                                         Dashboard
                                     </a>
                                 </Link>
+
+                                <Link href="/gallery">
+                                    <a className="inline-flex font-medium text-gray-500 hover:text-gray-900">
+                                        Gallery
+                                    </a>
+                                </Link>
+
                                 {navigation.map((item) => (
                                     <a key={item.name} href={item.href} target="_blank" className="inline-flex font-medium text-gray-500 hover:text-gray-900">
                                         <item.icon className="h-6 w-6" aria-hidden="true" />
@@ -194,6 +201,11 @@ export default function Navbar() {
                                     <Link href="/dashboard">
                                         <a className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-50">
                                             Dashboard
+                                        </a>
+                                    </Link>
+                                    <Link href="/gallery">
+                                        <a className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-50">
+                                            Gallery
                                         </a>
                                     </Link>
                                     <div className="flex items-center w-full justify-center mt-4 border-t-2 pt-8">
