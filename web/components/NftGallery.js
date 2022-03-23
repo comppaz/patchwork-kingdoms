@@ -1,20 +1,30 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import InfiniteScroll from 'react-infinite-scroll-component';
 
-// export default function NftGallery({nfts:nfts, heading:heading, caption:caption}) {
-var pageCounter = 0;
+
+var pageCounter = 100;
 const pageIncrement = 100;
 
-const NftGallery = ({ nfts, heading, caption }) => {
-    const [allnfts, setAllnfts] = useState(nfts);
+export default function NftGallery({nfts:nfts, heading:heading, caption:caption}) {    
+    const [allnfts, setAllnfts] = useState([]);
     const [hasMore, setHasMore] = useState(true);
 
+    useEffect(() => {
+        if(nfts == undefined){
+            setAllnfts([]);
+        }
+        else if(allnfts.length === 0){
+            setAllnfts(nfts.slice(0,pageIncrement));
+            if(nfts.length <= pageIncrement)
+                setHasMore(false);
+        }
+    });
+
     function fetchData(){
-        console.log("Slicing " + pageCounter + "," + pageIncrement);
         setAllnfts(allnfts.concat(nfts.slice(pageCounter, pageCounter + pageIncrement)));
         pageCounter = pageCounter + pageIncrement;
 
-        if(pageCounter === 1000)
+        if(pageCounter === nfts.length)
             setHasMore(false);
     }
 
@@ -39,12 +49,12 @@ const NftGallery = ({ nfts, heading, caption }) => {
                             {caption}
                         </p>
                     </div>
-                    {allnfts && allnfts.length &&
+                    {nfts &&
                         <ul
                             role="list"
                             className="space-y-12 sm:grid sm:grid-cols-2 sm:gap-x-6 sm:gap-y-12 sm:space-y-0 lg:grid-cols-3 lg:gap-x-8"
                         >
-                            {allnfts.map((nft) => (
+                            {nfts.map((nft) => (
                                 <li key={nft.title}>
                                     <div className="space-y-4">
                                         <div className="aspect-w-3 aspect-h-3">
@@ -84,5 +94,4 @@ const NftGallery = ({ nfts, heading, caption }) => {
         </InfiniteScroll>
     )
 
-};
-export default NftGallery;
+}
