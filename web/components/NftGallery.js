@@ -1,5 +1,35 @@
-export default function NftGallery({nfts:nfts, heading:heading, caption:caption}) {
+import { useState } from 'react'
+import InfiniteScroll from 'react-infinite-scroll-component';
+
+// export default function NftGallery({nfts:nfts, heading:heading, caption:caption}) {
+var pageCounter = 0;
+const pageIncrement = 100;
+
+const NftGallery = ({ nfts, heading, caption }) => {
+    const [allnfts, setAllnfts] = useState(nfts);
+    const [hasMore, setHasMore] = useState(true);
+
+    function fetchData(){
+        console.log("Slicing " + pageCounter + "," + pageIncrement);
+        setAllnfts(allnfts.concat(nfts.slice(pageCounter, pageCounter + pageIncrement)));
+        pageCounter = pageCounter + pageIncrement;
+
+        if(pageCounter === 1000)
+            setHasMore(false);
+    }
+
     return (
+        <InfiniteScroll
+          dataLength={allnfts.length} //This is important field to render the next data
+          next={fetchData}
+          hasMore={hasMore}
+          loader={<h4>Loading...</h4>}
+          endMessage={
+            <p style={{ textAlign: 'center' }}>
+              <b>Yay! You have seen it all</b>
+            </p>
+          }
+        >
         <div className="bg-white">
             <div className="mx-auto py-12 px-4 max-w-7xl sm:px-6 lg:px-8 lg:py-24">
                 <div className="space-y-12">
@@ -9,12 +39,12 @@ export default function NftGallery({nfts:nfts, heading:heading, caption:caption}
                             {caption}
                         </p>
                     </div>
-                    {nfts && nfts.length &&
+                    {allnfts && allnfts.length &&
                         <ul
                             role="list"
                             className="space-y-12 sm:grid sm:grid-cols-2 sm:gap-x-6 sm:gap-y-12 sm:space-y-0 lg:grid-cols-3 lg:gap-x-8"
                         >
-                            {nfts.map((nft) => (
+                            {allnfts.map((nft) => (
                                 <li key={nft.title}>
                                     <div className="space-y-4">
                                         <div className="aspect-w-3 aspect-h-3">
@@ -51,6 +81,8 @@ export default function NftGallery({nfts:nfts, heading:heading, caption:caption}
                 </div>
             </div>
         </div>
+        </InfiniteScroll>
     )
 
-}
+};
+export default NftGallery;
