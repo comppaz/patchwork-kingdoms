@@ -16,34 +16,15 @@ export default function NftGallery({nfts:nfts, heading:heading, caption:caption}
             if(nfts.length > 0 && allnfts.length === 0 ){
                 setAllnfts(nfts.slice(0,pageIncrement));
                 setHasMore(true);
-                
+
                 if(nfts.length < pageIncrement)
                     setHasMore(false);
             }
 
             if(nfts.length === 0 && allnfts.length === 0){
-                console.log("wuttttttttttt");
                 setHasMore(false);
             }
-            console.log("ready");
-            console.log(nfts.length);
-            console.log(allnfts.length);
         }
-        //  else if(nfts.length > 0){
-        //     console.log(allnfts.length);
-        //     
-        // }
-        // else if(nfts.length === 0){
-        //     setHasMore(false);
-        // } else if(allnfts.length > 0){
-        //     setAllnfts(nfts.slice(0,pageIncrement));
-        // }
-        // else if(allnfts.length === 0 && nfts.length > 0){
-        //     setAllnfts(nfts.slice(0,pageIncrement));
-        //     console.log("here");
-        //     console.log(allnfts.length);
-        //     console.log(nfts.length);
-        // }
     });
 
     
