@@ -37,7 +37,7 @@ export default function News() {
                     <p className="mt-3 text-base text-gray-500">{post.attributes.Excerpt}</p>
                   </div>
                   <div className="mt-6 flex items-center">
-                    <div className="ml-3">
+                    <div className="ml-0">
                       <p className="text-sm font-medium text-gray-900">
                         {post.attributes.Author}
                       </p>
