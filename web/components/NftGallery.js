@@ -1,54 +1,44 @@
 import { useEffect, useState } from 'react'
 import InfiniteScroll from 'react-infinite-scroll-component';
-
+import Image from 'next/image';
 
 var pageCounter = 100;
 const pageIncrement = 100;
 
-export default function NftGallery({nfts:nfts, heading:heading, caption:caption}) {    
+export default function NftGallery({ nfts: nfts, heading: heading, caption: caption }) {
     const [allnfts, setAllnfts] = useState([]);
     const [hasMore, setHasMore] = useState(true);
 
     useEffect(() => {
-        if(nfts === undefined){
+        if (nfts === undefined) {
             console.log("not ready");
         } else {
-            if(nfts.length > 0 && allnfts.length === 0 ){
-                setAllnfts(nfts.slice(0,pageIncrement));
+            if (nfts.length > 0 && allnfts.length === 0) {
+                setAllnfts(nfts.slice(0, pageIncrement));
                 setHasMore(true);
 
-                if(nfts.length < pageIncrement)
+                if (nfts.length < pageIncrement)
                     setHasMore(false);
             }
 
-            if(nfts.length === 0 && allnfts.length === 0){
+            if (nfts.length === 0 && allnfts.length === 0) {
                 setHasMore(false);
             }
         }
     });
 
-    
 
-    function fetchData(){
+
+    function fetchData() {
         setAllnfts(allnfts.concat(nfts.slice(pageCounter, pageCounter + pageIncrement)));
         pageCounter = pageCounter + pageIncrement;
 
-        if(pageCounter === nfts.length)
+        if (pageCounter === nfts.length)
             setHasMore(false);
     }
 
     return (
-        <InfiniteScroll
-          dataLength={allnfts.length} //This is important field to render the next data
-          next={fetchData}
-          hasMore={hasMore}
-          loader={<h4>Loading...</h4>}
-          endMessage={
-            <p style={{ textAlign: 'center' }}>
-              <b>Yay! You have seen all the Kingdoms.</b>
-            </p>
-          }
-        >
+
         <div className="bg-white">
             <div className="mx-auto py-12 px-4 max-w-7xl sm:px-6 lg:px-8 lg:py-24">
                 <div className="space-y-12">
@@ -58,49 +48,61 @@ export default function NftGallery({nfts:nfts, heading:heading, caption:caption}
                             {caption}
                         </p>
                     </div>
-                    {allnfts &&
-                        <ul
-                            role="list"
-                            className="space-y-12 sm:grid sm:grid-cols-2 sm:gap-x-6 sm:gap-y-12 sm:space-y-0 lg:grid-cols-3 lg:gap-x-8"
-                        >
-                            {allnfts.map((nft) => (
-                                <li key={nft.title}>
-                                    <div className="space-y-4">
-                                        <div className="aspect-w-3 aspect-h-3">
-                                            <img className="object-cover shadow-lg rounded-lg" src={nft.imageUrl} alt="" />
-                                        </div>
-
-                                        <div className="space-y-2">
-                                            <div className="text-lg leading-6 font-medium space-y-1">
-                                                <h3>{nft.title}</h3>
-                                                <p className="text-indigo-600">Token Id: {nft.tokenId}</p>
+                    <InfiniteScroll
+                        dataLength={allnfts.length} //This is important field to render the next data
+                        next={fetchData}
+                        hasMore={hasMore}
+                        loader={<h4>Loading...</h4>}
+                        endMessage={
+                            <p style={{ textAlign: 'center' }}>
+                                <b>Yay! You have seen all the Kingdoms.</b>
+                            </p>
+                        }
+                    >
+                        {allnfts &&
+                            <ul
+                                role="list"
+                                className="space-y-12 sm:grid sm:grid-cols-2 sm:gap-x-6 sm:gap-y-12 sm:space-y-0 lg:grid-cols-3 lg:gap-x-8"
+                            >
+                                {allnfts.map((nft) => (
+                                    <li key={nft.title}>
+                                        <div className="space-y-4">
+                                            <div className="aspect-w-3 aspect-h-3">
+                                                <Image className="object-cover shadow-lg rounded-lg" layout="fill" src={nft.imageUrl} alt={nft.title + " NFT Image"} />
                                             </div>
-                                            <ul role="list" className="flex space-x-5">
-                                                <li>
-                                                    <a href={nft.openseaUrl} target="_blank" className="text-gray-400 hover:text-gray-500">
-                                                        <span className="sr-only">Opensea</span>
-                                                        View on Opensea
-                                                    </a>
-                                                </li>
-                                                <li>
-                                                    {(nft.highresDownloadUrl != '' ?
-                                                        (<a href={nft.highresDownloadUrl} target="_blank" className="text-gray-400 hover:text-gray-500"><span className="sr-only"> Download High-Res</span>Download High-Res</a>)
-                                                        : (<span></span>)
-                                                    )}
-                                                </li>
+
+                                            <div className="space-y-2">
+                                                <div className="text-lg leading-6 font-medium space-y-1">
+                                                    <h3>{nft.title}</h3>
+                                                    <p className="text-indigo-600">Token Id: {nft.tokenId}</p>
+                                                </div>
+                                                <ul role="list" className="flex space-x-5">
+                                                    <li>
+                                                        <a href={nft.openseaUrl} target="_blank" className="text-gray-400 hover:text-gray-500">
+                                                            <span className="sr-only">Opensea</span>
+                                                            View on Opensea
+                                                        </a>
+                                                    </li>
+                                                    <li>
+                                                        {(nft.highresDownloadUrl != '' ?
+                                                            (<a href={nft.highresDownloadUrl} target="_blank" className="text-gray-400 hover:text-gray-500"><span className="sr-only"> Download High-Res</span>Download High-Res</a>)
+                                                            : (<span></span>)
+                                                        )}
+                                                    </li>
 
 
-                                                
-                                            </ul>
+
+                                                </ul>
+                                            </div>
                                         </div>
-                                    </div>
-                                </li>
-                            ))}
-                        </ul>}
+                                    </li>
+                                ))}
+                            </ul>}
+                    </InfiniteScroll>
                 </div>
             </div>
         </div>
-        </InfiniteScroll>
+
     )
 
 }
