@@ -137,6 +137,12 @@ export default function Navbar() {
                                 </div>
                             </div>
                             <div className="hidden md:absolute md:space-x-10 md:flex md:justify-end md:right-0">
+                                <Link href="/news">
+                                    <a className="inline-flex font-medium text-gray-500 hover:text-gray-900">
+                                        News
+                                    </a>
+                                </Link>
+
                                 <Link href="/dashboard">
                                     <a className="inline-flex font-medium text-gray-500 hover:text-gray-900">
                                         Dashboard
