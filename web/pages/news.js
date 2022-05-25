@@ -7,7 +7,8 @@ export default function News() {
 
   useEffect(async () => {
 
-    let articles = await fetchStrapi(`articles`)
+    let articles = await fetchStrapi(`articles`, 'date')
+    console.log(articles)
     setArticles(articles.data);
 
   }, [])

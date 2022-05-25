@@ -1,7 +1,15 @@
 import { FetchError } from "./fetchJson";
-export default async function fetchStrapi(resource) {
+export default async function fetchStrapi(resource, sortBy='') {
 
-    const response = await fetch(`${process.env.NEXT_PUBLIC_STRAPI_URL}/api/${resource}?populate=*`, {
+    let url = `${process.env.NEXT_PUBLIC_STRAPI_URL}/api/${resource}`;
+
+    if(sortBy === 'date'){
+        url += '?sort[0]=Date%3Adesc&populate=*';
+    }else{
+        url += '?populate=*';
+    }
+
+    const response = await fetch(url, {
         method: 'GET',
         headers: { 'Content-Type': 'application/json' }
     });
