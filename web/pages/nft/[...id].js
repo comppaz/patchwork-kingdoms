@@ -38,11 +38,18 @@ const NFT = () => {
    const [map, setMap] = useState();
 
    // React ref to store a reference to the DOM node that will be used
- // as a required parameter `container` when initializing the mapbox-gl
- // will contain `null` by default
+   // as a required parameter `container` when initializing the mapbox-gl
+   // will contain `null` by default
    const mapNode = useRef(null);
 
- useEffect(() => {
+ useEffect(async () => {
+
+  if (router.query.id) {
+   const tokenId = router.query.id[0]
+    
+   //const data = await import(`api/metadata/Patchwork Kingdoms #${tokenId} - metadata.json.json`)
+   const data = await import(`../api/metadata/${tokenId}.json`)
+   console.log(data)
    const node = mapNode.current;
        // if the window object is not found, that means
        // the component is rendered on the server
@@ -61,16 +68,30 @@ const NFT = () => {
 
    mapboxMap.addControl(new mapboxgl.NavigationControl({showCompass:false}), 'bottom-right');
 
-   for (const feature of geojson.features) {
+   for (const feature of data['schools']) {
     // create a HTML element for each feature
     const el = document.createElement('div');
     el.className = 'marker';
-  
+    console.log(feature)
     // make a marker for each feature and add to the map
-    new mapboxgl.Marker(el).setLngLat(feature.geometry.coordinates).setPopup(
+    new mapboxgl.Marker(el).setLngLat([feature.lon, feature.lat]).setPopup(
       new mapboxgl.Popup({ offset: 25 }) // add popups
         .setHTML(
-          `<h3>${feature.properties.title}</h3><p>${feature.properties.description}</p>`
+          `<h3>${feature.school_name}</h3><p>Description</p>`
+        )
+    ).addTo(mapboxMap);
+  }
+
+  for (const feature of data['schools_no_data']) {
+    // create a HTML element for each feature
+    const el = document.createElement('div');
+    el.className = 'marker';
+    console.log(feature)
+    // make a marker for each feature and add to the map
+    new mapboxgl.Marker(el).setLngLat([feature.lon, feature.lat]).setPopup(
+      new mapboxgl.Popup({ offset: 25 }) // add popups
+        .setHTML(
+          `<h3>${feature.school_name}</h3><p>Description</p>`
         )
     ).addTo(mapboxMap);
   }
@@ -80,14 +101,15 @@ const NFT = () => {
        return () => {
      mapboxMap.remove();
    };
- }, []);
+  }
+ }, [router.query.id]);
 
-  useEffect(async () => {
-    if (router.query.id) {
-      const tokenId = router.query.id[0]
-      console.debug(tokenId)
-    }
-  }, [router.query.id])
+  // useEffect(async () => {
+  //   if (router.query.id) {
+  //     const tokenId = router.query.id[0]
+  //     console.debug(tokenId)
+  //   }
+  // }, [router.query.id])
 
 
   return (
