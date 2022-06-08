@@ -50,9 +50,543 @@
     "num_schools_unknown": 10,
     "schools": [
         {
+            "lon": -87.1862,
+            "lat": 15.67915,
+            "school_name": "MINERVA",
+            "country_name": "Honduras",
+            "connectivity": true
+        },
+        {
+            "lon": -88.54616,
+            "lat": 14.32513,
+            "school_name": "NUEVOS HORIZONTES",
+            "country_name": "Honduras",
+            "connectivity": true
+        },
+        {
+            "lon": -48.732174,
+            "lat": -28.31826,
+            "school_name": "CMEI CIDALIA SOARES MENEZES",
+            "country_name": "Brazil",
+            "connectivity": false
+        },
+        {
+            "lon": -87.19993,
+            "lat": 14.06416,
+            "school_name": "MICHEL J HASBUN",
+            "country_name": "Honduras",
+            "connectivity": true
+        },
+        {
+            "lon": 32.39273,
+            "lat": -19.60078,
+            "school_name": "CHISHINGWI",
+            "country_name": "Zimbabwe",
+            "connectivity": true
+        },
+        {
+            "lon": -84.05495212,
+            "lat": 9.92226922,
+            "school_name": "J.N. NAPOLEON QUESADA",
+            "country_name": "Costa Rica",
+            "connectivity": true
+        },
+        {
+            "lon": 31.42789,
+            "lat": -19.10446,
+            "school_name": "GOVERE",
+            "country_name": "Zimbabwe",
+            "connectivity": true
+        },
+        {
+            "lon": -84.84836152,
+            "lat": 10.20896308,
+            "school_name": "PELAYO MARCET CASAJUANA",
+            "country_name": "Costa Rica",
+            "connectivity": true
+        },
+        {
+            "lon": -83.63238646,
+            "lat": 8.71551925,
+            "school_name": "EL PROGRESO",
+            "country_name": "Costa Rica",
+            "connectivity": true
+        },
+        {
+            "lon": -83.35751943,
+            "lat": 10.08730023,
+            "school_name": "VEINTISEIS MILLAS",
+            "country_name": "Costa Rica",
+            "connectivity": true
+        },
+        {
+            "lon": -83.40761721,
+            "lat": 9.16976246,
+            "school_name": "LICEO SANTA MARTA",
+            "country_name": "Costa Rica",
+            "connectivity": true
+        },
+        {
+            "lon": -40.3343,
+            "lat": -17.853,
+            "school_name": "EE ANTONIO BATISTA DA MOTA",
+            "country_name": "Brazil",
+            "connectivity": true
+        },
+        {
+            "lon": -75.59138376,
+            "lat": 6.244504148,
+            "school_name": "Name unknown",
+            "country_name": "Colombia",
+            "connectivity": false
+        },
+        {
+            "lon": -75.56269908,
+            "lat": 6.207621153,
+            "school_name": "Name unknown",
+            "country_name": "Colombia",
+            "connectivity": false
+        },
+        {
+            "lon": 15.01637,
+            "lat": -17.74172,
+            "school_name": "Nambula CS",
+            "country_name": "Namibia",
+            "connectivity": false
+        },
+        {
+            "lon": 123.695206,
+            "lat": 10.242025,
+            "school_name": "Alpaco ES",
+            "country_name": "Philippines",
+            "connectivity": true
+        },
+        {
+            "lon": 124.3819444,
+            "lat": 11.37361111,
+            "school_name": "Banat-i Elementary School",
+            "country_name": "Philippines",
+            "connectivity": true
+        },
+        {
+            "lon": 125.0037774,
+            "lat": 10.66459283,
+            "school_name": "Bayabas ES",
+            "country_name": "Philippines",
+            "connectivity": true
+        },
+        {
+            "lon": 124.8731804,
+            "lat": 12.24339151,
+            "school_name": "San Isidro PS",
+            "country_name": "Philippines",
+            "connectivity": true
+        },
+        {
+            "lon": 125.2763861,
+            "lat": 9.911844444,
+            "school_name": "San Ricardo Central School",
+            "country_name": "Philippines",
+            "connectivity": true
+        },
+        {
+            "lon": 125.102677,
+            "lat": 11.577327,
+            "school_name": "Sinalangtan PS",
+            "country_name": "Philippines",
+            "connectivity": true
+        },
+        {
+            "lon": 125.7530552,
+            "lat": 8.289189973,
+            "school_name": "Magboya ES",
+            "country_name": "Philippines",
+            "connectivity": true
+        },
+        {
+            "lon": -40.17811,
+            "lat": -15.900731,
+            "school_name": "CRECHE BEM ME QUER",
+            "country_name": "Brazil",
+            "connectivity": false
+        },
+        {
+            "lon": 123.3266568,
+            "lat": 13.81710505,
+            "school_name": "Tinambac South CS II",
+            "country_name": "Philippines",
+            "connectivity": true
+        },
+        {
+            "lon": -72.94529198,
+            "lat": -0.551950207,
+            "school_name": "INDIGENA SAN PABLO - EL QUINCHE",
+            "country_name": "Colombia",
+            "connectivity": true
+        },
+        {
+            "lon": -73.67429315,
+            "lat": 4.782544677,
+            "school_name": "CENTRO EDUCATIVO ALEMANIA",
+            "country_name": "Colombia",
+            "connectivity": true
+        },
+        {
+            "lon": -74.19333333,
+            "lat": 4.593333333,
+            "school_name": "INSTITUCION EDUCATIVA NUEVO COMPARTIR",
+            "country_name": "Colombia",
+            "connectivity": true
+        },
+        {
+            "lon": -74.18,
+            "lat": 10.38423926,
+            "school_name": "ERM DO\u00d1A MARIA",
+            "country_name": "Colombia",
+            "connectivity": true
+        },
+        {
+            "lon": -75.324167,
+            "lat": 5.847222,
+            "school_name": "C. E. R. SAN BARTOLOME",
+            "country_name": "Colombia",
+            "connectivity": true
+        },
+        {
+            "lon": -76.07279291,
+            "lat": 4.320384676,
+            "school_name": "ANTONIO NARI\u00d1O",
+            "country_name": "Colombia",
+            "connectivity": true
+        },
+        {
+            "lon": -76.664722,
+            "lat": 1.142222,
+            "school_name": "ESC RUR MIX VILLA NUEVA",
+            "country_name": "Colombia",
+            "connectivity": true
+        },
+        {
+            "lon": -76.71084959,
+            "lat": 0.684604004,
+            "school_name": "ESC RUR MIX BRISAS DEL RIO ORITO",
+            "country_name": "Colombia",
+            "connectivity": true
+        },
+        {
+            "lon": -76.876667,
+            "lat": 7.777778,
+            "school_name": "E.R. LA FLORIDA-COLDESA (D)",
+            "country_name": "Colombia",
+            "connectivity": true
+        },
+        {
+            "lon": -77.33293124,
+            "lat": 1.396128411,
+            "school_name": "CENTRO EDUCATIVO EL CIDRAL",
+            "country_name": "Colombia",
+            "connectivity": true
+        },
+        {
+            "lon": -63.8903,
+            "lat": -8.775,
+            "school_name": "COLEGIO TIRADENTES DA POLICIA MILITAR CTPM VII",
+            "country_name": "Brazil",
+            "connectivity": true
+        },
+        {
+            "lon": -66.0961,
+            "lat": -2.5134,
+            "school_name": "ESC MUN ANA RAMOS COELHO",
+            "country_name": "Brazil",
+            "connectivity": false
+        },
+        {
+            "lon": -69.9369,
+            "lat": -4.2303,
+            "school_name": "ESCOLA MUNICIPAL PROFESSORA JOCIEDES ANDRADE",
+            "country_name": "Brazil",
+            "connectivity": true
+        },
+        {
+            "lon": -47.4384,
+            "lat": -1.7701,
+            "school_name": "E M E I F DE ITACURUCA",
+            "country_name": "Brazil",
+            "connectivity": false
+        },
+        {
+            "lon": -49.5667,
+            "lat": -3.7699,
+            "school_name": "E M E F JORGE AMADO",
+            "country_name": "Brazil",
+            "connectivity": true
+        },
+        {
+            "lon": -44.2699,
+            "lat": -2.5371,
+            "school_name": "UEB ENS FUND MIGUEL LINS",
+            "country_name": "Brazil",
+            "connectivity": true
+        },
+        {
+            "lon": -45.1708,
+            "lat": -3.8938,
+            "school_name": "UE NSA SRA DO PERPETUO SOCORRO",
+            "country_name": "Brazil",
+            "connectivity": false
+        },
+        {
+            "lon": -49.802,
+            "lat": -16.0201,
+            "school_name": "COLEGIO ESTADUAL PRE VESTIBULAR DE ITABERAI",
+            "country_name": "Brazil",
+            "connectivity": true
+        },
+        {
+            "lon": -46.5989,
+            "lat": -4.323,
+            "school_name": "EM BEATRIZ DE MELO GOMES",
+            "country_name": "Brazil",
+            "connectivity": false
+        },
+        {
+            "lon": -45.8161,
+            "lat": -4.3893,
+            "school_name": "UE CENTRO DO MILTON",
+            "country_name": "Brazil",
+            "connectivity": false
+        },
+        {
+            "lon": -44.1316,
+            "lat": -8.9446,
+            "school_name": "U E PROF IRACI BARROS PINTO",
+            "country_name": "Brazil",
+            "connectivity": true
+        },
+        {
+            "lon": -42.5207,
+            "lat": -6.994,
+            "school_name": "CRECHE SALOME TAPETI",
+            "country_name": "Brazil",
+            "connectivity": false
+        },
+        {
+            "lon": -40.0472,
+            "lat": -3.3057,
+            "school_name": "FRANCISCO ABILIO ROCHA EMEF",
+            "country_name": "Brazil",
+            "connectivity": false
+        },
+        {
+            "lon": -35.631,
+            "lat": -6.6038,
+            "school_name": "ESCOLA MUNICIPAL MUNDO ENCANTADO DA CRIANCA",
+            "country_name": "Brazil",
+            "connectivity": true
+        },
+        {
+            "lon": -35.6377,
+            "lat": -7.765,
+            "school_name": "ESCOLA PROFESSORA MARLY PEREIRA DE BARROS",
+            "country_name": "Brazil",
+            "connectivity": true
+        },
+        {
+            "lon": -36.3443,
+            "lat": -8.6738,
+            "school_name": "ESCOLA MUNICIPAL PROFESSORA MARLENE COSME",
+            "country_name": "Brazil",
+            "connectivity": false
+        },
+        {
+            "lon": -35.2915,
+            "lat": -8.1246,
+            "school_name": "ESCOLA MUNICIPAL ROTARY",
+            "country_name": "Brazil",
+            "connectivity": true
+        },
+        {
+            "lon": -38.0009,
+            "lat": -11.6776,
+            "school_name": "ESCOLA MUNICIPAL VALERIANO GOMES DE CARVALHO",
+            "country_name": "Brazil",
+            "connectivity": true
+        },
+        {
+            "lon": -38.512,
+            "lat": -12.994,
+            "school_name": "ESCOLA MUNICIPAL HILDETE LOMANTO",
+            "country_name": "Brazil",
+            "connectivity": true
+        },
+        {
+            "lon": -40.0256,
+            "lat": -13.0588,
+            "school_name": "ESCOLA COSTA E SILVA",
+            "country_name": "Brazil",
+            "connectivity": false
+        },
+        {
+            "lon": -39.478,
+            "lat": -13.7879,
+            "school_name": "ESCOLA MUNICIPAL ANTONIO IMBASSAY",
+            "country_name": "Brazil",
+            "connectivity": false
+        },
+        {
+            "lon": -39.0306,
+            "lat": -15.7092,
+            "school_name": "PREDIO ESCOLAR JOAQUIM MANOEL TINUM",
+            "country_name": "Brazil",
+            "connectivity": true
+        },
+        {
+            "lon": -44.3403,
+            "lat": -15.4756,
+            "school_name": "EM DE MORADEIRA",
+            "country_name": "Brazil",
+            "connectivity": false
+        },
+        {
+            "lon": -44.0664,
+            "lat": -20.6721,
+            "school_name": "EM DOM OSCAR DE OLIVEIRA",
+            "country_name": "Brazil",
+            "connectivity": true
+        },
+        {
+            "lon": -41.727,
+            "lat": -16.1922,
+            "school_name": "CONS COM AGUA BRANCA DE MINAS",
+            "country_name": "Brazil",
+            "connectivity": false
+        },
+        {
+            "lon": -40.2468,
+            "lat": -20.2199,
+            "school_name": "CEEFMTI DOUTOR GETUNILDO PIMENTEL",
+            "country_name": "Brazil",
+            "connectivity": true
+        },
+        {
+            "lon": -40.6474,
+            "lat": -19.5197,
+            "school_name": "EEEFM PROF\u00aa CAROLINA PICHLER",
+            "country_name": "Brazil",
+            "connectivity": true
+        },
+        {
+            "lon": -43.393,
+            "lat": -22.3261,
+            "school_name": "ESCOLA MUNICIPAL LEOPOLDO PULLIG",
+            "country_name": "Brazil",
+            "connectivity": true
+        },
+        {
+            "lon": -34.8462,
+            "lat": -8.0113,
+            "school_name": "ESCOLA MUNICIPAL EM TEMPO INTEGRAL SAGRADO CORACAO DE JESUS",
+            "country_name": "Brazil",
+            "connectivity": true
+        },
+        {
+            "lon": -44.2276,
+            "lat": -23.0031,
+            "school_name": "CE PEDRO SOARES",
+            "country_name": "Brazil",
+            "connectivity": true
+        },
+        {
+            "lon": -51.9081,
+            "lat": -22.3003,
+            "school_name": "LUCIA VASCONCELOS KASAE PROFA CRECHE",
+            "country_name": "Brazil",
+            "connectivity": true
+        },
+        {
+            "lon": -47.372,
+            "lat": -22.5814,
+            "school_name": "MERCEDES STUCHI DUARTE DE MATTOS PROFA EMEI",
+            "country_name": "Brazil",
+            "connectivity": true
+        },
+        {
+            "lon": -41.909,
+            "lat": -11.7634,
+            "school_name": "EE - COLEGIO ESTADUAL NECY NOVAIS",
+            "country_name": "Brazil",
+            "connectivity": true
+        },
+        {
+            "lon": -48.6116,
+            "lat": -25.4596,
+            "school_name": "NACAR E M C EI EF",
+            "country_name": "Brazil",
+            "connectivity": false
+        },
+        {
+            "lon": -48.9454,
+            "lat": -26.6382,
+            "school_name": "CEI ALVINO VEGINI",
+            "country_name": "Brazil",
+            "connectivity": true
+        },
+        {
+            "lon": -52.9127,
+            "lat": -27.1363,
+            "school_name": "PE PLUMA AZUL",
+            "country_name": "Brazil",
+            "connectivity": true
+        },
+        {
+            "lon": -46.4396,
+            "lat": -23.5947,
+            "school_name": "SIMAO MATHIAS PROFESSOR",
+            "country_name": "Brazil",
+            "connectivity": true
+        },
+        {
+            "lon": -42.5349,
+            "lat": -19.4694,
+            "school_name": "ESCOLA MUNICIPAL INFANTIL SETE DE OUTUBRO",
+            "country_name": "Brazil",
+            "connectivity": true
+        },
+        {
+            "lon": -51.7164,
+            "lat": -17.8605,
+            "school_name": "ESCOLA MUNICIPAL IRMA SCHEILLA",
+            "country_name": "Brazil",
+            "connectivity": true
+        },
+        {
+            "lon": -51.086,
+            "lat": -17.7009,
+            "school_name": "CENTRO MUNICIPAL DE EDUCACAO INFANTIL PROFESSORA JUDITH IARA ALVES AUGUSTO",
+            "country_name": "Brazil",
+            "connectivity": true
+        },
+        {
+            "lon": -48.2802,
+            "lat": -10.332,
+            "school_name": "CENTRO MUNICIPAL DE EDUCACAO INFANTIL SEMENTINHAS DO SABER",
+            "country_name": "Brazil",
+            "connectivity": true
+        },
+        {
+            "lon": -49.134,
+            "lat": -15.3182,
+            "school_name": "CRECHE MUNICIPAL MARCIO TULIO DE OLIVEIRA SANTANA",
+            "country_name": "Brazil",
+            "connectivity": true
+        },
+        {
             "lon": -38.4939,
             "lat": -6.2317,
-            "school_name": "ESCOLA MUNICIPAL MARIA BIRE"
+            "school_name": "ESCOLA MUNICIPAL MARIA BIRE",
+            "country_name": "Brazil",
+            "connectivity": true
         }
     ],
     "num_countries": 10,
@@ -70,129 +604,3525 @@
     ],
     "schools_no_data": [
         {
+            "lon": 21.54440538,
+            "lat": -4.56318829,
+            "school_name": "INST TUSOBE",
+            "country_name": "Democratic Republic of the Congo",
+            "connectivity": false
+        },
+        {
+            "lon": -9.992113,
+            "lat": 5.927937,
+            "school_name": "Logan Town School",
+            "country_name": "Liberia",
+            "connectivity": false
+        },
+        {
+            "lon": -9.346463,
+            "lat": 6.052485,
+            "school_name": "Jo River",
+            "country_name": "Liberia",
+            "connectivity": false
+        },
+        {
+            "lon": -0.8555205,
+            "lat": 9.4286916,
+            "school_name": "Name unknown",
+            "country_name": "Ghana",
+            "connectivity": false
+        },
+        {
+            "lon": 30.38129853,
+            "lat": 19.65313002,
+            "school_name": "Name unknown",
+            "country_name": "Sudan",
+            "connectivity": false
+        },
+        {
+            "lon": 33.66418148,
+            "lat": 16.46407577,
+            "school_name": "Name unknown",
+            "country_name": "Sudan",
+            "connectivity": false
+        },
+        {
+            "lon": 35.42041475,
+            "lat": 21.67763088,
+            "school_name": "Name unknown",
+            "country_name": "Sudan",
+            "connectivity": false
+        },
+        {
+            "lon": 33.3492316833333,
+            "lat": 14.886334,
+            "school_name": "Name unknown",
+            "country_name": "Sudan",
+            "connectivity": false
+        },
+        {
+            "lon": 33.091336,
+            "lat": 14.9515852666667,
+            "school_name": "Name unknown",
+            "country_name": "Sudan",
+            "connectivity": false
+        },
+        {
+            "lon": 22.58926392,
+            "lat": 43.15610704,
+            "school_name": "\u0414\u0443\u0448\u0430\u043d \u0420\u0430\u0434\u043e\u0432\u0438\u045b",
+            "country_name": "Serbia",
+            "connectivity": false
+        },
+        {
+            "lon": 34.35294782,
+            "lat": 11.76538372,
+            "school_name": "Name unknown",
+            "country_name": "Sudan",
+            "connectivity": false
+        },
+        {
+            "lon": 26.04638607,
+            "lat": 11.27530255,
+            "school_name": "Name unknown",
+            "country_name": "Sudan",
+            "connectivity": false
+        },
+        {
+            "lon": -0.7406063,
+            "lat": 9.6165256,
+            "school_name": "Name unknown",
+            "country_name": "Ghana",
+            "connectivity": false
+        },
+        {
+            "lon": -1.744954,
+            "lat": 4.9311184,
+            "school_name": "Name unknown",
+            "country_name": "Ghana",
+            "connectivity": false
+        },
+        {
+            "lon": -0.0032486,
+            "lat": 5.7075613,
+            "school_name": "Name unknown",
+            "country_name": "Ghana",
+            "connectivity": false
+        },
+        {
+            "lon": -1.5990756,
+            "lat": 5.5979848,
+            "school_name": "Name unknown",
+            "country_name": "Ghana",
+            "connectivity": false
+        },
+        {
+            "lon": -0.7929135,
+            "lat": 10.4667215,
+            "school_name": "Name unknown",
+            "country_name": "Ghana",
+            "connectivity": false
+        },
+        {
+            "lon": 0.3006536,
+            "lat": 8.4975006,
+            "school_name": "Name unknown",
+            "country_name": "Ghana",
+            "connectivity": false
+        },
+        {
+            "lon": -0.8396721,
+            "lat": 9.3654454,
+            "school_name": "Name unknown",
+            "country_name": "Ghana",
+            "connectivity": false
+        },
+        {
+            "lon": 34.5075679,
+            "lat": 0.8144723,
+            "school_name": "Chemondi S.A. Primary School",
+            "country_name": "Kenya",
+            "connectivity": false
+        },
+        {
+            "lon": -0.2524059,
+            "lat": 5.6172344,
+            "school_name": "Name unknown",
+            "country_name": "Ghana",
+            "connectivity": false
+        },
+        {
+            "lon": -1.6085684,
+            "lat": 6.6811208,
+            "school_name": "Name unknown",
+            "country_name": "Ghana",
+            "connectivity": false
+        },
+        {
+            "lon": -1.5562405,
+            "lat": 6.741439,
+            "school_name": "Name unknown",
+            "country_name": "Ghana",
+            "connectivity": false
+        },
+        {
+            "lon": 37.10957,
+            "lat": -5.34374,
+            "school_name": "AMEI",
+            "country_name": "United Republic of Tanzania",
+            "connectivity": false
+        },
+        {
+            "lon": 34.00674,
+            "lat": -4.11098,
+            "school_name": "TUTU",
+            "country_name": "United Republic of Tanzania",
+            "connectivity": false
+        },
+        {
+            "lon": 38.00917,
+            "lat": -7.24026,
+            "school_name": "CHANYUMBU",
+            "country_name": "United Republic of Tanzania",
+            "connectivity": false
+        },
+        {
+            "lon": 33.29045,
+            "lat": -2.19932,
+            "school_name": "NAFUBA",
+            "country_name": "United Republic of Tanzania",
+            "connectivity": false
+        },
+        {
+            "lon": 39.32703,
+            "lat": -11.07617,
+            "school_name": "CHIKOROPOLA",
+            "country_name": "United Republic of Tanzania",
+            "connectivity": false
+        },
+        {
+            "lon": 34.38294,
+            "lat": -1.27082,
+            "school_name": "WAKULIMA",
+            "country_name": "United Republic of Tanzania",
+            "connectivity": false
+        },
+        {
+            "lon": 39.42207,
+            "lat": -10.79539,
+            "school_name": "CHINGUNGWE",
+            "country_name": "United Republic of Tanzania",
+            "connectivity": false
+        },
+        {
+            "lon": 36.96251,
+            "lat": -10.79614,
+            "school_name": "NDENYENDE",
+            "country_name": "United Republic of Tanzania",
+            "connectivity": false
+        },
+        {
+            "lon": 34.0519,
+            "lat": -8.5505,
+            "school_name": "YALA",
+            "country_name": "United Republic of Tanzania",
+            "connectivity": false
+        },
+        {
+            "lon": 36.39399,
+            "lat": -6.37871,
+            "school_name": "IYOMA",
+            "country_name": "United Republic of Tanzania",
+            "connectivity": false
+        },
+        {
+            "lon": 20.12729645,
+            "lat": 45.60425044,
+            "school_name": "\u0408\u043e\u0441\u0438\u0444 \u041c\u0430\u0440\u0438\u043d\u043a\u043e\u0432\u0438\u045b",
+            "country_name": "Serbia",
+            "connectivity": false
+        },
+        {
+            "lon": 20.01296997,
+            "lat": 44.70038572,
+            "school_name": "\u0414\u0443\u0448\u0430\u043d \u0412\u0443\u043a\u0430\u0441\u043e\u0432\u0438\u045b \u0414\u0438\u043e\u0433\u0435\u043d",
+            "country_name": "Serbia",
+            "connectivity": false
+        },
+        {
+            "lon": 32.91024,
+            "lat": -2.52719,
+            "school_name": "SOKOINE",
+            "country_name": "United Republic of Tanzania",
+            "connectivity": false
+        },
+        {
+            "lon": 1.206173333,
+            "lat": 6.430731667,
+            "school_name": "JEPL PHILADELPHIE",
+            "country_name": "Togo",
+            "connectivity": false
+        },
+        {
+            "lon": 1.173536,
+            "lat": 6.957043,
+            "school_name": "JEP CAMP",
+            "country_name": "Togo",
+            "connectivity": false
+        },
+        {
+            "lon": 1.093018333,
+            "lat": 9.865755,
+            "school_name": "JEC HULMEN CENTRE",
+            "country_name": "Togo",
+            "connectivity": false
+        },
+        {
+            "lon": 1.27023,
+            "lat": 6.19455,
+            "school_name": "EPP NYILE G/A",
+            "country_name": "Togo",
+            "connectivity": false
+        },
+        {
+            "lon": 0.74502,
+            "lat": 7.168376,
+            "school_name": "EPP KPELE DOUGBA",
+            "country_name": "Togo",
+            "connectivity": false
+        },
+        {
+            "lon": 20.96693516,
+            "lat": 44.6268855,
+            "school_name": "\u0418\u0432\u043e \u0410\u043d\u0434\u0440\u0438\u045b",
+            "country_name": "Serbia",
+            "connectivity": false
+        },
+        {
+            "lon": 34.76891,
+            "lat": -5.12366,
+            "school_name": "IGHUKA",
+            "country_name": "United Republic of Tanzania",
+            "connectivity": false
+        },
+        {
+            "lon": 34.49957,
+            "lat": -2.00735,
+            "school_name": "NYAKITONO",
+            "country_name": "United Republic of Tanzania",
+            "connectivity": false
+        },
+        {
+            "lon": 33.27253,
+            "lat": -5.48508,
+            "school_name": "MAKIBO",
+            "country_name": "United Republic of Tanzania",
+            "connectivity": false
+        },
+        {
+            "lon": 0.735801,
+            "lat": 7.352203,
+            "school_name": "CEG DANYI KPEVE",
+            "country_name": "Togo",
+            "connectivity": false
+        },
+        {
+            "lon": 1.596782,
+            "lat": 7.148732,
+            "school_name": "COLLEGE PROTESTANT DE TADO",
+            "country_name": "Togo",
+            "connectivity": false
+        },
+        {
+            "lon": 33.79927971,
+            "lat": -9.895564232,
+            "school_name": "Mlowo",
+            "country_name": "Malawi",
+            "connectivity": false
+        },
+        {
+            "lon": 35.06979184,
+            "lat": -15.1662451,
+            "school_name": "Utale 2",
+            "country_name": "Malawi",
+            "connectivity": false
+        },
+        {
+            "lon": 33.51339832,
+            "lat": -13.40722253,
+            "school_name": "Tchale CDSS",
+            "country_name": "Malawi",
+            "connectivity": false
+        },
+        {
+            "lon": 33.45054334,
+            "lat": -11.78523076,
+            "school_name": "Chagodi",
+            "country_name": "Malawi",
+            "connectivity": false
+        },
+        {
+            "lon": 34.26988258,
+            "lat": -11.54202655,
+            "school_name": "Chisu",
+            "country_name": "Malawi",
+            "connectivity": false
+        },
+        {
+            "lon": 35.09237644,
+            "lat": -16.14732559,
+            "school_name": "Nchenga",
+            "country_name": "Malawi",
+            "connectivity": false
+        },
+        {
+            "lon": 35.27108348,
+            "lat": -16.15618111,
+            "school_name": "Khave",
+            "country_name": "Malawi",
+            "connectivity": false
+        },
+        {
+            "lon": 23.99611271,
+            "lat": 0.407773923,
+            "school_name": "EP LIKOLO",
+            "country_name": "Democratic Republic of the Congo",
+            "connectivity": false
+        },
+        {
+            "lon": 31.09259601,
+            "lat": 2.061751536,
+            "school_name": "INST BUNGU",
+            "country_name": "Democratic Republic of the Congo",
+            "connectivity": false
+        },
+        {
+            "lon": 22.0296736,
+            "lat": 0.769962502,
+            "school_name": "INST BOSOMONGO",
+            "country_name": "Democratic Republic of the Congo",
+            "connectivity": false
+        },
+        {
+            "lon": 24.45756242,
+            "lat": -3.889590264,
+            "school_name": "EP KANAYIMBA",
+            "country_name": "Democratic Republic of the Congo",
+            "connectivity": false
+        },
+        {
+            "lon": 27.4080728,
+            "lat": -11.67484757,
+            "school_name": "CS SAINT SYLVESTRE",
+            "country_name": "Democratic Republic of the Congo",
+            "connectivity": false
+        },
+        {
+            "lon": 29.69436448,
+            "lat": 0.049393423,
+            "school_name": "INST. KASINDI",
+            "country_name": "Democratic Republic of the Congo",
+            "connectivity": false
+        },
+        {
+            "lon": 29.66660621,
+            "lat": 0.332724838,
+            "school_name": "EP MATYA",
+            "country_name": "Democratic Republic of the Congo",
+            "connectivity": false
+        },
+        {
+            "lon": 35.38162,
+            "lat": -4.08403,
+            "school_name": "LEA",
+            "country_name": "United Republic of Tanzania",
+            "connectivity": false
+        },
+        {
+            "lon": 26.52743119,
+            "lat": -4.23911406,
+            "school_name": "EP LIBUYU",
+            "country_name": "Democratic Republic of the Congo",
+            "connectivity": false
+        },
+        {
+            "lon": 28.54942054,
+            "lat": -2.082648312,
+            "school_name": "INST NGANGA",
+            "country_name": "Democratic Republic of the Congo",
+            "connectivity": false
+        },
+        {
+            "lon": -15.90729,
+            "lat": 18.07317,
+            "school_name": "CHERIF HAMED",
+            "country_name": "Mauritania",
+            "connectivity": false
+        },
+        {
+            "lon": 33.10923,
+            "lat": 0.91993,
+            "school_name": "ST KALEMBA P/SCH",
+            "country_name": "Uganda",
+            "connectivity": false
+        },
+        {
+            "lon": 34.07475,
+            "lat": 1.71975,
+            "school_name": "OSUDIA P/SCHOOL",
+            "country_name": "Uganda",
+            "connectivity": false
+        },
+        {
+            "lon": 34.30968,
+            "lat": 1.13956,
+            "school_name": "BUWANGOLO P/SCHOOL",
+            "country_name": "Uganda",
+            "connectivity": false
+        },
+        {
+            "lon": 30.16397,
+            "lat": 0.79543,
+            "school_name": "Kambisi",
+            "country_name": "Uganda",
+            "connectivity": false
+        },
+        {
+            "lon": 30.37901,
+            "lat": -0.5745,
+            "school_name": "NGANWA",
+            "country_name": "Uganda",
+            "connectivity": false
+        },
+        {
+            "lon": 31.46161,
+            "lat": 3.48421,
+            "school_name": "Locomgbo P.S.",
+            "country_name": "Uganda",
+            "connectivity": false
+        },
+        {
+            "lon": 33.6622,
+            "lat": 3.50734,
+            "school_name": "Pire P.S.",
+            "country_name": "Uganda",
+            "connectivity": false
+        },
+        {
+            "lon": 33.59257,
+            "lat": 2.54946,
+            "school_name": "Gangming P.S.",
+            "country_name": "Uganda",
+            "connectivity": false
+        },
+        {
+            "lon": 29.73471,
+            "lat": -24.33115,
+            "school_name": "Sampse Primary",
+            "country_name": "South Africa",
+            "connectivity": false
+        },
+        {
+            "lon": 27.0318,
+            "lat": -26.71449,
+            "school_name": "Potchefstroom Secondary School",
+            "country_name": "South Africa",
+            "connectivity": false
+        },
+        {
+            "lon": 18.54758,
+            "lat": -33.97304,
+            "school_name": "Surrey Primary School",
+            "country_name": "South Africa",
+            "connectivity": false
+        },
+        {
+            "lon": 30.11971,
+            "lat": -22.86693,
+            "school_name": "Pfumbada Primary",
+            "country_name": "South Africa",
+            "connectivity": false
+        },
+        {
+            "lon": 18.51601,
+            "lat": -33.93997,
+            "school_name": "Grace Primary School",
+            "country_name": "South Africa",
+            "connectivity": false
+        },
+        {
+            "lon": 30.1945,
+            "lat": -30.87953,
+            "school_name": "Enyanisweni Primary School",
+            "country_name": "South Africa",
+            "connectivity": false
+        },
+        {
+            "lon": 28.95485,
+            "lat": -24.14746,
+            "school_name": "Mmadicana Secondary School",
+            "country_name": "South Africa",
+            "connectivity": false
+        },
+        {
+            "lon": 28.97163,
+            "lat": -23.65882,
+            "school_name": "Moetagare Primary",
+            "country_name": "South Africa",
+            "connectivity": false
+        },
+        {
+            "lon": 31.02097,
+            "lat": -29.67355,
+            "school_name": "Keith's Driving School",
+            "country_name": "South Africa",
+            "connectivity": false
+        },
+        {
+            "lon": 30.34939,
+            "lat": -24.79805,
+            "school_name": "Laerskool Waterval",
+            "country_name": "South Africa",
+            "connectivity": false
+        },
+        {
+            "lon": 28.09026,
+            "lat": -25.95165,
+            "school_name": "Hilltop Montessori School",
+            "country_name": "South Africa",
+            "connectivity": false
+        },
+        {
+            "lon": 30.86198,
+            "lat": -29.9414,
+            "school_name": "Imisebe Combined Primary School",
+            "country_name": "South Africa",
+            "connectivity": false
+        },
+        {
+            "lon": 30.9698,
+            "lat": -29.83866,
+            "school_name": "Sherwood Primary School",
+            "country_name": "South Africa",
+            "connectivity": false
+        },
+        {
+            "lon": 27.98949,
+            "lat": -26.10852,
+            "school_name": "Randburg High School",
+            "country_name": "South Africa",
+            "connectivity": false
+        },
+        {
+            "lon": 28.01607,
+            "lat": -26.143,
+            "school_name": "Itech Central",
+            "country_name": "South Africa",
+            "connectivity": false
+        },
+        {
+            "lon": 28.01513,
+            "lat": -26.24237,
+            "school_name": "Alhuda Academy",
+            "country_name": "South Africa",
+            "connectivity": false
+        },
+        {
+            "lon": 28.13685,
+            "lat": -26.35049,
+            "school_name": "Khehlekile Primary School",
+            "country_name": "South Africa",
+            "connectivity": false
+        },
+        {
+            "lon": 28.21436,
+            "lat": -26.05703,
+            "school_name": "Smiley Kids",
+            "country_name": "South Africa",
+            "connectivity": false
+        },
+        {
+            "lon": 28.17196,
+            "lat": -26.22422,
+            "school_name": "Galway Primary School",
+            "country_name": "South Africa",
+            "connectivity": false
+        },
+        {
+            "lon": 28.20664,
+            "lat": -31.59779,
+            "school_name": "Zibute Combined School",
+            "country_name": "South Africa",
+            "connectivity": false
+        },
+        {
+            "lon": 28.71693,
+            "lat": -31.28214,
+            "school_name": "Nombizo Junior Secondary School",
+            "country_name": "South Africa",
+            "connectivity": false
+        },
+        {
+            "lon": 28.63396,
+            "lat": -31.69249,
+            "school_name": "Gwegwe Junior Secondary School",
+            "country_name": "South Africa",
+            "connectivity": false
+        },
+        {
+            "lon": -58.26341783,
+            "lat": -37.83958596,
+            "school_name": "ESCUELA DE ADULTOS N\u00ba702 PERITO MORENO",
+            "country_name": "Argentina",
+            "connectivity": false
+        },
+        {
+            "lon": -58.64781317,
+            "lat": -34.89848686,
+            "school_name": "ESCUELA PRIMARIA N\u00ba26 MARIANO MORENO",
+            "country_name": "Argentina",
+            "connectivity": false
+        },
+        {
+            "lon": -58.2880247,
+            "lat": -34.76708224,
+            "school_name": "INSTITUTO SAN JOSE OBRERO",
+            "country_name": "Argentina",
+            "connectivity": false
+        },
+        {
+            "lon": -62.6946536,
+            "lat": -34.6946875,
+            "school_name": "ESCUELA PRIMARIA N\u00ba14 HIPOLITO YRIGOYEN",
+            "country_name": "Argentina",
+            "connectivity": false
+        },
+        {
+            "lon": -60.00376052,
+            "lat": -33.48367618,
+            "school_name": "INSTITUTO SECUNDARIO RAMALLO",
+            "country_name": "Argentina",
+            "connectivity": false
+        },
+        {
+            "lon": -59.11689874,
+            "lat": -37.29439836,
+            "school_name": "ESCUELA ESPECIAL N\u00ba504 DR. GILBERTO URCELAY",
+            "country_name": "Argentina",
+            "connectivity": false
+        },
+        {
+            "lon": -58.72343721,
+            "lat": -34.67342962,
+            "school_name": "ESCUELA DE EDUCACION SECUNDARIA N\u00ba1 \\BERNARDO HOUSSAY\\",
+            "country_name": "Argentina",
+            "connectivity": false
+        },
+        {
+            "lon": -61.27925012,
+            "lat": -38.7262715,
+            "school_name": "CENTRO DE ADULTOS N\u00ba701",
+            "country_name": "Argentina",
+            "connectivity": false
+        },
+        {
+            "lon": -58.57732033,
+            "lat": -34.51703104,
+            "school_name": "ESCUELA PRIMARIA N\u00ba31 BRIGADIER GENERAL ENRIQUE MARTINEZ",
+            "country_name": "Argentina",
+            "connectivity": false
+        },
+        {
+            "lon": -58.71407798,
+            "lat": -34.54148224,
+            "school_name": "COLEGIO MONSE\u00d1OR TERRERO",
+            "country_name": "Argentina",
+            "connectivity": false
+        },
+        {
+            "lon": 6.97149,
+            "lat": 5.8426,
+            "school_name": "Name unknown",
+            "country_name": "Nigeria",
+            "connectivity": false
+        },
+        {
+            "lon": -58.64275898,
+            "lat": -34.58008933,
+            "school_name": "INSTITUTO LINCOLN",
+            "country_name": "Argentina",
+            "connectivity": false
+        },
+        {
+            "lon": -58.62240743,
+            "lat": -34.65527059,
+            "school_name": "ESC. SECUNDARIA BASICA N\u00ba14",
+            "country_name": "Argentina",
+            "connectivity": false
+        },
+        {
+            "lon": -58.96308088,
+            "lat": -34.19674779,
+            "school_name": "ESC. SECUNDARIA BASICA N\u00ba6",
+            "country_name": "Argentina",
+            "connectivity": false
+        },
+        {
+            "lon": -58.74736365,
+            "lat": -34.43394143,
+            "school_name": "ESCUELA SECUNDARIA N\u00ba11 \\CARLOS FUENTEALBA\\",
+            "country_name": "Argentina",
+            "connectivity": false
+        },
+        {
+            "lon": -57.57828603,
+            "lat": -38.00244398,
+            "school_name": "PINOS DE ANCHORENA",
+            "country_name": "Argentina",
+            "connectivity": false
+        },
+        {
+            "lon": -64.18423998,
+            "lat": -31.44336082,
+            "school_name": "ESCUELA 20 DE JUNIO",
+            "country_name": "Argentina",
+            "connectivity": false
+        },
+        {
+            "lon": -64.16456047,
+            "lat": -31.40127554,
+            "school_name": "COLEGIO SAGRADA FAMILIA",
+            "country_name": "Argentina",
+            "connectivity": false
+        },
+        {
+            "lon": -63.89071609,
+            "lat": -31.12433302,
+            "school_name": "I.P.E.M. N\u00ba 272 - ANEXO TINOCO",
+            "country_name": "Argentina",
+            "connectivity": false
+        },
+        {
+            "lon": -72.8712,
+            "lat": -13.6257,
+            "school_name": "05 ANGELITOS DE LA GUARDA",
+            "country_name": "Peru",
+            "connectivity": false
+        },
+        {
+            "lon": -62.04913505,
+            "lat": -23.12628323,
+            "school_name": "EPEP N\u00ba476",
+            "country_name": "Argentina",
+            "connectivity": false
+        },
+        {
+            "lon": -62.32525942,
+            "lat": -22.72064145,
+            "school_name": "JIN N\u00ba 35 - EPEP N\u00ba 477",
+            "country_name": "Argentina",
+            "connectivity": false
+        },
+        {
+            "lon": -66.86594499,
+            "lat": -29.48362378,
+            "school_name": "ESC.N\u00b0386",
+            "country_name": "Argentina",
+            "connectivity": false
+        },
+        {
+            "lon": -65.79596094,
+            "lat": -30.97477148,
+            "school_name": "ESC.N\u00b0088 ANDREA PICON ZALAZAR",
+            "country_name": "Argentina",
+            "connectivity": false
+        },
+        {
+            "lon": -66.85842298,
+            "lat": -29.40905589,
+            "school_name": "UNIDAD EDUCATIVA N\u00b095",
+            "country_name": "Argentina",
+            "connectivity": false
+        },
+        {
+            "lon": -68.8565173,
+            "lat": -32.90052591,
+            "school_name": "MANUEL LAINEZ",
+            "country_name": "Argentina",
+            "connectivity": false
+        },
+        {
+            "lon": -68.02155102,
+            "lat": -34.78842041,
+            "school_name": "ESCUELA N\u00ba 4-197",
+            "country_name": "Argentina",
+            "connectivity": false
+        },
+        {
+            "lon": -71.3548981,
+            "lat": -40.1607801,
+            "school_name": "JARDIN DE INFANTES Y MATERNAL ROSARIO VERA PE\u00d1ALOZA",
+            "country_name": "Argentina",
+            "connectivity": false
+        },
+        {
+            "lon": -80.6677,
+            "lat": -5.32591,
+            "school_name": "1269",
+            "country_name": "Peru",
+            "connectivity": false
+        },
+        {
+            "lon": -60.61132764,
+            "lat": -33.04364382,
+            "school_name": "E.E.S. ORIENTADA PART. INC. NRO 8168 NUESTRA SE\u00d1ORA DEL SAGRADO CORAZ\u00d3N",
+            "country_name": "Argentina",
+            "connectivity": false
+        },
+        {
+            "lon": -62.84253811,
+            "lat": -26.51967738,
+            "school_name": "ESCUELA N\u00b0 640",
+            "country_name": "Argentina",
+            "connectivity": false
+        },
+        {
+            "lon": 6.7106,
+            "lat": 6.2021,
+            "school_name": "Name unknown",
+            "country_name": "Nigeria",
+            "connectivity": false
+        },
+        {
+            "lon": 6.013053,
+            "lat": 5.480619,
+            "school_name": "Name unknown",
+            "country_name": "Nigeria",
+            "connectivity": false
+        },
+        {
+            "lon": 5.809196,
+            "lat": 5.54246,
+            "school_name": "Name unknown",
+            "country_name": "Nigeria",
+            "connectivity": false
+        },
+        {
+            "lon": 7.444881,
+            "lat": 5.389607,
+            "school_name": "Name unknown",
+            "country_name": "Nigeria",
+            "connectivity": false
+        },
+        {
+            "lon": 13.224342,
+            "lat": 10.460753,
+            "school_name": "Name unknown",
+            "country_name": "Nigeria",
+            "connectivity": false
+        },
+        {
+            "lon": 14.09663227,
+            "lat": 12.00904021,
+            "school_name": "Name unknown",
+            "country_name": "Nigeria",
+            "connectivity": false
+        },
+        {
+            "lon": 7.72873,
+            "lat": 6.26681,
+            "school_name": "Name unknown",
+            "country_name": "Nigeria",
+            "connectivity": false
+        },
+        {
+            "lon": 7.98447,
+            "lat": 6.01879,
+            "school_name": "Name unknown",
+            "country_name": "Nigeria",
+            "connectivity": false
+        },
+        {
+            "lon": 5.60903,
+            "lat": 6.39977,
+            "school_name": "Name unknown",
+            "country_name": "Nigeria",
+            "connectivity": false
+        },
+        {
+            "lon": 5.633298,
+            "lat": 6.382435,
+            "school_name": "Name unknown",
+            "country_name": "Nigeria",
+            "connectivity": false
+        },
+        {
+            "lon": 6.118113,
+            "lat": 6.638478,
+            "school_name": "Name unknown",
+            "country_name": "Nigeria",
+            "connectivity": false
+        },
+        {
+            "lon": 6.280559,
+            "lat": 7.058952,
+            "school_name": "Name unknown",
+            "country_name": "Nigeria",
+            "connectivity": false
+        },
+        {
+            "lon": 7.451991,
+            "lat": 7.030833,
+            "school_name": "Name unknown",
+            "country_name": "Nigeria",
+            "connectivity": false
+        },
+        {
+            "lon": 7.20487,
+            "lat": 9.083837,
+            "school_name": "Name unknown",
+            "country_name": "Nigeria",
+            "connectivity": false
+        },
+        {
+            "lon": 10.992776,
+            "lat": 9.79098,
+            "school_name": "Name unknown",
+            "country_name": "Nigeria",
+            "connectivity": false
+        },
+        {
+            "lon": 11.220498,
+            "lat": 9.887556,
+            "school_name": "Name unknown",
+            "country_name": "Nigeria",
+            "connectivity": false
+        },
+        {
+            "lon": 11.06223,
+            "lat": 10.33363,
+            "school_name": "Name unknown",
+            "country_name": "Nigeria",
+            "connectivity": false
+        },
+        {
+            "lon": 7.207957,
+            "lat": 5.468785,
+            "school_name": "Name unknown",
+            "country_name": "Nigeria",
+            "connectivity": false
+        },
+        {
+            "lon": 7.103571,
+            "lat": 5.691878,
+            "school_name": "Name unknown",
+            "country_name": "Nigeria",
+            "connectivity": false
+        },
+        {
+            "lon": -76.7992,
+            "lat": -6.9601,
+            "school_name": "711",
+            "country_name": "Peru",
+            "connectivity": false
+        },
+        {
+            "lon": -78.0639,
+            "lat": -7.65239,
+            "school_name": "1040",
+            "country_name": "Peru",
+            "connectivity": false
+        },
+        {
+            "lon": -80.0262,
+            "lat": -6.49971,
+            "school_name": "11162 LUIS ALBERTO SANCHEZ",
+            "country_name": "Peru",
+            "connectivity": false
+        },
+        {
+            "lon": 3.746419,
+            "lat": 6.617562,
+            "school_name": "Name unknown",
+            "country_name": "Nigeria",
+            "connectivity": false
+        },
+        {
+            "lon": -69.8572,
+            "lat": -16.2211,
+            "school_name": "1258 EMILIA BARCIA BONIFFATTI",
+            "country_name": "Peru",
+            "connectivity": false
+        },
+        {
+            "lon": -78.8002,
+            "lat": -5.03894,
+            "school_name": "127",
+            "country_name": "Peru",
+            "connectivity": false
+        },
+        {
+            "lon": -69.3583,
+            "lat": -15.4226,
+            "school_name": "1454 CASERIO QUIRIQUIRI",
+            "country_name": "Peru",
+            "connectivity": false
+        },
+        {
+            "lon": -78.682,
+            "lat": -5.34016,
+            "school_name": "162",
+            "country_name": "Peru",
+            "connectivity": false
+        },
+        {
+            "lon": -78.7118,
+            "lat": -6.02611,
+            "school_name": "16447",
+            "country_name": "Peru",
+            "connectivity": false
+        },
+        {
+            "lon": -78.3906,
+            "lat": -5.2796,
+            "school_name": "17175",
+            "country_name": "Peru",
+            "connectivity": false
+        },
+        {
+            "lon": -78.9163,
+            "lat": -5.0804,
+            "school_name": "17279",
+            "country_name": "Peru",
+            "connectivity": false
+        },
+        {
+            "lon": -77.9041,
+            "lat": -4.53579,
+            "school_name": "17330",
+            "country_name": "Peru",
+            "connectivity": false
+        },
+        {
+            "lon": 7.940948333,
+            "lat": 5.880201667,
+            "school_name": "Name unknown",
+            "country_name": "Nigeria",
+            "connectivity": false
+        },
+        {
+            "lon": -79.0018,
+            "lat": -5.76756,
+            "school_name": "17605",
+            "country_name": "Peru",
+            "connectivity": false
+        },
+        {
+            "lon": -77.866,
+            "lat": -6.2169,
+            "school_name": "18006",
+            "country_name": "Peru",
+            "connectivity": false
+        },
+        {
+            "lon": -77.3254,
+            "lat": -6.6172,
+            "school_name": "18316",
+            "country_name": "Peru",
+            "connectivity": false
+        },
+        {
+            "lon": -70.9071,
+            "lat": -15.1148,
+            "school_name": "200",
+            "country_name": "Peru",
+            "connectivity": false
+        },
+        {
+            "lon": -77.6076,
+            "lat": -11.1013,
+            "school_name": "20983 JULIO C. TELLO",
+            "country_name": "Peru",
+            "connectivity": false
+        },
+        {
+            "lon": -77.5947,
+            "lat": -11.0961,
+            "school_name": "21007 FELIX B. CARDENAS",
+            "country_name": "Peru",
+            "connectivity": false
+        },
+        {
+            "lon": -75.6677,
+            "lat": -13.2041,
+            "school_name": "22131",
+            "country_name": "Peru",
+            "connectivity": false
+        },
+        {
+            "lon": -76.1285,
+            "lat": -13.4131,
+            "school_name": "22240 FRANCISCO CORBETTO ROCCA",
+            "country_name": "Peru",
+            "connectivity": false
+        },
+        {
+            "lon": -79.0074,
+            "lat": -8.06165,
+            "school_name": "2252",
+            "country_name": "Peru",
+            "connectivity": false
+        },
+        {
+            "lon": -73.7807,
+            "lat": -15.0098,
+            "school_name": "24227 ROSA VERA TERRONES",
+            "country_name": "Peru",
+            "connectivity": false
+        },
+        {
+            "lon": -76.7359,
+            "lat": -9.18518,
+            "school_name": "32841",
+            "country_name": "Peru",
+            "connectivity": false
+        },
+        {
+            "lon": -75.3205,
+            "lat": -10.7718,
+            "school_name": "34300 MIGUEL SEBASTIAN LOPEZ",
+            "country_name": "Peru",
+            "connectivity": false
+        },
+        {
+            "lon": -74.9607,
+            "lat": -12.5684,
+            "school_name": "36571",
+            "country_name": "Peru",
+            "connectivity": false
+        },
+        {
+            "lon": -69.2873,
+            "lat": -14.1608,
+            "school_name": "385",
+            "country_name": "Peru",
+            "connectivity": false
+        },
+        {
+            "lon": -74.0637,
+            "lat": -13.163,
+            "school_name": "38739",
+            "country_name": "Peru",
+            "connectivity": false
+        },
+        {
+            "lon": -71.9171,
+            "lat": -16.525,
+            "school_name": "40093",
+            "country_name": "Peru",
+            "connectivity": false
+        },
+        {
+            "lon": -70.7642,
+            "lat": -12.2976,
+            "school_name": "406",
+            "country_name": "Peru",
+            "connectivity": false
+        },
+        {
+            "lon": -71.5191,
+            "lat": -16.3685,
+            "school_name": "40657",
+            "country_name": "Peru",
+            "connectivity": false
+        },
+        {
+            "lon": -70.2726,
+            "lat": -18.0363,
+            "school_name": "460",
+            "country_name": "Peru",
+            "connectivity": false
+        },
+        {
+            "lon": -77.9251,
+            "lat": -9.1104,
+            "school_name": "482",
+            "country_name": "Peru",
+            "connectivity": false
+        },
+        {
+            "lon": -72.0376,
+            "lat": -13.9089,
+            "school_name": "50802",
+            "country_name": "Peru",
+            "connectivity": false
+        },
+        {
+            "lon": -74.5143,
+            "lat": -13.0408,
+            "school_name": "535",
+            "country_name": "Peru",
+            "connectivity": false
+        },
+        {
+            "lon": -73.6843,
+            "lat": -13.6162,
+            "school_name": "54224",
+            "country_name": "Peru",
+            "connectivity": false
+        },
+        {
+            "lon": -72.6552,
+            "lat": -14.1385,
+            "school_name": "54411 SANTA ROSA",
+            "country_name": "Peru",
+            "connectivity": false
+        },
+        {
+            "lon": -73.4695,
+            "lat": -13.6745,
+            "school_name": "54720",
+            "country_name": "Peru",
+            "connectivity": false
+        },
+        {
+            "lon": -75.2299,
+            "lat": -0.0958193,
+            "school_name": "60342",
+            "country_name": "Peru",
+            "connectivity": false
+        },
+        {
+            "lon": -69.9967,
+            "lat": -15.0436,
+            "school_name": "671",
+            "country_name": "Peru",
+            "connectivity": false
+        },
+        {
+            "lon": -74.9124,
+            "lat": -13.9746,
+            "school_name": "702",
+            "country_name": "Peru",
+            "connectivity": false
+        },
+        {
+            "lon": -69.6588,
+            "lat": -15.1848,
+            "school_name": "72315",
+            "country_name": "Peru",
+            "connectivity": false
+        },
+        {
+            "lon": -70.2551,
+            "lat": -14.8265,
+            "school_name": "72621",
+            "country_name": "Peru",
+            "connectivity": false
+        },
+        {
+            "lon": -73.9142,
+            "lat": -10.6237,
+            "school_name": "742-B",
+            "country_name": "Peru",
+            "connectivity": false
+        },
+        {
+            "lon": -78.0466,
+            "lat": -7.7878,
+            "school_name": "80151",
+            "country_name": "Peru",
+            "connectivity": false
+        },
+        {
+            "lon": -78.5562,
+            "lat": -7.13953,
+            "school_name": "82107",
+            "country_name": "Peru",
+            "connectivity": false
+        },
+        {
+            "lon": -77.6367,
+            "lat": -9.206,
+            "school_name": "86720 JUAN LAZARO CADILLO GONZALES",
+            "country_name": "Peru",
+            "connectivity": false
+        },
+        {
+            "lon": -74.639,
+            "lat": -8.07247,
+            "school_name": "AGROP. PANAILLO-B",
+            "country_name": "Peru",
+            "connectivity": false
+        },
+        {
+            "lon": -70.0517,
+            "lat": -14.7616,
+            "school_name": "AGROPECUARIO",
+            "country_name": "Peru",
+            "connectivity": false
+        },
+        {
+            "lon": -76.9385,
+            "lat": -12.1529,
+            "school_name": "MIS TRAVESURAS",
+            "country_name": "Peru",
+            "connectivity": false
+        },
+        {
+            "lon": -76.2357,
+            "lat": -9.92917,
+            "school_name": "AMADEUS MOZART",
+            "country_name": "Peru",
+            "connectivity": false
+        },
+        {
+            "lon": -77.3507,
+            "lat": -9.09298,
+            "school_name": "AQUILLAYOC",
+            "country_name": "Peru",
+            "connectivity": false
+        },
+        {
+            "lon": -77.0881,
+            "lat": -11.9439,
+            "school_name": "MUNDO DE COLORES",
+            "country_name": "Peru",
+            "connectivity": false
+        },
+        {
+            "lon": -77.139,
+            "lat": -11.814,
+            "school_name": "BLUE HOUSE MISS JOANNY",
+            "country_name": "Peru",
+            "connectivity": false
+        },
+        {
+            "lon": -74.9975,
+            "lat": -7.34612,
+            "school_name": "CAPULLITOS",
+            "country_name": "Peru",
+            "connectivity": false
+        },
+        {
+            "lon": -76.9456,
+            "lat": -12.1849,
+            "school_name": "NUEVA ESPERANZA",
+            "country_name": "Peru",
+            "connectivity": false
+        },
+        {
+            "lon": -74.2276,
+            "lat": -13.1709,
+            "school_name": "CEBA - SAN RAMON",
+            "country_name": "Peru",
+            "connectivity": false
+        },
+        {
+            "lon": -78.8106,
+            "lat": -5.70328,
+            "school_name": "CEBA - SAN VICENTE DE PAUL",
+            "country_name": "Peru",
+            "connectivity": false
+        },
+        {
+            "lon": -77.0546,
+            "lat": -12.0992,
+            "school_name": "CRISTO REDENTOR",
+            "country_name": "Peru",
+            "connectivity": false
+        },
+        {
+            "lon": -77.0089,
+            "lat": -12.1461,
+            "school_name": "EL ARBOLITO",
+            "country_name": "Peru",
+            "connectivity": false
+        },
+        {
+            "lon": -71.9745,
+            "lat": -13.5154,
+            "school_name": "EL CARMELO",
+            "country_name": "Peru",
+            "connectivity": false
+        },
+        {
+            "lon": -71.9996,
+            "lat": -13.5057,
+            "school_name": "EL NI\u00d1O DIVINO",
+            "country_name": "Peru",
+            "connectivity": false
+        },
+        {
+            "lon": -71.563,
+            "lat": -16.3277,
+            "school_name": "GRECOS",
+            "country_name": "Peru",
+            "connectivity": false
+        },
+        {
+            "lon": -71.5188,
+            "lat": -16.3662,
+            "school_name": "INDEPENDENCIA B-1",
+            "country_name": "Peru",
+            "connectivity": false
+        },
+        {
+            "lon": -80.456,
+            "lat": -3.5584,
+            "school_name": "INMACULADA CONCEPCION",
+            "country_name": "Peru",
+            "connectivity": false
+        },
+        {
+            "lon": -75.1886,
+            "lat": -12.0379,
+            "school_name": "INNOVA SCHOOLS HUANCAYO",
+            "country_name": "Peru",
+            "connectivity": false
+        },
+        {
+            "lon": -76.7491,
+            "lat": -12.464,
+            "school_name": "JESUS DE NAZARETH - LUZ DEL MUNDO",
+            "country_name": "Peru",
+            "connectivity": false
+        },
+        {
+            "lon": -77.0028,
+            "lat": -12.0128,
+            "school_name": "JESUS EL BUEN PASTOR",
+            "country_name": "Peru",
+            "connectivity": false
+        },
+        {
+            "lon": -71.512,
+            "lat": -16.4245,
+            "school_name": "JESUS INFANTE",
+            "country_name": "Peru",
+            "connectivity": false
+        },
+        {
+            "lon": -77.0194,
+            "lat": -11.9874,
+            "school_name": "JOSE INGENIEROS I",
+            "country_name": "Peru",
+            "connectivity": false
+        },
+        {
+            "lon": -81.2567,
+            "lat": -4.59044,
+            "school_name": "JOSE MARIA ESCRIBA DE BALAGUER",
+            "country_name": "Peru",
+            "connectivity": false
+        },
+        {
+            "lon": -79.0449,
+            "lat": -8.09375,
+            "school_name": "JUANITA MOJICA",
+            "country_name": "Peru",
+            "connectivity": false
+        },
+        {
+            "lon": -77.527,
+            "lat": -9.52806,
+            "school_name": "KINDER TALENT'S",
+            "country_name": "Peru",
+            "connectivity": false
+        },
+        {
+            "lon": -79.0011,
+            "lat": -5.15197,
+            "school_name": "SAN IGNACIO",
+            "country_name": "Peru",
+            "connectivity": false
+        },
+        {
+            "lon": -78.6653,
+            "lat": -7.31739,
+            "school_name": "LECCHEN",
+            "country_name": "Peru",
+            "connectivity": false
+        },
+        {
+            "lon": -77.0854,
+            "lat": -11.8584,
+            "school_name": "LICEO GARCILASO DE LA VEGA",
+            "country_name": "Peru",
+            "connectivity": false
+        },
+        {
+            "lon": -71.6684,
+            "lat": -13.5284,
+            "school_name": "LOS CORDERITOS",
+            "country_name": "Peru",
+            "connectivity": false
+        },
+        {
+            "lon": -75.2107,
+            "lat": -10.2339,
+            "school_name": "LOS TRIUNFADORES DE ALTO ISCOZACIN",
+            "country_name": "Peru",
+            "connectivity": false
+        },
+        {
+            "lon": -77.0175,
+            "lat": -12.0515,
+            "school_name": "MI PEQUE\u00d1A CASITA I",
+            "country_name": "Peru",
+            "connectivity": false
+        },
+        {
+            "lon": -80.1397,
+            "lat": -5.11607,
+            "school_name": "MIS LUCERITOS",
+            "country_name": "Peru",
+            "connectivity": false
+        },
+        {
+            "lon": -74.6795,
+            "lat": -15.4617,
+            "school_name": "ODELON WILLY",
+            "country_name": "Peru",
+            "connectivity": false
+        },
+        {
+            "lon": -71.9992,
+            "lat": -13.5069,
+            "school_name": "SAN BERNARDO",
+            "country_name": "Peru",
+            "connectivity": false
+        },
+        {
+            "lon": -69.9378,
+            "lat": -14.3544,
+            "school_name": "SAN CARLOS",
+            "country_name": "Peru",
+            "connectivity": false
+        },
+        {
+            "lon": -70.1262,
+            "lat": -15.4888,
+            "school_name": "SAN IGNACIO DE LOYOLA",
+            "country_name": "Peru",
+            "connectivity": false
+        },
+        {
+            "lon": -77.0062,
+            "lat": -12.0658,
+            "school_name": "SAN JOSE",
+            "country_name": "Peru",
+            "connectivity": false
+        },
+        {
+            "lon": -71.3083,
+            "lat": -16.5761,
+            "school_name": "SAN JOSE DE UZU\u00d1A",
+            "country_name": "Peru",
+            "connectivity": false
+        },
+        {
+            "lon": -75.7872,
+            "lat": -12.2842,
+            "school_name": "SAN LORENZO",
+            "country_name": "Peru",
+            "connectivity": false
+        },
+        {
+            "lon": -77.0857,
+            "lat": -12.0183,
+            "school_name": "SAN MIGUEL DE LA SALLE",
+            "country_name": "Peru",
+            "connectivity": false
+        },
+        {
+            "lon": -77.6476,
+            "lat": -9.28074,
+            "school_name": "SAN PEDRO",
+            "country_name": "Peru",
+            "connectivity": false
+        },
+        {
+            "lon": -77.1246,
+            "lat": -11.8594,
+            "school_name": "SAN VICENTE DE PAUL",
+            "country_name": "Peru",
+            "connectivity": false
+        },
+        {
+            "lon": -71.3374,
+            "lat": -17.6326,
+            "school_name": "SANTA MARIA REYNA",
+            "country_name": "Peru",
+            "connectivity": false
+        },
+        {
+            "lon": 6.544268131,
+            "lat": 9.624806643,
+            "school_name": "Name unknown",
+            "country_name": "Nigeria",
+            "connectivity": false
+        },
+        {
+            "lon": -77.1556,
+            "lat": -11.8158,
+            "school_name": "SANTA ROSA DE PROFAM",
+            "country_name": "Peru",
+            "connectivity": false
+        },
+        {
+            "lon": -77.015,
+            "lat": -12.0519,
+            "school_name": "SE\u00d1OR DE LA MISERICORDIA",
+            "country_name": "Peru",
+            "connectivity": false
+        },
+        {
+            "lon": -76.9199,
+            "lat": -12.229,
+            "school_name": "SOR TERESA DE CALCUTA",
+            "country_name": "Peru",
+            "connectivity": false
+        },
+        {
+            "lon": -71.6013,
+            "lat": -15.633,
+            "school_name": "SUMAK",
+            "country_name": "Peru",
+            "connectivity": false
+        },
+        {
+            "lon": 7.441467523,
+            "lat": 10.58142809,
+            "school_name": "Name unknown",
+            "country_name": "Nigeria",
+            "connectivity": false
+        },
+        {
+            "lon": 7.73630229,
+            "lat": 9.562809299,
+            "school_name": "Name unknown",
+            "country_name": "Nigeria",
+            "connectivity": false
+        },
+        {
+            "lon": 7.748445868,
+            "lat": 9.595929981,
+            "school_name": "Name unknown",
+            "country_name": "Nigeria",
+            "connectivity": false
+        },
+        {
+            "lon": 7.66103008,
+            "lat": 10.34137777,
+            "school_name": "Name unknown",
+            "country_name": "Nigeria",
+            "connectivity": false
+        },
+        {
+            "lon": 8.60763,
+            "lat": 9.35218,
+            "school_name": "Name unknown",
+            "country_name": "Nigeria",
+            "connectivity": false
+        },
+        {
+            "lon": 8.49902524,
+            "lat": 9.261328651,
+            "school_name": "Name unknown",
+            "country_name": "Nigeria",
+            "connectivity": false
+        },
+        {
+            "lon": 7.879842,
+            "lat": 12.09337,
+            "school_name": "Name unknown",
+            "country_name": "Nigeria",
+            "connectivity": false
+        },
+        {
+            "lon": 8.641564,
+            "lat": 11.79368,
+            "school_name": "Name unknown",
+            "country_name": "Nigeria",
+            "connectivity": false
+        },
+        {
+            "lon": 8.5682,
+            "lat": 12.5722,
+            "school_name": "Name unknown",
+            "country_name": "Nigeria",
+            "connectivity": false
+        },
+        {
+            "lon": 8.569616,
+            "lat": 11.26733,
+            "school_name": "Name unknown",
+            "country_name": "Nigeria",
+            "connectivity": false
+        },
+        {
+            "lon": 8.258742,
+            "lat": 12.22354,
+            "school_name": "Name unknown",
+            "country_name": "Nigeria",
+            "connectivity": false
+        },
+        {
+            "lon": 8.216871,
+            "lat": 12.40692,
+            "school_name": "Name unknown",
+            "country_name": "Nigeria",
+            "connectivity": false
+        },
+        {
+            "lon": 13.290128,
+            "lat": 10.281174,
+            "school_name": "Name unknown",
+            "country_name": "Nigeria",
+            "connectivity": false
+        },
+        {
+            "lon": 13.196915,
+            "lat": 10.159595,
+            "school_name": "Name unknown",
+            "country_name": "Nigeria",
+            "connectivity": false
+        },
+        {
+            "lon": 6.766125,
+            "lat": 7.070341,
+            "school_name": "Name unknown",
+            "country_name": "Nigeria",
+            "connectivity": false
+        },
+        {
+            "lon": 5.524578,
+            "lat": 8.228297,
+            "school_name": "Name unknown",
+            "country_name": "Nigeria",
+            "connectivity": false
+        },
+        {
+            "lon": 4.02387,
+            "lat": 9.55486,
+            "school_name": "Name unknown",
+            "country_name": "Nigeria",
+            "connectivity": false
+        },
+        {
+            "lon": 4.517164,
+            "lat": 8.67508,
+            "school_name": "Name unknown",
+            "country_name": "Nigeria",
+            "connectivity": false
+        },
+        {
+            "lon": 5.137993,
+            "lat": 8.091848,
+            "school_name": "Name unknown",
+            "country_name": "Nigeria",
+            "connectivity": false
+        },
+        {
+            "lon": 5.76454,
+            "lat": 8.727498,
+            "school_name": "Name unknown",
+            "country_name": "Nigeria",
+            "connectivity": false
+        },
+        {
+            "lon": 3.28055,
+            "lat": 6.45124,
+            "school_name": "Name unknown",
+            "country_name": "Nigeria",
+            "connectivity": false
+        },
+        {
+            "lon": 7.285177244,
+            "lat": 5.171244818,
+            "school_name": "Name unknown",
+            "country_name": "Nigeria",
+            "connectivity": false
+        },
+        {
+            "lon": 3.59314,
+            "lat": 6.49223,
+            "school_name": "Name unknown",
+            "country_name": "Nigeria",
+            "connectivity": false
+        },
+        {
+            "lon": 3.49984,
+            "lat": 6.659,
+            "school_name": "Name unknown",
+            "country_name": "Nigeria",
+            "connectivity": false
+        },
+        {
+            "lon": 3.367762,
+            "lat": 6.542059,
+            "school_name": "Name unknown",
+            "country_name": "Nigeria",
+            "connectivity": false
+        },
+        {
+            "lon": 3.34126,
+            "lat": 6.47812,
+            "school_name": "Name unknown",
+            "country_name": "Nigeria",
+            "connectivity": false
+        },
+        {
+            "lon": 3.397032,
+            "lat": 6.453679,
+            "school_name": "Name unknown",
+            "country_name": "Nigeria",
+            "connectivity": false
+        },
+        {
+            "lon": 8.45706,
+            "lat": 8.5316,
+            "school_name": "Name unknown",
+            "country_name": "Nigeria",
+            "connectivity": false
+        },
+        {
+            "lon": 7.839599,
+            "lat": 8.046937,
+            "school_name": "Name unknown",
+            "country_name": "Nigeria",
+            "connectivity": false
+        },
+        {
+            "lon": 5.650761815,
+            "lat": 8.928189544,
+            "school_name": "Name unknown",
+            "country_name": "Nigeria",
+            "connectivity": false
+        },
+        {
+            "lon": 6.344528021,
+            "lat": 9.388179225,
+            "school_name": "Name unknown",
+            "country_name": "Nigeria",
+            "connectivity": false
+        },
+        {
+            "lon": 5.481743217,
+            "lat": 10.40088773,
+            "school_name": "Name unknown",
+            "country_name": "Nigeria",
+            "connectivity": false
+        },
+        {
+            "lon": 3.18190741,
+            "lat": 6.66979293,
+            "school_name": "Name unknown",
+            "country_name": "Nigeria",
+            "connectivity": false
+        },
+        {
+            "lon": 4.035438333,
+            "lat": 6.789836667,
+            "school_name": "Name unknown",
+            "country_name": "Nigeria",
+            "connectivity": false
+        },
+        {
+            "lon": 3.96014959,
+            "lat": 6.7061972,
+            "school_name": "Name unknown",
+            "country_name": "Nigeria",
+            "connectivity": false
+        },
+        {
+            "lon": 3.640623333,
+            "lat": 7.146616667,
+            "school_name": "Name unknown",
+            "country_name": "Nigeria",
+            "connectivity": false
+        },
+        {
+            "lon": 3.629973333,
+            "lat": 6.83979,
+            "school_name": "Name unknown",
+            "country_name": "Nigeria",
+            "connectivity": false
+        },
+        {
+            "lon": 4.935635,
+            "lat": 7.165892,
+            "school_name": "Name unknown",
+            "country_name": "Nigeria",
+            "connectivity": false
+        },
+        {
+            "lon": 5.845908,
+            "lat": 7.291058,
+            "school_name": "Name unknown",
+            "country_name": "Nigeria",
+            "connectivity": false
+        },
+        {
+            "lon": 3.874325,
+            "lat": 9.040394,
+            "school_name": "Name unknown",
+            "country_name": "Nigeria",
+            "connectivity": false
+        },
+        {
+            "lon": 3.372729,
+            "lat": 7.990216,
+            "school_name": "Name unknown",
+            "country_name": "Nigeria",
+            "connectivity": false
+        },
+        {
+            "lon": 8.887741,
+            "lat": 9.916829,
+            "school_name": "Name unknown",
+            "country_name": "Nigeria",
+            "connectivity": false
+        },
+        {
+            "lon": 9.83339,
+            "lat": 9.12262,
+            "school_name": "Name unknown",
+            "country_name": "Nigeria",
+            "connectivity": false
+        },
+        {
+            "lon": 6.766855,
+            "lat": 4.897507,
+            "school_name": "Name unknown",
+            "country_name": "Nigeria",
+            "connectivity": false
+        },
+        {
+            "lon": 11.35332,
+            "lat": 8.904119,
+            "school_name": "Name unknown",
+            "country_name": "Nigeria",
+            "connectivity": false
+        },
+        {
+            "lon": 10.7671167,
+            "lat": 7.0687983,
+            "school_name": "Name unknown",
+            "country_name": "Nigeria",
+            "connectivity": false
+        },
+        {
+            "lon": 11.1225307,
+            "lat": 6.8471026,
+            "school_name": "Name unknown",
+            "country_name": "Nigeria",
+            "connectivity": false
+        },
+        {
+            "lon": 11.51157,
+            "lat": 8.946573333,
+            "school_name": "Name unknown",
+            "country_name": "Nigeria",
+            "connectivity": false
+        },
+        {
+            "lon": 7.103444,
+            "lat": 5.964471,
+            "school_name": "Name unknown",
+            "country_name": "Nigeria",
+            "connectivity": false
+        },
+        {
+            "lon": 6.7924,
+            "lat": 6.15133,
+            "school_name": "Name unknown",
+            "country_name": "Nigeria",
+            "connectivity": false
+        },
+        {
+            "lon": 7.08594,
+            "lat": 6.108028,
+            "school_name": "Name unknown",
+            "country_name": "Nigeria",
+            "connectivity": false
+        },
+        {
+            "lon": 7.314444,
+            "lat": 6.021471,
+            "school_name": "Name unknown",
+            "country_name": "Nigeria",
+            "connectivity": false
+        },
+        {
+            "lon": 8.60147086,
+            "lat": 12.82386393,
+            "school_name": "Name unknown",
+            "country_name": "Nigeria",
+            "connectivity": false
+        },
+        {
+            "lon": 8.13736723,
+            "lat": 12.87950006,
+            "school_name": "Name unknown",
+            "country_name": "Nigeria",
+            "connectivity": false
+        },
+        {
+            "lon": 7.19738645,
+            "lat": 11.50646422,
+            "school_name": "Name unknown",
+            "country_name": "Nigeria",
+            "connectivity": false
+        },
+        {
+            "lon": 7.6924738,
+            "lat": 11.9732315,
+            "school_name": "Name unknown",
+            "country_name": "Nigeria",
+            "connectivity": false
+        },
+        {
+            "lon": 7.76005816,
+            "lat": 12.96306188,
+            "school_name": "Name unknown",
+            "country_name": "Nigeria",
+            "connectivity": false
+        },
+        {
+            "lon": 10.79677211,
+            "lat": 11.84477573,
+            "school_name": "Name unknown",
+            "country_name": "Nigeria",
+            "connectivity": false
+        },
+        {
+            "lon": 10.27383036,
+            "lat": 11.39066564,
+            "school_name": "Name unknown",
+            "country_name": "Nigeria",
+            "connectivity": false
+        },
+        {
+            "lon": 4.13819437,
+            "lat": 11.52993937,
+            "school_name": "Name unknown",
+            "country_name": "Nigeria",
+            "connectivity": false
+        },
+        {
+            "lon": 4.67201244,
+            "lat": 10.36280432,
+            "school_name": "Name unknown",
+            "country_name": "Nigeria",
+            "connectivity": false
+        },
+        {
+            "lon": 4.753244519,
+            "lat": 10.88387847,
+            "school_name": "Name unknown",
+            "country_name": "Nigeria",
+            "connectivity": false
+        },
+        {
+            "lon": 6.202835,
+            "lat": 5.163393,
+            "school_name": "Name unknown",
+            "country_name": "Nigeria",
+            "connectivity": false
+        },
+        {
+            "lon": 5.028064349,
+            "lat": 13.16294716,
+            "school_name": "Name unknown",
+            "country_name": "Nigeria",
+            "connectivity": false
+        },
+        {
+            "lon": 5.152492753,
+            "lat": 12.80176505,
+            "school_name": "Name unknown",
+            "country_name": "Nigeria",
+            "connectivity": false
+        },
+        {
+            "lon": 4.93718514,
+            "lat": 13.36741055,
+            "school_name": "Name unknown",
+            "country_name": "Nigeria",
+            "connectivity": false
+        },
+        {
+            "lon": 8.50533,
+            "lat": 7.71032,
+            "school_name": "Name unknown",
+            "country_name": "Nigeria",
+            "connectivity": false
+        },
+        {
+            "lon": 11.06503662,
+            "lat": 11.40845224,
+            "school_name": "Name unknown",
+            "country_name": "Nigeria",
+            "connectivity": false
+        },
+        {
+            "lon": 5.12601195,
+            "lat": 12.14818725,
+            "school_name": "Name unknown",
+            "country_name": "Nigeria",
+            "connectivity": false
+        },
+        {
+            "lon": 6.51018209,
+            "lat": 13.07317553,
+            "school_name": "Name unknown",
+            "country_name": "Nigeria",
+            "connectivity": false
+        },
+        {
+            "lon": 8.9331824,
+            "lat": 6.4988407,
+            "school_name": "Name unknown",
+            "country_name": "Nigeria",
+            "connectivity": false
+        },
+        {
+            "lon": -12.88443,
+            "lat": 15.43988,
+            "school_name": "Kourouldorou",
+            "country_name": "Mauritania",
+            "connectivity": false
+        },
+        {
+            "lon": -76.3381,
+            "lat": -10.0892,
+            "school_name": "32108 FELIPE HUAMAN POMA DE AYALA",
+            "country_name": "Peru",
+            "connectivity": false
+        },
+        {
+            "lon": -77.8294,
+            "lat": -9.027,
+            "school_name": "86480 ROMAN VILLON ALBA",
+            "country_name": "Peru",
+            "connectivity": false
+        },
+        {
+            "lon": -71.7463,
+            "lat": -14.9114,
+            "school_name": "ALTO TAHUAPALCCA",
+            "country_name": "Peru",
+            "connectivity": false
+        },
+        {
+            "lon": -74.5501,
+            "lat": -8.37217,
+            "school_name": "SHADDAI",
+            "country_name": "Peru",
+            "connectivity": false
+        },
+        {
+            "lon": -71.4829,
+            "lat": -16.414,
+            "school_name": "SOR ANA",
+            "country_name": "Peru",
+            "connectivity": false
+        },
+        {
+            "lon": 9.918591906,
+            "lat": 12.06791654,
+            "school_name": "Name unknown",
+            "country_name": "Nigeria",
+            "connectivity": false
+        },
+        {
+            "lon": 8.917121,
+            "lat": 11.83524,
+            "school_name": "Name unknown",
+            "country_name": "Nigeria",
+            "connectivity": false
+        },
+        {
+            "lon": 3.23561,
+            "lat": 6.57123,
+            "school_name": "Name unknown",
+            "country_name": "Nigeria",
+            "connectivity": false
+        },
+        {
+            "lon": 3.751132,
+            "lat": 7.629615,
+            "school_name": "Name unknown",
+            "country_name": "Nigeria",
+            "connectivity": false
+        },
+        {
+            "lon": 11.0960041,
+            "lat": 13.4110231,
+            "school_name": "Name unknown",
+            "country_name": "Niger",
+            "connectivity": false
+        },
+        {
+            "lon": 69.3272256,
+            "lat": 41.33133219,
+            "school_name": "225 -  sonli umumta\u2018lim maktabi",
+            "country_name": "Uzbekistan",
+            "connectivity": false
+        },
+        {
+            "lon": 67.24669,
+            "lat": 38.09578,
+            "school_name": "32 -  sonli umumta\u2018lim maktabi",
+            "country_name": "Uzbekistan",
+            "connectivity": false
+        },
+        {
+            "lon": 67.89739,
+            "lat": 38.09034,
+            "school_name": "31 -  sonli umumta\u2018lim maktabi",
+            "country_name": "Uzbekistan",
+            "connectivity": false
+        },
+        {
+            "lon": 66.72495,
+            "lat": 39.39964,
+            "school_name": "109 -  sonli umumta\u2018lim maktabi",
+            "country_name": "Uzbekistan",
+            "connectivity": false
+        },
+        {
+            "lon": 71.79738707,
+            "lat": 40.9472853,
+            "school_name": "14 -  sonli umumta\u2018lim maktabi",
+            "country_name": "Uzbekistan",
+            "connectivity": false
+        },
+        {
+            "lon": 67.456271,
+            "lat": 39.702954,
+            "school_name": "41 -  sonli umumta\u2018lim maktabi",
+            "country_name": "Uzbekistan",
+            "connectivity": false
+        },
+        {
+            "lon": -105.276158,
+            "lat": 26.372917,
+            "school_name": "TELESECUNDARIA NUM. 131",
+            "country_name": "Mexico",
+            "connectivity": false
+        },
+        {
+            "lon": -104.488606,
+            "lat": 25.04839,
+            "school_name": "TELESECUNDARIA NUM. 201",
+            "country_name": "Mexico",
+            "connectivity": false
+        },
+        {
+            "lon": -103.482206,
+            "lat": 25.578599,
+            "school_name": "SIMON BOLIVAR",
+            "country_name": "Mexico",
+            "connectivity": false
+        },
+        {
+            "lon": -105.688611,
+            "lat": 24.030556,
+            "school_name": "TELESECUNDARIA NUM. 380",
+            "country_name": "Mexico",
+            "connectivity": false
+        },
+        {
+            "lon": -100.962509,
+            "lat": 20.468712,
+            "school_name": "NUEVA GENERACION",
+            "country_name": "Mexico",
+            "connectivity": false
+        },
+        {
+            "lon": -98.56717,
+            "lat": 20.211839,
+            "school_name": "TEODOMIRO MANZANO CAMPERO",
+            "country_name": "Mexico",
+            "connectivity": false
+        },
+        {
+            "lon": -103.138667,
+            "lat": 20.391861,
+            "school_name": "ESCUELA SECUNDARIA TECNICA 44",
+            "country_name": "Mexico",
+            "connectivity": false
+        },
+        {
+            "lon": -103.416222,
+            "lat": 20.595759,
+            "school_name": "MANUEL GAMIO",
+            "country_name": "Mexico",
+            "connectivity": false
+        },
+        {
+            "lon": -103.417139,
+            "lat": 20.631411,
+            "school_name": "ALCE",
+            "country_name": "Mexico",
+            "connectivity": false
+        },
+        {
+            "lon": -107.146,
+            "lat": 25.7312,
+            "school_name": "SECUNDARIA COMUNITARIA",
+            "country_name": "Mexico",
+            "connectivity": false
+        },
+        {
+            "lon": -98.18805,
+            "lat": 21.24332,
+            "school_name": "JOSE VASCONCELOS",
+            "country_name": "Mexico",
+            "connectivity": false
+        },
+        {
+            "lon": -96.17758,
+            "lat": 19.12704,
+            "school_name": "SALVADOR DIAZ MIRON",
+            "country_name": "Mexico",
+            "connectivity": false
+        },
+        {
+            "lon": -97.99849,
+            "lat": 20.54959,
+            "school_name": "VICENTE GUERRERO",
+            "country_name": "Mexico",
+            "connectivity": false
+        },
+        {
+            "lon": 68.9353,
+            "lat": 24.6822,
+            "school_name": "GBPS - HAJI MUHAMMAD RAHIM KHOSO",
+            "country_name": "Pakistan",
+            "connectivity": false
+        },
+        {
+            "lon": 68.4553,
+            "lat": 24.8014,
+            "school_name": "GBPS - ALLAH DINO MALLAH",
+            "country_name": "Pakistan",
+            "connectivity": false
+        },
+        {
+            "lon": 68.9969,
+            "lat": 25.12,
+            "school_name": "GBPS - HAJI DHINGANO TALPUR",
+            "country_name": "Pakistan",
+            "connectivity": false
+        },
+        {
+            "lon": 69.7096,
+            "lat": 28.05,
+            "school_name": "GBPS - GHULAM QADIR LAGHARI",
+            "country_name": "Pakistan",
+            "connectivity": false
+        },
+        {
+            "lon": 69.6842,
+            "lat": 28.0097,
+            "school_name": "GBPS - PANJAL DAHAR",
+            "country_name": "Pakistan",
+            "connectivity": false
+        },
+        {
+            "lon": 69.4027,
+            "lat": 28.0392,
+            "school_name": "GBPS - DUR MUHAMMAD PAHORE",
+            "country_name": "Pakistan",
+            "connectivity": false
+        },
+        {
+            "lon": 69.4714,
+            "lat": 27.9783,
+            "school_name": "GBPS - GULZAR KORAI",
+            "country_name": "Pakistan",
+            "connectivity": false
+        },
+        {
+            "lon": 68.4942,
+            "lat": 25.2465,
+            "school_name": "GBPS - HAJI KALOO KHASKHELI",
+            "country_name": "Pakistan",
+            "connectivity": false
+        },
+        {
+            "lon": 68.5217,
+            "lat": 25.4105,
+            "school_name": "GBPS - PIR BUX JATOI",
+            "country_name": "Pakistan",
+            "connectivity": false
+        },
+        {
+            "lon": 67.4051,
+            "lat": 25.1706,
+            "school_name": "GBPS - GUL MUHAMMAD BURO",
+            "country_name": "Pakistan",
+            "connectivity": false
+        },
+        {
+            "lon": 67.8484,
+            "lat": 27.5057,
+            "school_name": "GBLSS - NIHAL TUNIO",
+            "country_name": "Pakistan",
+            "connectivity": false
+        },
+        {
+            "lon": 69.3342,
+            "lat": 28.2627,
+            "school_name": "GBPS - KAJLO BHANGWAR",
+            "country_name": "Pakistan",
+            "connectivity": false
+        },
+        {
+            "lon": 69.0914,
+            "lat": 28.3569,
+            "school_name": "GGPS - ILLAHI BUX KHOSO",
+            "country_name": "Pakistan",
+            "connectivity": false
+        },
+        {
+            "lon": 68.3735,
+            "lat": 27.3584,
+            "school_name": "GBPS - JARIL KHAN BURIRO",
+            "country_name": "Pakistan",
+            "connectivity": false
+        },
+        {
+            "lon": 68.5491,
+            "lat": 27.2471,
+            "school_name": "GBPS - JHANDO MASHAIKH",
+            "country_name": "Pakistan",
+            "connectivity": false
+        },
+        {
+            "lon": 68.5981,
+            "lat": 27.0291,
+            "school_name": "GBPS - MAHRAM ISLAMI",
+            "country_name": "Pakistan",
+            "connectivity": false
+        },
+        {
+            "lon": 68.2306,
+            "lat": 27.4597,
+            "school_name": "GGPS - FARIDABAD.",
+            "country_name": "Pakistan",
+            "connectivity": false
+        },
+        {
+            "lon": 69.3272,
+            "lat": 25.2728,
+            "school_name": "GGPS - HAJI WAHID ALI",
+            "country_name": "Pakistan",
+            "connectivity": false
+        },
+        {
+            "lon": 68.7248,
+            "lat": 26.2972,
+            "school_name": "GBPS - GHULA AKBER PATHAN",
+            "country_name": "Pakistan",
+            "connectivity": false
+        },
+        {
+            "lon": 68.5797,
+            "lat": 25.7435,
+            "school_name": "GBPS - HAJI ABDUL HAKIM KHOSO",
+            "country_name": "Pakistan",
+            "connectivity": false
+        },
+        {
+            "lon": 68.0242,
+            "lat": 26.3716,
+            "school_name": "GBPS - BUDHO CHANDIO",
+            "country_name": "Pakistan",
+            "connectivity": false
+        },
+        {
+            "lon": 68.1939,
+            "lat": 26.5232,
+            "school_name": "GBPS - MUHAMMAD ASHRAF RAJPOOT",
+            "country_name": "Pakistan",
+            "connectivity": false
+        },
+        {
+            "lon": 68.1589,
+            "lat": 24.8444,
+            "school_name": "GBPS - URIS KHASKELLY",
+            "country_name": "Pakistan",
+            "connectivity": false
+        },
+        {
+            "lon": 68.449,
+            "lat": 25.0815,
+            "school_name": "GBPS - CHAUDARO",
+            "country_name": "Pakistan",
+            "connectivity": false
+        },
+        {
+            "lon": 68.6428,
+            "lat": 25.2354,
+            "school_name": "GBPS - ABDUL KHALIQ NIZAMANI",
+            "country_name": "Pakistan",
+            "connectivity": false
+        },
+        {
+            "lon": 69.575,
+            "lat": 24.6581,
+            "school_name": "GBPS - ROHERO GOIND",
+            "country_name": "Pakistan",
+            "connectivity": false
+        },
+        {
+            "lon": 69.3211,
+            "lat": 24.3047,
+            "school_name": "GBPS - YOUSUF PARO MANDAR WARI",
+            "country_name": "Pakistan",
+            "connectivity": false
+        },
+        {
+            "lon": 70.1812,
+            "lat": 24.3735,
+            "school_name": "GBPS - DEDA PARO GODHIO",
+            "country_name": "Pakistan",
+            "connectivity": false
+        },
+        {
+            "lon": 70.2469,
+            "lat": 24.6422,
+            "school_name": "GBPS - MEGHWAR COLONY",
+            "country_name": "Pakistan",
+            "connectivity": false
+        },
+        {
+            "lon": -102.238333,
+            "lat": 21.878056,
+            "school_name": "JOSE ANGEL CENISEROS",
+            "country_name": "Mexico",
+            "connectivity": false
+        },
+        {
+            "lon": -113.036,
+            "lat": 27.7083,
+            "school_name": "CURSO COMUNITARIO DE EDUCACION PREESCOLAR",
+            "country_name": "Mexico",
+            "connectivity": false
+        },
+        {
+            "lon": -103.17,
+            "lat": 25.5073,
+            "school_name": "PREESCOLAR COMUNITARIO",
+            "country_name": "Mexico",
+            "connectivity": false
+        },
+        {
+            "lon": -103.018,
+            "lat": 25.7417,
+            "school_name": "PREESCOLAR COMUNITARIO",
+            "country_name": "Mexico",
+            "connectivity": false
+        },
+        {
+            "lon": -91.38816,
+            "lat": 16.427279,
+            "school_name": "DR. MANUEL GAMIO",
+            "country_name": "Mexico",
+            "connectivity": false
+        },
+        {
+            "lon": -92.147994,
+            "lat": 17.062134,
+            "school_name": "JOSE MARIA MORELOS Y PAVON",
+            "country_name": "Mexico",
+            "connectivity": false
+        },
+        {
+            "lon": -92.1567,
+            "lat": 15.583144,
+            "school_name": "JUAN N. MENDEZ",
+            "country_name": "Mexico",
+            "connectivity": false
+        },
+        {
+            "lon": -93.039819,
+            "lat": 17.195517,
+            "school_name": "JARDIN DE NI\u00d1OS COMUNITARIO JAIME NUNO",
+            "country_name": "Mexico",
+            "connectivity": false
+        },
+        {
+            "lon": -92.663945,
+            "lat": 15.791394,
+            "school_name": "SOR JUANA INES DE LA CRUZ",
+            "country_name": "Mexico",
+            "connectivity": false
+        },
+        {
+            "lon": 67.5847,
+            "lat": 24.4625,
+            "school_name": "GBPS - BUHARA",
+            "country_name": "Pakistan",
+            "connectivity": false
+        },
+        {
+            "lon": -102.251527,
+            "lat": 21.897747,
+            "school_name": "ALFONSO REYES",
+            "country_name": "Mexico",
+            "connectivity": false
+        },
+        {
+            "lon": 67.74,
+            "lat": 24.7164,
+            "school_name": "GBPS - URIS JOKHIO",
+            "country_name": "Pakistan",
+            "connectivity": false
+        },
+        {
+            "lon": -90.689457,
+            "lat": 19.646511,
+            "school_name": "LIC PABLO GARCIA",
+            "country_name": "Mexico",
+            "connectivity": false
+        },
+        {
+            "lon": 67.9592,
+            "lat": 24.7928,
+            "school_name": "GGLSS - CHATTO CHAND",
+            "country_name": "Pakistan",
+            "connectivity": false
+        },
+        {
+            "lon": 70.1841,
+            "lat": 25.5756,
+            "school_name": "GBLSS - KERLO NASRANI",
+            "country_name": "Pakistan",
+            "connectivity": false
+        },
+        {
+            "lon": 69.7358,
+            "lat": 25.2954,
+            "school_name": "GBPS - VIRYAM FAKIR",
+            "country_name": "Pakistan",
+            "connectivity": false
+        },
+        {
+            "lon": 69.5803,
+            "lat": 25.483,
+            "school_name": "GGPS - AKBAR MANGRIO",
+            "country_name": "Pakistan",
+            "connectivity": false
+        },
+        {
+            "lon": 66.9941,
+            "lat": 24.9226,
+            "school_name": "GBPS - SAUD IQBAL",
+            "country_name": "Pakistan",
+            "connectivity": false
+        },
+        {
+            "lon": -93.21231,
+            "lat": 16.864382,
+            "school_name": "CARLOS MACIEL ESPINOSA",
+            "country_name": "Mexico",
+            "connectivity": false
+        },
+        {
+            "lon": -108.297,
+            "lat": 27.7574,
+            "school_name": "PRIMARIA BILINGUE",
+            "country_name": "Mexico",
+            "connectivity": false
+        },
+        {
+            "lon": -104.140252,
+            "lat": 23.895406,
+            "school_name": "EMILIO PORTES GIL",
+            "country_name": "Mexico",
+            "connectivity": false
+        },
+        {
+            "lon": -104.382439,
+            "lat": 24.020478,
+            "school_name": "JESUS GARCIA",
+            "country_name": "Mexico",
+            "connectivity": false
+        },
+        {
+            "lon": -105.777543,
+            "lat": 25.326256,
+            "school_name": "CINCO DE MAYO",
+            "country_name": "Mexico",
+            "connectivity": false
+        },
+        {
+            "lon": -106.612911,
+            "lat": 25.064275,
+            "school_name": "CURSO COMUNITARIO",
+            "country_name": "Mexico",
+            "connectivity": false
+        },
+        {
+            "lon": -105.165428,
+            "lat": 25.895259,
+            "school_name": "PRIMARIA COMUNITARIA",
+            "country_name": "Mexico",
+            "connectivity": false
+        },
+        {
+            "lon": -101.205786,
+            "lat": 20.452322,
+            "school_name": "JUVENTINO ROSAS",
+            "country_name": "Mexico",
+            "connectivity": false
+        },
+        {
+            "lon": -101.64098,
+            "lat": 21.14562,
+            "school_name": "ESCUELA PRIMARIA",
+            "country_name": "Mexico",
+            "connectivity": false
+        },
+        {
+            "lon": -100.02129,
+            "lat": 21.12841,
+            "school_name": "LAZARO CARDENAS",
+            "country_name": "Mexico",
+            "connectivity": false
+        },
+        {
+            "lon": -99.372401,
+            "lat": 17.646516,
+            "school_name": "LAZARO CARDENAS",
+            "country_name": "Mexico",
+            "connectivity": false
+        },
+        {
+            "lon": -101.598,
+            "lat": 18.3966,
+            "school_name": "ESCUELA PRIMARIA",
+            "country_name": "Mexico",
+            "connectivity": false
+        },
+        {
+            "lon": -100.195,
+            "lat": 17.2189,
+            "school_name": "CUAUHTEMOC",
+            "country_name": "Mexico",
+            "connectivity": false
+        },
+        {
+            "lon": -99.0729,
+            "lat": 16.963,
+            "school_name": "JOSEFA ORTIZ DE DOMINGUEZ",
+            "country_name": "Mexico",
+            "connectivity": false
+        },
+        {
+            "lon": -100.89,
+            "lat": 17.8677,
+            "school_name": "CURSO COMUNITARIO",
+            "country_name": "Mexico",
+            "connectivity": false
+        },
+        {
+            "lon": -98.43273,
+            "lat": 20.354669,
+            "school_name": "MELCHOR OCAMPO",
+            "country_name": "Mexico",
+            "connectivity": false
+        },
+        {
+            "lon": -102.676584,
+            "lat": 20.451083,
+            "school_name": "MIGUEL RAMOS VILLARRUEL",
+            "country_name": "Mexico",
+            "connectivity": false
+        },
+        {
+            "lon": -102.325583,
+            "lat": 21.168056,
+            "school_name": "LUIS MORENO PEREZ",
+            "country_name": "Mexico",
+            "connectivity": false
+        },
+        {
+            "lon": -103.193445,
+            "lat": 19.715667,
+            "school_name": "EMILIANO ZAPATA",
+            "country_name": "Mexico",
+            "connectivity": false
+        },
+        {
+            "lon": -103.109444,
+            "lat": 19.129445,
+            "school_name": "MARIANO AZUELA",
+            "country_name": "Mexico",
+            "connectivity": false
+        },
+        {
+            "lon": -103.265726,
+            "lat": 20.694947,
+            "school_name": "RAMON CORONA",
+            "country_name": "Mexico",
+            "connectivity": false
+        },
+        {
+            "lon": -104.05016,
+            "lat": 20.203912,
+            "school_name": "JUAN SALVADOR AGRAZ",
+            "country_name": "Mexico",
+            "connectivity": false
+        },
+        {
+            "lon": -102.043611,
+            "lat": 18.260278,
+            "school_name": "D GUADALUPE VICTORIA",
+            "country_name": "Mexico",
+            "connectivity": false
+        },
+        {
+            "lon": -102.063,
+            "lat": 20.2861,
+            "school_name": "PROF ISIDRO CASTILLO PEREZ",
+            "country_name": "Mexico",
+            "connectivity": false
+        },
+        {
+            "lon": -101.120977,
+            "lat": 19.766193,
+            "school_name": "JAIME TORRES BODET",
+            "country_name": "Mexico",
+            "connectivity": false
+        },
+        {
+            "lon": -101.202,
+            "lat": 18.5339,
+            "school_name": "CURSO COMUNITARIO",
+            "country_name": "Mexico",
+            "connectivity": false
+        },
+        {
+            "lon": -98.915692,
+            "lat": 18.754358,
+            "school_name": "SOLIDARIDAD",
+            "country_name": "Mexico",
+            "connectivity": false
+        },
+        {
+            "lon": -99.839994,
+            "lat": 26.274928,
+            "school_name": "IGNACIO M. ALTAMIRANO",
+            "country_name": "Mexico",
+            "connectivity": false
+        },
+        {
+            "lon": -92.331303,
+            "lat": 17.123922,
+            "school_name": "PREESCOLAR CONAFE INDIGENA",
+            "country_name": "Mexico",
+            "connectivity": false
+        },
+        {
+            "lon": -99.948744,
+            "lat": 21.08399,
+            "school_name": "PAZ Y PROGRESO",
+            "country_name": "Mexico",
+            "connectivity": false
+        },
+        {
+            "lon": -110.909705,
+            "lat": 27.909013,
+            "school_name": "JUAN ESCUTIA",
+            "country_name": "Mexico",
+            "connectivity": false
+        },
+        {
+            "lon": -98.586263,
+            "lat": 25.118159,
+            "school_name": "RUPERTO TREVI?O TREVI?O",
+            "country_name": "Mexico",
+            "connectivity": false
+        },
+        {
+            "lon": -94.86186,
+            "lat": 17.65627,
+            "school_name": "EMILIANO ZAPATA",
+            "country_name": "Mexico",
+            "connectivity": false
+        },
+        {
+            "lon": -95.20804,
+            "lat": 18.09095,
+            "school_name": "BENITO JUAREZ GARCIA",
+            "country_name": "Mexico",
+            "connectivity": false
+        },
+        {
+            "lon": -96.21509,
+            "lat": 19.12623,
+            "school_name": "EJERCITO MEXICANO",
+            "country_name": "Mexico",
+            "connectivity": false
+        },
+        {
+            "lon": -96.83239,
+            "lat": 18.89968,
+            "school_name": "FRANCISCO VILLA",
+            "country_name": "Mexico",
+            "connectivity": false
+        },
+        {
+            "lon": -89.0022,
+            "lat": 20.3697,
+            "school_name": "PRIMARIA COMUNITARIA",
+            "country_name": "Mexico",
+            "connectivity": false
+        },
+        {
+            "lon": -92.862988,
+            "lat": 16.583903,
+            "school_name": "PREESCOLAR CONAFE",
+            "country_name": "Mexico",
+            "connectivity": false
+        },
+        {
+            "lon": -93.333988,
+            "lat": 17.219971,
+            "school_name": "PREESCOLAR CONAFE",
+            "country_name": "Mexico",
+            "connectivity": false
+        },
+        {
+            "lon": -93.289566,
+            "lat": 17.382271,
+            "school_name": "PREESCOLAR CONAFE",
+            "country_name": "Mexico",
+            "connectivity": false
+        },
+        {
+            "lon": -107.407,
+            "lat": 29.1993,
+            "school_name": "CRISTOBAL COLON",
+            "country_name": "Mexico",
+            "connectivity": false
+        },
+        {
+            "lon": -106.738611,
+            "lat": 24.811667,
+            "school_name": "FRANCISCO ZARCO",
+            "country_name": "Mexico",
+            "connectivity": false
+        },
+        {
+            "lon": -101.900275,
+            "lat": 20.368878,
+            "school_name": "ALVARO OBREGON",
+            "country_name": "Mexico",
+            "connectivity": false
+        },
+        {
+            "lon": -101.063841,
+            "lat": 20.68805,
+            "school_name": "MARIA ENRIQUETA CAMARILLO DE PEREYRA",
+            "country_name": "Mexico",
+            "connectivity": false
+        },
+        {
+            "lon": -101.7058,
+            "lat": 21.03301,
+            "school_name": "JARDIN DE NI\u00d1OS",
+            "country_name": "Mexico",
+            "connectivity": false
+        },
+        {
+            "lon": -100.80971,
+            "lat": 20.98167,
+            "school_name": "PREESCOLAR COMUNITARIO",
+            "country_name": "Mexico",
+            "connectivity": false
+        },
+        {
+            "lon": -101.71252,
+            "lat": 21.11437,
+            "school_name": "JAIME TORRES BODET INSTITUCION DE EDUCACION PREES",
+            "country_name": "Mexico",
+            "connectivity": false
+        },
+        {
+            "lon": -100.48,
+            "lat": 18.3809,
+            "school_name": "FRANCISCO MARQUEZ",
+            "country_name": "Mexico",
+            "connectivity": false
+        },
+        {
+            "lon": -101.677,
+            "lat": 17.7705,
+            "school_name": "MIGUEL RAMOS ARIZPE",
+            "country_name": "Mexico",
+            "connectivity": false
+        },
+        {
+            "lon": -100.261,
+            "lat": 17.3499,
+            "school_name": "JOSEFA ORTIZ DE DOMINGUEZ",
+            "country_name": "Mexico",
+            "connectivity": false
+        },
+        {
+            "lon": -99.9713,
+            "lat": 17.8317,
+            "school_name": "MA DEL CARMEN SERDAN",
+            "country_name": "Mexico",
+            "connectivity": false
+        },
+        {
+            "lon": -98.4598,
+            "lat": 16.6712,
+            "school_name": "CURSO COMUNITARIO DE EDUCACION PREESCOLAR",
+            "country_name": "Mexico",
+            "connectivity": false
+        },
+        {
+            "lon": -100.763,
+            "lat": 17.6711,
+            "school_name": "CURSO COMUNITARIO DE EDUCACION PREESCOLAR",
+            "country_name": "Mexico",
+            "connectivity": false
+        },
+        {
+            "lon": -98.904442,
+            "lat": 20.4925,
+            "school_name": "TIERRA Y LIBERTAD",
+            "country_name": "Mexico",
+            "connectivity": false
+        },
+        {
+            "lon": -98.0802,
+            "lat": 20.4335,
+            "school_name": "MANUEL DE LA PE\u00d1A Y PE\u00d1A",
+            "country_name": "Mexico",
+            "connectivity": false
+        },
+        {
+            "lon": -98.191667,
+            "lat": 20.144719,
+            "school_name": "PREESCOLAR COMUNITARIO",
+            "country_name": "Mexico",
+            "connectivity": false
+        },
+        {
+            "lon": -102.232722,
+            "lat": 20.726778,
+            "school_name": "MOCTEZUMA",
+            "country_name": "Mexico",
+            "connectivity": false
+        },
+        {
+            "lon": -103.748889,
+            "lat": 20.895278,
+            "school_name": "JEAN PIAGET",
+            "country_name": "Mexico",
+            "connectivity": false
+        },
+        {
+            "lon": -102.62269,
+            "lat": 21.005889,
+            "school_name": "SOR JUANA INES DE LA CRUZ",
+            "country_name": "Mexico",
+            "connectivity": false
+        },
+        {
+            "lon": -104.286945,
+            "lat": 19.341389,
+            "school_name": "EL CHICO",
+            "country_name": "Mexico",
+            "connectivity": false
+        },
+        {
+            "lon": -104.181667,
+            "lat": 19.471945,
+            "school_name": "QUIROMA",
+            "country_name": "Mexico",
+            "connectivity": false
+        },
+        {
+            "lon": -105.219473,
+            "lat": 20.634726,
+            "school_name": "REAL MONTESSORI",
+            "country_name": "Mexico",
+            "connectivity": false
+        },
+        {
+            "lon": -103.315391,
+            "lat": 20.651767,
+            "school_name": "COLEGIO XITLALIN",
+            "country_name": "Mexico",
+            "connectivity": false
+        },
+        {
+            "lon": -103.357343,
+            "lat": 20.679871,
+            "school_name": "MUNDO MAYA",
+            "country_name": "Mexico",
+            "connectivity": false
+        },
+        {
+            "lon": -101.434,
+            "lat": 19.8925,
+            "school_name": "ANTONIO CASO",
+            "country_name": "Mexico",
+            "connectivity": false
+        },
+        {
+            "lon": -102.959,
+            "lat": 18.6903,
+            "school_name": "DIEGO RIVERA",
+            "country_name": "Mexico",
+            "connectivity": false
+        },
+        {
+            "lon": -99.303611,
+            "lat": 18.645278,
+            "school_name": "CURSO COMUNITARIO DE PREESCOLAR",
+            "country_name": "Mexico",
+            "connectivity": false
+        },
+        {
+            "lon": -99.181695,
+            "lat": 18.620527,
+            "school_name": "EVARISTO SEDANO PEREZ",
+            "country_name": "Mexico",
+            "connectivity": false
+        },
+        {
+            "lon": -99.181357,
+            "lat": 18.928301,
+            "school_name": "JOHN D'ROCKEFELLER",
+            "country_name": "Mexico",
+            "connectivity": false
+        },
+        {
+            "lon": -99.611067,
+            "lat": 23.986751,
+            "school_name": "PREESCOLAR COMUNITARIO",
+            "country_name": "Mexico",
+            "connectivity": false
+        },
+        {
+            "lon": -96.458,
+            "lat": 18.5088,
+            "school_name": "HERBER SPENCER",
+            "country_name": "Mexico",
+            "connectivity": false
+        },
+        {
+            "lon": -96.4575,
+            "lat": 16.0074,
+            "school_name": "CURSO COMUNITARIO DE EDUCACION PREESCOLAR INDIGENA",
+            "country_name": "Mexico",
+            "connectivity": false
+        },
+        {
+            "lon": -98.1175,
+            "lat": 20.2,
+            "school_name": "CENTRO DE CASTELLANIZACION",
+            "country_name": "Mexico",
+            "connectivity": false
+        },
+        {
+            "lon": -98.454324,
+            "lat": 19.299453,
+            "school_name": "RUDYARD KIPLING",
+            "country_name": "Mexico",
+            "connectivity": false
+        },
+        {
+            "lon": -97.960164,
+            "lat": 19.989031,
+            "school_name": "LAURA MENDEZ",
+            "country_name": "Mexico",
+            "connectivity": false
+        },
+        {
+            "lon": -98.0675,
+            "lat": 19.785278,
+            "school_name": "PREESCOLAR COMUNITARIO BUENOS AIRES",
+            "country_name": "Mexico",
+            "connectivity": false
+        },
+        {
+            "lon": -101.821,
+            "lat": 22.8362,
+            "school_name": "CARMEN RAMOS DEL RIO",
+            "country_name": "Mexico",
+            "connectivity": false
+        },
+        {
+            "lon": -99.069,
+            "lat": 21.3464,
+            "school_name": "PREESCOLAR COMUNITARIO",
+            "country_name": "Mexico",
+            "connectivity": false
+        },
+        {
+            "lon": -108.16,
+            "lat": 26.3402,
+            "school_name": "PREESCOLAR COMUNITARIO AULA COMPARTIDA",
+            "country_name": "Mexico",
+            "connectivity": false
+        },
+        {
+            "lon": -107.763109,
+            "lat": 25.571674,
+            "school_name": "PREESCOLAR COMUNITARIO",
+            "country_name": "Mexico",
+            "connectivity": false
+        },
+        {
+            "lon": -106.415545,
+            "lat": 23.25918,
+            "school_name": "CENTRO EDUCATIVO ALAMOS",
+            "country_name": "Mexico",
+            "connectivity": false
+        },
+        {
+            "lon": -93.2965,
+            "lat": 18.1367,
+            "school_name": "SOR JUANA INES DE LA CRUZ",
+            "country_name": "Mexico",
+            "connectivity": false
+        },
+        {
+            "lon": -110.967281,
+            "lat": 29.073882,
+            "school_name": "INAI BILINGUE INSTITUTO DE APRENDIZAJE INFANTIL",
+            "country_name": "Mexico",
+            "connectivity": false
+        },
+        {
+            "lon": -96.99909,
+            "lat": 18.54386,
+            "school_name": "JOSE MARIA MORELOS Y PAVON",
+            "country_name": "Mexico",
+            "connectivity": false
+        },
+        {
+            "lon": -96.84871,
+            "lat": 19.49518,
+            "school_name": "FRANCISCO GABILONDO SOLER",
+            "country_name": "Mexico",
+            "connectivity": false
+        },
+        {
+            "lon": -97.25833,
+            "lat": 18.69222,
+            "school_name": "TLAPEXTITLA",
+            "country_name": "Mexico",
+            "connectivity": false
+        },
+        {
+            "lon": -89.435833,
+            "lat": 19.775556,
+            "school_name": "PREESCOLAR COMUNITARIO",
+            "country_name": "Mexico",
+            "connectivity": false
+        },
+        {
+            "lon": -103.107,
+            "lat": 23.7889,
+            "school_name": "JUAN DE TOLOSA",
+            "country_name": "Mexico",
+            "connectivity": false
+        },
+        {
+            "lon": -103.403,
+            "lat": 21.8059,
+            "school_name": "CENTRO DE ASISTENCIA INFANTIL COMUNITARIO",
+            "country_name": "Mexico",
+            "connectivity": false
+        },
+        {
             "lon": 102.447417,
             "lat": 17.211127,
-            "school_name": "Name unknown"
+            "school_name": "Name unknown",
+            "country_name": "Thailand",
+            "connectivity": false
         },
         {
             "lon": 102.025528,
             "lat": 17.249626,
-            "school_name": "Name unknown"
+            "school_name": "Name unknown",
+            "country_name": "Thailand",
+            "connectivity": false
         },
         {
             "lon": 103.839429,
             "lat": 17.30007,
-            "school_name": "Name unknown"
+            "school_name": "Name unknown",
+            "country_name": "Thailand",
+            "connectivity": false
         },
         {
             "lon": 103.751907,
             "lat": 15.198753,
-            "school_name": "Name unknown"
+            "school_name": "Name unknown",
+            "country_name": "Thailand",
+            "connectivity": false
         },
         {
             "lon": 100.498421,
             "lat": 13.936746,
-            "school_name": "Name unknown"
+            "school_name": "Name unknown",
+            "country_name": "Thailand",
+            "connectivity": false
         },
         {
             "lon": 100.308482,
             "lat": 14.331864,
-            "school_name": "Name unknown"
+            "school_name": "Name unknown",
+            "country_name": "Thailand",
+            "connectivity": false
         },
         {
             "lon": 100.85314,
             "lat": 14.655725,
-            "school_name": "Name unknown"
+            "school_name": "Name unknown",
+            "country_name": "Thailand",
+            "connectivity": false
         },
         {
             "lon": 101.251104,
             "lat": 14.080157,
-            "school_name": "Name unknown"
+            "school_name": "Name unknown",
+            "country_name": "Thailand",
+            "connectivity": false
         },
         {
             "lon": 102.16488,
             "lat": 15.400355,
-            "school_name": "Name unknown"
+            "school_name": "Name unknown",
+            "country_name": "Thailand",
+            "connectivity": false
         },
         {
             "lon": 103.534239,
             "lat": 14.963867,
-            "school_name": "Name unknown"
+            "school_name": "Name unknown",
+            "country_name": "Thailand",
+            "connectivity": false
         },
         {
             "lon": 104.115924,
             "lat": 14.760921,
-            "school_name": "Name unknown"
+            "school_name": "Name unknown",
+            "country_name": "Thailand",
+            "connectivity": false
         },
         {
             "lon": 105.059622,
             "lat": 15.360127,
-            "school_name": "Name unknown"
+            "school_name": "Name unknown",
+            "country_name": "Thailand",
+            "connectivity": false
         },
         {
             "lon": 102.306059,
             "lat": 17.602718,
-            "school_name": "Name unknown"
+            "school_name": "Name unknown",
+            "country_name": "Thailand",
+            "connectivity": false
         },
         {
             "lon": 101.99274,
             "lat": 16.603462,
-            "school_name": "Name unknown"
+            "school_name": "Name unknown",
+            "country_name": "Thailand",
+            "connectivity": false
         },
         {
             "lon": 99.86463,
             "lat": 13.972244,
-            "school_name": "Name unknown"
+            "school_name": "Name unknown",
+            "country_name": "Thailand",
+            "connectivity": false
         },
         {
             "lon": 99.801389,
             "lat": 13.306992,
-            "school_name": "Name unknown"
+            "school_name": "Name unknown",
+            "country_name": "Thailand",
+            "connectivity": false
         },
         {
             "lon": 100.040927,
             "lat": 7.602988,
-            "school_name": "Name unknown"
+            "school_name": "Name unknown",
+            "country_name": "Thailand",
+            "connectivity": false
         },
         {
             "lon": 101.948418,
             "lat": 17.203842,
-            "school_name": "Name unknown"
+            "school_name": "Name unknown",
+            "country_name": "Thailand",
+            "connectivity": false
         },
         {
             "lon": 102.610706,
             "lat": 17.821282,
-            "school_name": "Name unknown"
+            "school_name": "Name unknown",
+            "country_name": "Thailand",
+            "connectivity": false
         },
         {
             "lon": 102.512274,
             "lat": 17.951211,
-            "school_name": "Name unknown"
+            "school_name": "Name unknown",
+            "country_name": "Thailand",
+            "connectivity": false
         },
         {
             "lon": 100.431125,
             "lat": 19.425794,
-            "school_name": "Name unknown"
+            "school_name": "Name unknown",
+            "country_name": "Thailand",
+            "connectivity": false
         },
         {
             "lon": 97.938683,
             "lat": 18.124941,
-            "school_name": "Name unknown"
+            "school_name": "Name unknown",
+            "country_name": "Thailand",
+            "connectivity": false
         },
         {
             "lon": 99.965863,
             "lat": 15.518869,
-            "school_name": "Name unknown"
+            "school_name": "Name unknown",
+            "country_name": "Thailand",
+            "connectivity": false
         },
         {
             "lon": 100.242941,
             "lat": 15.838539,
-            "school_name": "Name unknown"
+            "school_name": "Name unknown",
+            "country_name": "Thailand",
+            "connectivity": false
         },
         {
             "lon": 100.068051,
             "lat": 16.753654,
-            "school_name": "Name unknown"
+            "school_name": "Name unknown",
+            "country_name": "Thailand",
+            "connectivity": false
         }
     ]
 }
