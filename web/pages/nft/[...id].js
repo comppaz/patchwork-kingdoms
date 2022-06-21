@@ -6,6 +6,7 @@ import Slideover from '../../components/Slideover';
 import Popup from '../../components/Popup';
 import ReactDOM from "react-dom";
 import colorToStyleMapping from '../../data/colorToStyleMapping';
+import getDonatedETHperPWK from '../../lib/getLeaderboardData';
 
 
 const NFT = () => {
@@ -28,6 +29,8 @@ const NFT = () => {
    const features = data['schools'].concat(data['schools_no_data']);
    // create featurecCollection of feature GeoJSON Objects  
    const featureCollection = createGeoJSONFeatureCollection(features);
+   // add currently donated ETH value to data object
+   data.donatedETH = await getDonatedETHperPWK(tokenId);
   
    setData(data);
    let randomMapIndex = Math.floor(Math.random() * 3);
