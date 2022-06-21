@@ -5,6 +5,7 @@ import "mapbox-gl/dist/mapbox-gl.css";
 import Slideover from '../../components/Slideover';
 import Popup from '../../components/Popup';
 import ReactDOM from "react-dom";
+import colorToStyleMapping from '../../data/colorToStyleMapping';
 
 
 const NFT = () => {
@@ -29,11 +30,12 @@ const NFT = () => {
    const featureCollection = createGeoJSONFeatureCollection(features);
   
    setData(data);
+   let randomMapIndex = Math.floor(Math.random() * 3);
    
    const mapboxMap = new mapboxgl.Map({
      container: node,
            accessToken: process.env.NEXT_PUBLIC_MAPBOX_TOKEN,
-           style: "mapbox://styles/auntey/cl2ro01a1000014p3vktrma9u",
+           style: colorToStyleMapping[randomMapIndex].style_url,
      center: [-74.5, 40],
      zoom: 2,
      controls: true
@@ -60,28 +62,10 @@ const NFT = () => {
       source: 'schools',
       filter: ['has', 'point_count'],
       paint: {
-        // three types of circles based on specific threshold
-        'circle-opacity': 0,
         'circle-stroke-width': 1.5,
         'circle-stroke-color': '#fff',
-        'circle-color': [
-          'step',
-          ['get', 'point_count'],
-          '#51bbd6',
-          100,
-          '#f1f075',
-          200,
-          '#f28cb1'
-        ],
-        'circle-radius': [
-          'step',
-          ['get', 'point_count'],
-          20,
-          100,
-          30,
-          750,
-          40
-        ]
+        'circle-color': colorToStyleMapping[randomMapIndex].point_color_value,
+        'circle-radius': 20,
       }
     });
 
@@ -107,8 +91,7 @@ const NFT = () => {
       source: 'schools',
       filter: ['!', ['has', 'point_count']],
       paint: {
-        'circle-color': '#00ffff',
-        'circle-opacity': 0,
+        'circle-color': colorToStyleMapping[randomMapIndex].point_color_value,
         'circle-radius': 10,
         'circle-stroke-width': 1.5,
         'circle-stroke-color': '#fff'
