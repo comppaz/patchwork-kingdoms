@@ -14,7 +14,7 @@ export default function Slideover({data, isDialogOpen, setDialogOpen}) {
       <div className="fixed inset-y-0"></div>
         <div className="invisible sm:visible fixed inset-y-0 overflow-hidden">
           <div className="absolute inset-y-0 overflow-hidden">
-            <div className="pointer-events-none fixed inset-0 left-0 flex max-w-full pl-4 pt-24">
+            <div className="pointer-events-none fixed inset-0 left-0 flex max-w-full pl-4 pt-32">
               <div>
                 <Transition.Child
                   as={Fragment}
@@ -32,7 +32,7 @@ export default function Slideover({data, isDialogOpen, setDialogOpen}) {
                           <Dialog.Title className="text-xl font-bold text-teal-600"> {"#" + data?.name.split('#')[1]} </Dialog.Title>
                           <button
                             type="button"
-                            className="rounded-md bg-white text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+                            className="rounded-md bg-white text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-teal-500 focus:ring-offset-2"
                             onClick={() => setDialogOpen(false)}
                           >
                             <span className="sr-only">Close panel</span>
@@ -60,11 +60,14 @@ export default function Slideover({data, isDialogOpen, setDialogOpen}) {
                               </div>
                           </div>
                         </div>
-                        <div className="relative inset-x-0">
-                            <Image src={`https://patchwork-kingdoms.fra1.digitaloceanspaces.com/thumbnail/${data?.cluster_id}.png`} layout="responsive" height="40" width="50" objectFit='contain'/>
-                            <div className="bg-teal-600 px-8 pt-6 pb-8 rounded-b-lg shadow-b-xl">
-                                  <h2 className="text-white font-bold text-2xl leading-7" >Connecting every school in the world to the internet</h2>
-                                  <p className="text-white font-medium text-sm leading-5 mt-2">
+                        <div className="relative inset-x-0 mt-4">
+                            <Image src={`https://patchwork-kingdoms.fra1.digitaloceanspaces.com/thumbnail/${data?.cluster_id}.png`} layout="responsive" height="10" width="20" objectFit='contain'/>
+                            
+                        </div>
+                        <div className="absolute mt-4 inset-x-0">
+                        <div className="bg-teal-600 px-8 pt-6 pb-8 rounded-b-lg shadow-b-xl">
+                                  <h2 className="text-white font-bold text-xl leading-7" >Connecting every school in the world to the internet</h2>
+                                  <p className="text-white font-medium text-xs leading-5 mt-2">
                                       Each Patchwork Kingdom tells a unique story on school connectivity. The artwork is data generated and based on the connectivity status of real schools spread all over the world. 
                                       Every square represents a real school with real students. Giga estimates that today, more than xx students in the world do not have access to reliable internet at school. 
                                       The Patchwork Kingdoms is an NFT project raising funds to help close the digital divide.
@@ -99,7 +102,7 @@ export default function Slideover({data, isDialogOpen, setDialogOpen}) {
                         <Dialog.Title className="text-xl font-bold text-teal-600"> {"#" + data?.name.split('#')[1]} </Dialog.Title>
                         <button
                           type="button"
-                          className="rounded-md bg-white text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+                          className="rounded-md bg-white text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-teal-500 focus:ring-offset-2"
                           onClick={() => setDialogOpen(false)}
                         >
                           <span className="sr-only">Close panel</span>

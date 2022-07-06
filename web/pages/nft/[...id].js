@@ -210,16 +210,22 @@ const generatePopup = (map, coordinates, properties) => {
       <div>
         <button 
         onClick={() => {setDialogOpen(true)}} 
-        className='visible sm:invisible absolute z-10 bottom-0 left-1/2'
+        className='inline-flex items-center visible px-8 py-3 sm:invisible absolute z-10 bottom-10 left-5 bg-white text-gray-600 hover:text-gray-800 focus:outline-none focus:ring-2 focus:ring-teal-500 focus:ring-offset-2'
         >
-        <ChevronUpIcon className="h-20 w-20 rounded-md bg-white text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2" aria-hidden="true" />
+          About 
+          <span class="inline-flex items-center w-4 h-4">
+            <ChevronUpIcon className="h-4 w-4 text-gray-400" aria-hidden="true" />
+          </span>
       </button>
       {/* desktop screens: open dialog panel from left side */}
       <button  
         onClick={() => {setDialogOpen(true)}} 
-        className='invisible sm:visible absolute z-10 left-0'
+        className='inline-flex items-center visible px-8 py-3 invisible sm:visible absolute z-10 top-10 left-5 w-45 bg-white text-gray-600 hover:text-gray-800 focus:outline-none focus:ring-2 focus:ring-teal-500 focus:ring-offset-2'
         >
-        <ChevronRightIcon className="h-20 w-20 rounded-md bg-white text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2" aria-hidden="true" />
+        About
+        <span class="inline-flex items-center w-4 h-4">
+            <ChevronRightIcon className="h-4 w-4 text-gray-400" aria-hidden="true" />
+          </span>
       </button>
       </div> 
       : null
