@@ -7,6 +7,7 @@ import Popup from '../../components/Popup';
 import ReactDOM from "react-dom";
 import colorToStyleMapping from '../../data/colorToStyleMapping';
 import getDonatedETHperPWK from '../../lib/getLeaderboardData';
+import { XIcon, ChevronUpIcon, ChevronDownIcon, ChevronRightIcon } from '@heroicons/react/outline'
 
 
 const NFT = () => {
@@ -14,6 +15,8 @@ const NFT = () => {
    const [map, setMap] = useState();
    const [data, setData] = useState();
    const mapNode = useRef(null);
+
+  const [isDialogOpen, setDialogOpen] = useState(true);
 
  useEffect(async () => {
 
@@ -202,9 +205,28 @@ const generatePopup = (map, coordinates, properties) => {
   return (<>
     
     <div className="relative pt-4 bg-white overflow-hidden">
+      {/* mobile screens: open dialog panel from bottom */}
+      {!isDialogOpen ? 
+      <div>
+        <button 
+        onClick={() => {setDialogOpen(true)}} 
+        className='visible sm:invisible absolute z-10 bottom-0 left-1/2'
+        >
+        <ChevronUpIcon className="h-20 w-20 rounded-md bg-white text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2" aria-hidden="true" />
+      </button>
+      {/* desktop screens: open dialog panel from left side */}
+      <button  
+        onClick={() => {setDialogOpen(true)}} 
+        className='invisible sm:visible absolute z-10 left-0'
+        >
+        <ChevronRightIcon className="h-20 w-20 rounded-md bg-white text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2" aria-hidden="true" />
+      </button>
+      </div> 
+      : null
+      }
       <div ref={mapNode} style={{ width: "auto", height: "82vh" }} />
     </div>
-    <Slideover data={data}></Slideover>
+    <Slideover data={data} isDialogOpen={isDialogOpen} setDialogOpen={setDialogOpen}></Slideover>
     </>
   )
 }
