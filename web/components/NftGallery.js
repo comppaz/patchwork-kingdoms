@@ -78,6 +78,12 @@ export default function NftGallery({ nfts: nfts, heading: heading, caption: capt
                                                 </div>
                                                 <ul role="list" className="flex space-x-5">
                                                     <li>
+                                                        <a href={`/nft/${nft.tokenId}`} className="text-gray-400 hover:text-gray-500">
+                                                            <span className="sr-only">Details</span>
+                                                            Details
+                                                        </a>
+                                                    </li>
+                                                    <li>
                                                         <a href={nft.openseaUrl} target="_blank" className="text-gray-400 hover:text-gray-500">
                                                             <span className="sr-only">Opensea</span>
                                                             View on Opensea
