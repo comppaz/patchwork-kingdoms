@@ -8,6 +8,7 @@ import ReactDOM from "react-dom";
 import colorToStyleMapping from '../../data/colorToStyleMapping';
 import getDonatedETHperPWK from '../../lib/getLeaderboardData';
 import { XIcon, ChevronUpIcon, ChevronDownIcon, ChevronRightIcon } from '@heroicons/react/outline'
+import getNftFromJsonBins from '../../lib/getNftFromJsonBins';
 
 
 const NFT = () => {
@@ -27,8 +28,8 @@ const NFT = () => {
    const node = mapNode.current;
    
    if (typeof window === "undefined" || node === null) return;
-
-   const data = await import(`../api/metadata/${tokenId}.json`)
+   const data = await getNftFromJsonBins(tokenId);
+   //const data = await import(`../api/metadata/${tokenId}.json`)
    const features = data['schools'].concat(data['schools_no_data']);
    // create featurecCollection of feature GeoJSON Objects  
    const featureCollection = createGeoJSONFeatureCollection(features);
@@ -36,12 +37,12 @@ const NFT = () => {
    data.donatedETH = await getDonatedETHperPWK(tokenId);
   
    setData(data);
-   let randomMapIndex = Math.floor(Math.random() * 3);
+   let colorPalette = data.attributes[0]["value"];
    
    const mapboxMap = new mapboxgl.Map({
      container: node,
            accessToken: process.env.NEXT_PUBLIC_MAPBOX_TOKEN,
-           style: colorToStyleMapping[randomMapIndex].style_url,
+           style: colorToStyleMapping[colorPalette].style_url,
      center: [-74.5, 40],
      zoom: 2,
      controls: true
@@ -70,7 +71,7 @@ const NFT = () => {
       paint: {
         'circle-stroke-width': 1.5,
         'circle-stroke-color': '#fff',
-        'circle-color': colorToStyleMapping[randomMapIndex].point_color_value,
+        'circle-color': colorToStyleMapping[colorPalette].point_color_value,
         'circle-radius': 20,
       }
     });
@@ -97,7 +98,7 @@ const NFT = () => {
       source: 'schools',
       filter: ['!', ['has', 'point_count']],
       paint: {
-        'circle-color': colorToStyleMapping[randomMapIndex].point_color_value,
+        'circle-color': colorToStyleMapping[colorPalette].point_color_value,
         'circle-radius': 10,
         'circle-stroke-width': 1.5,
         'circle-stroke-color': '#fff'
