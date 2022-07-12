@@ -17,6 +17,9 @@ export default async function getDonatedETHperPWK(req, res){
     const response = await fetch(url, options);
     const data = await response.json();
     let totalDonated = initMintPrice;
+
+    console.log(data);
+
     
     if(data && (data.asset_events.length > 0)){
         data.asset_events.forEach(element => {
