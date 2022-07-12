@@ -1,16 +1,28 @@
-// TODO: switch to this to access with correct value given by data of nft
-
 const colorToStyleMapping = {
-    "slime": {style_url: "mapbox://styles/auntey/cl4o005oh001q14l8v3ww6byf", point_color_value: "#009a98"},
-    "dragons": {style_url: "mapbox://styles/auntey/cl4nzyunx002n14to72yewcv1", point_color_value: "#caa059"},
-    "chaos": {style_url: "mapbox://styles/auntey/cl4nys9m2005j14mt0pvsvi1i", point_color_value: "#26265a"},
-    "rubik's cube": {style_url: "mapbox://styles/auntey/cl4o30oh6000u15ocppoolfgu", point_color_value: "#26265a"}
+    "kaleidoscope":{style_url: "mapbox://styles/auntey/cl2ro01a1000014p3vktrma9u", point_color_value: "#b13353"},
+    "chaos":{style_url: "mapbox://styles/auntey/cl4o30oh6000u15ocppoolfgu", point_color_value: "#26265a"},
+    "dragons":{style_url: "mapbox://styles/auntey/cl4o2ybpx005e14mqu2ezfexa", point_color_value: "#caa059"},
+    "slime":{style_url: "mapbox://styles/auntey/cl4o2flej002514plsj4kv9c3", point_color_value: "#009a98"},
+    "narwal":{style_url: "mapbox://styles/auntey/cl4oc243c003414to4a5vyper", point_color_value: "#3acec3"},
+    "unicorn":{style_url: "mapbox://styles/auntey/cl4oc3fff00bl15nyu26cr5mc", point_color_value: "#3acec3"},
+    "fruit loops":{style_url: "mapbox://styles/auntey/cl4oc537c006d14qsuso3umsp", point_color_value: "#a54a82"},
+    "santa's workshop":{style_url: "mapbox://styles/auntey/cl4oc7ld2000o15pc1ga3ghw4", point_color_value: "#01023d"},
+    "crystal palace":{style_url: "mapbox://styles/auntey/cl4oc8n6v002u14plei6aifme", point_color_value: "#02abf2"},
+    "broomsticks":{style_url: "mapbox://styles/auntey/cl4oc9jms005r14mq01quykfw", point_color_value: "#69c094"},
+    "rubik's cube":{style_url: "mapbox://styles/auntey/cl4oce6jk007c14s2j24opmy7", point_color_value: "#108ab2"},
+    "cotton candy":{style_url: "mapbox://styles/auntey/cl4ocevww002e14l8l4ow0t05", point_color_value: "#ff95b1"},
+    "bubblegum":{style_url: "mapbox://styles/auntey/cl4ocfur9005s14mqmmtf2t9t", point_color_value: "#fe7199"},
+    "emerald city":{style_url: "mapbox://styles/auntey/cl4ocgvej000t16mhki63fnzc", point_color_value: "#0d2f3c"},
+    "super powers":{style_url: "mapbox://styles/auntey/cl5hvuy7s001414l98ouqykwx", point_color_value: "#22e69f"},
+    "dollhouse":{style_url: "mapbox://styles/auntey/cl4ociwfz005t14mq7pmctahc", point_color_value: "#ba276b"},
+    "butter mints":{style_url: "mapbox://styles/auntey/cl4ocjwmr004714l58klbsglx", point_color_value: "#f5a232"},
+    "liquorice":{style_url: "mapbox://styles/auntey/cl4ockok6000p15pcj4d0gbdc", point_color_value: "#45516a"},
+    "sir knight":{style_url: "mapbox://styles/auntey/cl4oclc02002r14mopdjsq9eo", point_color_value: "#ffc326"},
+    "marshmallow":{style_url: "mapbox://styles/auntey/cl4ocm2k7000k14mrmq35viix", point_color_value: "#229da8"},
+    "blizzard":{style_url: "mapbox://styles/auntey/cl4ocmrmg005914onwuz6a2a2", point_color_value: "#0082BE"},
+    "strawberry frosting":{style_url: "mapbox://styles/auntey/cl4ocnfza005u14pfqyjmjad6", point_color_value: "#ff6e78"},
+    "raspberry milkshake":{style_url: "mapbox://styles/auntey/cl4oco5nk000r15pccxtqq5mn", point_color_value: "#d32146"},
+    "gameboy":{style_url: "mapbox://styles/auntey/cl4ocowbk002r15ny74b4xtwm", point_color_value: "#35662e"},
 }
-/*
-const colorToStyleMapping = [
-    {value: "slime", style_url: "mapbox://styles/auntey/cl4o2flej002514plsj4kv9c3", point_color_value: "#009a98"}, 
-    {value: "dragons", style_url: "mapbox://styles/auntey/cl4o2ybpx005e14mqu2ezfexa", point_color_value: "#caa059"}, 
-    {value: "chaos", style_url: "mapbox://styles/auntey/cl4o30oh6000u15ocppoolfgu", point_color_value: "#26265a"}
-]*/
 
 export default colorToStyleMapping

@@ -1,8 +1,8 @@
 import { idToBinIdMapping } from "./idToBinIdMapping";
 
 const requestHeaders = {
-    'X-Master-Key': "$2b$10$PmH2J"+process.env.NEXT_PUBLIC_MASTER_JSONBIN_KEY, 
-    'X-Access-Key': "2b$10$NJu584ify0qhA1EQ36Clj"+process.env.NEXT_PUBLIC_JSONBIN_KEY,
+    'X-Master-Key': process.env.NEXT_PUBLIC_MASTER_JSONBIN_KEY, 
+    'X-Access-Key': process.env.NEXT_PUBLIC_JSONBIN_KEY,
     // omit all the metadata of the bin and simply return stored data
     'X-Bin-Meta': false
 }
