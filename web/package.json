@@ -7,6 +7,9 @@
     "export": "next build && next export",
     "prod": "next build && next start"
   },
+  "engines": {
+    "node": "16.x"
+  },
   "dependencies": {
     "@alch/alchemy-web3": "^1.2.5",
     "@aws-sdk/client-s3": "^3.53.1",

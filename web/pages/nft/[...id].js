@@ -6,7 +6,6 @@ import Slideover from '../../components/Slideover';
 import Popup from '../../components/Popup';
 import ReactDOM from "react-dom";
 import colorToStyleMapping from '../../data/colorToStyleMapping';
-import getDonatedETHperPWK from '../../lib/getLeaderboardData';
 import { XIcon, ChevronUpIcon, ChevronDownIcon, ChevronRightIcon } from '@heroicons/react/outline'
 import getNftFromJsonBins from '../../lib/getNftFromJsonBins';
 
@@ -148,6 +147,29 @@ const NFT = () => {
   }
  }, [router.query.id]);
 
+
+  const getDonatedETHperPWK = async(tokenId) => {
+    
+    const response = await fetch('/api/getDonatedETHperPWK', {
+      method: 'POST',
+      body: JSON.stringify({
+        tokenId
+      }),
+      headers: {
+      'Content-Type': 'application/json'
+      },
+    });
+
+    const res = await response.json();
+  
+    if(res.totalDonated){
+      return res.totalDonated;
+    }else{
+      return 0.00;
+    }
+
+  }
+
 const createGeoJSONFeatureCollection = (initFeatures) => {
 
   let resultFeatures = [];
@@ -177,7 +199,7 @@ const generatePopup = (map, coordinates, properties) => {
   const el = document.createElement('div');
   el.className = 'marker';
   const popupNode = document.createElement("div")
-  console.log(properties)
+
   ReactDOM.render(
   <Popup
     title={properties.school_name}
