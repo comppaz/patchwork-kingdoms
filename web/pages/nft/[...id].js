@@ -34,6 +34,8 @@ const NFT = () => {
    const featureCollection = createGeoJSONFeatureCollection(features);
    // add currently donated ETH value to data object
    data.donatedETH = await getDonatedETHperPWK(tokenId);
+   // get and add current statistics values
+   data.statistics = await getNFTStatistics(tokenId);
   
    setData(data);
    setLoading(false);
@@ -168,6 +170,23 @@ const NFT = () => {
     }else{
       return 0.00;
     }
+
+  }
+
+  const getNFTStatistics = async(tokenId) => {
+    
+    const response = await fetch('/api/getNFTStatistics', {
+      method: 'POST',
+      body: JSON.stringify({
+        tokenId
+      }),
+      headers: {
+      'Content-Type': 'application/json'
+      },
+    });
+
+    const res = await response.json();
+    return res;
 
   }
 

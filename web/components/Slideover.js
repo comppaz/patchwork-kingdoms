@@ -2,10 +2,16 @@ import { Fragment, useState } from 'react'
 import { Dialog, Transition } from '@headlessui/react'
 import Image from 'next/image';
 import { XIcon, ChevronLeftIcon, ChevronDownIcon } from '@heroicons/react/outline'
+import { InformationCircleIcon } from '@heroicons/react/solid'
+
+function formatDate(date) { 
+  let utcFormat = new Date(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate(), date.getUTCHours(), date.getUTCMinutes(), date.getUTCSeconds()); 
+  return utcFormat.toLocaleTimeString()
+}
 
 export default function Slideover({data, isDialogOpen, setDialogOpen}) {
-  console.log(isDialogOpen)
-  //const [open, setOpen] = useState(true)
+  let lastUpdated = formatDate(new Date(data?.statistics?.lastUpdate));
+  console.log(lastUpdated)
   
   return (
     <div className='relative z-10'>
@@ -60,6 +66,22 @@ export default function Slideover({data, isDialogOpen, setDialogOpen}) {
                               </div>
                           </div>
                         </div>
+                        <div className='flex flex-row'>
+                          <div className="text-teal-600 fill-current h-11 w-11">
+                            <InformationCircleIcon/>
+                          </div>
+                        <div className='flex flex-col'>
+                            <div className='text-l font-bold text-teal-600'>
+                              Rank
+                            </div>
+                            <div className="text-xl font-bold pb-4">
+                                {data?.statistics.rank}/1,000
+                            </div>
+                        </div>
+                      </div>
+                      <div className='flex flex-row text-sm text-gray-400'>
+                        Last update today at: {lastUpdated}
+                      </div>
                         <div className="relative inset-x-0 mt-4">
                             <Image src={`https://patchwork-kingdoms.fra1.digitaloceanspaces.com/thumbnail/${data?.cluster_id}.png`} layout="responsive" height="10" width="20" objectFit='contain'/>
                             
@@ -129,6 +151,22 @@ export default function Slideover({data, isDialogOpen, setDialogOpen}) {
                                 {data?.donatedETH}ETH
                             </div>
                         </div>
+                      </div>
+                      <div className='flex flex-row'>
+                        <div className="text-teal-600 fill-current h-11 w-11">
+                          <InformationCircleIcon/>
+                        </div>
+                        <div className='flex flex-col'>
+                            <div className='text-l font-bold text-teal-600'>
+                              Rank
+                            </div>
+                            <div className="text-xl font-bold pb-4">
+                                {data?.statistics.rank}/1,000
+                            </div>
+                        </div>
+                      </div>
+                      <div className='flex flex-row'>
+                        Last update today at: {lastUpdated}
                       </div>
                     </div>
                     <div className="relative inset-x-0">
