@@ -7,10 +7,21 @@ export default async function getNFTStatistics(req, res){
     
     const tokenId = req.body.tokenId;
 
-    let url = "http://localhost:3001/getNftStatistics?id="+tokenId;
+    if(tokenId != null){
+        console.log("Requesting single Nft statistics via api call");
+        let url = "http://localhost:3001/getNftStatistics?id="+tokenId;
 
-    const response = await fetch(url, options);
-    const data = await response.json();
+        const response = await fetch(url, options);
+        const data = await response.json();
+    
+        res.json(data);
+    } else {
+        console.log("Requesting all Nft statistics via api call");
+        let url = "http://localhost:3001/getAllNftStatistics";
 
-    res.json(data);
+        const response = await fetch(url, options);
+        const data = await response.json();
+    
+        res.json(data);
+    }
 }

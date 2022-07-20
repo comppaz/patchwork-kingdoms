@@ -2,6 +2,7 @@ const { PrismaClient } = require('@prisma/client');
 const fetch = require('node-fetch');
 const express = require('express');
 const cron = require('node-cron');
+const fs = require('fs');
 require('dotenv').config()
 
 // setup express
@@ -18,16 +19,17 @@ const initMintPrice = 0.175;
 const asset_contract_address = "0xd24a7c412f2279b1901e591898c1e96c140be8c5";
 
 // TODO: set all 1000 nfts
-const totalAmountNFTs = 10;
+const totalAmountNFTs = 1000;
 
 // save all set nft staistics objects here
 const totalData = [];
+
 
 cron.schedule('0 0 * * *', () => {
     console.log('running a task every hour');
     // start calculation process and post to db
     calculateRank();
-  });
+});
 
 app.listen(port, () => {
     console.log(`Server Running at ${port} 🚀`);
@@ -37,11 +39,8 @@ app.listen(port, () => {
  * api endpoint for the web application to access to for each nft
  */ 
 app.get("/getNftStatistics", async(req, res) => {
-    console.log('RETURNING NFT STATISTICS')
-    console.log(req.query.id)
+    console.log('API: RETURNING NFT STATISTICS')
     const id = parseInt(req.query.id);
-    console.log(id)
-    console.log(typeof id)
     const nftStatistics = await prisma.NFTDetail.findUnique({
         where: {
             nft_id: id
@@ -52,12 +51,21 @@ app.get("/getNftStatistics", async(req, res) => {
 })
 
 /**
+ * api endpoint for the web application to access all nfts for the leaderboard
+ */ 
+ app.get("/getAllNftStatistics", async(req, res) => {
+    console.log('API: RETURNING ALL NFT STATISTICS AT ONCE')
+    const nftStatistics = await prisma.NFTDetail.findMany({});
+    res.json(nftStatistics);
+})
+
+/**
  * create statistic entry for the nft with prisma in db
  */ 
 async function createPrismaEntry(nft){
     
     const newNftDetails = await prisma.NFTDetail.upsert({
-        where: {id: nft.id},
+        where: {nft_id: nft.id},
         update: {
             nft_id:     nft.id,
             eth:        nft.eth,
@@ -116,12 +124,20 @@ async function getDonatedETHperPWK(tokenId, date){
 async function calculateTotalETHValue(date){
     let i = 1;
     let totalSum = 0;
-    while(i < totalAmountNFTs){
+    while(i <= totalAmountNFTs){
         // add single eth value to total sum
         totalSum += await getDonatedETHperPWK(i, date);
         i++
     }
     console.log(totalData)
+    fs.writeFile("output.json", JSON.stringify(totalData), 'utf8', function (err) {
+        if (err) {
+            return console.log(err);
+        }
+        console.log("The file was saved!");
+    }); 
+    
+    
     return totalSum;
 }
 
