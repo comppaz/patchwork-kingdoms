@@ -142,6 +142,9 @@ export default function Table({data}) {
                         >
                         Previous
                         </button>
+                        <p className="text-sm text-gray-700">
+                            page <span className="font-medium">{currentPage}</span> of <span className="font-medium">{maxPages}</span>
+                        </p>
                         <button
                         onClick={() => {setNext()}}
                         className="ml-3 relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50"
