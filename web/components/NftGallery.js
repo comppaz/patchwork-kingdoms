@@ -68,7 +68,10 @@ export default function NftGallery({ nfts: nfts, heading: heading, caption: capt
                                     <li key={nft.title}>
                                         <div className="space-y-4">
                                             <div className="aspect-w-3 aspect-h-3">
-                                                <Image className="object-cover shadow-lg rounded-lg" layout="fill" src={nft.imageUrl} alt={nft.title + " NFT Image"} />
+                                                {/* TODO find solution why optimization is not working in prod */}
+                                  <a href={`/nft/${nft.tokenId}`}>
+
+                                                <Image className="object-cover shadow-lg rounded-lg" layout="fill" src={nft.imageUrl} alt={nft.title + " NFT Image"} /></a>
                                             </div>
 
                                             <div className="space-y-2">
@@ -77,6 +80,12 @@ export default function NftGallery({ nfts: nfts, heading: heading, caption: capt
                                                     <p className="text-indigo-600">Token Id: {nft.tokenId}</p>
                                                 </div>
                                                 <ul role="list" className="flex space-x-5">
+                                                    <li>
+                                                        <a href={`/nft/${nft.tokenId}`} className="text-gray-400 hover:text-gray-500">
+                                                            <span className="sr-only">Details</span>
+                                                            Details
+                                                        </a>
+                                                    </li>
                                                     <li>
                                                         <a href={nft.openseaUrl} target="_blank" className="text-gray-400 hover:text-gray-500">
                                                             <span className="sr-only">Opensea</span>

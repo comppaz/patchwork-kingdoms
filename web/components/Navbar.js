@@ -155,6 +155,13 @@ export default function Navbar() {
                                     </a>
                                 </Link>
 
+                                <Link href="/leaderboard">
+                                    <a className="inline-flex font-medium text-gray-500 hover:text-gray-900">
+                                        Leaderboard
+                                    </a>
+                                </Link>
+
+
                                 {navigation.map((item) => (
                                     <a key={item.name} href={item.href} target="_blank" className="inline-flex font-medium text-gray-500 hover:text-gray-900">
                                         <item.icon className="h-6 w-6" aria-hidden="true" />
