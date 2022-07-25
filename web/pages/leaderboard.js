@@ -18,7 +18,7 @@ useEffect(async () => {
 }, []);
 
 const getNFTStatistics = async() => {
-    
+
     const response = await fetch('/api/getNFTStatistics', {
       method: 'POST',
       headers: {
@@ -33,7 +33,7 @@ const getNFTStatistics = async() => {
 
 
   return (<>
-    {loading ? <Loading/> : <Table data={data}></Table>}  
+    {loading ? <Loading/> : <Table data={data}></Table>}
     </>
   )
 }

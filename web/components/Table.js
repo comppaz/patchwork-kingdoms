@@ -13,11 +13,9 @@ export default function Table({data}) {
 
     useEffect(() => {
         setTableData(data)
-        console.log('TESR')
     }, [data, tableData, currentPage, currentStartNft]);
-    
+
     const sortDataByRankDown = (attribute) => {
-        console.log('SORTING')
         tableData.sort((currentNft, previousNft) => {
             return previousNft[attribute] - currentNft[attribute];
         });
@@ -32,7 +30,6 @@ export default function Table({data}) {
     }
 
     const setNext = () => {
-        console.log("SETTING NEXT PAGE")
         if(currentPage != maxPages){
             setCurrentPage(currentPage + 1);
             setCurrentStartNft(currentStartNft + maxEntriesOnPage);
@@ -41,56 +38,54 @@ export default function Table({data}) {
     }
 
     const setPrevious = () => {
-        console.log("SETTING PREV PAGE")
         if(currentPage != minPages){
             setCurrentPage(currentPage - 1);
             setCurrentStartNft(currentStartNft - maxEntriesOnPage);
             console.log(currentStartNft * currentPage - 1)
         }
     }
-    
+
     return (
-    <div className="px-4 sm:px-6 lg:px-8">
-        <div className="sm:flex sm:items-center">
-            <div className="sm:flex-auto">
-            <br/>
-            <h1 className="text-xl font-semibold text-gray-900">Leaderboard</h1>
-            <p className="mt-2 text-sm text-gray-700">
-                A list of all nfts and it's current ranking.
-            </p>
-            </div>
-        </div>
-        <div className="mt-8 flex flex-col">
-            <div className="-my-2 -mx-4 overflow-x-auto sm:-mx-6 lg:-mx-8">
-            <div className="inline-block min-w-full py-2 align-middle md:px-6 lg:px-8">
+
+    <div className="bg-white">
+            <div className="mx-auto py-12 px-4 max-w-7xl sm:px-6 lg:px-8 lg:py-24">
+                <div className="space-y-12">
+                    <div className="space-y-5 sm:space-y-4 md:max-w-xl lg:max-w-3xl xl:max-w-none">
+                        <h2 className="text-3xl font-extrabold tracking-tight sm:text-4xl">Leaderboard</h2>
+                        <p className="text-xl text-gray-500">
+                            A list of all nfts and it's current ranking.
+                        </p>
+                    </div>
+
+            <div className="inline-block min-w-full py-2 align-middle">
                 <div className="overflow-hidden shadow ring-1 ring-black ring-opacity-5 md:rounded-lg">
-                {tableData? 
+                {tableData?
                     <table className="min-w-full divide-y divide-gray-300">
                     <thead className="bg-gray-50">
                     <tr>
                         <th scope="col" className="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-6">
-                        #NFT
+                        NFT Id
                         <br/>
                             <span>
                                 <button onClick={() => {sortDataByRankDown("nft_id")}} class="inline-flex items-center w-4 h-4">
                                     <ChevronUpIcon className="h-4 w-4 text-gray-400" aria-hidden="true" />
-                                </button>                            
+                                </button>
                                 <button onClick={() => {sortDataByRankUp("nft_id")}} class="inline-flex items-center w-4 h-4">
                                     <ChevronDownIcon className="h-4 w-4 text-gray-400" aria-hidden="true" />
-                                </button>       
+                                </button>
                             </span>
                         </th>
                         <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">
-                        Funds raised to date
+                        Funds raised to date (in ETH)
                         <br/>
                             <span>
                                 <button onClick={() => {sortDataByRankDown("eth")}} class="inline-flex items-center w-4 h-4">
                                     <ChevronUpIcon className="h-4 w-4 text-gray-400" aria-hidden="true" />
-                                </button>                            
+                                </button>
                                 <button onClick={() => {sortDataByRankUp("eth")}} class="inline-flex items-center w-4 h-4">
                                     <ChevronDownIcon className="h-4 w-4 text-gray-400" aria-hidden="true" />
-                                </button>       
-                            </span>  
+                                </button>
+                            </span>
                         </th>
                         <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">
                             Rank
@@ -98,15 +93,15 @@ export default function Table({data}) {
                             <span>
                                 <button onClick={() => {sortDataByRankDown("rank")}} class="inline-flex items-center w-4 h-4">
                                     <ChevronUpIcon className="h-4 w-4 text-gray-400" aria-hidden="true" />
-                                </button>                            
+                                </button>
                                 <button onClick={() => {sortDataByRankUp("rank")}} class="inline-flex items-center w-4 h-4">
                                     <ChevronDownIcon className="h-4 w-4 text-gray-400" aria-hidden="true" />
-                                </button>       
-                            </span>                    
+                                </button>
+                            </span>
                         </th>
                     </tr>
                     </thead>
-                        {/** 
+                        {/**
                         <tbody className="divide-y divide-gray-200 bg-white">
                         {tableData.map((nft) => (
                             <tr key={nft.nft_id}>
