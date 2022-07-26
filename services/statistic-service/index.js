@@ -25,7 +25,7 @@ const totalAmountNFTs = 1000;
 const totalData = [];
 
 
-cron.schedule('0 0 * * *', () => {
+cron.schedule('0 * * * *', () => {
     console.log('running a task every hour');
     // start calculation process and post to db
     calculateRank();
@@ -88,6 +88,7 @@ async function createPrismaEntry(nft){
  * calculate donated eth sum for one nft 
  */ 
 async function getDonatedETHperPWK(tokenId, date){
+    console.log('Getting donated eth sum calculated for ' + tokenId);
     const options = {
         method: 'GET',
         headers: {Accept: 'application/json', 'X-API-KEY': process.env.OPENSEA_API_KEY}
@@ -145,6 +146,7 @@ async function calculateTotalETHValue(date){
  * calculate over all rank
  */ 
 async function calculateRank(){
+    console.log('Calculating rank')
     let total = await calculateTotalETHValue(new Date());
 
     totalData.sort((currentNft, previousNft) => {
