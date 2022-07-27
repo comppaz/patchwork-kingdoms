@@ -101,24 +101,12 @@ export default function Table({data}) {
                         </th>
                     </tr>
                     </thead>
-                        {/**
-                        <tbody className="divide-y divide-gray-200 bg-white">
-                        {tableData.map((nft) => (
-                            <tr key={nft.nft_id}>
-                                <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6">
-                                    {nft.nft_id}
-                                </td>
-                                <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{nft.eth}</td>
-                                <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{nft.rank}</td>
-                                </tr>
-                            ))}
-                        </tbody>*/}
                         {/** table with simple pagination */}
                         <tbody className="divide-y divide-gray-200 bg-white">
                             {tableData.slice(((currentStartNft)), currentPage*(maxEntriesOnPage)).map((nft) => (
                             <tr key={nft.nft_id}>
                                 <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6">
-                                    {nft.nft_id}
+                                    <a href={`/nft/${nft.nft_id}`}>{nft.nft_id}</a>
                                 </td>
                                 <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{nft.eth}</td>
                                 <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{nft.rank}</td>
