@@ -11,10 +11,19 @@ export default function Table({data}) {
     const [currentStartNft, setCurrentStartNft] = useState(0);
     const [currentPage, setCurrentPage] = useState(1);
 
+    /** sort incoming dataset according to its ranking */
+    useEffect(() => {
+        if(data !== undefined){
+            setTableData(data.sort((currentNft, previousNft) => {
+                return currentNft.rank - previousNft.rank;
+            }))
+        }
+    }, [data])
+
+    /** update the displayed data */
     useEffect(() => {
         setTableData(data)
-    }, [data, tableData, currentPage, currentStartNft]);
-    
+    }, [tableData, currentPage, currentStartNft]);
     const sortDataByRankDown = (attribute) => {
         tableData.sort((currentNft, previousNft) => {
             return previousNft[attribute] - currentNft[attribute];
@@ -113,7 +122,6 @@ export default function Table({data}) {
                             </tr>
                         ))}
                     </tbody>
-
             </table>
             : <Loading/>}
             </div>
