@@ -57,7 +57,6 @@ export default function Table({data}) {
                         A list of all nfts and it's current ranking.
                     </p>
                 </div>
-
         <div className="inline-block min-w-full py-2 align-middle">
             <div className="overflow-hidden shadow ring-1 ring-black ring-opacity-5 md:rounded-lg">
             {tableData?
