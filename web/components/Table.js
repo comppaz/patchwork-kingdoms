@@ -3,6 +3,7 @@ import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/solid'
 import { useState, useEffect } from "react";
 import { ChevronDownIcon, ChevronUpIcon } from "@heroicons/react/outline";
 import Image from 'next/image'
+import Link from 'next/link';    
 
 export default function Table({data}) {
     const [tableData, setTableData] = useState();
@@ -123,13 +124,17 @@ export default function Table({data}) {
                             <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{roundETHValue(nft.eth)}</td>
                             <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{nft.rank}</td>
                             <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                                <a href={`${nft.nft_owner_url}`} target="_blank">
-                                    <Image 
-                                        src="https://storage.googleapis.com/opensea-static/Logomark/Logomark-Blue.svg" 
-                                        alt="Opensea Thumbnail Logo" 
-                                        width={20} height={20}>
-                                    </Image>
-                                </a>
+                                {nft.nft_owner_url ? 
+                                    <a href={nft.nft_owner_url} target="_blank">
+                                        <Image 
+                                            src="https://storage.googleapis.com/opensea-static/Logomark/Logomark-Blue.svg" 
+                                            alt="Opensea Thumbnail Logo" 
+                                            width={20} height={20}>
+                                        </Image>
+                                    </a>
+                                    : 
+                                    <span>Currently no owner</span>
+                                }
                             </td>
                             </tr>
                         ))}
