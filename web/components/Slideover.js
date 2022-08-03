@@ -3,15 +3,19 @@ import { Dialog, Transition } from '@headlessui/react'
 import Image from 'next/image';
 import { XIcon, ChevronLeftIcon, ChevronDownIcon } from '@heroicons/react/outline'
 import { InformationCircleIcon } from '@heroicons/react/solid'
+import { DateTime } from 'luxon';
 
-function formatDate(date) {
-  let utcFormat = new Date(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate(), date.getUTCHours(), date.getUTCMinutes(), date.getUTCSeconds());
-  return utcFormat.toLocaleTimeString()
+function formatDate(dateTimeObject){
+  return DateTime.fromISO(dateTimeObject).toLocaleString(DateTime.DATETIME_MED);
 }
 
+const roundETHValue = (eth) => {
+  return eth.toFixed(2);
+}  
+
 export default function Slideover({data, isDialogOpen, setDialogOpen}) {
-  let lastUpdated = formatDate(new Date(data?.statistics?.lastUpdate));
-  console.log(lastUpdated)
+  let dateTimeObject = DateTime.fromISO(data?.statistics?.lastUpdate);
+  let date = formatDate(dateTimeObject);
 
   return (
     <div className='relative z-10'>
@@ -62,7 +66,7 @@ export default function Slideover({data, isDialogOpen, setDialogOpen}) {
                                 Funds raised to date
                               </div>
                               <div className="text-xl font-bold pb-4">
-                                  {data?.donatedETH} ETH
+                                {roundETHValue(data?.statistics.eth)} ETH
                               </div>
                           </div>
                         </div>
@@ -80,7 +84,7 @@ export default function Slideover({data, isDialogOpen, setDialogOpen}) {
                         </div>
                       </div>
                       <div className='flex flex-row text-sm text-gray-400'>
-                        Last update today at: {lastUpdated}
+                        Last update: {date}
                       </div>
                         <div className="relative inset-x-0 mt-4">
                             <Image src={`https://patchwork-kingdoms.fra1.digitaloceanspaces.com/thumbnail/${data?.cluster_id}.png`} layout="responsive" height="10" width="20" objectFit='contain'/>
@@ -105,6 +109,7 @@ export default function Slideover({data, isDialogOpen, setDialogOpen}) {
             </div>
           </div>
         </div>
+        {/** Mobile View */}
         <div className="visible sm:invisible fixed inset-0">
           <div className='fixed inset-0 max-w-full max-h-full overflow-clip'>
             <div className='pl-4 pt-24'>
@@ -149,7 +154,7 @@ export default function Slideover({data, isDialogOpen, setDialogOpen}) {
                               Funds raised to date
                             </div>
                             <div className="text-xl font-bold pb-4">
-                                {data?.donatedETH}ETH
+                              {roundETHValue(data?.statistics.eth)} ETH
                             </div>
                         </div>
                       </div>
@@ -162,12 +167,12 @@ export default function Slideover({data, isDialogOpen, setDialogOpen}) {
                               Rank
                             </div>
                             <div className="text-xl font-bold pb-4">
-                                {data?.statistics.rank}/1,000
+                                {data?.statistics.rank} / 1,000
                             </div>
                         </div>
                       </div>
                       <div className='flex flex-row'>
-                        Last update today at: {lastUpdated}
+                          Last update: {date}
                       </div>
                     </div>
                     <div className="relative inset-x-0">

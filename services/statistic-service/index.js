@@ -3,6 +3,7 @@ const fetch = require('node-fetch');
 const express = require('express');
 const cron = require('node-cron');
 const fs = require('fs');
+const { DateTime } = require("luxon");
 require('dotenv').config()
 
 // setup express
@@ -17,15 +18,10 @@ const prisma = new PrismaClient();
 
 const initMintPrice = 0.175;
 const asset_contract_address = "0xd24a7c412f2279b1901e591898c1e96c140be8c5";
-
-// TODO: set all 1000 nfts
 const totalAmountNFTs = 1000;
 
-// save all set nft staistics objects here
-const totalData = [];
-
-
-cron.schedule('0 0 * * *', () => {
+// running every full hour
+cron.schedule('0 * * * *', () => {
     console.log('running a task every hour');
     // start calculation process and post to db
     calculateRank();
@@ -63,7 +59,8 @@ app.get("/getNftStatistics", async(req, res) => {
  * create statistic entry for the nft with prisma in db
  */ 
 async function createPrismaEntry(nft){
-    
+    console.log('Updating Prisma with the following value');
+    console.log(nft)
     const newNftDetails = await prisma.NFTDetail.upsert({
         where: {nft_id: nft.id},
         update: {
@@ -87,7 +84,8 @@ async function createPrismaEntry(nft){
 /**
  * calculate donated eth sum for one nft 
  */ 
-async function getDonatedETHperPWK(tokenId, date){
+async function getDonatedETHperPWK(tokenId, date, totalData){
+    console.log('Getting donated eth sum calculated for ' + tokenId + ' at ' + date);
     const options = {
         method: 'GET',
         headers: {Accept: 'application/json', 'X-API-KEY': process.env.OPENSEA_API_KEY}
@@ -115,53 +113,49 @@ async function getDonatedETHperPWK(tokenId, date){
         lastUpdated: date
     }
     totalData.push(nftObject);
-    return totalDonated;
+    return {totalData: totalData, totalDonated: totalDonated};
 } 
 
 /**
  * calculate sum of each eth value for all nfts together
  */ 
-async function calculateTotalETHValue(date){
+async function calculateTotalETHValue(date, totalData){
     let i = 1;
     let totalSum = 0;
+    let result = {};
     while(i <= totalAmountNFTs){
         // add single eth value to total sum
-        totalSum += await getDonatedETHperPWK(i, date);
+        result = await getDonatedETHperPWK(i, date, totalData);
+        totalSum += result.totalDonated;
         i++
     }
-    console.log(totalData)
-    fs.writeFile("output.json", JSON.stringify(totalData), 'utf8', function (err) {
-        if (err) {
-            return console.log(err);
-        }
-        console.log("The file was saved!");
-    }); 
-    
-    
-    return totalSum;
+    console.log('CALCULATED TOTAL: ' + totalSum);
+    return {totalSum: totalSum, totalData: result.totalData};
 }
 
 /**
  * calculate over all rank
  */ 
 async function calculateRank(){
-    let total = await calculateTotalETHValue(new Date());
+    let totalData = [];
+    console.log('Calculating rank')
+    let total = await calculateTotalETHValue(DateTime.utc().toISO(), totalData);
 
-    totalData.sort((currentNft, previousNft) => {
-        currentNft.relativeEth = currentNft.eth/total;
-        previousNft.relativeEth = previousNft.eth/total;
-        return previousNft.eth/total - currentNft.relativeEth;
+    total.totalData.sort((currentNft, previousNft) => {
+        currentNft.relativeEth = currentNft.eth/total.totalSum;
+        previousNft.relativeEth = previousNft.eth/total.totalSum;
+        return previousNft.eth/total.totalSum - currentNft.relativeEth;
     });
 
     let rank = 1;
-    totalData.forEach((nft, i) => {
-        if(i > 0 && nft.relativeEth < totalData[i - 1].relativeEth){
+    for(let i = 0; i < total.totalData.length; i++){
+        if(i > 0 && total.totalData[i].relativeEth < total.totalData[i - 1].relativeEth){
             rank++;
         }
-        nft.rank = rank;
+        total.totalData[i].rank = rank;
 
-        createPrismaEntry(nft);
-    });
+        await createPrismaEntry(total.totalData[i]);
+    }
 }
 
 // helper function to slow down open sea api requests
