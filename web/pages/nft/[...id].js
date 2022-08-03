@@ -32,8 +32,6 @@ const NFT = () => {
    const features = data['schools'].concat(data['schools_no_data']);
    // create featurecCollection of feature GeoJSON Objects
    const featureCollection = createGeoJSONFeatureCollection(features);
-   // add currently donated ETH value to data object
-   data.donatedETH = await getDonatedETHperPWK(tokenId);
    // get and add current statistics values
    data.statistics = await getNFTStatistics(tokenId);
 
@@ -151,27 +149,6 @@ const NFT = () => {
    };
   }
  }, [router.query.id]);
-
-
-  const getDonatedETHperPWK = async(tokenId) => {
-    const response = await fetch('/api/getDonatedETHperPWK', {
-      method: 'POST',
-      body: JSON.stringify({
-        tokenId
-      }),
-      headers: {
-      'Content-Type': 'application/json'
-      },
-    });
-
-    const res = await response.json();
-    if(res.totalDonated){
-      return res.totalDonated;
-    }else{
-      return 0.00;
-    }
-
-  }
 
   const getNFTStatistics = async(tokenId) => {
 
