@@ -11,9 +11,19 @@ export default function Table({data}) {
     const [currentStartNft, setCurrentStartNft] = useState(0);
     const [currentPage, setCurrentPage] = useState(1);
 
+    /** sort incoming dataset according to its ranking */
+    useEffect(() => {
+        if(data !== undefined){
+            setTableData(data.sort((currentNft, previousNft) => {
+                return currentNft.rank - previousNft.rank;
+            }))
+        }
+    }, [data])
+
+    /** update the displayed data */
     useEffect(() => {
         setTableData(data)
-    }, [data, tableData, currentPage, currentStartNft]);
+    }, [tableData, currentPage, currentStartNft]);
 
     const sortDataByRankDown = (attribute) => {
         tableData.sort((currentNft, previousNft) => {
@@ -67,10 +77,10 @@ export default function Table({data}) {
                         NFT Id
                         <br/>
                             <span>
-                                <button onClick={() => {sortDataByRankDown("nft_id")}} class="inline-flex items-center w-4 h-4">
+                                <button onClick={() => {sortDataByRankDown("nft_id")}} className="inline-flex items-center w-4 h-4">
                                     <ChevronUpIcon className="h-4 w-4 text-gray-400" aria-hidden="true" />
                                 </button>
-                                <button onClick={() => {sortDataByRankUp("nft_id")}} class="inline-flex items-center w-4 h-4">
+                                <button onClick={() => {sortDataByRankUp("nft_id")}} className="inline-flex items-center w-4 h-4">
                                     <ChevronDownIcon className="h-4 w-4 text-gray-400" aria-hidden="true" />
                                 </button>
                             </span>
@@ -79,10 +89,10 @@ export default function Table({data}) {
                         Funds raised to date (in ETH)
                         <br/>
                             <span>
-                                <button onClick={() => {sortDataByRankDown("eth")}} class="inline-flex items-center w-4 h-4">
+                                <button onClick={() => {sortDataByRankDown("eth")}} className="inline-flex items-center w-4 h-4">
                                     <ChevronUpIcon className="h-4 w-4 text-gray-400" aria-hidden="true" />
                                 </button>
-                                <button onClick={() => {sortDataByRankUp("eth")}} class="inline-flex items-center w-4 h-4">
+                                <button onClick={() => {sortDataByRankUp("eth")}} className="inline-flex items-center w-4 h-4">
                                     <ChevronDownIcon className="h-4 w-4 text-gray-400" aria-hidden="true" />
                                 </button>
                             </span>
@@ -91,10 +101,10 @@ export default function Table({data}) {
                             Rank
                         <br/>
                             <span>
-                                <button onClick={() => {sortDataByRankDown("rank")}} class="inline-flex items-center w-4 h-4">
+                                <button onClick={() => {sortDataByRankDown("rank")}} className="inline-flex items-center w-4 h-4">
                                     <ChevronUpIcon className="h-4 w-4 text-gray-400" aria-hidden="true" />
                                 </button>
-                                <button onClick={() => {sortDataByRankUp("rank")}} class="inline-flex items-center w-4 h-4">
+                                <button onClick={() => {sortDataByRankUp("rank")}} className="inline-flex items-center w-4 h-4">
                                     <ChevronDownIcon className="h-4 w-4 text-gray-400" aria-hidden="true" />
                                 </button>
                             </span>
