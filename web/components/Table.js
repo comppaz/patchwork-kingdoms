@@ -2,6 +2,7 @@ import Loading from "./Loading"
 import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/solid'
 import { useState, useEffect } from "react";
 import { ChevronDownIcon, ChevronUpIcon } from "@heroicons/react/outline";
+import Image from 'next/image'
 
 export default function Table({data}) {
     const [tableData, setTableData] = useState();
@@ -14,6 +15,7 @@ export default function Table({data}) {
     /** sort incoming dataset according to its ranking */
     useEffect(() => {
         if(data !== undefined){
+            console.log(data)
             setTableData(data.sort((currentNft, previousNft) => {
                 return currentNft.rank - previousNft.rank;
             }))
@@ -108,6 +110,7 @@ export default function Table({data}) {
                             </button>
                         </span>
                     </th>
+                    <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"> Current Owner </th>
                 </tr>
                 </thead>
                     {/** table with simple pagination */}
@@ -119,6 +122,15 @@ export default function Table({data}) {
                             </td>
                             <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{roundETHValue(nft.eth)}</td>
                             <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{nft.rank}</td>
+                            <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
+                                <a href={`${nft.nft_owner_url}`} target="_blank">
+                                    <Image 
+                                        src="https://storage.googleapis.com/opensea-static/Logomark/Logomark-Blue.svg" 
+                                        alt="Opensea Thumbnail Logo" 
+                                        width={20} height={20}>
+                                    </Image>
+                                </a>
+                            </td>
                             </tr>
                         ))}
                     </tbody>
