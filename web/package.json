@@ -5,7 +5,8 @@
     "build": "next build",
     "start": "next start",
     "export": "next build && next export",
-    "prod": "next build && next start"
+    "prod": "next build && next start",
+    "prepare": "cd .. && husky install web/.husky"
   },
   "engines": {
     "node": "16.x"
@@ -49,7 +50,14 @@
   "devDependencies": {
     "autoprefixer": "^10.2.6",
     "postcss": "^8.3.5",
+    "prettier": "2.7.1",
     "prisma": "^3.6.0",
     "tailwindcss": "^2.2.4"
-  }
+  },
+  "lint-staged": {
+    "*.js": [
+        "eslint --cache --fix",
+        "prettier --write"
+    ]
+}
 }
