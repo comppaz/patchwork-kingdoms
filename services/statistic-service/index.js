@@ -20,12 +20,16 @@ const initMintPrice = 0.175;
 const asset_contract_address = "0xd24a7c412f2279b1901e591898c1e96c140be8c5";
 const totalAmountNFTs = 1000;
 
-// running every full hour
+const rank = require('./helper/rankCalculation.js')
+
+rank.calculateRank();
+
+/* running every full hour
 cron.schedule('0 * * * *', () => {
     console.log('running a task every hour');
     // start calculation process and post to db
-    calculateRank();
-});
+    rank.calculateRank();
+});*/
 
 app.listen(port, () => {
     console.log(`Server Running at ${port} 🚀`);
