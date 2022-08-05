@@ -22,14 +22,12 @@ const totalAmountNFTs = 1000;
 
 const rank = require('./helper/rankCalculation.js')
 
-rank.calculateRank();
-
-/* running every full hour
+// running every full hour
 cron.schedule('0 * * * *', () => {
     console.log('running a task every hour');
     // start calculation process and post to db
     rank.calculateRank();
-});*/
+});
 
 app.listen(port, () => {
     console.log(`Server Running at ${port} 🚀`);
