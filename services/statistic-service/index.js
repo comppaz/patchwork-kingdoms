@@ -19,6 +19,7 @@ const prisma = new PrismaClient();
 const initMintPrice = 0.175;
 const asset_contract_address = "0xd24a7c412f2279b1901e591898c1e96c140be8c5";
 const totalAmountNFTs = 1000;
+const openSeaUrlPrefix = "https://opensea.io/";
 
 // running every full hour
 cron.schedule('0 * * * *', () => {
@@ -68,14 +69,16 @@ async function createPrismaEntry(nft){
             eth:        nft.eth,
             relativeEth:nft.relativeEth,
             rank:       nft.rank,
-            lastUpdate: nft.lastUpdated
+            lastUpdate: nft.lastUpdated,
+            nft_owner_url: nft.ownerUrl
         }, 
         create: {
             nft_id:     nft.id,
             eth:        nft.eth,
             relativeEth:nft.relativeEth,
             rank:       nft.rank,
-            lastUpdate: nft.lastUpdated
+            lastUpdate: nft.lastUpdated,
+            nft_owner_url: nft.ownerUrl
         }
     });
     console.log('Created/updated new NFT statistcs with its details', newNftDetails);
@@ -92,8 +95,12 @@ async function getDonatedETHperPWK(tokenId, date, totalData){
     }
     let url = "https://api.opensea.io/api/v1/events?only_opensea=true&token_id="+tokenId+"&asset_contract_address="+asset_contract_address+"&event_type=successful";
 
+    let ownerAddress = "";
     const response = await fetch(url, options);
     if(response.status === 429){
+        console.log("Response Error 429")
+        console.log(response);
+        console.log("Trying to repeat call...");
         const retryAfter = response.headers.get('retry-after')
         const millisToSleep = getMillisToSleep(retryAfter)
         await sleep(millisToSleep)
@@ -105,12 +112,14 @@ async function getDonatedETHperPWK(tokenId, date, totalData){
     if(data && data.asset_events && (data.asset_events.length > 0)){
         data.asset_events.forEach(element => {
             totalDonated += (element.total_price/10 ** 18);
+            ownerAddress = openSeaUrlPrefix.concat(element.asset.owner.address);
         });
     }
     let nftObject = {
         id: tokenId,
         eth: totalDonated,
-        lastUpdated: date
+        lastUpdated: date,
+        ownerUrl: ownerAddress
     }
     totalData.push(nftObject);
     return {totalData: totalData, totalDonated: totalDonated};
