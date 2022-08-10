@@ -17,6 +17,7 @@ const prisma = new PrismaClient();
 // get access to calculation function 
 const rank = require('./helper/rankCalculation.js')
 
+
 // running every full hour
 cron.schedule('0 * * * *', () => {
     console.log('running a task every hour');
@@ -50,4 +51,5 @@ app.get("/getNftStatistics", async(req, res) => {
     console.log('API: RETURNING ALL NFT STATISTICS AT ONCE')
     const nftStatistics = await prisma.NFTDetail.findMany({});
     res.json(nftStatistics);
+
 })
