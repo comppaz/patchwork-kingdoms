@@ -75,6 +75,20 @@ export default function Table({data}) {
                 <table className="min-w-full divide-y divide-gray-300">
                 <thead className="bg-gray-50">
                 <tr>
+                <th scope="col" className="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-6">
+                    </th>
+                    <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">
+                        Rank
+                    <br/>
+                        <span>
+                            <button onClick={() => {sortDataByRankDown("rank")}} class="inline-flex items-center w-4 h-4">
+                                <ChevronUpIcon className="h-4 w-4 text-gray-400" aria-hidden="true" />
+                            </button>
+                            <button onClick={() => {sortDataByRankUp("rank")}} class="inline-flex items-center w-4 h-4">
+                                <ChevronDownIcon className="h-4 w-4 text-gray-400" aria-hidden="true" />
+                            </button>
+                        </span>
+                    </th>
                     <th scope="col" className="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-6">
                     NFT Id
                     <br/>
@@ -99,32 +113,45 @@ export default function Table({data}) {
                             </button>
                         </span>
                     </th>
-                    <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">
-                        Rank
-                    <br/>
-                        <span>
-                            <button onClick={() => {sortDataByRankDown("rank")}} class="inline-flex items-center w-4 h-4">
-                                <ChevronUpIcon className="h-4 w-4 text-gray-400" aria-hidden="true" />
-                            </button>
-                            <button onClick={() => {sortDataByRankUp("rank")}} class="inline-flex items-center w-4 h-4">
-                                <ChevronDownIcon className="h-4 w-4 text-gray-400" aria-hidden="true" />
-                            </button>
-                        </span>
-                    </th>
-                    <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"> Current Owner </th>
+                    
+                    <th scope="col" className="py-3.5 text-left text-sm font-semibold text-gray-900"> Current Owner </th>
+
+                    <th scope="col" className="py-3.5  text-left text-sm font-semibold text-gray-900 sm:pl-6"></th>
+                    <th scope="col" className="py-3.5 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-6"></th>
                 </tr>
                 </thead>
                     {/** table with simple pagination */}
                     <tbody className="divide-y divide-gray-200 bg-white">
                         {tableData.slice(((currentStartNft)), currentPage*(maxEntriesOnPage)).map((nft) => (
                         <tr key={nft.nft_id}>
+                            <td className="p-0 m-0 text-sm font-medium text-gray-900 w-32 ">
+                            <Link href={`/nft/${nft.nft_id}`}> 
+                            <a className="p-0 m-0">
+                                <Image width={100} height={100} className="shadow-sm rounded-sm p-0 m-0" layout="fixed" src={`https://${process.env.NEXT_PUBLIC_BUCKET_NAME}.fra1.digitaloceanspaces.com/thumbnail/${nft.nft_id}.png`} alt={nft.title + " NFT Image"} /></a>
+                                </Link>
+                            </td>
+                            <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{nft.rank}</td>
                             <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6">
                                 <a href={`/nft/${nft.nft_id}`}>{nft.nft_id}</a>
                             </td>
                             <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{roundETHValue(nft.eth)}</td>
-                            <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{nft.rank}</td>
-                            <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                                {nft.nft_owner_url ? 
+                            
+                            <td className="whitespace-nowrap py-4 text-sm text-gray-500">
+                                <a href={nft.nft_owner_url.replace('https://opensea.io/', 'https://etherscan.io/address/')}>
+                                {`${nft.nft_owner_url.replace('https://opensea.io/', '').substr(0,12)}...${nft.nft_owner_url.replace('https://opensea.io/', '').substr(20)}`}
+                                </a>
+                                
+                                
+                            </td>
+                            <td className="whitespace-nowrap pr-3 py-4 text-sm text-gray-500 text-center">
+                   
+                                    <a href={`/nft/${nft.nft_id}`} target="_blank" className="bg-gray-100 border hover:bg-teal-700 hover:text-white text-black font-bold py-2 px-4 ml-2 rounded center">
+                                        View NFT
+                                    </a>
+                                   
+                            </td>
+                            <td className="whitespace-nowrap py-4 pl-3 text-sm text-gray-500 text-left">
+                   
                                     <a href={nft.nft_owner_url} target="_blank">
                                         <Image 
                                             src="https://storage.googleapis.com/opensea-static/Logomark/Logomark-Blue.svg" 
@@ -132,10 +159,9 @@ export default function Table({data}) {
                                             width={20} height={20}>
                                         </Image>
                                     </a>
-                                    : 
-                                    <span>Currently no owner</span>
-                                }
+                                   
                             </td>
+
                             </tr>
                         ))}
                     </tbody>
