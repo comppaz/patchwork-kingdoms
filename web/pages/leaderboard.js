@@ -8,11 +8,9 @@ const Leaderbord = () => {
     const [exchangeRate, setExchangeRate] = useState(0);
 
     useEffect(async () => {
-        console.log('GETTING SOME DATA');
         // get and add current statistics values
         data = await getNFTStatistics();
         exchangeRate = await getCurrentUSDExchangeRate();
-        console.log(exchangeRate);
 
         setData(data);
         setExchangeRate(exchangeRate);
@@ -40,7 +38,6 @@ const Leaderbord = () => {
         });
 
         const res = await response.json();
-        console.log(res);
         return res;
     };
 
