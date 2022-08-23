@@ -1,5 +1,5 @@
-import { withIronSessionApiRoute } from "iron-session/next";
-import { sessionOptions } from "../../lib/session";
+import { withIronSessionApiRoute } from 'iron-session/next';
+import { sessionOptions } from '../../lib/session';
 
 export default withIronSessionApiRoute(userRoute, sessionOptions);
 
@@ -11,7 +11,7 @@ async function userRoute(req, res) {
         });
     } else {
         res.json({
-            isLoggedIn: false
+            isLoggedIn: false,
         });
     }
 }

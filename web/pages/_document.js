@@ -13,10 +13,7 @@ class MyDocument extends Document {
                 <body>
                     <Main />
                     <NextScript />
-                    <script
-                        type="text/javascript"
-                        src="https://cdn.jsdelivr.net/npm/cookieconsent@3/build/cookieconsent.min.js"
-                    />
+                    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/cookieconsent@3/build/cookieconsent.min.js" />
                     <script
                         dangerouslySetInnerHTML={{
                             __html: `var popup;
@@ -59,10 +56,9 @@ class MyDocument extends Document {
                             if (!~keep.indexOf(c))
                                 document.cookie = c + '=;' + 'expires=Thu, 01 Jan 1970 00:00:00 UTC;path=/';
                         });
-                };`
+                };`,
                         }}
                     />
-
                 </body>
             </Html>
         );

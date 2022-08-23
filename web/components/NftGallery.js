@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import Image from 'next/image';
 
@@ -11,14 +11,13 @@ export default function NftGallery({ nfts: nfts, heading: heading, caption: capt
 
     useEffect(() => {
         if (nfts === undefined) {
-            console.log("not ready");
+            console.log('not ready');
         } else {
             if (nfts.length > 0 && allnfts.length === 0) {
                 setAllnfts(nfts.slice(0, pageIncrement));
                 setHasMore(true);
 
-                if (nfts.length < pageIncrement)
-                    setHasMore(false);
+                if (nfts.length < pageIncrement) setHasMore(false);
             }
 
             if (nfts.length === 0 && allnfts.length === 0) {
@@ -27,26 +26,20 @@ export default function NftGallery({ nfts: nfts, heading: heading, caption: capt
         }
     });
 
-
-
     function fetchData() {
         setAllnfts(allnfts.concat(nfts.slice(pageCounter, pageCounter + pageIncrement)));
         pageCounter = pageCounter + pageIncrement;
 
-        if (pageCounter === nfts.length)
-            setHasMore(false);
+        if (pageCounter === nfts.length) setHasMore(false);
     }
 
     return (
-
         <div className="bg-white">
             <div className="mx-auto py-12 px-4 max-w-7xl sm:px-6 lg:px-8 lg:py-24">
                 <div className="space-y-12">
                     <div className="space-y-5 sm:space-y-4 md:max-w-xl lg:max-w-3xl xl:max-w-none">
                         <h2 className="text-3xl font-extrabold tracking-tight sm:text-4xl">{heading}</h2>
-                        <p className="text-xl text-gray-500">
-                            {caption}
-                        </p>
+                        <p className="text-xl text-gray-500">{caption}</p>
                     </div>
                     <InfiniteScroll
                         dataLength={allnfts.length} //This is important field to render the next data
@@ -57,21 +50,24 @@ export default function NftGallery({ nfts: nfts, heading: heading, caption: capt
                             <p style={{ textAlign: 'center' }}>
                                 <b>Yay! You have seen all the Kingdoms.</b>
                             </p>
-                        }
-                    >
-                        {allnfts &&
+                        }>
+                        {allnfts && (
                             <ul
                                 role="list"
-                                className="space-y-12 sm:grid sm:grid-cols-2 sm:gap-x-6 sm:gap-y-12 sm:space-y-0 lg:grid-cols-3 lg:gap-x-8"
-                            >
-                                {allnfts.map((nft) => (
+                                className="space-y-12 sm:grid sm:grid-cols-2 sm:gap-x-6 sm:gap-y-12 sm:space-y-0 lg:grid-cols-3 lg:gap-x-8">
+                                {allnfts.map(nft => (
                                     <li key={nft.title}>
                                         <div className="space-y-4">
                                             <div className="aspect-w-3 aspect-h-3">
                                                 {/* TODO find solution why optimization is not working in prod */}
-                                  <a href={`/nft/${nft.tokenId}`}>
-
-                                                <Image className="object-cover shadow-lg rounded-lg" layout="fill" src={nft.imageUrl} alt={nft.title + " NFT Image"} /></a>
+                                                <a href={`/nft/${nft.tokenId}`}>
+                                                    <Image
+                                                        className="object-cover shadow-lg rounded-lg"
+                                                        layout="fill"
+                                                        src={nft.imageUrl}
+                                                        alt={nft.title + ' NFT Image'}
+                                                    />
+                                                </a>
                                             </div>
 
                                             <div className="space-y-2">
@@ -87,31 +83,38 @@ export default function NftGallery({ nfts: nfts, heading: heading, caption: capt
                                                         </a>
                                                     </li>
                                                     <li>
-                                                        <a href={nft.openseaUrl} target="_blank" className="text-gray-400 hover:text-gray-500">
+                                                        <a
+                                                            href={nft.openseaUrl}
+                                                            target="_blank"
+                                                            className="text-gray-400 hover:text-gray-500"
+                                                            rel="noreferrer">
                                                             <span className="sr-only">Opensea</span>
                                                             View on Opensea
                                                         </a>
                                                     </li>
                                                     <li>
-                                                        {(nft.highresDownloadUrl != '' ?
-                                                            (<a href={nft.highresDownloadUrl} target="_blank" className="text-gray-400 hover:text-gray-500"><span className="sr-only"> Download High-Res</span>Download High-Res</a>)
-                                                            : (<span></span>)
+                                                        {nft.highresDownloadUrl != '' ? (
+                                                            <a
+                                                                href={nft.highresDownloadUrl}
+                                                                target="_blank"
+                                                                className="text-gray-400 hover:text-gray-500"
+                                                                rel="noreferrer">
+                                                                <span className="sr-only"> Download High-Res</span>Download High-Res
+                                                            </a>
+                                                        ) : (
+                                                            <span></span>
                                                         )}
                                                     </li>
-
-
-
                                                 </ul>
                                             </div>
                                         </div>
                                     </li>
                                 ))}
-                            </ul>}
+                            </ul>
+                        )}
                     </InfiniteScroll>
                 </div>
             </div>
         </div>
-
-    )
-
+    );
 }

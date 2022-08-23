@@ -1,17 +1,16 @@
-import { FetchError } from "./fetchJson";
-export default async function fetchStrapi(resource, sortBy='') {
-
+import { FetchError } from './fetchJson';
+export default async function fetchStrapi(resource, sortBy = '') {
     let url = `${process.env.NEXT_PUBLIC_STRAPI_URL}/api/${resource}`;
 
-    if(sortBy === 'date'){
+    if (sortBy === 'date') {
         url += '?sort[0]=Date%3Adesc&populate=*';
-    }else{
+    } else {
         url += '?populate=*';
     }
 
     const response = await fetch(url, {
         method: 'GET',
-        headers: { 'Content-Type': 'application/json' }
+        headers: { 'Content-Type': 'application/json' },
     });
 
     // if the server replies, there's always some data in json
