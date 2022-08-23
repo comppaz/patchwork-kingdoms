@@ -19,6 +19,8 @@ export default function Table({ data }) {
             console.log(data);
             setTableData(
                 data.sort((currentNft, previousNft) => {
+                    console.log('CHECK CURRENT ETH');
+                    console.log(currentNft.eth);
                     return currentNft.rank - previousNft.rank;
                 }),
             );
@@ -60,6 +62,8 @@ export default function Table({ data }) {
     const roundETHValue = eth => {
         return eth.toFixed(2);
     };
+
+    const convertToUSD = eth => {};
 
     return (
         <div className="bg-white">
@@ -190,7 +194,13 @@ export default function Table({ data }) {
                                                             .replace('https://opensea.io/', '')
                                                             .substr(20)}`}
                                                     </a>
+                                                    {!nft.nft_owner_name && nft.nft_owner_url ? (
+                                                        <p>Unnamed</p>
+                                                    ) : (
+                                                        <p>{nft.nft_owner_name}</p>
+                                                    )}
                                                 </td>
+
                                                 <td className="whitespace-nowrap pr-3 py-4 text-sm text-gray-500 text-center">
                                                     <a
                                                         href={`/nft/${nft.nft_id}`}
