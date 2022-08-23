@@ -5,13 +5,17 @@ import Table from '../components/Table';
 const Leaderbord = () => {
     const [data, setData] = useState();
     const [loading, setLoading] = useState(false);
+    const [exchangeRate, setExchangeRate] = useState(0);
 
     useEffect(async () => {
         console.log('GETTING SOME DATA');
         // get and add current statistics values
         data = await getNFTStatistics();
+        exchangeRate = await getCurrentUSDExchangeRate();
+        console.log(exchangeRate);
 
         setData(data);
+        setExchangeRate(exchangeRate);
         setLoading(false);
     }, []);
 
@@ -27,7 +31,20 @@ const Leaderbord = () => {
         return res;
     };
 
-    return <>{loading ? <Loading /> : <Table data={data}></Table>}</>;
+    const getCurrentUSDExchangeRate = async () => {
+        const response = await fetch('/api/getCurrentUSDExchangeRate', {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        });
+
+        const res = await response.json();
+        console.log(res);
+        return res;
+    };
+
+    return <>{loading ? <Loading /> : <Table data={data} exchangeRate={exchangeRate}></Table>}</>;
 };
 
 export default Leaderbord;

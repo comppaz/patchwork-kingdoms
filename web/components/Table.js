@@ -5,7 +5,7 @@ import { ChevronDownIcon, ChevronUpIcon } from '@heroicons/react/outline';
 import Image from 'next/image';
 import Link from 'next/link';
 
-export default function Table({ data }) {
+export default function Table({ data, exchangeRate }) {
     const [tableData, setTableData] = useState();
     const minPages = 1;
     const maxPages = 10;
@@ -15,17 +15,17 @@ export default function Table({ data }) {
 
     /** sort incoming dataset according to its ranking */
     useEffect(() => {
-        if (data !== undefined) {
-            console.log(data);
+        if (data !== undefined && exchangeRate !== 0) {
+            console.log(exchangeRate);
             setTableData(
                 data.sort((currentNft, previousNft) => {
                     console.log('CHECK CURRENT ETH');
-                    console.log(currentNft.eth);
+                    currentNft.usd = convertToUSD(currentNft.eth, exchangeRate);
                     return currentNft.rank - previousNft.rank;
                 }),
             );
         }
-    }, [data]);
+    }, [data, exchangeRate]);
 
     /** update the displayed data */
     useEffect(() => {
@@ -59,11 +59,13 @@ export default function Table({ data }) {
         }
     };
 
-    const roundETHValue = eth => {
-        return eth.toFixed(2);
+    const roundPriceValue = price => {
+        return price.toFixed(2);
     };
 
-    const convertToUSD = eth => {};
+    const convertToUSD = (eth, exchangeRate) => {
+        return eth * exchangeRate;
+    };
 
     return (
         <div className="bg-white">
@@ -145,6 +147,27 @@ export default function Table({ data }) {
                                                 </span>
                                             </th>
 
+                                            <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">
+                                                Funds raised to date (in $)
+                                                <br />
+                                                <span>
+                                                    <button
+                                                        onClick={() => {
+                                                            sortDataByRankDown('usd');
+                                                        }}
+                                                        className="inline-flex items-center w-4 h-4">
+                                                        <ChevronUpIcon className="h-4 w-4 text-gray-400" aria-hidden="true" />
+                                                    </button>
+                                                    <button
+                                                        onClick={() => {
+                                                            sortDataByRankUp('usd');
+                                                        }}
+                                                        className="inline-flex items-center w-4 h-4">
+                                                        <ChevronDownIcon className="h-4 w-4 text-gray-400" aria-hidden="true" />
+                                                    </button>
+                                                </span>
+                                            </th>
+
                                             <th scope="col" className="py-3.5 text-left text-sm font-semibold text-gray-900">
                                                 {' '}
                                                 Current Owner{' '}
@@ -179,7 +202,10 @@ export default function Table({ data }) {
                                                     <a href={`/nft/${nft.nft_id}`}>{nft.nft_id}</a>
                                                 </td>
                                                 <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                                                    {roundETHValue(nft.eth)}
+                                                    {roundPriceValue(nft.eth)}
+                                                </td>
+                                                <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
+                                                    {roundPriceValue(nft.usd)}
                                                 </td>
 
                                                 <td className="whitespace-nowrap py-4 text-sm text-gray-500">
