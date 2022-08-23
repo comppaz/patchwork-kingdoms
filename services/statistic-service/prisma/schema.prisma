@@ -11,9 +11,10 @@ datasource db {
 }
 
 model NFTDetail {
-  nft_id      Int @id
-  eth         Float
-  relativeEth Float
-  rank        Int
-  lastUpdate  String
+  nft_id          Int @id
+  eth             Float
+  relativeEth     Float
+  rank            Int
+  lastUpdate      String
+  nft_owner_url   String?
 }

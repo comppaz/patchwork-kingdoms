@@ -207,6 +207,13 @@ const NFT = () => {
       .setLngLat([coordinates[0], coordinates[1]])
       .setDOMContent(popupNode)
       .addTo(map);
+
+    /*
+  new mapboxgl.Marker(el).setLngLat([coordinates[0], coordinates[1]]).setPopup(    new mapboxgl.Popup({ offset: 25, closeButton: false }) // add popups
+      .setDOMContent(
+        popupNode
+      )
+  ).addTo(map);*/
   };
 
   return (

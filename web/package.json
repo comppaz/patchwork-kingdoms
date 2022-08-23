@@ -6,7 +6,7 @@
     "start": "next start",
     "export": "next build && next export",
     "prod": "next build && next start",
-    "prepare": "cd .. && husky install web/.husky"
+    "prepare": "cd .. && husky install"
   },
   "engines": {
     "node": "16.x"
@@ -26,6 +26,7 @@
     "better-sqlite3": "^7.4.6",
     "cookieconsent": "^3.1.1",
     "cors": "^2.8.5",
+    "eslint-config-next": "^12.2.5",
     "ethers": "^5.5.4",
     "iron-session": "^6.0.5",
     "keccak256": "^1.0.6",
@@ -49,6 +50,11 @@
   },
   "devDependencies": {
     "autoprefixer": "^10.2.6",
+    "eslint": "^8.22.0",
+    "eslint-config-next": "12.1.4",
+    "eslint-plugin-next": "0.0.0",
+    "husky": "^8.0.1",
+    "lint-staged": "^12.4.1",
     "postcss": "^8.3.5",
     "prettier": "2.7.1",
     "prisma": "^3.6.0",
@@ -56,8 +62,8 @@
   },
   "lint-staged": {
     "*.js": [
-        "eslint --cache --fix",
-        "prettier --write"
+      "eslint --cache --fix",
+      "prettier --write"
     ]
-}
+  }
 }
