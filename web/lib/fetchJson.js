@@ -30,7 +30,7 @@ export class FetchError extends Error {
             Error.captureStackTrace(this, FetchError);
         }
 
-        this.name = "FetchError";
+        this.name = 'FetchError';
         this.response = response;
         this.data = data ?? { message: message };
     }
