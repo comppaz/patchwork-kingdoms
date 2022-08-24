@@ -3,9 +3,9 @@ import { useState, useEffect } from 'react';
 export default function Statistics({ stats }) {
     const [overallFunds, setOverallFunds] = useState(0);
     const [overallOwner, setOverallOwner] = useState(0);
+
     /** calculate overall stats based on incoming dataset  */
     useEffect(() => {
-        console.log('yeah');
         if (stats !== undefined) {
             if (overallFunds === 0) {
                 calculateOverallFunds(stats);
