@@ -6,7 +6,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import Statistics from './Statistics';
 
-export default function Table({ data }) {
+export default function Table({ data, exchangeRate }) {
     const [tableData, setTableData] = useState();
     const minPages = 1;
     const maxPages = 10;
@@ -16,15 +16,15 @@ export default function Table({ data }) {
 
     /** sort incoming dataset according to its ranking */
     useEffect(() => {
-        if (data !== undefined) {
-            console.log(data);
+        if (data !== undefined && exchangeRate !== 0) {
             setTableData(
                 data.sort((currentNft, previousNft) => {
+                    currentNft.usd = convertToUSD(currentNft.eth, exchangeRate);
                     return currentNft.rank - previousNft.rank;
                 }),
             );
         }
-    }, [data]);
+    }, [data, exchangeRate]);
 
     /** update the displayed data */
     useEffect(() => {
@@ -58,8 +58,14 @@ export default function Table({ data }) {
         }
     };
 
-    const roundETHValue = eth => {
-        return eth.toFixed(2);
+    const roundPriceValue = price => {
+        if (price) {
+            return price.toFixed(2);
+        }
+    };
+
+    const convertToUSD = (eth, exchangeRate) => {
+        return eth * exchangeRate;
     };
 
     return (
@@ -123,7 +129,7 @@ export default function Table({ data }) {
                                                 </span>
                                             </th>
                                             <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">
-                                                Funds raised to date (in ETH)
+                                                Funds raised to date (ETH/USD)
                                                 <br />
                                                 <span>
                                                     <button
@@ -142,6 +148,8 @@ export default function Table({ data }) {
                                                     </button>
                                                 </span>
                                             </th>
+
+                                            <th></th>
 
                                             <th scope="col" className="py-3.5 text-left text-sm font-semibold text-gray-900">
                                                 {' '}
@@ -177,7 +185,7 @@ export default function Table({ data }) {
                                                     <a href={`/nft/${nft.nft_id}`}>{nft.nft_id}</a>
                                                 </td>
                                                 <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                                                    {roundETHValue(nft.eth)}
+                                                    {roundPriceValue(nft.eth)} ETH / {roundPriceValue(nft.usd)} $
                                                 </td>
 
                                                 <td className="whitespace-nowrap py-4 text-sm text-gray-500">
@@ -193,6 +201,17 @@ export default function Table({ data }) {
                                                             .substr(20)}`}
                                                     </a>
                                                 </td>
+
+                                                <td className="whitespace-nowrap py-4 text-sm text-gray-500">
+                                                    <a href={nft.nft_owner_url}>
+                                                        {!nft.nft_owner_name && nft.nft_owner_url ? (
+                                                            <p>Unnamed</p>
+                                                        ) : (
+                                                            <p>{nft.nft_owner_name}</p>
+                                                        )}
+                                                    </a>
+                                                </td>
+
                                                 <td className="whitespace-nowrap pr-3 py-4 text-sm text-gray-500 text-center">
                                                     <a
                                                         href={`/nft/${nft.nft_id}`}
@@ -203,7 +222,10 @@ export default function Table({ data }) {
                                                     </a>
                                                 </td>
                                                 <td className="whitespace-nowrap py-4 pl-3 text-sm text-gray-500 text-left">
-                                                    <a href={nft.nft_owner_url} target="_blank" rel="noreferrer">
+                                                    <a
+                                                        href={`https://opensea.io/assets/${process.env.NEXT_PUBLIC_CONTRACT_ADDRESS}/${nft.nft_id}`}
+                                                        target="_blank"
+                                                        rel="noreferrer">
                                                         <Image
                                                             src="https://storage.googleapis.com/opensea-static/Logomark/Logomark-Blue.svg"
                                                             alt="Opensea Thumbnail Logo"
