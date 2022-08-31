@@ -75,7 +75,7 @@ export default function Table({ data, exchangeRate }) {
                     <div className="space-y-5 sm:space-y-4 md:max-w-xl lg:max-w-3xl xl:max-w-none">
                         <h2 className="text-3xl font-extrabold tracking-tight sm:text-4xl">Leaderboard</h2>
                         <Statistics stats={tableData} />
-                        <p className="text-xl text-gray-500">A list of all nfts and it&apos;s current ranking.</p>
+                        <p className="text-xl text-gray-500">A list of all nfts and its current ranking.</p>
                     </div>
                     <div className="inline-block min-w-full py-2 align-middle">
                         <div className="overflow-hidden shadow ring-1 ring-black ring-opacity-5 md:rounded-lg">

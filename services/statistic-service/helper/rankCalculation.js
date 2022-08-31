@@ -7,7 +7,6 @@ const updatePrismaEntry = require("./updateDetailEntry.js");
 const initMintPrice = 0.175;
 const asset_contract_address = "0xd24a7c412f2279b1901e591898c1e96c140be8c5";
 const totalAmountNFTs = 1000;
-<<<<<<< HEAD
 const api_options = {
   method: "GET",
   headers: {
@@ -15,9 +14,8 @@ const api_options = {
     "X-API-KEY": process.env.OPENSEA_API_KEY,
   },
 };
-=======
+
 const openSeaUrlPrefix = "https://opensea.io/";
->>>>>>> dev
 
 /**
  * calculate donated eth sum for one nft
@@ -26,51 +24,17 @@ async function getDonatedETHperPWK(tokenId, date, totalData) {
   console.log(
     "Getting donated eth sum calculated for " + tokenId + " at " + date
   );
-<<<<<<< HEAD
   let events_url =
-=======
-  const options = {
-    method: "GET",
-    headers: {
-      Accept: "application/json",
-      "X-API-KEY": process.env.OPENSEA_API_KEY,
-    },
-  };
-  let url =
->>>>>>> dev
     "https://api.opensea.io/api/v1/events?only_opensea=true&token_id=" +
     tokenId +
     "&asset_contract_address=" +
     asset_contract_address +
     "&event_type=successful";
 
-<<<<<<< HEAD
-  const response = await fetch(events_url, api_options);
-  if (response.status === 429) {
-    console.log("ERROR RESPONSE STATUS IS 429");
-    console.log(response);
-    const retryAfter = response.headers.get("retry-after");
-    const millisToSleep = getMillisToSleep(retryAfter);
-    await sleep(millisToSleep);
-    return getDonatedETHperPWK(tokenId);
-  }
-  const data = await response.json();
-  let totalDonated = initMintPrice;
-
-  if (data && data.asset_events && data.asset_events.length > 0) {
-    data.asset_events.forEach((element) => {
-      totalDonated += element.total_price / 10 ** 18;
-    });
-  } else {
-    console.log(tokenId);
-    console.log(data);
-    // TODO: update object and make function return values
-    let test = await getCurrentOwner(tokenId);
-=======
   let ownerAddress = "";
   let ownerName = "";
 
-  const response = await fetch(url, options);
+  const response = await fetch(events_url, api_options);
   if (response.status === 429) {
     console.log("ERROR RESPONSE STATUS IS 429");
     console.log(response);
@@ -90,22 +54,23 @@ async function getDonatedETHperPWK(tokenId, date, totalData) {
         ownerName = element.asset.owner.user.username;
       }
     });
->>>>>>> dev
+  } else {
+    let nameObject = await getCurrentOwner(tokenId);
+    ownerAddress = openSeaUrlPrefix.concat(nameObject.address);
+    ownerName = nameObject.name;
+    console.log(nameObject);
   }
   let nftObject = {
     id: tokenId,
     eth: totalDonated,
     lastUpdated: date,
-<<<<<<< HEAD
-=======
     ownerUrl: ownerAddress,
     ownerName: ownerName,
->>>>>>> dev
   };
+  console.log(nftObject);
   totalData.push(nftObject);
   return { totalData: totalData, totalDonated: totalDonated };
 }
-<<<<<<< HEAD
 
 /**
  * retrieve owner if event type result was not successful
@@ -119,19 +84,16 @@ async function getCurrentOwner(tokenId) {
     "/owners?limit=20&order_by=created_date&order_direction=desc";
   const owner_response = await fetch(owner_url, api_options);
   const owner_data = await owner_response.json();
-  let address = "";
+
+  let nameObject = {};
   if (owner_data && owner_data.owners && owner_data.owners.length > 0) {
-    let address = owner_data.owners[0]["owner"]["address"];
+    nameObject.address = owner_data.owners[0]["owner"]["address"];
     if (owner_data.owners[0]["owner"]["user"]) {
-      let name = owner_data.owners[0]["owner"]["user"]["username"];
-      console.log(name);
+      nameObject.name = owner_data.owners[0]["owner"]["user"]["username"];
     }
-    console.log(address);
   }
-  return address;
+  return nameObject;
 }
-=======
->>>>>>> dev
 
 /**
  * calculate sum of each eth value for all nfts together
@@ -187,11 +149,7 @@ async function calculateRank() {
     }
     total.totalData[i].rank = rank;
 
-<<<<<<< HEAD
-    //await updatePrismaEntry.createPrismaEntry(total.totalData[i]);
-=======
     await updatePrismaEntry.createPrismaEntry(total.totalData[i]);
->>>>>>> dev
   }
 }
 
