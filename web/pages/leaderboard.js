@@ -6,6 +6,7 @@ const Leaderbord = () => {
     const [data, setData] = useState();
     const [loading, setLoading] = useState(false);
     const [exchangeRate, setExchangeRate] = useState(0);
+    const fixedAuctionValue = 40.9;
 
     useEffect(async () => {
         // get and add current statistics values
@@ -41,7 +42,30 @@ const Leaderbord = () => {
         return res;
     };
 
-    return <>{loading ? <Loading /> : <Table data={data} exchangeRate={exchangeRate}></Table>}</>;
+    const roundPriceValue = price => {
+        if (price) {
+            return price.toFixed(3);
+        }
+    };
+
+    const convertToUSD = eth => {
+        console.log(exchangeRate);
+        return eth * exchangeRate;
+    };
+
+    return (
+        <>
+            {loading ? (
+                <Loading />
+            ) : (
+                <Table
+                    data={data}
+                    fixedAuctionValue={fixedAuctionValue}
+                    roundPriceValue={roundPriceValue}
+                    convertToUSD={convertToUSD}></Table>
+            )}
+        </>
+    );
 };
 
 export default Leaderbord;
