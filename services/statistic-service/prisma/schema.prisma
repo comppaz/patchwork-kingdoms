@@ -17,4 +17,5 @@ model NFTDetail {
   rank            Int
   lastUpdate      String
   nft_owner_url   String?
+  nft_owner_name  String?
 }
