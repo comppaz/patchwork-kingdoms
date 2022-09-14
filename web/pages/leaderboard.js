@@ -12,7 +12,6 @@ const Leaderbord = () => {
         // get and add current statistics values
         data = await getNFTStatistics();
         exchangeRate = await getCurrentUSDExchangeRate();
-        console.log(data);
         setData(data);
         setExchangeRate(exchangeRate);
         setLoading(false);
@@ -42,14 +41,13 @@ const Leaderbord = () => {
         return res;
     };
 
-    const roundPriceValue = price => {
+    const roundPriceValue = (price, decimalPoints) => {
         if (price) {
-            return price.toFixed(3);
+            return price.toFixed(decimalPoints);
         }
     };
 
     const convertToUSD = eth => {
-        console.log(exchangeRate);
         return eth * exchangeRate;
     };
 
