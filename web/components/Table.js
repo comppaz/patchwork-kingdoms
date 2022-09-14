@@ -6,7 +6,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import Statistics from './Statistics';
 
-export default function Table({ data, exchangeRate }) {
+export default function Table({ data, fixedAuctionValue, roundPriceValue, convertToUSD }) {
     const [tableData, setTableData] = useState();
     const minPages = 1;
     const maxPages = 10;
@@ -16,15 +16,15 @@ export default function Table({ data, exchangeRate }) {
 
     /** sort incoming dataset according to its ranking */
     useEffect(() => {
-        if (data !== undefined && exchangeRate !== 0) {
+        if (data !== undefined) {
             setTableData(
                 data.sort((currentNft, previousNft) => {
-                    currentNft.usd = convertToUSD(currentNft.eth, exchangeRate);
+                    currentNft.usd = convertToUSD(currentNft.eth);
                     return currentNft.rank - previousNft.rank;
                 }),
             );
         }
-    }, [data, exchangeRate]);
+    }, [data]);
 
     /** update the displayed data */
     useEffect(() => {
@@ -58,16 +58,6 @@ export default function Table({ data, exchangeRate }) {
         }
     };
 
-    const roundPriceValue = price => {
-        if (price) {
-            return price.toFixed(2);
-        }
-    };
-
-    const convertToUSD = (eth, exchangeRate) => {
-        return eth * exchangeRate;
-    };
-
     return (
         <div className="bg-white">
             <div className="mx-auto py-12 px-4 max-w-7xl sm:px-6 lg:px-8 lg:py-24">
@@ -76,6 +66,13 @@ export default function Table({ data, exchangeRate }) {
                         <h2 className="text-3xl font-extrabold tracking-tight sm:text-4xl">Leaderboard</h2>
                         <Statistics stats={tableData} />
                         <p className="text-xl text-gray-500">A list of all nfts and its current ranking.</p>
+                        <Statistics
+                            stats={tableData}
+                            fixedAuctionValue={fixedAuctionValue}
+                            roundPriceValue={roundPriceValue}
+                            convertToUSD={convertToUSD}
+                        />
+                        <p className="text-xl text-gray-500">A list of all nfts and it&apos;s current ranking.</p>
                     </div>
                     {/** desktop view */}
                     <div className="hidden sm:inline-block min-w-full py-2 align-middle">
