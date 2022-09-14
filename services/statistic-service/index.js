@@ -16,9 +16,15 @@ const rank = require("./helper/rankCalculation.js");
 
 // running every full hour
 cron.schedule("0 * * * *", () => {
-  console.log("running a task every hour");
+  console.log("running calculation of ranks every hour");
   // start calculation process and post to db
   rank.calculateRank();
+});
+
+// running every week to update weekly rank
+cron.schedule("30 0 * * Sunday", () => {
+  console.log("running rank changes every week");
+  rank.updateWeeklyRank();
 });
 
 app.listen(port, () => {

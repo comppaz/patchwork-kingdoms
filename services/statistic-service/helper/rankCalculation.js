@@ -55,9 +55,9 @@ async function getDonatedETHperPWK(tokenId, date, totalData) {
     });
   }
   let nftObject = {
-    id: tokenId,
+    nft_id: tokenId,
     eth: totalDonated,
-    lastUpdated: date,
+    lastUpdate: date,
     ownerUrl: ownerAddress,
     ownerName: ownerName,
   };
@@ -118,11 +118,30 @@ async function calculateRank() {
       rank++;
     }
     total.totalData[i].rank = rank;
-
+    let previousNFTInfo = await updatePrismaEntry.findNFTDetail(
+      total.totalData[i].nft_id
+    );
+    // get last known weeklyRank value and preserve the current value for this update
+    total.totalData[i].weeklyRank = previousNFTInfo.weeklyRank;
     await updatePrismaEntry.createPrismaEntry(total.totalData[i]);
+  }
+}
+
+/**
+ * calculate rank changes
+ */
+async function updateWeeklyRank() {
+  let tokenId = 1;
+  while (tokenId <= totalAmountNFTs) {
+    let nft = await updatePrismaEntry.findNFTDetail(tokenId);
+    console.log("CURRENT RANK: " + nft.rank);
+    nft.weeklyRank = nft.rank;
+    await updatePrismaEntry.createPrismaEntry(nft);
+    tokenId++;
   }
 }
 
 module.exports = {
   calculateRank,
+  updateWeeklyRank,
 };
