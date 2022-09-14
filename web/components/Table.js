@@ -406,7 +406,7 @@ export default function Table({ data, exchangeRate }) {
                                                 </td>
                                                 */}
                                                 <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                                                    {roundETHValue(nft.eth)}
+                                                    {roundPriceValue(nft.eth)}
                                                 </td>
                                                 {/** 
                                                 <td className="whitespace-nowrap py-4 text-sm text-gray-500">
