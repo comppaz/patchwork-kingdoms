@@ -7,6 +7,14 @@ const updatePrismaEntry = require("./updateDetailEntry.js");
 const initMintPrice = 0.175;
 const asset_contract_address = "0xd24a7c412f2279b1901e591898c1e96c140be8c5";
 const totalAmountNFTs = 1000;
+const api_options = {
+  method: "GET",
+  headers: {
+    Accept: "application/json",
+    "X-API-KEY": process.env.OPENSEA_API_KEY,
+  },
+};
+
 const openSeaUrlPrefix = "https://opensea.io/";
 
 /**
@@ -16,14 +24,7 @@ async function getDonatedETHperPWK(tokenId, date, totalData) {
   console.log(
     "Getting donated eth sum calculated for " + tokenId + " at " + date
   );
-  const options = {
-    method: "GET",
-    headers: {
-      Accept: "application/json",
-      "X-API-KEY": process.env.OPENSEA_API_KEY,
-    },
-  };
-  let url =
+  let events_url =
     "https://api.opensea.io/api/v1/events?only_opensea=true&token_id=" +
     tokenId +
     "&asset_contract_address=" +
@@ -33,7 +34,7 @@ async function getDonatedETHperPWK(tokenId, date, totalData) {
   let ownerAddress = "";
   let ownerName = "";
 
-  const response = await fetch(url, options);
+  const response = await fetch(events_url, api_options);
   if (response.status === 429) {
     console.log("ERROR RESPONSE STATUS IS 429");
     console.log(response);
@@ -53,6 +54,11 @@ async function getDonatedETHperPWK(tokenId, date, totalData) {
         ownerName = element.asset.owner.user.username;
       }
     });
+  } else {
+    let nameObject = await getCurrentOwner(tokenId);
+    ownerAddress = openSeaUrlPrefix.concat(nameObject.address);
+    ownerName = nameObject.name;
+    console.log(nameObject);
   }
   let nftObject = {
     id: tokenId,
@@ -61,8 +67,32 @@ async function getDonatedETHperPWK(tokenId, date, totalData) {
     ownerUrl: ownerAddress,
     ownerName: ownerName,
   };
+  console.log(nftObject);
   totalData.push(nftObject);
   return { totalData: totalData, totalDonated: totalDonated };
+}
+
+/**
+ * retrieve owner if event type result was not successful
+ */
+async function getCurrentOwner(tokenId) {
+  let owner_url =
+    "https://api.opensea.io/api/v1/asset/" +
+    asset_contract_address +
+    "/" +
+    tokenId +
+    "/owners?limit=20&order_by=created_date&order_direction=desc";
+  const owner_response = await fetch(owner_url, api_options);
+  const owner_data = await owner_response.json();
+
+  let nameObject = {};
+  if (owner_data && owner_data.owners && owner_data.owners.length > 0) {
+    nameObject.address = owner_data.owners[0]["owner"]["address"];
+    if (owner_data.owners[0]["owner"]["user"]) {
+      nameObject.name = owner_data.owners[0]["owner"]["user"]["username"];
+    }
+  }
+  return nameObject;
 }
 
 /**
