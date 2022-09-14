@@ -12,7 +12,7 @@ const Leaderbord = () => {
         // get and add current statistics values
         data = await getNFTStatistics();
         exchangeRate = await getCurrentUSDExchangeRate();
-
+        console.log(data);
         setData(data);
         setExchangeRate(exchangeRate);
         setLoading(false);

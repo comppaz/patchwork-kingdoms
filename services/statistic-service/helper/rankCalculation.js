@@ -8,6 +8,14 @@ const updatePrismaEntry = require("./updateDetailEntry.js");
 const initMintPrice = 0.175;
 const asset_contract_address = "0xd24a7c412f2279b1901e591898c1e96c140be8c5";
 const totalAmountNFTs = 1000;
+const api_options = {
+  method: "GET",
+  headers: {
+    Accept: "application/json",
+    "X-API-KEY": process.env.OPENSEA_API_KEY,
+  },
+};
+
 const openSeaUrlPrefix = "https://opensea.io/";
 
 /**
@@ -17,14 +25,7 @@ async function calculateDonatedETH(tokenId, date, totalData) {
   console.log(
     "Getting donated eth sum calculated for " + tokenId + " at " + date
   );
-  const options = {
-    method: "GET",
-    headers: {
-      Accept: "application/json",
-      "X-API-KEY": process.env.OPENSEA_API_KEY,
-    },
-  };
-  let url =
+  let events_url =
     "https://api.opensea.io/api/v1/events?only_opensea=true&token_id=" +
     tokenId +
     "&asset_contract_address=" +
@@ -77,6 +78,7 @@ async function calculateDonatedETH(tokenId, date, totalData) {
     ownerUrl: ownerAddress,
     ownerName: ownerName,
   };
+  console.log(nftObject);
   totalData.push(nftObject);
   return { totalData: totalData, totalDonated: totalDonated };
 }
