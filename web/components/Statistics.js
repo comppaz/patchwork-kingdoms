@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 
-export default function Statistics({ stats }) {
+export default function Statistics({ stats, fixedAuctionValue, roundPriceValue, convertToUSD }) {
     const [overallFunds, setOverallFunds] = useState(0);
     const [overallOwner, setOverallOwner] = useState(0);
 
@@ -34,11 +34,8 @@ export default function Statistics({ stats }) {
         stats.forEach(nft => {
             overallFunds += nft.eth;
         });
+        overallFunds += fixedAuctionValue;
         setOverallFunds(overallFunds);
-    };
-
-    const roundETHValue = eth => {
-        return eth.toFixed(2);
     };
 
     return (
@@ -46,8 +43,8 @@ export default function Statistics({ stats }) {
             <h3 className="text-xl text-gray-500">Summaries of all nfts.</h3>
             <dl className="mt-5 grid grid-cols-1 gap-5 sm:grid-cols-3">
                 <div className="px-4 py-5 bg-white shadow rounded-lg overflow-hidden sm:p-6">
-                    <dt className="text-sm font-medium text-gray-500 truncate">Total Proceeds raised to date in ETH</dt>
-                    <dd className="mt-1 text-3xl tracking-tight font-semibold text-gray-900">{roundETHValue(overallFunds)}</dd>
+                    <dt className="text-sm font-medium text-gray-500 truncate">Total Proceeds raised to date</dt>
+                    <dd className="mt-1 text-3xl tracking-tight font-semibold text-gray-900">{roundPriceValue(overallFunds)} ETH</dd>
                 </div>
                 <div className="px-4 py-5 bg-white shadow rounded-lg overflow-hidden sm:p-6">
                     <dt className="text-sm font-medium text-gray-500 truncate">Total NFT Owner</dt>
