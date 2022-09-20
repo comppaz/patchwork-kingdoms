@@ -1,0 +1,21 @@
+service: statistic-job
+frameworkVersion: "3"
+provider:
+  name: aws
+  runtime: nodejs16.x
+  region: eu-central-1
+  memorySize: 128
+  timeout: 900
+plugins:
+  - serverless-plugin-common-excludes
+  - serverless-plugin-typescript
+functions:
+  rateHandler:
+    handler: index.handler
+    environment:
+      OPENSEA_API_KEY: ${ssm(raw):/opensea-api-key}
+      ETHERSCAN_API_KEY: ${ssm(raw):/etherscan-api-key}
+      DATABASE_URL: ${ssm(raw):/database-url}
+    events:
+      # Invoke Lambda function every hour
+      - schedule: rate(1 hour)
