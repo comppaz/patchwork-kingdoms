@@ -45,7 +45,7 @@ async function calculateDonatedETH(tokenId, date, totalData) {
     totalDonated = 0;
     // make api calls
   } else {
-    const response = await fetch(url, options);
+    const response = await fetch(events_url, api_options);
     if (response.status === 429) {
       console.log("ERROR RESPONSE STATUS IS 429");
       console.log(response);
@@ -78,7 +78,6 @@ async function calculateDonatedETH(tokenId, date, totalData) {
     ownerUrl: ownerAddress,
     ownerName: ownerName,
   };
-  console.log(nftObject);
   totalData.push(nftObject);
   return { totalData: totalData, totalDonated: totalDonated };
 }
@@ -184,6 +183,7 @@ async function calculateRank() {
   });
 
   let rank = 1;
+  let completeDataSet = [];
   for (let i = 0; i < total.totalData.length; i++) {
     if (
       i > 0 &&
@@ -197,8 +197,10 @@ async function calculateRank() {
     );
     // get last known weeklyRank value and preserve the current value for this update
     total.totalData[i].weeklyRank = previousNFTInfo.weeklyRank;
+    //completeDataSet.push(total.totalData[i]);
     await updatePrismaEntry.createPrismaEntry(total.totalData[i]);
   }
+  //exportToCSV(Object.keys(completeDataSet[0]), completeDataSet);
 }
 
 /**
@@ -208,7 +210,6 @@ async function updateWeeklyRank() {
   let tokenId = 1;
   while (tokenId <= totalAmountNFTs) {
     let nft = await updatePrismaEntry.findNFTDetail(tokenId);
-    console.log("CURRENT RANK: " + nft.rank);
     nft.weeklyRank = nft.rank;
     await updatePrismaEntry.createPrismaEntry(nft);
     tokenId++;
