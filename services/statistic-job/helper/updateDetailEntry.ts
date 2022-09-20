@@ -1,4 +1,5 @@
 import { PrismaClient } from "@prisma/client";
+import { NFTEntry } from "../types";
 
 // setup prisma client
 const prisma = new PrismaClient();
