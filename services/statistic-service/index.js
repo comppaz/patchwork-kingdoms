@@ -1,6 +1,5 @@
 const { PrismaClient } = require("@prisma/client");
 const express = require("express");
-const cron = require("node-cron");
 require("dotenv").config();
 
 // setup express
@@ -10,16 +9,6 @@ const port = process.env.PORT || "3001";
 
 // setup prisma client
 const prisma = new PrismaClient();
-
-// get access to calculation function
-const rank = require("./helper/rankCalculation.js");
-
-// running every full hour
-cron.schedule("0 * * * *", () => {
-  console.log("running a task every hour");
-  // start calculation process and post to db
-  rank.calculateRank();
-});
 
 app.listen(port, () => {
   console.log(`Server Running at ${port} 🚀`);
