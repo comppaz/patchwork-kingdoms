@@ -4,6 +4,7 @@ dotenv.config();
 import axios, { AxiosError, AxiosRequestConfig } from "axios";
 import { createPrismaEntry, findNFTDetail } from "./helper/updateDetailEntry";
 import { Context } from "aws-lambda";
+import { NFTEntry, TotalObject } from "./types";
 
 const initMintPrice = 0.175;
 const asset_contract_address = "0xd24a7c412f2279b1901e591898c1e96c140be8c5";
@@ -51,7 +52,6 @@ async function calculateDonatedETH(
   } else {
     api_options.url = events_url;
     let response;
-
     try {
       response = await axios(api_options);
     } catch (err) {

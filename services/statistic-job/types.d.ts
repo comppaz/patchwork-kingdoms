@@ -1,4 +1,4 @@
-interface NFTEntry {
+export interface NFTEntry {
   id: number;
   eth: number;
   relativeEth?: number;
@@ -9,7 +9,7 @@ interface NFTEntry {
   weeklyRank?: number;
 }
 
-interface TotalObject {
+export interface TotalObject {
   totalDonated?: number;
   totalData?: NFTEntry[];
 }
