@@ -24,6 +24,15 @@ app.get("/getNftStatistics", async (req, res) => {
     where: {
       nft_id: id,
     },
+    select: {
+      nft_id: true,
+      eth: true,
+      rank: true,
+      lastUpdate: true,
+      nft_owner_url: true,
+      nft_owner_name: true,
+      weeklyRank: true,
+    },
   });
   console.log(nftStatistics);
   res.json(nftStatistics);
@@ -34,6 +43,17 @@ app.get("/getNftStatistics", async (req, res) => {
  */
 app.get("/getAllNftStatistics", async (req, res) => {
   console.log("API: RETURNING ALL NFT STATISTICS AT ONCE");
-  const nftStatistics = await prisma.NFTDetail.findMany({});
+  const nftStatistics = await prisma.NFTDetail.findMany({
+    select: {
+      nft_id: true,
+      eth: true,
+      rank: true,
+      lastUpdate: true,
+      nft_owner_url: true,
+      nft_owner_name: true,
+      weeklyRank: true,
+    },
+  });
+  console.log(nftStatistics);
   res.json(nftStatistics);
 });
