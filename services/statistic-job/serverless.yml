@@ -19,7 +19,7 @@ functions:
     events:
       # Invoke Lambda function every hour
       - schedule: rate(1 hour)
-  rateHandler:
+  weeklyHandler:
     handler: index.weeklyHandler
     environment:
       OPENSEA_API_KEY: ${ssm(raw):/opensea-api-key}
