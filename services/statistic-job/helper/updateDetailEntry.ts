@@ -1,4 +1,5 @@
 import { PrismaClient } from "@prisma/client";
+import { NFTEntry } from "../types";
 
 // setup prisma client
 const prisma = new PrismaClient();
@@ -27,6 +28,7 @@ export const createPrismaEntry = async function (nft: NFTEntry) {
       lastUpdate: nft.lastUpdated,
       nft_owner_url: nft.ownerUrl,
       nft_owner_name: nft.ownerName,
+      weeklyRank: 0,
     },
   });
   console.log(
