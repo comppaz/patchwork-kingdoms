@@ -1,53 +1,48 @@
-const { PrismaClient } = require("@prisma/client");
+import { PrismaClient } from "@prisma/client";
 
 // setup prisma client
 const prisma = new PrismaClient();
 /**
  * create statistic entry for the nft with prisma in db
  */
-async function createPrismaEntry(nft) {
+export const createPrismaEntry = async function (nft: NFTEntry) {
   console.log("Updating Prisma with the following value");
   console.log(nft);
-  const newNftDetails = await prisma.NFTDetail.upsert({
-    where: { nft_id: nft.nft_id },
+  const newNftDetails = await prisma.nFTDetail.upsert({
+    where: { nft_id: nft.id },
     update: {
-      nft_id: nft.nft_id,
+      nft_id: nft.id,
       eth: nft.eth,
       relativeEth: nft.relativeEth,
       rank: nft.rank,
-      lastUpdate: nft.lastUpdate,
+      lastUpdate: nft.lastUpdated,
       nft_owner_url: nft.ownerUrl,
       nft_owner_name: nft.ownerName,
       weeklyRank: nft.weeklyRank,
     },
     create: {
-      nft_id: nft.nft_id,
+      nft_id: nft.id,
       eth: nft.eth,
-      relativeEth: nft.relativeEth,
-      rank: nft.rank,
-      lastUpdate: nft.lastUpdate,
+      relativeEth: nft.relativeEth!,
+      rank: nft.rank!,
+      lastUpdate: nft.lastUpdated,
       nft_owner_url: nft.ownerUrl,
       nft_owner_name: nft.ownerName,
-      weeklyRank: nft.weeklyRank,
+      weeklyRank: nft.weeklyRank!,
     },
   });
   console.log(
     "Created/updated new NFT statistcs with its details",
     newNftDetails
   );
-}
+};
 
 /** get nft details for specific id */
-async function findNFTDetail(tokenId) {
-  const nft = await prisma.NFTDetail.findUnique({
+export const findNFTDetail = async function (tokenId: number) {
+  const nft = await prisma.nFTDetail.findUnique({
     where: {
       nft_id: tokenId,
     },
   });
   return nft;
-}
-
-module.exports = {
-  createPrismaEntry,
-  findNFTDetail,
 };
