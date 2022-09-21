@@ -217,14 +217,24 @@ module.exports.handler = async function (event: any, context: Context) {
 };
 
 /**
- * calculate rank changes
+ * update the weeklyRank-value with the current rank value
  */
-async function updateWeeklyRank() {
+module.exports.weeklyHandler = async function () {
   let tokenId = 1;
   while (tokenId <= totalAmountNFTs) {
-    let nft: NFTEntry = await findNFTDetail(tokenId);
-    nft!.weeklyRank = nft!.rank;
-    await createPrismaEntry(nft);
+    let nft = await findNFTDetail(tokenId);
+    let nftEntry: NFTEntry = {
+      id: nft?.nft_id!,
+      eth: nft?.eth!,
+      lastUpdated: nft?.lastUpdate!,
+      ownerUrl: nft?.nft_owner_url!,
+      ownerName: nft?.nft_owner_name!,
+      relativeEth: nft?.relativeEth!,
+      rank: nft?.rank,
+      // update with current rank value
+      weeklyRank: nft?.rank,
+    };
+    await createPrismaEntry(nftEntry);
     tokenId++;
   }
-}
+};

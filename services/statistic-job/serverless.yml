@@ -19,3 +19,12 @@ functions:
     events:
       # Invoke Lambda function every hour
       - schedule: rate(1 hour)
+  rateHandler:
+    handler: index.weeklyHandler
+    environment:
+      OPENSEA_API_KEY: ${ssm(raw):/opensea-api-key}
+      ETHERSCAN_API_KEY: ${ssm(raw):/etherscan-api-key}
+      DATABASE_URL: ${ssm(raw):/database-url}
+    events:
+      # Invoke Lambda function every week
+      - schedule: rate(1 week)
