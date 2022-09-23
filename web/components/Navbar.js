@@ -186,6 +186,11 @@ export default function Navbar() {
                                     </div>
                                 </div>
                                 <div className="px-2 pt-2 pb-3">
+                                    <Link href="/news">
+                                        <a className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-50">
+                                            News
+                                        </a>
+                                    </Link>
                                     <Link href="/dashboard">
                                         <a className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-50">
                                             Dashboard
@@ -194,6 +199,11 @@ export default function Navbar() {
                                     <Link href="/gallery">
                                         <a className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-50">
                                             Gallery
+                                        </a>
+                                    </Link>
+                                    <Link href="/leaderboard">
+                                        <a className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-50">
+                                            Leaderboard
                                         </a>
                                     </Link>
                                     <div className="flex items-center w-full justify-center mt-4 border-t-2 pt-8">
