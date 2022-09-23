@@ -35,5 +35,6 @@ app.get("/getNftStatistics", async (req, res) => {
 app.get("/getAllNftStatistics", async (req, res) => {
   console.log("API: RETURNING ALL NFT STATISTICS AT ONCE");
   const nftStatistics = await prisma.NFTDetail.findMany({});
+  console.log(nftStatistics);
   res.json(nftStatistics);
 });

@@ -6,6 +6,7 @@ export interface NFTEntry {
   lastUpdated: string;
   ownerUrl: string;
   ownerName: string;
+  weeklyRank?: number;
 }
 
 export interface TotalObject {

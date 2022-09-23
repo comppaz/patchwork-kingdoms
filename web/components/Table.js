@@ -37,6 +37,25 @@ export default function Table({ data, fixedAuctionValue, roundPriceValue, conver
         setTableData([...tableData]);
     };
 
+    const calculateRankChanges = nft => {
+        let rankChange = 0;
+        if (nft.weeklyRank) {
+            rankChange = nft.rank - nft.weeklyRank;
+        }
+        // modify output with respective sign for each value
+        switch (true) {
+            case rankChange > 0:
+                rankChange = '+'.concat(rankChange);
+                break;
+            case rankChange < 0:
+                break;
+            case rankChange === 0:
+                rankChange = '+-'.concat(rankChange);
+                break;
+        }
+        return rankChange;
+    };
+
     const sortDataByRankUp = attribute => {
         tableData.sort((currentNft, previousNft) => {
             return currentNft[attribute] - previousNft[attribute];
@@ -83,7 +102,7 @@ export default function Table({ data, fixedAuctionValue, roundPriceValue, conver
                                                 scope="col"
                                                 className="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-6"></th>
                                             <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">
-                                                Rank
+                                                Rank (weekly rank changes)
                                                 <br />
                                                 <span>
                                                     <button
@@ -176,7 +195,9 @@ export default function Table({ data, fixedAuctionValue, roundPriceValue, conver
                                                         </a>
                                                     </Link>
                                                 </td>
-                                                <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{nft.rank}</td>
+                                                <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
+                                                    {nft.rank} ({calculateRankChanges(nft)})
+                                                </td>
                                                 <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6">
                                                     <a href={`/nft/${nft.nft_id}`}>{nft.nft_id}</a>
                                                 </td>

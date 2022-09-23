@@ -19,6 +19,7 @@ export const createPrismaEntry = async function (nft: NFTEntry) {
       lastUpdate: nft.lastUpdated,
       nft_owner_url: nft.ownerUrl,
       nft_owner_name: nft.ownerName,
+      weeklyRank: nft.weeklyRank,
     },
     create: {
       nft_id: nft.id,
@@ -28,11 +29,21 @@ export const createPrismaEntry = async function (nft: NFTEntry) {
       lastUpdate: nft.lastUpdated,
       nft_owner_url: nft.ownerUrl,
       nft_owner_name: nft.ownerName,
-      weeklyRank: 0,
+      weeklyRank: nft.weeklyRank!,
     },
   });
   console.log(
     "Created/updated new NFT statistcs with its details",
     newNftDetails
   );
+};
+
+/** get nft details for specific id */
+export const findNFTDetail = async function (tokenId: number) {
+  const nft = await prisma.nFTDetail.findUnique({
+    where: {
+      nft_id: tokenId,
+    },
+  });
+  return nft;
 };

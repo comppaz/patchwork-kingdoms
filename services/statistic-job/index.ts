@@ -2,7 +2,7 @@ import { DateTime } from "luxon";
 import * as dotenv from "dotenv";
 dotenv.config();
 import axios, { AxiosError, AxiosRequestConfig } from "axios";
-import { createPrismaEntry } from "./helper/updateDetailEntry";
+import { createPrismaEntry, findNFTDetail } from "./helper/updateDetailEntry";
 import { Context } from "aws-lambda";
 import { NFTEntry, TotalObject } from "./types";
 
@@ -89,7 +89,6 @@ async function calculateDonatedETH(
     ownerUrl: ownerAddress,
     ownerName: ownerName,
   };
-  console.log(nftObject);
   totalData.push(nftObject);
   return { totalData: totalData, totalDonated: totalDonated };
 }
@@ -210,6 +209,32 @@ module.exports.handler = async function (event: any, context: Context) {
       rank++;
     }
     total.totalData![i].rank = rank;
+    let previousNFTInfo = await findNFTDetail(total.totalData![i].id);
+    // get last known weeklyRank value and preserve the current value for this update
+    total.totalData![i].weeklyRank = previousNFTInfo!.weeklyRank;
     await createPrismaEntry(total.totalData![i]);
+  }
+};
+
+/**
+ * update the weeklyRank-value with the current rank value
+ */
+module.exports.weeklyHandler = async function () {
+  let tokenId = 1;
+  while (tokenId <= totalAmountNFTs) {
+    let nft = await findNFTDetail(tokenId);
+    let nftEntry: NFTEntry = {
+      id: nft?.nft_id!,
+      eth: nft?.eth!,
+      lastUpdated: nft?.lastUpdate!,
+      ownerUrl: nft?.nft_owner_url!,
+      ownerName: nft?.nft_owner_name!,
+      relativeEth: nft?.relativeEth!,
+      rank: nft?.rank,
+      // update with current rank value
+      weeklyRank: nft?.rank,
+    };
+    await createPrismaEntry(nftEntry);
+    tokenId++;
   }
 };

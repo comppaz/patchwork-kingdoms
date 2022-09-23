@@ -47,7 +47,7 @@ export default function Statistics({ stats, fixedAuctionValue, roundPriceValue, 
                     <dd className="mt-1 text-3xl tracking-tight font-semibold text-gray-900">{roundPriceValue(overallFunds, 2)} ETH</dd>
                 </div>
                 <div className="px-4 py-5 bg-white shadow rounded-lg overflow-hidden sm:p-6">
-                    <dt className="text-sm font-medium text-gray-500 truncate">Total NFT Owner</dt>
+                    <dt className="text-sm font-medium text-gray-500 truncate">Total NFT Owners</dt>
                     <dd className="mt-1 text-3xl tracking-tight font-semibold text-gray-900">{overallOwner}</dd>
                 </div>
             </dl>
