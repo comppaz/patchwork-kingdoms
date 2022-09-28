@@ -1,6 +1,5 @@
 import useUser from '../lib/useUser';
 import useOwnedNfts from '../lib/useOwnedNfts';
-import fetchJson from '../lib/fetchJson';
 import NftGallery from '../components/NftGallery';
 
 export default function Dashboard() {
@@ -8,7 +7,6 @@ export default function Dashboard() {
 
     const { nfts } = useOwnedNfts(user);
 
-    console.log(user);
     if (!user?.isLoggedIn) {
         return (
             <div className="min-h-full pt-16 pb-12 flex flex-col bg-white">

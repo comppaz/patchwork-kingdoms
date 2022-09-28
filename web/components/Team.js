@@ -1,4 +1,4 @@
-import fetchStrapi from '../lib/fetchStrapi';
+import { fetchStrapi } from '../lib/fetchData';
 import { useState, useEffect } from 'react';
 
 export default function Team() {

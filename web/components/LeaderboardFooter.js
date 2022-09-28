@@ -13,8 +13,6 @@ export default function LeaderboardFooter({ currentStartNft, setCurrentStartNft,
     };
 
     const setPrevious = () => {
-        console.log(currentPage);
-        console.log(minPages);
         if (currentPage != minPages) {
             setCurrentPage(currentPage - 1);
             setCurrentStartNft(currentStartNft - maxEntriesOnPage);
