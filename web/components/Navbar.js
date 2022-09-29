@@ -5,7 +5,7 @@ import { useWeb3React } from '@web3-react/core';
 import { injected } from './_web3';
 import Link from 'next/link';
 import useUser from '../lib/useUser';
-import fetchJson from '../lib/fetchJson';
+import { fetchJson } from '../lib/fetchData';
 import { useRouter } from 'next/router';
 import { ToastContainer, toast } from 'react-toastify';
 

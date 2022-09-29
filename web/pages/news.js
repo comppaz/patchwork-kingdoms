@@ -1,13 +1,12 @@
 /* This example requires Tailwind CSS v2.0+ */
 import { useEffect, useState } from 'react';
-import fetchStrapi from '../lib/fetchStrapi';
+import { fetchStrapi } from '../lib/fetchData';
 
 export default function News() {
     let [articles, setArticles] = useState([]);
 
     useEffect(async () => {
         let articles = await fetchStrapi(`articles`, 'date');
-        console.log(articles);
         setArticles(articles.data);
     }, []);
 

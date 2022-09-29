@@ -6,7 +6,7 @@ import Slideover from '../../components/Slideover';
 import Popup from '../../components/Popup';
 import ReactDOM from 'react-dom';
 import colorToStyleMapping from '../../data/colorToStyleMapping';
-import { XIcon, ChevronUpIcon, ChevronDownIcon, ChevronRightIcon } from '@heroicons/react/outline';
+import { ChevronUpIcon, ChevronRightIcon } from '@heroicons/react/outline';
 import getNftFromJsonBins from '../../lib/getNftFromJsonBins';
 import Loading from '../../components/Loading';
 
@@ -18,7 +18,6 @@ const NFT = () => {
     const [isDialogOpen, setDialogOpen] = useState(false);
 
     useEffect(async () => {
-        console.log(router.query.id);
         if (router.query.id) {
             const tokenId = router.query.id[0];
             const node = mapNode.current;
@@ -200,13 +199,6 @@ const NFT = () => {
             .setLngLat([coordinates[0], coordinates[1]])
             .setDOMContent(popupNode)
             .addTo(map);
-
-        /*
-  new mapboxgl.Marker(el).setLngLat([coordinates[0], coordinates[1]]).setPopup(    new mapboxgl.Popup({ offset: 25, closeButton: false }) // add popups
-      .setDOMContent(
-        popupNode
-      )
-  ).addTo(map);*/
     };
 
     return (

@@ -59,7 +59,6 @@ export default function NftGallery({ nfts: nfts, heading: heading, caption: capt
                                     <li key={nft.title}>
                                         <div className="space-y-4">
                                             <div className="aspect-w-3 aspect-h-3">
-                                                {/* TODO find solution why optimization is not working in prod */}
                                                 <a href={`/nft/${nft.tokenId}`}>
                                                     <Image
                                                         className="object-cover shadow-lg rounded-lg"

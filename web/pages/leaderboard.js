@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import Loading from '../components/Loading';
-import Table from '../components/Table';
+import Leaderboard from '../components/Leaderbord';
 
 const Leaderbord = () => {
     const [data, setData] = useState();
@@ -56,11 +56,11 @@ const Leaderbord = () => {
             {loading ? (
                 <Loading />
             ) : (
-                <Table
+                <Leaderboard
                     data={data}
                     fixedAuctionValue={fixedAuctionValue}
                     roundPriceValue={roundPriceValue}
-                    convertToUSD={convertToUSD}></Table>
+                    convertToUSD={convertToUSD}></Leaderboard>
             )}
         </>
     );

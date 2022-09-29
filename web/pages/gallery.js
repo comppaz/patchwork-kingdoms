@@ -1,5 +1,4 @@
-import { useEffect, useState, setLoading } from 'react';
-import useAllNfts from '../lib/useAllNfts';
+import { useEffect, useState } from 'react';
 import NftGallery from '../components/NftGallery';
 import kingdoms from '../data/kingdoms';
 

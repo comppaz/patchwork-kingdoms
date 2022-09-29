@@ -1,4 +1,8 @@
-import { idToBinIdMapping } from './idToBinIdMapping';
+import { bins } from '../data/bins';
+
+function idToBinIdMapping(id) {
+    return bins[id];
+}
 
 const requestHeaders = {
     'X-Access-Key': process.env.NEXT_PUBLIC_JSONBIN_KEY,
@@ -19,7 +23,6 @@ export default async function getNftFromJsonBins(tokenId) {
     let urlPath = 'https://api.jsonbin.io/v3/b/' + binId;
     const response = await fetch(urlPath, options);
     const data = await response.json();
-    console.log(data);
 
     return data;
 }

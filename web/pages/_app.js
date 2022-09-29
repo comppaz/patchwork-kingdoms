@@ -7,7 +7,7 @@ import Navbar from '../components/Navbar';
 import { Web3ReactProvider } from '@web3-react/core';
 import Web3 from 'web3';
 import { SWRConfig } from 'swr';
-import fetchJson from '../lib/fetchJson';
+import { fetchJson } from '../lib/fetchData';
 
 function getLibrary(provider) {
     return new Web3(provider);

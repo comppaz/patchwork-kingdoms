@@ -7,7 +7,6 @@ import { PublicKey } from '@solana/web3.js';
 
 export default function Banner() {
     const [open, setOpen] = useState(false);
-    const [signature, setSignature] = useState(null);
     const [username, setUsername] = useState(null);
     const [solanaAddress, setSolanaAddress] = useState(null);
     const [check, setCheck] = useState(false);
