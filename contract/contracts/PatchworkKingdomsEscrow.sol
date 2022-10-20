@@ -2,6 +2,7 @@
 pragma solidity ^0.8.0;
 
 import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
+import "hardhat/console.sol";
 
 contract PatchworkKingdomsEscrow {
     IERC721 token;
@@ -10,7 +11,7 @@ contract PatchworkKingdomsEscrow {
 
     struct ERC721Item {
         address giver;
-        uint256 item;
+        uint256 tokenId;
         uint256 expiration;
         uint256 price;
     }
@@ -26,7 +27,7 @@ contract PatchworkKingdomsEscrow {
         uint256 id,
         uint256 price,
         address tokenAddress,
-        uint256 item
+        uint256 tokenId
     );
 
     constructor(address _address) {
@@ -46,20 +47,19 @@ contract PatchworkKingdomsEscrow {
             msg.sender == token.ownerOf(tokenId),
             "Sender is not the token owner."
         );
-        token.approve(address(this), tokenId);
         // transfer the item to escrow contract
         token.transferFrom(msg.sender, address(this), tokenId);
         uint256 itemId = counter;
         // update items with current deposited item
         items[itemId] = ERC721Item({
             giver: msg.sender,
-            item: tokenId,
+            tokenId: tokenId,
             // TODO: alternative for expiration: the calculation of the expiration_date is done in frontend and passed as parameter into this function
             expiration: block.timestamp + _expiration,
             price: 0
         });
         counter += 1;
-        emit Deposited(itemId, address(token), tokenId);
+        emit Deposited(itemId, address(token), items[itemId].tokenId);
     }
 
     /**
@@ -67,9 +67,9 @@ contract PatchworkKingdomsEscrow {
     @param lastMinPrice: the value the oracle calculates 
     @param itemId: id of the deposited item
     */
-    function setLastMinPrice(uint256 lastMinPrice, uint256 itemId) public view {
-        ERC721Item memory item = items[itemId];
-        item.price = lastMinPrice;
+    function setLastMinPrice(uint256 lastMinPrice, uint256 itemId) public {
+        items[itemId].price = lastMinPrice;
+        // items[itemId].price = lastMinPrice;
     }
 
     /**
@@ -94,10 +94,10 @@ contract PatchworkKingdomsEscrow {
         );
         // check expiration value
         // TODO: see above and below how to handle expiration
-        require(block.timestamp <= item.expiration, "The token is expired.");
-        token.transferFrom(address(this), msg.sender, item.item);
+        //require(block.timestamp > item.expiration, "The token is expired.");
+        token.safeTransferFrom(address(this), msg.sender, item.tokenId);
+        emit Donated(itemId, msg.value, address(token), item.tokenId);
         delete(items[itemId]);
-        emit Donated(itemId, msg.value, address(token), item.item);
     }
 
     /**
@@ -110,8 +110,8 @@ contract PatchworkKingdomsEscrow {
             msg.sender == owner,
             "Deposit can only be cancelled by the admin."
         );
+        token.transferFrom(address(this), item.giver, item.tokenId);
         delete(items[itemId]);
-        token.transferFrom(address(this), item.giver, item.item);
     }
 
     /**
@@ -120,10 +120,9 @@ contract PatchworkKingdomsEscrow {
     */
     function expiration(uint256 itemId, uint256 _expiration) public {
         ERC721Item memory item = items[itemId];
-        // TODO: expiration value could be verified with block.timestamp see above: depends on initial decision
         require(_expiration < item.expiration, "The token is not expired.");
+        token.transferFrom(address(this), item.giver, item.tokenId);
         delete(items[itemId]);
-        token.transferFrom(address(this), item.giver, item.item);
     }
 
     /**
