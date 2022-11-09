@@ -9,6 +9,7 @@ provider:
 plugins:
   - serverless-plugin-common-excludes
   - serverless-plugin-typescript
+  - serverless-plugin-include-dependencies
 functions:
   rateHandler:
     handler: index.handler
@@ -27,4 +28,4 @@ functions:
       DATABASE_URL: ${ssm(raw):/database-url}
     events:
       # Invoke Lambda function every week
-      - schedule: rate(1 week)
+      - schedule: rate(7 days)
