@@ -68,8 +68,10 @@ contract PatchworkKingdomsEscrow {
     @param itemId: id of the deposited item
     */
     function setLastMinPrice(uint256 lastMinPrice, uint256 itemId) public {
+        console.log("Setting new Price value");
         items[itemId].price = lastMinPrice;
-        // items[itemId].price = lastMinPrice;
+        console.log(items[itemId].price);
+        console.log(lastMinPrice);
     }
 
     /**
@@ -79,6 +81,14 @@ contract PatchworkKingdomsEscrow {
     function getItem(uint256 itemId) public view returns(ERC721Item memory){
         ERC721Item memory item = items[itemId];
         return item;
+    }
+
+    /**
+    setAddress function sets other token address than Patchwork Kingdoms
+    @param _address: address of the token
+    */
+    function setAddress(address _address) public{
+        token = IERC721(_address);
     }
 
     /**

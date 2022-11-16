@@ -1,15 +1,24 @@
-const axios = require("axios");
 const { ethers } = require("ethers");
-const Web3 = require("web3");
-require("dotenv").config();
-const web3 = new Web3("HTTP://127.0.0.1:8545");
+const hre = require("hardhat");
 
 async function main() {
-  const contractAddress = "0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512";
+  let owner;
+  let addr1;
+  let addrs;
+  let tokenId = 441;
+
+  [owner, addr1, ...addrs] = await hre.ethers.getSigners();
   const provider = new ethers.providers.JsonRpcProvider(
     "HTTP://127.0.0.1:8545"
   );
   const signer = provider.getSigner();
+  const tokenAddress = "0x5FbDB2315678afecb367f032d93F642f64180aa3";
+  const contractAddress = "0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512";
+  const tokenAbi = [
+    "function approve(address,uint256)",
+    "function mint(address,uint256)",
+    "function ownerOf(uint256)",
+  ];
   const abi = [
     {
       inputs: [
@@ -256,68 +265,32 @@ async function main() {
   ];
 
   const escrowContract = new ethers.Contract(contractAddress, abi, signer);
-  console.log("LISTENING & WAITING FOR EVENT");
-  escrowContract.on(
-    "Deposited",
-    async (itemId, tokenAddress, tokenId, event) => {
-      const response = await handleRequest(event);
-      const lastMinPriceValue = await handleResponse(response);
-      // event.args array has the following value sequence see contract: (id, tokenAddress, tokenId)
-      itemId = event.args[0].toNumber();
-      escrowContract.setLastMinPrice(lastMinPriceValue, itemId);
-    }
-  );
+  const testERC721token = new ethers.Contract(tokenAddress, tokenAbi, signer);
+
+  // prepare deposit
+  await prepareDeposit(testERC721token, addr1, tokenId, escrowContract);
+  console.log("START DEPOSIT EVENT");
+  // deposit
+  const depositTx = await escrowContract
+    .connect(addr1)
+    .deposit(tokenId, 2, { gasLimit: 30000000 });
+  await depositTx.wait();
+  console.log(await testERC721token.ownerOf(tokenId));
+  console.log("DEPOSIT SUCCESSFUL");
 }
 
-async function handleRequest(event) {
-  let options = {
-    method: "GET",
-    url: "https://deep-index.moralis.io/api/v2/nft/",
-    params: { chain: "eth", format: "decimal" },
-    headers: {
-      accept: "application/json",
-      "X-API-Key": process.env.MORALIS_API_KEY,
-    },
-  };
-  // event.args array has the following value sequence see contract: (id, tokenAddress, tokenId)
-  console.log("Received Deposit Event");
-  let address = event.args[1];
+async function prepareDeposit(testERC721token, addr1, tokenId, escrowContract) {
+  // prepare deposit
+  console.log(addr1);
+  const mintTx = await testERC721token.mint(addr1.address, tokenId);
+  await mintTx.wait();
 
-  // when testing on different net overwrite received value to get real results
-  // address = "0xd24a7c412f2279b1901e591898c1e96c140be8c5";
-  let tokenId = event.args[2].toNumber();
-
-  options.url = options.url
-    .concat(address)
-    .concat("/")
-    .concat(tokenId)
-    .concat("/transfers");
-
-  let result = await axios(options);
-  return result;
-}
-
-async function handleResponse(response) {
-  const data = await response.data;
-  let lastMinPriceValue = 0;
-
-  if (data.result == undefined || data.result.length == 0) {
-    console.log("error no transaction found");
-  } else {
-    // sort all sales according to the their timestamps
-    data.result.reduce((a, b) =>
-      a.block_timestamp > b.block_timestamp ? a : b
-    );
-    // latest sale
-    lastMinPriceValue = data.result[0].value;
-  }
-  return lastMinPriceValue;
+  const approveERC721TokenTx = await testERC721token
+    .connect(addr1)
+    .approve(escrowContract.address, tokenId);
+  await approveERC721TokenTx.wait();
+  console.log("Current owner: ");
+  console.log(await testERC721token.ownerOf(tokenId));
 }
 
 main();
-
-module.exports = {
-  main,
-  handleRequest,
-  handleResponse,
-};
