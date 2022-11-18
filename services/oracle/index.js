@@ -1,15 +1,21 @@
 const axios = require("axios");
 const { ethers } = require("ethers");
-const Web3 = require("web3");
 require("dotenv").config();
-const web3 = new Web3("HTTP://127.0.0.1:8545");
 
 async function main() {
-  const contractAddress = "0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512";
-  const provider = new ethers.providers.JsonRpcProvider(
+  const contractAddress = "0xFe721a433b0a0Bcd306e62B82ba9ab3e8a13a877";
+  /* for local testing
+    const provider = new ethers.providers.JsonRpcProvider(
     "HTTP://127.0.0.1:8545"
+    const signer = provider.getSigner();
+  );*/
+  const wallet = new ethers.Wallet(process.env.PRIVATE_KEY);
+  const network = "goerli";
+  const provider = new ethers.providers.AlchemyProvider(
+    network,
+    `${process.env.ALCHEMY_API_KEY}`
   );
-  const signer = provider.getSigner();
+  const signer = wallet.connect(provider);
   const abi = [
     {
       inputs: [
@@ -265,6 +271,8 @@ async function main() {
       // event.args array has the following value sequence see contract: (id, tokenAddress, tokenId)
       itemId = event.args[0].toNumber();
       escrowContract.setLastMinPrice(lastMinPriceValue, itemId);
+      // TODO: ItemId /= TokenId because ItemId === counter; ItemId is necessary for getItem with correct id value and further calls!
+      console.log("RETURN ITEM ID: " + itemId);
     }
   );
 }
