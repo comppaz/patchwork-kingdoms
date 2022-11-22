@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import Image from 'next/image';
-import Modal from './donation/modal';
+import Modal from './donation/Modal';
 
 var pageCounter = 100;
 const pageIncrement = 100;
