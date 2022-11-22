@@ -254,7 +254,7 @@ const provider = new ethers.providers.AlchemyProvider(
 );
 const signer = wallet.connect(provider);
 const escrowContract = new ethers.Contract(contractAddress, abi, signer);
-
+async function main() {}
 escrowContract
   .getItem(1)
   .then((item) => {
@@ -265,3 +265,8 @@ escrowContract
     console.log(`Your transaction is confirmed, its receipt is:`)
   )
   .catch((e) => console.error(e));
+
+main().catch((error) => {
+  console.error(error);
+  process.exitCode = 1;
+});

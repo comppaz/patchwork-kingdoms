@@ -16,12 +16,18 @@ const provider = new ethers.providers.AlchemyProvider(
 const signer = wallet.connect(provider);
 const testERC721token = new ethers.Contract(tokenAddress, tokenAbi, signer);
 
-testERC721token
-  .mint("0x3112aF4cE798B63A1f6B318BA4CB50a2Ee248971", 12)
-  .then((tx) => tx.wait(5))
-  .then((receipt) =>
-    console.log(
-      `Your transaction is confirmed, its receipt is: ${receipt.transactionHash}`
-    )
-  )
-  .catch((e) => console.error("Something went wrong"));
+async function main() {
+  const mintTx = await testERC721token.mint(
+    "0x3112aF4cE798B63A1f6B318BA4CB50a2Ee248971",
+    12
+  );
+  mintTx.wait();
+  console.log(
+    `Your transaction is confirmed, its receipt is: ${mintTx.transactionHash}`
+  );
+}
+
+main().catch((error) => {
+  console.error(error);
+  process.exitCode = 1;
+});

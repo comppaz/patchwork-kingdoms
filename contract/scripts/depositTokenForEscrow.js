@@ -255,31 +255,17 @@ const provider = new ethers.providers.AlchemyProvider(
 const signer = wallet.connect(provider);
 const escrowContract = new ethers.Contract(contractAddress, abi, signer);
 
-//test();
-// deposit
-const walletAddress = "0x3112aF4cE798B63A1f6B318BA4CB50a2Ee248971";
-const tokenAddress = "0x4C32D7bf64a21cC6fF47e0D55F7F81a7e9Dcb4f0";
-
-/*
-0x6d78a7fa9ae92f7efc1729692cd2245eb93a0ff4ed8f5df0e4e7bb874cfd37ad
-escrowContract
-  .setAddress(tokenAddress)
-  .then((tx) => tx.wait(5))
-  .then((receipt) =>
-    console.log(
-      `Your transaction is confirmed, its receipt is: ${receipt.transactionHash}`
-    )
-  )
-  .catch((e) => console.error(e));*/
-
-escrowContract
-  .deposit(13, 1700297288, {
+async function main() {
+  const depositTx = await escrowContract.deposit(13, 1700297288, {
     from: wallet.address,
-  })
-  .then((tx) => tx.wait(5))
-  .then((receipt) =>
-    console.log(
-      `Your transaction is confirmed, its receipt is: ${receipt.transactionHash}`
-    )
-  )
-  .catch((e) => console.error(e));
+  });
+  await depositTx.wait();
+  console.log(
+    `Your transaction is confirmed, its receipt is: ${depositTx.transactionHash}`
+  );
+}
+
+main().catch((error) => {
+  console.error(error);
+  process.exitCode = 1;
+});

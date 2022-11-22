@@ -16,14 +16,21 @@ const provider = new ethers.providers.AlchemyProvider(
 const signer = wallet.connect(provider);
 const testERC721token = new ethers.Contract(tokenAddress, tokenAbi, signer);
 
-testERC721token
-  .approve("0xFe721a433b0a0Bcd306e62B82ba9ab3e8a13a877", 13, {
-    gasLimit: 2000000,
-  })
-  .then((tx) => tx.wait(5))
-  .then((receipt) =>
-    console.log(
-      `Your transaction is confirmed, its receipt is: ${receipt.transactionHash}`
-    )
-  )
-  .catch((e) => console.error(e));
+async function main() {
+  const approveTx = await testERC721token.approve(
+    "0xFe721a433b0a0Bcd306e62B82ba9ab3e8a13a877",
+    13,
+    {
+      gasLimit: 2000000,
+    }
+  );
+  approveTx.wait();
+  console.log(
+    `Your transaction is confirmed, its receipt is: ${approveTx.transactionHash}`
+  );
+}
+
+main().catch((error) => {
+  console.error(error);
+  process.exitCode = 1;
+});
