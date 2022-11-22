@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import Image from 'next/image';
+import Modal from './donation/modal';
 
 var pageCounter = 100;
 const pageIncrement = 100;
@@ -8,6 +9,8 @@ const pageIncrement = 100;
 export default function NftGallery({ nfts: nfts, heading: heading, caption: caption }) {
     const [allnfts, setAllnfts] = useState([]);
     const [hasMore, setHasMore] = useState(true);
+    const [modalOpen, setModalOpen] = useState(true);
+    const [selectedNft, setSelectedNft] = useState(null);
 
     useEffect(() => {
         if (nfts === undefined) {
@@ -41,8 +44,9 @@ export default function NftGallery({ nfts: nfts, heading: heading, caption: capt
                         <h2 className="text-3xl font-extrabold tracking-tight sm:text-4xl">{heading}</h2>
                         <p className="text-xl text-gray-500">{caption}</p>
                     </div>
+                    {selectedNft && <Modal open={modalOpen} setOpen={setModalOpen} nft={selectedNft} />}
                     <InfiniteScroll
-                        dataLength={allnfts.length} //This is important field to render the next data
+                        dataLength={allnfts.length} // This is important field to render the next data
                         next={fetchData}
                         hasMore={hasMore}
                         loader={<h4>Loading...</h4>}
@@ -80,6 +84,17 @@ export default function NftGallery({ nfts: nfts, heading: heading, caption: capt
                                                             <span className="sr-only">Details</span>
                                                             Details
                                                         </a>
+                                                    </li>
+                                                    <li>
+                                                        <button
+                                                            onClick={() => {
+                                                                setModalOpen(true);
+                                                                setSelectedNft(nft);
+                                                            }}
+                                                            className="cursor-pointer text-gray-400 hover:text-gray-500">
+                                                            <span className="sr-only">Donate</span>
+                                                            Donate
+                                                        </button>
                                                     </li>
                                                     <li>
                                                         <a
