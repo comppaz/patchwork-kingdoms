@@ -1,8 +1,9 @@
-import { Fragment, useRef, useState } from 'react';
+import { Fragment, useRef, useState, useEffect } from 'react';
 import { Dialog, Transition, Switch } from '@headlessui/react';
 import Image from 'next/image';
 import { InformationCircleIcon } from '@heroicons/react/outline';
 import Tooltip from '../Tooltip';
+import { connectWallet, deposit, escrowContract, getConnectedWallet, getItem } from '../../lib/contractInteraction';
 
 function classNames(...classes) {
     return classes.filter(Boolean).join(' ');
@@ -10,6 +11,73 @@ function classNames(...classes) {
 export default function Modal({ nft, open, setOpen }) {
     const cancelButtonRef = useRef(null);
     const [enabled, setEnabled] = useState(false);
+    const [walletAddress, setWalletAddress] = useState('');
+    const [status, setStatus] = useState('');
+
+    //called only once
+    useEffect(async () => {
+        addDepositEventListener();
+
+        const { address, status } = await getConnectedWallet();
+        setWalletAddress(address);
+        setStatus(status);
+
+        addWalletListener();
+    }, []);
+
+    function addDepositEventListener() {
+        console.log('LISTENER RUNNING??');
+        escrowContract.events.Deposited({}, (error, data) => {
+            console.log('DEPOSTI EVENT WAS TRIGGERED!');
+            console.log(data);
+            if (error) {
+                setStatus('Something went wrong: ' + error.message);
+            } else {
+                setStatus('Deposit event was successful');
+                console.log(data);
+                // call here getSetPrice!
+                console.log('CALL IF PRICE WAS SET');
+                let itemId = data.itemId;
+                let price = getItem(itemId);
+                console.log(price);
+            }
+        });
+    }
+
+    function addWalletListener() {
+        if (window.ethereum) {
+            window.ethereum.on('accountsChanged', accounts => {
+                if (accounts.length > 0) {
+                    setWallet(accounts[0]);
+                } else {
+                    setWallet('');
+                    setStatus('Connect to Metamask using the top right button.');
+                }
+            });
+        } else {
+            setStatus(
+                <p>
+                    {' '}
+                    <a target="_blank" href={`https://metamask.io/download.html`} rel="noreferrer">
+                        You must install Metamask, a virtual Ethereum wallet, in your browser.
+                    </a>
+                </p>,
+            );
+        }
+    }
+
+    const connectWalletButtonPressed = async () => {
+        console.log('CALL?');
+        const response = await connectWallet();
+        setWalletAddress(response.address);
+        console.log(response);
+    };
+
+    const onDepositPressed = async nftId => {
+        console.log('Starting Deposit for TokenID: ' + nftId);
+        const response = await deposit(walletAddress, 15, 1700297288);
+        setStatus(response.status);
+    };
 
     return (
         <Transition.Root show={open} as={Fragment}>
@@ -38,6 +106,22 @@ export default function Modal({ nft, open, setOpen }) {
                             <Dialog.Panel className="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg">
                                 <div className="w-full py-2 px-12 text-center text-gray-500 bg-gray-50 font-light border border-b-2">
                                     Donate your NFT
+                                </div>
+                                <div>{status}</div>
+                                <div className="bg-gray-50 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6">
+                                    {walletAddress.length > 0 ? (
+                                        <span>
+                                            Connected: ${walletAddress.substring(0, 6)} ... ${walletAddress.substring(38)}
+                                        </span>
+                                    ) : (
+                                        <button
+                                            type="button"
+                                            className="mt-3 inline-flex w-full justify-center rounded-md border border-gray-300 bg-white px-4 py-2 text-base font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-teal-500 focus:ring-offset-2 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm"
+                                            onClick={() => connectWalletButtonPressed()}>
+                                            {' '}
+                                            Connect
+                                        </button>
+                                    )}
                                 </div>
                                 <div className="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
                                     <div className="sm:flex sm:items-start">
@@ -163,7 +247,10 @@ export default function Modal({ nft, open, setOpen }) {
                                     <button
                                         type="button"
                                         className="inline-flex w-full justify-center rounded-md border border-transparent bg-teal-500 px-4 py-2 text-base font-medium text-white shadow-sm hover:bg-teal-700 focus:outline-none focus:ring-2 focus:ring-teal-500 focus:ring-offset-2 sm:ml-3 sm:w-auto sm:text-sm"
-                                        onClick={() => setOpen(false)}>
+                                        onClick={() => {
+                                            //setOpen(false)
+                                            onDepositPressed(nft.tokenId);
+                                        }}>
                                         Sign
                                     </button>
                                     <button

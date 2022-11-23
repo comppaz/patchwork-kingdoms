@@ -19,9 +19,10 @@ const testERC721token = new ethers.Contract(tokenAddress, tokenAbi, signer);
 async function main() {
   const mintTx = await testERC721token.mint(
     "0x3112aF4cE798B63A1f6B318BA4CB50a2Ee248971",
-    12
+    15
   );
   mintTx.wait();
+  console.log(mintTx);
   console.log(
     `Your transaction is confirmed, its receipt is: ${mintTx.transactionHash}`
   );
