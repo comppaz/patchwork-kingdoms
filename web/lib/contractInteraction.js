@@ -1,11 +1,14 @@
 // setup
 import { createAlchemyWeb3 } from '@alch/alchemy-web3';
+import { approveTransaction } from './testTokenInteraction';
 
-const web3 = createAlchemyWeb3(`https://eth-mainnet.alchemyapi.io/v2/${process.env.ALCHEMY_API_KEY}`);
+const web3Wss = createAlchemyWeb3(process.env.NEXT_PUBLIC_ALCHEMY_WSS_URL);
+const web3 = createAlchemyWeb3(`https://eth-goerli.g.alchemy.com/v2/${process.env.NEXT_PUBLIC_ALCHEMY_API_KEY}`);
 
-const contractAddress = '0xFe721a433b0a0Bcd306e62B82ba9ab3e8a13a877';
+const contractAddress = process.env.NEXT_PUBLIC_ESCROW_DEPLOYMENT_ADDRESS;
 const contractABI = require('../../contract/artifacts/contracts/PatchworkKingdomsEscrow.sol/PatchworkKingdomsEscrow.json');
-export const escrowContract = new web3.eth.Contract(contractABI['abi'], contractAddress);
+const escrowContract = new web3.eth.Contract(contractABI['abi'], contractAddress);
+export const escrowContractWSS = new web3Wss.eth.Contract(contractABI['abi'], contractAddress);
 
 export const connectWallet = async () => {
     if (window.ethereum) {
@@ -41,12 +44,12 @@ export const getConnectedWallet = async () => {
             if (addressArray.length > 0) {
                 return {
                     address: addressArray[0],
-                    status: 'Output will follow here.',
+                    status: 'Successfully logged in!',
                 };
             } else {
                 return {
                     address: '',
-                    status: 'Connect to Metamask using the top right button.',
+                    status: 'Connect to Metamask first.',
                 };
             }
         } catch (err) {
@@ -58,7 +61,7 @@ export const getConnectedWallet = async () => {
     } else {
         return {
             address: '',
-            status: '',
+            status: 'You must install Metamask, a virtual Ethereum wallet, in your browser before connecting.',
         };
     }
 };
@@ -73,7 +76,7 @@ export const getItem = async (address, itemId) => {
     }
 
     // check parameter to call contract methods!
-    if (tokenId === undefined || expiration === undefined) {
+    if (itemId === undefined || expiration === undefined) {
         return {
             status: 'Please insert valid parameters.',
         };
@@ -103,6 +106,25 @@ export const getItem = async (address, itemId) => {
     }
 };
 
+export const getItems = async () => {
+    const items = await escrowContract.methods.getItems().call();
+    let output = [];
+    items.forEach((el, i) => {
+        let item = {};
+        if (el[1] !== '0x0000000000000000000000000000000000000000') {
+            item.itemId = el.itemId;
+            item.giver = el.giver;
+            item.expiration = el.expiration;
+            item.length = el.length;
+            item.price = el.price;
+            item.tokenId = el.tokenId;
+            item.url = 'https://api.lorem.space/image/drink';
+            output.push(item);
+        }
+    });
+    return output;
+};
+
 export const deposit = async (address, tokenId, expiration) => {
     console.log('START DEPOSIT ITEM REQUEST');
     // check auth
@@ -118,26 +140,81 @@ export const deposit = async (address, tokenId, expiration) => {
         };
     }
 
-    // start deposit transaction
-    const depositParameter = {
+    let result = await approveTransaction(address, tokenId);
+    if (result) {
+        return {
+            status: 'The Deposit was cancelled!',
+        };
+    } else {
+        const accountNonce = '0x' + ((await web3.eth.getTransactionCount(address)) + 1).toString(16);
+
+        // start deposit transaction
+        const depositParameter = {
+            to: contractAddress,
+            from: address,
+            nonce: accountNonce,
+            data: escrowContract.methods.deposit(tokenId, expiration).encodeABI(),
+        };
+        // sign the deposit transaction
+        try {
+            const txHash = await window.ethereum.request({
+                method: 'eth_sendTransaction',
+                params: [depositParameter],
+            });
+            console.log(txHash);
+            return txHash;
+        } catch (error) {
+            return {
+                status: 'Something went wrong: ' + error.message,
+            };
+        }
+    }
+};
+
+export const buy = async (address, itemId, price) => {
+    console.log('START DONATION ITEM REQUEST');
+    // check auth
+    if (!window.ethereum || address === null) {
+        return {
+            status: 'Connect your Metamask wallet to donate your nft.',
+        };
+    }
+    // check parameter to call contract methods!
+    if (itemId === undefined) {
+        return {
+            status: 'Please insert valid parameters.',
+        };
+    }
+
+    // start buy transaction
+    const buyParameters = {
         to: contractAddress,
         from: address,
-        data: escrowContract.methods.deposit(tokenId, expiration).encodeABI(),
+        value: price,
+        data: escrowContract.methods.donation(itemId).encodeABI(),
     };
-    console.log(depositParameter);
+    console.log(buyParameters);
     // sign the deposit transaction
     try {
         const txHash = await window.ethereum.request({
             method: 'eth_sendTransaction',
-            params: [depositParameter],
+            params: [buyParameters],
         });
-        console.log(txHash);
-        return {
-            status: 'Your Deposit was signed successfully!',
-        };
+        return txHash;
     } catch (error) {
         return {
             status: 'Something went wrong: ' + error.message,
         };
     }
+};
+
+export const subscribeToDepositEvent = async () => {
+    console.log('SUBSCRIBIING TO EVENT?');
+    escrowContractWSS.events.Deposited({}, (error, data) => {
+        if (error) {
+            console.log(error);
+        } else {
+            console.log(data);
+        }
+    });
 };

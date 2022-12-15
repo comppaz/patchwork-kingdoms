@@ -291,12 +291,13 @@ const signer = wallet.connect(provider);
 const escrowContract = new ethers.Contract(contractAddress, abi, signer);
 
 async function main() {
-  const depositTx = await escrowContract.deposit(13, 1700297288, {
+  const donateTx = await escrowContract.donation(4, {
     from: wallet.address,
+    value: "0x03782DACE9D91000",
   });
-  await depositTx.wait();
+  await donateTx.wait();
   console.log(
-    `Your transaction is confirmed, its receipt is: ${depositTx.transactionHash}`
+    `Your transaction is confirmed, its receipt is: ${donateTx.hash}`
   );
 }
 

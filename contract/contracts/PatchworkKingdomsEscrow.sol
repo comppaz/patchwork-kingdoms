@@ -10,6 +10,7 @@ contract PatchworkKingdomsEscrow {
     address payable private owner;
 
     struct ERC721Item {
+        uint256 itemId;
         address giver;
         uint256 tokenId;
         uint256 expiration;
@@ -52,9 +53,9 @@ contract PatchworkKingdomsEscrow {
         uint256 itemId = counter;
         // update items with current deposited item
         items[itemId] = ERC721Item({
+            itemId: itemId,
             giver: msg.sender,
             tokenId: tokenId,
-            // TODO: alternative for expiration: the calculation of the expiration_date is done in frontend and passed as parameter into this function
             expiration: block.timestamp + _expiration,
             price: 0
         });
@@ -83,6 +84,14 @@ contract PatchworkKingdomsEscrow {
         return item;
     }
 
+    /**
+    getItems function returns all items
+    */
+    function getItems() public view returns(ERC721Item[] memory){
+        ERC721Item[] memory allItems = new ERC721Item[](counter);
+        for (uint256 i; i < counter; i++) allItems[i] = items[i];
+        return allItems;
+    }
     /**
     setAddress function sets other token address than Patchwork Kingdoms
     @param _address: address of the token

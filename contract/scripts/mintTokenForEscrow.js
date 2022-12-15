@@ -1,10 +1,10 @@
 const { ethers } = require("ethers");
 require("dotenv").config();
 
-const tokenAddress = "0x4C32D7bf64a21cC6fF47e0D55F7F81a7e9Dcb4f0";
+const tokenAddress = "0xDFAE561b53206764eCee36C6f0b71D8a52037ffE";
 const tokenAbi = [
   "function approve(address,uint256)",
-  "function mint(address,uint256)",
+  "function mint(address)",
   "function ownerOf(uint256)",
 ];
 const wallet = new ethers.Wallet(process.env.PRIVATE_KEY);
@@ -18,8 +18,7 @@ const testERC721token = new ethers.Contract(tokenAddress, tokenAbi, signer);
 
 async function main() {
   const mintTx = await testERC721token.mint(
-    "0x3112aF4cE798B63A1f6B318BA4CB50a2Ee248971",
-    15
+    "0x3112aF4cE798B63A1f6B318BA4CB50a2Ee248971"
   );
   mintTx.wait();
   console.log(mintTx);

@@ -39,7 +39,7 @@ describe("PatchworkKingdomEscrow", function () {
    * make deposit preparation as mint based on current tokenId
    */
   async function prepareDeposit() {
-    const mintTx = await testERC721token.mint(addr1.address, tokenId);
+    const mintTx = await testERC721token.mint(addr1.address);
     await mintTx.wait();
 
     expect(await testERC721token.ownerOf(tokenId)).to.equal(addr1.address);
@@ -95,6 +95,11 @@ describe("PatchworkKingdomEscrow", function () {
       Object.keys(item).forEach((key) => {
         expect(result.hasOwnProperty(key)).to.equal(true);
       });
+    });
+
+    it("Should get all items", async function () {
+      let result = await escrowContract.getItems();
+      console.log(result);
     });
 
     it("Should set last price", async function () {

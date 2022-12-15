@@ -5,9 +5,13 @@ import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 
 contract ERC721TestToken is ERC721, Ownable {
-    constructor() ERC721("TESTERC721", "TSE") {}
+    uint256 public _tokenId = 1;
 
-    function mint(address _to, uint256 _tokenId) external onlyOwner {
+    constructor() ERC721("TESTERC721", "TSE") {
+    }
+
+    function mint(address _to) public {
         super._mint(_to, _tokenId);
+        _tokenId++;
     }
 }

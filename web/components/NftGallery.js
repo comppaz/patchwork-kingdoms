@@ -10,6 +10,7 @@ export default function NftGallery({ nfts: nfts, heading: heading, caption: capt
     const [allnfts, setAllnfts] = useState([]);
     const [hasMore, setHasMore] = useState(true);
     const [modalOpen, setModalOpen] = useState(true);
+    const [buyModalOpen, setBuyModalOpen] = useState(true);
     const [selectedNft, setSelectedNft] = useState(null);
 
     useEffect(() => {
@@ -88,12 +89,23 @@ export default function NftGallery({ nfts: nfts, heading: heading, caption: capt
                                                     <li>
                                                         <button
                                                             onClick={() => {
-                                                                setModalOpen(true);
-                                                                setSelectedNft(nft);
+                                                                //setBuyModalOpen(false);
+                                                                //setSelectedNft(nft);
                                                             }}
                                                             className="cursor-pointer text-gray-400 hover:text-gray-500">
                                                             <span className="sr-only">Donate</span>
                                                             Donate
+                                                        </button>
+                                                    </li>
+                                                    <li>
+                                                        <button
+                                                            onClick={() => {
+                                                                //setModalOpen(false);
+                                                                //setSelectedNft(nft);
+                                                            }}
+                                                            className="cursor-pointer text-gray-400 hover:text-gray-500">
+                                                            <span className="sr-only">Buy</span>
+                                                            Buy
                                                         </button>
                                                     </li>
                                                     <li>

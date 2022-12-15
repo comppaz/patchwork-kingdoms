@@ -1,7 +1,7 @@
 const { ethers } = require("ethers");
 require("dotenv").config();
 
-const contractAddress = "0xFe721a433b0a0Bcd306e62B82ba9ab3e8a13a877";
+const contractAddress = "0x44aea1977fD9ccAaDF2cAE0B743fda0F42d9BD4B";
 const abi = [
   {
     inputs: [
@@ -168,6 +168,41 @@ const abi = [
         internalType: "struct PatchworkKingdomsEscrow.ERC721Item",
         name: "",
         type: "tuple",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "getItems",
+    outputs: [
+      {
+        components: [
+          {
+            internalType: "address",
+            name: "giver",
+            type: "address",
+          },
+          {
+            internalType: "uint256",
+            name: "tokenId",
+            type: "uint256",
+          },
+          {
+            internalType: "uint256",
+            name: "expiration",
+            type: "uint256",
+          },
+          {
+            internalType: "uint256",
+            name: "price",
+            type: "uint256",
+          },
+        ],
+        internalType: "struct PatchworkKingdomsEscrow.ERC721Item[]",
+        name: "",
+        type: "tuple[]",
       },
     ],
     stateMutability: "view",

@@ -3,7 +3,6 @@ const { ethers } = require("ethers");
 require("dotenv").config();
 
 async function main() {
-  const contractAddress = "0xFe721a433b0a0Bcd306e62B82ba9ab3e8a13a877";
   /* for local testing
     const provider = new ethers.providers.JsonRpcProvider(
     "HTTP://127.0.0.1:8545"
@@ -16,6 +15,7 @@ async function main() {
     `${process.env.ALCHEMY_API_KEY}`
   );
   const signer = wallet.connect(provider);
+  const contractAddress = "0x877653993F9AD6631d716218768247DCf1D74275";
   const abi = [
     {
       inputs: [
@@ -188,6 +188,41 @@ async function main() {
       type: "function",
     },
     {
+      inputs: [],
+      name: "getItems",
+      outputs: [
+        {
+          components: [
+            {
+              internalType: "address",
+              name: "giver",
+              type: "address",
+            },
+            {
+              internalType: "uint256",
+              name: "tokenId",
+              type: "uint256",
+            },
+            {
+              internalType: "uint256",
+              name: "expiration",
+              type: "uint256",
+            },
+            {
+              internalType: "uint256",
+              name: "price",
+              type: "uint256",
+            },
+          ],
+          internalType: "struct PatchworkKingdomsEscrow.ERC721Item[]",
+          name: "",
+          type: "tuple[]",
+        },
+      ],
+      stateMutability: "view",
+      type: "function",
+    },
+    {
       inputs: [
         {
           internalType: "uint256",
@@ -271,7 +306,6 @@ async function main() {
       // event.args array has the following value sequence see contract: (id, tokenAddress, tokenId)
       itemId = event.args[0].toNumber();
       escrowContract.setLastMinPrice(lastMinPriceValue, itemId);
-      // TODO: ItemId /= TokenId because ItemId === counter; ItemId is necessary for getItem with correct id value and further calls!
       console.log("RETURN ITEM ID: " + itemId);
     }
   );
@@ -292,7 +326,7 @@ async function handleRequest(event) {
   let address = event.args[1];
 
   // when testing on different net overwrite received value to get real results
-  // address = "0xd24a7c412f2279b1901e591898c1e96c140be8c5";
+  address = "0xd24a7c412f2279b1901e591898c1e96c140be8c5";
   let tokenId = event.args[2].toNumber();
 
   options.url = options.url
@@ -317,7 +351,10 @@ async function handleResponse(response) {
       a.block_timestamp > b.block_timestamp ? a : b
     );
     // latest sale
-    lastMinPriceValue = data.result[0].value;
+    // lastMinPriceValue = data.result[0].value;
+    // for testing 25000000000000000
+    lastMinPriceValue = 25000000000000000n;
+    console.log(`SETTING PRICE TO ${lastMinPriceValue}`);
   }
   return lastMinPriceValue;
 }

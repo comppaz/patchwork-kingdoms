@@ -18,7 +18,7 @@ async function main() {
 
   // TODO: change to pwkAddress when deploying on same net
   const patchworkKingdomsEscrow = await PatchworkKingdomsEscrow.deploy(
-    pwkAddress
+    testERC721token.address
   );
 
   await patchworkKingdomsEscrow.deployed();
