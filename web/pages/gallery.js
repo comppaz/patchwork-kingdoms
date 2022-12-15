@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useContext } from 'react';
 import NftGallery from '../components/NftGallery';
 import kingdoms from '../data/kingdoms';
 import MintComponent from '../components/donation/MintComponent';
@@ -6,17 +6,13 @@ import PurchasementGallery from '../components/PurchasementGallery';
 import { getConnectedWallet } from '../lib/contractInteraction';
 import { escrowContractWSS } from '../lib/contractInteraction';
 import ResponseModal from '../components/donation/ResponseModal';
-import Router from 'next/router';
+import ModalContext from '../context/ModalContext';
 
 export default function Gallery() {
     const [data, setData] = useState([]);
     const [address, setAddress] = useState('');
     const [status, setStatus] = useState('');
-    const [transactionType, setTransactionType] = useState({ isDeposit: false, isPurchasement: false });
-
-    // opened when event is triggered
-    const [isTransactionModalOpen, setIsTransactionModalOpen] = useState(false);
-    const [eventResponse, setEventResponse] = useState({});
+    const { updateData: updateModalData, data: modalData, setIsOpen: setResponseModalOpen } = useContext(ModalContext);
 
     const [isModalOpen, setIsModalOpen] = useState();
 
@@ -36,10 +32,12 @@ export default function Gallery() {
         return ret;
     }
 
-    useEffect(async () => {
-        const { address, status } = await getConnectedWallet();
-        setAddress(address);
-        setStatus(status);
+    useEffect(() => {
+        (async () => {
+            const { address, status } = await getConnectedWallet();
+            setAddress(address);
+            setStatus(status);
+        })();
     }, []);
 
     useEffect(async () => {
@@ -49,7 +47,7 @@ export default function Gallery() {
         setListener();
         subscribeToPurchasementEvent();
         subscribeToDepositEvent();
-    }, [address, isTransactionModalOpen, eventResponse]);
+    }, [address, modalData.isOpen]);
 
     function setListener() {
         if (window.ethereum) {
@@ -77,9 +75,13 @@ export default function Gallery() {
             } else {
                 console.log('PURCHASEMENT EVENT WAS EMITTED SUCCESSFULLY');
                 setIsModalOpen(false);
-                setEventResponse(data);
-                setIsTransactionModalOpen(true);
-                setTransactionType({ isPurchasement: true });
+                updateModalData({
+                    heading: 'Purchasement Transaction completed successfully',
+                    txhash: data.transactionHash,
+                    title: 'Purchasement',
+                    isProcessing: false,
+                });
+                setResponseModalOpen(true);
             }
         });
     };
@@ -92,9 +94,13 @@ export default function Gallery() {
             } else {
                 console.log('DEPOSIT EVENT WAS EMITTED SUCCESSFULLY');
                 setIsModalOpen(false);
-                setEventResponse(data);
-                setIsTransactionModalOpen(true);
-                setTransactionType({ isDeposit: true });
+                updateModalData({
+                    heading: 'Deposit Transaction completed successfully',
+                    txhash: data.transactionHash,
+                    title: 'Deposit',
+                    isProcessing: false,
+                });
+                setResponseModalOpen(true);
             }
         });
     };
@@ -120,25 +126,7 @@ export default function Gallery() {
                 caption="All Patchwork Kingdoms that have been minted."
                 nfts={data}></NftGallery>
 
-            {transactionType.isDeposit && isTransactionModalOpen && (
-                <ResponseModal
-                    title="Deposit"
-                    heading="Deposit Transaction completed successfully"
-                    txhash={eventResponse.transactionHash}
-                    open={isTransactionModalOpen}
-                    setOpen={setIsTransactionModalOpen}
-                    isProcessing={false}></ResponseModal>
-            )}
-            {/** Purchasement Event */}
-            {transactionType.isPurchasement && isTransactionModalOpen && (
-                <ResponseModal
-                    title="Purchasement"
-                    heading="Purchasement Transaction completed successfully"
-                    txhash={eventResponse.transactionHash}
-                    open={isTransactionModalOpen}
-                    setOpen={setIsTransactionModalOpen}
-                    isProcessing={false}></ResponseModal>
-            )}
+            <ResponseModal />
         </div>
     );
 }

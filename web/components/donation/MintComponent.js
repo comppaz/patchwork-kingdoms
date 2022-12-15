@@ -60,17 +60,7 @@ export default function MintComponent({
                                 walletAddress={walletAddress}
                             />
                         )}
-                        {mintState.transactionFinished && (
-                            <ResponseModal
-                                title={'Mint Transaction'}
-                                heading={'Your test token is being minted!'}
-                                txhash={mintState.txhash}
-                                nft={mintState.nft}
-                                status={mintState.status}
-                                open={responseModalOpen}
-                                setOpen={setResponseModalOpen}
-                            />
-                        )}
+
                         {walletAddress.length > 0 ? (
                             <p className="text-md text-gray-500">You are currently connected and able to mint!</p>
                         ) : (

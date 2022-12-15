@@ -60,8 +60,8 @@ export default function NftGallery({ nfts: nfts, heading: heading, caption: capt
                             <ul
                                 role="list"
                                 className="space-y-12 sm:grid sm:grid-cols-2 sm:gap-x-6 sm:gap-y-12 sm:space-y-0 lg:grid-cols-3 lg:gap-x-8">
-                                {allnfts.map(nft => (
-                                    <li key={nft.title}>
+                                {allnfts.map((nft, index) => (
+                                    <li key={index}>
                                         <div className="space-y-4">
                                             <div className="aspect-w-3 aspect-h-3">
                                                 <a href={`/nft/${nft.tokenId}`}>

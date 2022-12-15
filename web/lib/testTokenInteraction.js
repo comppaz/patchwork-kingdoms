@@ -3,34 +3,48 @@ import { createAlchemyWeb3 } from '@alch/alchemy-web3';
 
 const tokenAddress = process.env.NEXT_PUBLIC_TESTTOKEN_DEPLOYMENT_ADDRESS;
 const contractAddress = process.env.NEXT_PUBLIC_ESCROW_DEPLOYMENT_ADDRESS;
-const tokenAbi = require('../../contract/artifacts/contracts/ERC721TestToken.sol/ERC721TestToken.json');
+const tokenAbi = require('../contracts/ERC721TestToken.json');
 const wallet = new ethers.Wallet(process.env.NEXT_PUBLIC_ETHERS_PRIVATE_KEY);
 const network = 'goerli';
 const provider = new ethers.providers.AlchemyProvider(network, `${process.env.NEXT_PUBLIC_ALCHEMY_API_KEY}`);
 const signer = wallet.connect(provider);
 const testERC721token = new ethers.Contract(tokenAddress, tokenAbi['abi'], signer);
+
 const web3 = createAlchemyWeb3(`https://eth-goerli.g.alchemy.com/v2/${process.env.NEXT_PUBLIC_ALCHEMY_API_KEY}`);
+
+const testERC721Token = new web3.eth.Contract(tokenAbi['abi'], tokenAddress);
 
 export const approveTransaction = async (address, tokenId) => {
     console.log('APPROVE TRANSACTION');
-    const approveTx = await testERC721token.approve(contractAddress, tokenId, {
-        gasLimit: 2400000,
+    const accountNonce = '0x' + ((await web3.eth.getTransactionCount(address)) + 1).toString(16);
+    const approveParameter = {
+        to: tokenAddress,
+        from: address,
+        nonce: accountNonce,
+        data: testERC721Token.methods.approve(contractAddress, tokenId).encodeABI(),
+    };
+
+    const txHash = await window.ethereum.request({
+        method: 'eth_sendTransaction',
+        params: [approveParameter],
     });
-    try {
-        await approveTx.wait();
-    } catch (error) {
-        if (error.code === ethers.errors.TRANSACTION_REPLACED) {
-            console.log('Transaction was replaced');
-            return 'Transaction was replaced';
-        }
-    }
 };
 
 export const mintTestToken = async address => {
-    console.log('MINT TOKEN');
-    const mintTx = await testERC721token.mint(address);
-    mintTx.wait();
-    return mintTx;
+    const accountNonce = '0x' + ((await web3.eth.getTransactionCount(address)) + 1).toString(16);
+    const mintParameter = {
+        to: tokenAddress,
+        from: address,
+        nonce: accountNonce,
+        data: testERC721Token.methods.mint(address).encodeABI(),
+    };
+
+    const txHash = await window.ethereum.request({
+        method: 'eth_sendTransaction',
+        params: [mintParameter],
+    });
+
+    return txHash;
 };
 
 export const getMaxMintedTokenId = async () => {

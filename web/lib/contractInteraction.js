@@ -6,7 +6,7 @@ const web3Wss = createAlchemyWeb3(process.env.NEXT_PUBLIC_ALCHEMY_WSS_URL);
 const web3 = createAlchemyWeb3(`https://eth-goerli.g.alchemy.com/v2/${process.env.NEXT_PUBLIC_ALCHEMY_API_KEY}`);
 
 const contractAddress = process.env.NEXT_PUBLIC_ESCROW_DEPLOYMENT_ADDRESS;
-const contractABI = require('../../contract/artifacts/contracts/PatchworkKingdomsEscrow.sol/PatchworkKingdomsEscrow.json');
+const contractABI = require('../contracts/PatchworkKingdomsEscrow.json');
 const escrowContract = new web3.eth.Contract(contractABI['abi'], contractAddress);
 export const escrowContractWSS = new web3Wss.eth.Contract(contractABI['abi'], contractAddress);
 
@@ -140,34 +140,29 @@ export const deposit = async (address, tokenId, expiration) => {
         };
     }
 
-    let result = await approveTransaction(address, tokenId);
-    if (result) {
-        return {
-            status: 'The Deposit was cancelled!',
-        };
-    } else {
-        const accountNonce = '0x' + ((await web3.eth.getTransactionCount(address)) + 1).toString(16);
+    await approveTransaction(address, tokenId);
 
-        // start deposit transaction
-        const depositParameter = {
-            to: contractAddress,
-            from: address,
-            nonce: accountNonce,
-            data: escrowContract.methods.deposit(tokenId, expiration).encodeABI(),
+    const accountNonce = '0x' + ((await web3.eth.getTransactionCount(address)) + 2).toString(16);
+
+    // start deposit transaction
+    const depositParameter = {
+        to: contractAddress,
+        from: address,
+        nonce: accountNonce,
+        data: escrowContract.methods.deposit(tokenId, expiration).encodeABI(),
+    };
+    // sign the deposit transaction
+    try {
+        const txHash = await window.ethereum.request({
+            method: 'eth_sendTransaction',
+            params: [depositParameter],
+        });
+        console.log(txHash);
+        return txHash;
+    } catch (error) {
+        return {
+            status: 'Something went wrong: ' + error.message,
         };
-        // sign the deposit transaction
-        try {
-            const txHash = await window.ethereum.request({
-                method: 'eth_sendTransaction',
-                params: [depositParameter],
-            });
-            console.log(txHash);
-            return txHash;
-        } catch (error) {
-            return {
-                status: 'Something went wrong: ' + error.message,
-            };
-        }
     }
 };
 

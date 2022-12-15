@@ -251,7 +251,7 @@ export default function Modal({ transactionType, setTransactionType, nft, isModa
                                                 </div>
                                             </div>
                                             {isLoading ? (
-                                                <div className=" text-red-700 mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
+                                                <div className="py-8 text-red-700 mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
                                                     {progress}
                                                     <div className="flex h-1/3">
                                                         <div className="m-auto justify-center left-1/2 top-1/2">
@@ -494,7 +494,7 @@ export default function Modal({ transactionType, setTransactionType, nft, isModa
                                                 </div>
                                             </div>
                                             {isLoading ? (
-                                                <div className=" text-red-700 mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
+                                                <div className="py-8 text-red-700 mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
                                                     {progress}
                                                     <div className="flex h-1/3">
                                                         <div className="m-auto justify-center left-1/2 top-1/2">

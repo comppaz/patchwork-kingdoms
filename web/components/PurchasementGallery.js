@@ -17,14 +17,14 @@ export default function PurchasementGallery({
     isModalOpen: isModalOpen,
     setIsModalOpen: setIsModalOpen,
 }) {
-    const [buyModalOpen, setBuyModalOpen] = useState(true);
     const [selectedNft, setSelectedNft] = useState(null);
     const [depositedNfts, setDepositedNfts] = useState([]);
     const [transactionType, setTransactionType] = useState({});
 
-    useEffect(async () => {
-        console.log(isModalOpen);
-        setDepositedNfts(await getItems());
+    useEffect(() => {
+        (async () => {
+            setDepositedNfts(await getItems());
+        })();
     }, []);
 
     return (
@@ -48,6 +48,7 @@ export default function PurchasementGallery({
                     )}
                     {depositedNfts ? (
                         <Swiper
+                            key={1}
                             modules={[Navigation, Pagination]}
                             slidesPerView={3}
                             spaceBetween={30}
