@@ -3,6 +3,7 @@ import { Dialog, Transition } from '@headlessui/react';
 import Link from 'next/link';
 import Loading from '../Loading';
 import ModalContext from '../../context/ModalContext';
+import { reload } from 'next/router';
 
 export default function ResponseModal({ nft }) {
     const cancelButtonRef = useRef(null);
@@ -17,6 +18,7 @@ export default function ResponseModal({ nft }) {
                 initialFocus={cancelButtonRef}
                 onClose={() => {
                     setIsOpen(false);
+                    reload();
                 }}>
                 <Transition.Child
                     as={Fragment}
@@ -70,6 +72,7 @@ export default function ResponseModal({ nft }) {
                                         ref={cancelButtonRef}
                                         onClick={() => {
                                             setIsOpen(false);
+                                            reload();
                                         }}>
                                         Close
                                     </button>
