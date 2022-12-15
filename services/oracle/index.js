@@ -353,7 +353,7 @@ async function handleResponse(response) {
     // latest sale
     // lastMinPriceValue = data.result[0].value;
     // for testing 25000000000000000
-    lastMinPriceValue = 25000000000000000n;
+    lastMinPriceValue = 1500000000000000n;
     console.log(`SETTING PRICE TO ${lastMinPriceValue}`);
   }
   return lastMinPriceValue;

@@ -3,7 +3,7 @@ import NftGallery from '../components/NftGallery';
 import kingdoms from '../data/kingdoms';
 import MintComponent from '../components/donation/MintComponent';
 import PurchasementGallery from '../components/PurchasementGallery';
-import { getConnectedWallet } from '../lib/contractInteraction';
+import { getConnectedWallet, getItem } from '../lib/contractInteraction';
 import { escrowContractWSS } from '../lib/contractInteraction';
 import ResponseModal from '../components/donation/ResponseModal';
 import ModalContext from '../context/ModalContext';
@@ -41,7 +41,6 @@ export default function Gallery() {
     }, []);
 
     useEffect(async () => {
-        console.log('here');
         setIsModalOpen(false);
         setData(buildNftList());
         setListener();
@@ -69,11 +68,12 @@ export default function Gallery() {
     }
 
     const subscribeToPurchasementEvent = async () => {
-        escrowContractWSS.events.Donated({}, (error, data) => {
+        escrowContractWSS.events.Donated({}, async (error, data) => {
             if (error) {
                 console.log(error);
             } else {
                 console.log('PURCHASEMENT EVENT WAS EMITTED SUCCESSFULLY');
+                console.log(data);
                 setIsModalOpen(false);
                 updateModalData({
                     heading: 'Purchasement Transaction completed successfully',
@@ -87,12 +87,12 @@ export default function Gallery() {
     };
 
     const subscribeToDepositEvent = async () => {
-        setIsModalOpen(false);
         escrowContractWSS.events.Deposited({}, async (error, data) => {
             if (error) {
                 console.log(error);
             } else {
                 console.log('DEPOSIT EVENT WAS EMITTED SUCCESSFULLY');
+                console.log(data);
                 setIsModalOpen(false);
                 updateModalData({
                     heading: 'Deposit Transaction completed successfully',

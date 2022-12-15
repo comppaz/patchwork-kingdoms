@@ -66,44 +66,10 @@ export const getConnectedWallet = async () => {
     }
 };
 
-export const getItem = async (address, itemId) => {
+export const getItem = async itemId => {
     console.log('START GET ITEM REQUEST');
-    // check auth
-    if (!window.ethereum || address === null) {
-        return {
-            status: 'Connect your Metamask wallet to donate your nft.',
-        };
-    }
-
-    // check parameter to call contract methods!
-    if (itemId === undefined || expiration === undefined) {
-        return {
-            status: 'Please insert valid parameters.',
-        };
-    }
-
-    // start get transaction
-    const getParameters = {
-        to: contractAddress,
-        from: address,
-        data: escrowContract.methods.getItem(itemId).encodeABI(),
-    };
-
-    // sign the get transaction
-    try {
-        const txHash = await window.ethereum.request({
-            method: 'eth_sendTransaction',
-            params: [getParameters],
-        });
-
-        return {
-            status: 'The Get Request was successful with thte following Transaction Hash ' + txHash,
-        };
-    } catch (error) {
-        return {
-            status: 'Something went wrong: ' + error.message,
-        };
-    }
+    const item = await escrowContract.methods.getItem(itemId).call();
+    return item;
 };
 
 export const getItems = async () => {
@@ -195,6 +161,7 @@ export const buy = async (address, itemId, price) => {
             method: 'eth_sendTransaction',
             params: [buyParameters],
         });
+        console.log(txHash);
         return txHash;
     } catch (error) {
         return {
