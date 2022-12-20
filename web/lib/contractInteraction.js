@@ -77,7 +77,8 @@ export const getItems = async () => {
     let output = [];
     items.forEach((el, i) => {
         let item = {};
-        if (el[1] !== '0x0000000000000000000000000000000000000000') {
+        // check giver of deposited item is a currently valid address and that the price is neither undefined nor zero
+        if (el[1] !== '0x0000000000000000000000000000000000000000' || el[4] === 0 || el[4] === undefined) {
             item.itemId = el.itemId;
             item.giver = el.giver;
             item.expiration = el.expiration;
@@ -146,7 +147,14 @@ export const buy = async (address, itemId, price) => {
             status: 'Please insert valid parameters.',
         };
     }
-
+    // check if this caller is the one who donated the item!
+    const item = await getItem(itemId);
+    if (item[1].toLowerCase() === address.toLowerCase()) {
+        console.log('Giver equals address, purchasement will fail!');
+        return {
+            status: 'You previously donated this nft. You cannot buy it back!',
+        };
+    }
     // start buy transaction
     const buyParameters = {
         to: contractAddress,

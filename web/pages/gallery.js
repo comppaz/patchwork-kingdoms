@@ -7,12 +7,12 @@ import { getConnectedWallet, getItem } from '../lib/contractInteraction';
 import { escrowContractWSS } from '../lib/contractInteraction';
 import ResponseModal from '../components/donation/ResponseModal';
 import ModalContext from '../context/ModalContext';
+import AddressContext from '../context/AddressContext';
 
 export default function Gallery() {
     const [data, setData] = useState([]);
-    const [address, setAddress] = useState('');
-    const [status, setStatus] = useState('');
     const { updateData: updateModalData, data: modalData, setIsOpen: setResponseModalOpen } = useContext(ModalContext);
+    const { walletAddress, updateWalletAddress, walletStatus, updateWalletStatus, emittingAddress } = useContext(AddressContext);
 
     const [isModalOpen, setIsModalOpen] = useState();
 
@@ -35,35 +35,38 @@ export default function Gallery() {
     useEffect(() => {
         (async () => {
             const { address, status } = await getConnectedWallet();
-            setAddress(address);
-            setStatus(status);
+            updateWalletAddress(address);
+            updateWalletStatus(status);
         })();
     }, []);
 
-    useEffect(async () => {
+    useEffect(() => {
         setIsModalOpen(false);
         setData(buildNftList());
-        setListener();
+        setWalletListener();
+    }, [modalData.isOpen, walletAddress]);
+
+    useEffect(() => {
         subscribeToPurchasementEvent();
         subscribeToDepositEvent();
-    }, [address, modalData.isOpen]);
+    }, [emittingAddress]);
 
-    function setListener() {
+    function setWalletListener() {
         if (window.ethereum) {
             // Listen to Event
             window.ethereum.on('accountsChanged', accounts => {
                 if (accounts.length > 0) {
-                    setAddress(accounts[0]);
-                    setStatus('Successfully logged in!');
+                    updateWalletAddress(accounts[0]);
+                    updateWalletStatus('Successfully logged in!');
                 } else {
-                    setAddress('');
-                    setStatus('Connect to Metamask first.');
+                    updateWalletAddress('');
+                    updateWalletStatus('Connect to Metamask first.');
                 }
             });
         } else {
             // Metamask is not installed in Browser
-            setAddress('');
-            setStatus('You must install Metamask, a virtual Ethereum wallet, in your browser before connecting.');
+            updateWalletAddress('');
+            updateWalletStatus('You must install Metamask, a virtual Ethereum wallet, in your browser before connecting.');
         }
     }
 
@@ -73,15 +76,18 @@ export default function Gallery() {
                 console.log(error);
             } else {
                 console.log('PURCHASEMENT EVENT WAS EMITTED SUCCESSFULLY');
-                console.log(data);
-                setIsModalOpen(false);
-                updateModalData({
-                    heading: 'Purchasement Transaction completed successfully',
-                    txhash: data.transactionHash,
-                    title: 'Purchasement',
-                    isProcessing: false,
-                });
-                setResponseModalOpen(true);
+                // check that walletAddres is set and equals the emittingAddress
+
+                if (walletAddress !== '' && walletAddress === emittingAddress) {
+                    setIsModalOpen(false);
+                    updateModalData({
+                        heading: 'Purchasement Transaction completed successfully',
+                        txhash: data.transactionHash,
+                        title: 'Purchasement',
+                        isProcessing: false,
+                    });
+                    setResponseModalOpen(true);
+                }
             }
         });
     };
@@ -92,15 +98,17 @@ export default function Gallery() {
                 console.log(error);
             } else {
                 console.log('DEPOSIT EVENT WAS EMITTED SUCCESSFULLY');
-                console.log(data);
-                setIsModalOpen(false);
-                updateModalData({
-                    heading: 'Deposit Transaction completed successfully',
-                    txhash: data.transactionHash,
-                    title: 'Deposit',
-                    isProcessing: false,
-                });
-                setResponseModalOpen(true);
+                // check that walletAddres is set and equals the emittingAddress
+                if (walletAddress !== '' && walletAddress === emittingAddress) {
+                    setIsModalOpen(false);
+                    updateModalData({
+                        heading: 'Deposit Transaction completed successfully',
+                        txhash: data.transactionHash,
+                        title: 'Deposit',
+                        isProcessing: false,
+                    });
+                    setResponseModalOpen(true);
+                }
             }
         });
     };
@@ -110,15 +118,11 @@ export default function Gallery() {
             <MintComponent
                 heading="Mint a Test Token"
                 caption="Mint a token to test the deposit and purchasement functionalities."
-                status={status}
-                walletAddress={address}
                 isModalOpen={isModalOpen}
                 setIsModalOpen={setIsModalOpen}></MintComponent>
             <PurchasementGallery
                 heading="Up for Sale"
                 caption="The following Patchwork Kingdoms are up for sale."
-                status={status}
-                walletAddress={address}
                 isModalOpen={isModalOpen}
                 setIsModalOpen={setIsModalOpen}></PurchasementGallery>
             <NftGallery

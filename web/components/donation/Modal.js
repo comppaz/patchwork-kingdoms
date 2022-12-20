@@ -1,16 +1,19 @@
-import { Fragment, useRef, useState, useEffect } from 'react';
+import { Fragment, useRef, useState, useEffect, useContext } from 'react';
 import { Dialog, Transition, Switch } from '@headlessui/react';
 import Image from 'next/image';
 import { InformationCircleIcon } from '@heroicons/react/outline';
 import Tooltip from '../Tooltip';
 import { connectWallet, deposit, buy } from '../../lib/contractInteraction';
 import { ethers } from 'ethers';
+import AddressContext from '../../context/AddressContext';
 
 function classNames(...classes) {
     return classes.filter(Boolean).join(' ');
 }
-export default function Modal({ transactionType, setTransactionType, nft, isModalOpen, setIsModalOpen, status, walletAddress }) {
+export default function Modal({ transactionType, setTransactionType, nft, isModalOpen, setIsModalOpen }) {
     const cancelButtonRef = useRef(null);
+    const { walletAddress, updateWalletAddress, walletStatus, updateEmittingAddress } = useContext(AddressContext);
+
     const [enabled, setEnabled] = useState(false);
     const monthlyTimeUnit = 2629743;
     const [depositState, setDepositState] = useState({ transactionStarted: false, txHash: '', status: '', nft: {} });
@@ -27,7 +30,7 @@ export default function Modal({ transactionType, setTransactionType, nft, isModa
     useEffect(async () => {
         let expirationDate = new Date(nft.expiration * 1000);
         setExpiration(expirationDate.toLocaleDateString());
-    }, [walletAddress, isError, donationState, depositState, isModalOpen]);
+    }, [walletAddress, walletStatus, isError, donationState, depositState, isModalOpen]);
 
     function setTimeframe(value) {
         switch (Number(value)) {
@@ -56,7 +59,7 @@ export default function Modal({ transactionType, setTransactionType, nft, isModa
         console.log('Starting Deposit for TokenID: ' + nftId);
         const response = await deposit(walletAddress, nftId, currentExpirationTimeFrame);
         console.log(response);
-        setProgress(response.status);
+        updateEmittingAddress(walletAddress);
         setDepositState({ transactionStarted: true, txHash: response, status: response.status, nft: nft });
     };
 
@@ -64,6 +67,8 @@ export default function Modal({ transactionType, setTransactionType, nft, isModa
         console.log('Starting Purchase Transaction for TokenID: ' + itemId);
         let price = ethers.utils.parseEther(priceOffer.toString());
         const response = await buy(walletAddress, itemId, price._hex);
+        console.log(response);
+        updateEmittingAddress(walletAddress);
         setProgress(response.status);
         setDonationState({ transactionStarted: true, txHash: response, status: response.status, nft: nft });
     };
@@ -104,11 +109,11 @@ export default function Modal({ transactionType, setTransactionType, nft, isModa
                                         <div className="w-full py-2 px-12 text-center text-gray-500 bg-gray-50 font-light border border-b-2">
                                             Donate your NFT
                                         </div>
-                                        <div className="mt-2 mr-auto ml-4 flex text-sm font-medium text-gray-600">{status}</div>
+                                        <div className="mt-2 mr-auto ml-4 flex text-sm font-medium text-gray-600">{walletStatus}</div>
                                         <div className="">
                                             {walletAddress.length > 0 ? (
                                                 <p className="mt-2 mr-auto ml-4 flex text-sm font-medium text-gray-600">
-                                                    You are currently Connected: ${walletAddress.substring(0, 6)} ... $
+                                                    You are currently connected: ${walletAddress.substring(0, 6)} ... $
                                                     {walletAddress.substring(38)}
                                                 </p>
                                             ) : (
@@ -339,11 +344,11 @@ export default function Modal({ transactionType, setTransactionType, nft, isModa
                                         <div className="w-full py-2 px-12 text-center text-gray-500 bg-gray-50 font-light border border-b-2">
                                             Buy this NFT
                                         </div>
-                                        <div className="mt-2 mr-auto ml-4 flex text-sm font-medium text-gray-600">{status}</div>
+                                        <div className="mt-2 mr-auto ml-4 flex text-sm font-medium text-gray-600">{walletStatus}</div>
                                         <div className="">
                                             {walletAddress.length > 0 ? (
                                                 <p className="mt-2 mr-auto ml-4 flex text-sm font-medium text-gray-600">
-                                                    You are currently Connected: ${walletAddress.substring(0, 6)} ... $
+                                                    You are currently connected: ${walletAddress.substring(0, 6)} ... $
                                                     {walletAddress.substring(38)}
                                                 </p>
                                             ) : (

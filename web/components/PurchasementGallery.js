@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useContext } from 'react';
 import { getItems } from '../lib/contractInteraction';
 import Modal from './donation/Modal';
 import Image from 'next/image';
@@ -9,23 +9,23 @@ import { Pagination, Navigation } from 'swiper';
 import 'swiper/css';
 import 'swiper/css/pagination';
 import 'swiper/css/navigation';
+import AddressContext from '../context/AddressContext';
 export default function PurchasementGallery({
     heading: heading,
     caption: caption,
-    status: status,
-    walletAddress: walletAddress,
     isModalOpen: isModalOpen,
     setIsModalOpen: setIsModalOpen,
 }) {
     const [selectedNft, setSelectedNft] = useState(null);
     const [depositedNfts, setDepositedNfts] = useState([]);
     const [transactionType, setTransactionType] = useState({});
+    const { walletAddress, updateWalletAddress, walletStatus } = useContext(AddressContext);
 
     useEffect(() => {
         (async () => {
             setDepositedNfts(await getItems());
         })();
-    }, []);
+    }, [walletAddress, walletStatus]);
 
     return (
         <div className="bg-white">
@@ -42,8 +42,6 @@ export default function PurchasementGallery({
                             isModalOpen={isModalOpen}
                             setIsModalOpen={setIsModalOpen}
                             nft={selectedNft}
-                            status={status}
-                            walletAddress={walletAddress}
                         />
                     )}
                     {depositedNfts ? (
@@ -61,31 +59,29 @@ export default function PurchasementGallery({
                             navigation
                             className="w-100 h-100">
                             {depositedNfts.map((el, index) => (
-                                <div key={index}>
-                                    <SwiperSlide className="block">
-                                        <Image
-                                            className=" rounded-md"
-                                            height={300}
-                                            width={300}
-                                            layout="responsive"
-                                            src={el.url}
-                                            alt={'Test Token Image'}
-                                        />
+                                <SwiperSlide className="block" key={el.itemId}>
+                                    <Image
+                                        className=" rounded-md"
+                                        height={300}
+                                        width={300}
+                                        layout="responsive"
+                                        src={el.url}
+                                        alt={'Test Token Image'}
+                                    />
 
-                                        <p className="text-md text-gray-500">TestToken #{el.tokenId}</p>
+                                    <p className="text-md text-gray-500">TestToken #{el.tokenId}</p>
 
-                                        <button
-                                            onClick={() => {
-                                                setTransactionType({ isDeposit: false, isPurchasement: true });
-                                                setIsModalOpen(true);
-                                                setSelectedNft(el);
-                                            }}
-                                            className="cursor-pointer text-gray-400 hover:text-gray-500">
-                                            <span className="sr-only">Buy</span>
-                                            Buy
-                                        </button>
-                                    </SwiperSlide>
-                                </div>
+                                    <button
+                                        onClick={() => {
+                                            setTransactionType({ isDeposit: false, isPurchasement: true });
+                                            setIsModalOpen(true);
+                                            setSelectedNft(el);
+                                        }}
+                                        className="cursor-pointer text-gray-400 hover:text-gray-500">
+                                        <span className="sr-only">Buy</span>
+                                        Buy
+                                    </button>
+                                </SwiperSlide>
                             ))}
                         </Swiper>
                     ) : (

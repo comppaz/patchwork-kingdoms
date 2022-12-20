@@ -1,24 +1,16 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import { connectWallet, getConnectedWallet, setWalletListener } from '../../lib/contractInteraction';
 import { mintTestToken, getOwnedTestNfts } from '../../lib/testTokenInteraction';
 import Modal from './Modal';
 import ResponseModal from './ResponseModal';
 import Image from 'next/image';
+import AddressContext from '../../context/AddressContext';
 
-export default function MintComponent({
-    heading: heading,
-    caption: caption,
-    status: status,
-    walletAddress: walletAddress,
-    isModalOpen: isModalOpen,
-    setIsModalOpen: setIsModalOpen,
-}) {
+export default function MintComponent({ heading: heading, caption: caption, isModalOpen: isModalOpen, setIsModalOpen: setIsModalOpen }) {
     const [ownedNfts, setOwnedNfts] = useState([]);
-    const [modalOpen, setModalOpen] = useState(true);
-    const [responseModalOpen, setResponseModalOpen] = useState(false);
     const [selectedNft, setSelectedNft] = useState(null);
-    const [mintState, setMintState] = useState({ transactionFinished: false, txhash: '', status: '', nft: {} });
     const [transactionType, setTransactionType] = useState({});
+    const { walletAddress, walletStatus } = useContext(AddressContext);
 
     //called only once
     useEffect(async () => {
@@ -27,7 +19,7 @@ export default function MintComponent({
         if (walletAddress) {
             setOwnedNfts(await getOwnedTestNfts(walletAddress));
         }
-    }, [walletAddress]);
+    }, [walletAddress, walletStatus]);
 
     const connectWalletButtonPressed = async () => {
         await connectWallet();
@@ -56,8 +48,6 @@ export default function MintComponent({
                                 isModalOpen={isModalOpen}
                                 setIsModalOpen={setIsModalOpen}
                                 nft={selectedNft}
-                                status={status}
-                                walletAddress={walletAddress}
                             />
                         )}
 
@@ -72,7 +62,7 @@ export default function MintComponent({
                                     {' '}
                                     Connect
                                 </button>
-                                <p className="text-md text-gray-500">{status}</p>
+                                <p className="text-md text-gray-500">{walletStatus}</p>
                             </div>
                         )}
                         <div>
