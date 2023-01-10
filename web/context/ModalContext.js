@@ -7,9 +7,14 @@ export const ModalContext = React.createContext({
         txhash: '',
         isProcessing: false,
         title: '',
+        id: null,
+        transactionType: { isDeposit: false, isPurchase: false },
     },
+    isLoading: false,
+
     updateData: () => {},
     setIsOpen: () => {},
+    setIsLoading: () => {},
 });
 
 export const ModalProvider = ({ children }) => {
@@ -18,6 +23,8 @@ export const ModalProvider = ({ children }) => {
         txhash: '',
         isProcessing: false,
         title: '',
+        id: null,
+        transactionType: { isDeposit: false, isPurchase: false },
     });
 
     const [isOpen, setIsOpen] = React.useState(false);
@@ -26,7 +33,11 @@ export const ModalProvider = ({ children }) => {
         setData(data);
     };
 
-    return <ModalContext.Provider value={{ updateData, data, isOpen, setIsOpen }}>{children}</ModalContext.Provider>;
+    const [isLoading, setIsLoading] = React.useState(false);
+
+    return (
+        <ModalContext.Provider value={{ updateData, data, isOpen, setIsOpen, isLoading, setIsLoading }}>{children}</ModalContext.Provider>
+    );
 };
 
 export default ModalContext;

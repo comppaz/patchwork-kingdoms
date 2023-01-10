@@ -2,7 +2,6 @@ import { useState, useEffect, useContext } from 'react';
 import { connectWallet, getConnectedWallet, setWalletListener } from '../../lib/contractInteraction';
 import { mintTestToken, getOwnedTestNfts } from '../../lib/testTokenInteraction';
 import Modal from './Modal';
-import ResponseModal from './ResponseModal';
 import Image from 'next/image';
 import AddressContext from '../../context/AddressContext';
 
@@ -13,13 +12,13 @@ export default function MintComponent({ heading: heading, caption: caption, isMo
     const { walletAddress, walletStatus } = useContext(AddressContext);
 
     //called only once
-    useEffect(async () => {
-        console.log(isModalOpen);
-
-        if (walletAddress) {
-            setOwnedNfts(await getOwnedTestNfts(walletAddress));
-        }
-    }, [walletAddress, walletStatus]);
+    useEffect(() => {
+        (async () => {
+            if (walletAddress) {
+                setOwnedNfts(await getOwnedTestNfts(walletAddress));
+            }
+        })();
+    }, [walletAddress, walletStatus, isModalOpen]);
 
     const connectWalletButtonPressed = async () => {
         await connectWallet();
@@ -28,9 +27,7 @@ export default function MintComponent({ heading: heading, caption: caption, isMo
     const onMintPressed = async () => {
         console.log('Starting Mint');
         if (walletAddress) {
-            const result = await mintTestToken(walletAddress);
-            setMintState({ transactionFinished: true, txhash: result.hash, status: '', nft: {} });
-            setResponseModalOpen(true);
+            await mintTestToken(walletAddress);
         }
     };
 
@@ -93,11 +90,11 @@ export default function MintComponent({ heading: heading, caption: caption, isMo
                                                         <button
                                                             onClick={() => {
                                                                 //setModalOpen(true);
-                                                                setTransactionType({ isDeposit: true, isPurchasement: false });
+                                                                setTransactionType({ isDeposit: true, isPurchase: false });
                                                                 setIsModalOpen(true);
                                                                 setSelectedNft(el);
                                                             }}
-                                                            className="cursor-pointer text-gray-400 hover:text-gray-500">
+                                                            className="cursor-pointer underline text-teal-500 hover:text-teal-700">
                                                             <span className="sr-only">Donate</span>
                                                             Donate
                                                         </button>

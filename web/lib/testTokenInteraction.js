@@ -23,11 +23,22 @@ export const approveTransaction = async (address, tokenId) => {
         nonce: accountNonce,
         data: testERC721Token.methods.approve(contractAddress, tokenId).encodeABI(),
     };
-
-    const txHash = await window.ethereum.request({
-        method: 'eth_sendTransaction',
-        params: [approveParameter],
-    });
+    try {
+        const txHash = await window.ethereum.request({
+            method: 'eth_sendTransaction',
+            params: [approveParameter],
+        });
+        return {
+            message: 'The approval was succesful. Please confirm the transaction on Metamask.',
+            status: true,
+            txHash: txHash,
+        };
+    } catch (error) {
+        return {
+            message: error.message,
+            status: false,
+        };
+    }
 };
 
 export const mintTestToken = async address => {

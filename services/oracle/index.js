@@ -301,8 +301,14 @@ async function main() {
   escrowContract.on(
     "Deposited",
     async (itemId, tokenAddress, tokenId, event) => {
+      console.log(`...RECEIVED DEPOSIT: TOKENID ${tokenId}...`);
+      console.log(event);
       const response = await handleRequest(event);
+      console.log("Finished handling request");
+      console.log(response);
       const lastMinPriceValue = await handleResponse(response);
+      console.log("Finished handling response");
+      console.log(lastMinPriceValue);
       // event.args array has the following value sequence see contract: (id, tokenAddress, tokenId)
       itemId = event.args[0].toNumber();
       escrowContract.setLastMinPrice(lastMinPriceValue, itemId);
@@ -312,6 +318,7 @@ async function main() {
 }
 
 async function handleRequest(event) {
+  console.log("Starting handling request");
   let options = {
     method: "GET",
     url: "https://deep-index.moralis.io/api/v2/nft/",
@@ -322,7 +329,6 @@ async function handleRequest(event) {
     },
   };
   // event.args array has the following value sequence see contract: (id, tokenAddress, tokenId)
-  console.log("Received Deposit Event");
   let address = event.args[1];
 
   // when testing on different net overwrite received value to get real results
@@ -340,6 +346,7 @@ async function handleRequest(event) {
 }
 
 async function handleResponse(response) {
+  console.log("Starting handling response");
   const data = await response.data;
   let lastMinPriceValue = 0;
 

@@ -11,7 +11,13 @@ import AddressContext from '../context/AddressContext';
 
 export default function Gallery() {
     const [data, setData] = useState([]);
-    const { updateData: updateModalData, data: modalData, setIsOpen: setResponseModalOpen } = useContext(ModalContext);
+    const {
+        updateData: updateModalData,
+        data: modalData,
+        isOpen: isResponseModalOpen,
+        setIsOpen: setResponseModalOpen,
+        setIsLoading,
+    } = useContext(ModalContext);
     const { walletAddress, updateWalletAddress, walletStatus, updateWalletStatus, emittingAddress } = useContext(AddressContext);
 
     const [isModalOpen, setIsModalOpen] = useState();
@@ -44,7 +50,7 @@ export default function Gallery() {
         setIsModalOpen(false);
         setData(buildNftList());
         setWalletListener();
-    }, [modalData.isOpen, walletAddress]);
+    }, [walletAddress]);
 
     useEffect(() => {
         subscribeToPurchasementEvent();
@@ -72,21 +78,25 @@ export default function Gallery() {
 
     const subscribeToPurchasementEvent = async () => {
         escrowContractWSS.events.Donated({}, async (error, data) => {
+            setIsModalOpen(false);
+            setIsLoading(false);
             if (error) {
                 console.log(error);
             } else {
                 console.log('PURCHASEMENT EVENT WAS EMITTED SUCCESSFULLY');
                 // check that walletAddres is set and equals the emittingAddress
-
                 if (walletAddress !== '' && walletAddress === emittingAddress) {
-                    setIsModalOpen(false);
                     updateModalData({
-                        heading: 'Purchasement Transaction completed successfully',
+                        heading: 'Thank you for your purchase!',
                         txhash: data.transactionHash,
-                        title: 'Purchasement',
+                        title: 'Transaction complete',
                         isProcessing: false,
+                        id: data.tokenId,
+                        transactionType: { isDeposit: false, isPurchase: true },
                     });
-                    setResponseModalOpen(true);
+                    setTimeout(() => {
+                        setResponseModalOpen(true);
+                    }, 500);
                 }
             }
         });
@@ -94,20 +104,25 @@ export default function Gallery() {
 
     const subscribeToDepositEvent = async () => {
         escrowContractWSS.events.Deposited({}, async (error, data) => {
+            setIsModalOpen(false);
+            setIsLoading(false);
             if (error) {
                 console.log(error);
             } else {
                 console.log('DEPOSIT EVENT WAS EMITTED SUCCESSFULLY');
                 // check that walletAddres is set and equals the emittingAddress
                 if (walletAddress !== '' && walletAddress === emittingAddress) {
-                    setIsModalOpen(false);
                     updateModalData({
-                        heading: 'Deposit Transaction completed successfully',
+                        heading: 'Congrats, your NFT is up for sale!',
                         txhash: data.transactionHash,
-                        title: 'Deposit',
+                        title: 'Transaction complete',
                         isProcessing: false,
+                        id: data.tokenId,
+                        transactionType: { isDeposit: true, isPurchase: false },
                     });
-                    setResponseModalOpen(true);
+                    setTimeout(() => {
+                        setResponseModalOpen(true);
+                    }, 500);
                 }
             }
         });

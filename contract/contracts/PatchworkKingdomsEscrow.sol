@@ -139,6 +139,10 @@ contract PatchworkKingdomsEscrow {
     */
     function expiration(uint256 itemId, uint256 _expiration) public {
         ERC721Item memory item = items[itemId];
+        require(
+            (msg.sender == owner || msg.sender == item.giver),
+            "Tokens can only be expired by the admin or the original token owner."
+        );
         require(_expiration < item.expiration, "The token is not expired.");
         token.transferFrom(address(this), item.giver, item.tokenId);
         delete(items[itemId]);

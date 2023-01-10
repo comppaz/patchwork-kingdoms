@@ -97,17 +97,17 @@ export const deposit = async (address, tokenId, expiration) => {
     // check auth
     if (!window.ethereum || address === null) {
         return {
-            status: 'Connect your Metamask wallet to donate your nft.',
+            message: 'Connect your Metamask wallet to donate your nft.',
         };
     }
     // check parameter to call contract methods!
     if (tokenId === undefined || expiration === undefined) {
         return {
-            status: 'Please insert valid parameters.',
+            message: 'Please insert valid parameters.',
         };
     }
 
-    await approveTransaction(address, tokenId);
+    //await approveTransaction(address, tokenId);
 
     const accountNonce = '0x' + ((await web3.eth.getTransactionCount(address)) + 2).toString(16);
 
@@ -124,11 +124,15 @@ export const deposit = async (address, tokenId, expiration) => {
             method: 'eth_sendTransaction',
             params: [depositParameter],
         });
-        console.log(txHash);
-        return txHash;
+        return {
+            message: 'The deposit request was successful.',
+            status: true,
+            txHash: txHash,
+        };
     } catch (error) {
         return {
-            status: 'Something went wrong: ' + error.message,
+            message: error.message,
+            status: false,
         };
     }
 };
@@ -148,13 +152,15 @@ export const buy = async (address, itemId, price) => {
         };
     }
     // check if this caller is the one who donated the item!
+    // TODO: Deactivated for testing
+    /*
     const item = await getItem(itemId);
     if (item[1].toLowerCase() === address.toLowerCase()) {
         console.log('Giver equals address, purchasement will fail!');
         return {
-            status: 'You previously donated this nft. You cannot buy it back!',
+            status: 'You previously donated this nft. You can't buy it!',
         };
-    }
+    }*/
     // start buy transaction
     const buyParameters = {
         to: contractAddress,
@@ -162,7 +168,6 @@ export const buy = async (address, itemId, price) => {
         value: price,
         data: escrowContract.methods.donation(itemId).encodeABI(),
     };
-    console.log(buyParameters);
     // sign the deposit transaction
     try {
         const txHash = await window.ethereum.request({
@@ -170,10 +175,15 @@ export const buy = async (address, itemId, price) => {
             params: [buyParameters],
         });
         console.log(txHash);
-        return txHash;
+        return {
+            message: 'The purchasement was successful!',
+            status: true,
+            txHash: txHash,
+        };
     } catch (error) {
         return {
-            status: 'Something went wrong: ' + error.message,
+            message: 'Something went wrong: ' + error.message,
+            status: false,
         };
     }
 };

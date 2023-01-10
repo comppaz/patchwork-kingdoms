@@ -10,6 +10,7 @@ import 'swiper/css';
 import 'swiper/css/pagination';
 import 'swiper/css/navigation';
 import AddressContext from '../context/AddressContext';
+
 export default function PurchasementGallery({
     heading: heading,
     caption: caption,
@@ -20,12 +21,11 @@ export default function PurchasementGallery({
     const [depositedNfts, setDepositedNfts] = useState([]);
     const [transactionType, setTransactionType] = useState({});
     const { walletAddress, updateWalletAddress, walletStatus } = useContext(AddressContext);
-
     useEffect(() => {
         (async () => {
             setDepositedNfts(await getItems());
         })();
-    }, [walletAddress, walletStatus]);
+    }, [walletAddress, walletStatus, isModalOpen]);
 
     return (
         <div className="bg-white">
@@ -70,17 +70,19 @@ export default function PurchasementGallery({
                                     />
 
                                     <p className="text-md text-gray-500">TestToken #{el.tokenId}</p>
-
-                                    <button
-                                        onClick={() => {
-                                            setTransactionType({ isDeposit: false, isPurchasement: true });
-                                            setIsModalOpen(true);
-                                            setSelectedNft(el);
-                                        }}
-                                        className="cursor-pointer text-gray-400 hover:text-gray-500">
-                                        <span className="sr-only">Buy</span>
-                                        Buy
-                                    </button>
+                                    <div>
+                                        <span className="text-gray-600"> {el.price / 10 ** 18} ETH </span>
+                                        <button
+                                            onClick={() => {
+                                                setTransactionType({ isDeposit: false, isPurchase: true });
+                                                setIsModalOpen(true);
+                                                setSelectedNft(el);
+                                            }}
+                                            className="cursor-pointer underline text-teal-500 hover:text-teal-700">
+                                            <span className="sr-only">Buy</span>
+                                            Buy
+                                        </button>
+                                    </div>
                                 </SwiperSlide>
                             ))}
                         </Swiper>

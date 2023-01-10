@@ -6,6 +6,10 @@ import Tooltip from '../Tooltip';
 import { connectWallet, deposit, buy } from '../../lib/contractInteraction';
 import { ethers } from 'ethers';
 import AddressContext from '../../context/AddressContext';
+import ModalContext from '../../context/ModalContext';
+import { approveTransaction } from '../../lib/testTokenInteraction';
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function classNames(...classes) {
     return classes.filter(Boolean).join(' ');
@@ -13,24 +17,28 @@ function classNames(...classes) {
 export default function Modal({ transactionType, setTransactionType, nft, isModalOpen, setIsModalOpen }) {
     const cancelButtonRef = useRef(null);
     const { walletAddress, updateWalletAddress, walletStatus, updateEmittingAddress } = useContext(AddressContext);
+    const { isLoading, setIsLoading } = useContext(ModalContext);
 
     const [enabled, setEnabled] = useState(false);
     const monthlyTimeUnit = 2629743;
-    const [depositState, setDepositState] = useState({ transactionStarted: false, txHash: '', status: '', nft: {} });
-    const [donationState, setDonationState] = useState({ transactionStarted: false, txHash: '', status: '', nft: {} });
+
     // default timeframe starts with 24 months
     const [currentExpirationTimeFrame, setExpirationTimeframe] = useState(24 * monthlyTimeUnit);
     const [priceOffer, setPriceOffer] = useState(0.175);
     const [expiration, setExpiration] = useState({});
-    const [isError, setIsError] = useState({ isError: true, status: '' });
-    const [isLoading, setIsLoading] = useState(false);
-    const [progress, setProgress] = useState('');
+    const [inputError, setInputError] = useState({ isError: false, status: '' });
+    //const [isLoading, setIsLoading] = useState(false);
+    const [progress, setProgress] = useState({ status: true, message: '', txHash: '' });
 
     //called only once
-    useEffect(async () => {
+    useEffect(() => {
         let expirationDate = new Date(nft.expiration * 1000);
         setExpiration(expirationDate.toLocaleDateString());
-    }, [walletAddress, walletStatus, isError, donationState, depositState, isModalOpen]);
+        setIsLoading(false);
+        setProgress({ status: false, message: '', txHash: '' });
+        setEnabled(false);
+        setInputError({ isError: false, status: '' });
+    }, [walletAddress, walletStatus, isModalOpen]);
 
     function setTimeframe(value) {
         switch (Number(value)) {
@@ -57,33 +65,59 @@ export default function Modal({ transactionType, setTransactionType, nft, isModa
 
     const onDepositPressed = async nftId => {
         console.log('Starting Deposit for TokenID: ' + nftId);
-        const response = await deposit(walletAddress, nftId, currentExpirationTimeFrame);
-        console.log(response);
-        updateEmittingAddress(walletAddress);
-        setDepositState({ transactionStarted: true, txHash: response, status: response.status, nft: nft });
+        const approvalResponse = await approveTransaction(walletAddress, nftId);
+        notify(approvalResponse.status, approvalResponse.message, approvalResponse.txHash);
+        setProgress(approvalResponse);
+        if (approvalResponse.status) {
+            const depositResponse = await deposit(walletAddress, nftId, currentExpirationTimeFrame);
+            setProgress(depositResponse);
+            updateEmittingAddress(walletAddress);
+            notify(depositResponse.status, depositResponse.message, depositResponse.txHash);
+            console.log(depositResponse);
+        } else {
+            setIsLoading(false);
+        }
     };
 
     const onBuyPressed = async itemId => {
         console.log('Starting Purchase Transaction for TokenID: ' + itemId);
         let price = ethers.utils.parseEther(priceOffer.toString());
         const response = await buy(walletAddress, itemId, price._hex);
+        setProgress(response);
+        notify(response.status, response.message, response.txHash);
         console.log(response);
         updateEmittingAddress(walletAddress);
-        setProgress(response.status);
-        setDonationState({ transactionStarted: true, txHash: response, status: response.status, nft: nft });
+    };
+
+    const notify = (successful, output, txHash) => {
+        if (successful) {
+            toast.success(output, {
+                hideProgressBar: true,
+                autoClose: false,
+                position: toast.POSITION.BOTTOM_LEFT,
+            });
+        } else {
+            toast.error(output, {
+                hideProgressBar: true,
+                autoClose: false,
+                position: toast.POSITION.BOTTOM_LEFT,
+            });
+        }
     };
 
     return (
         <div>
             <Transition.Root show={isModalOpen}>
+                <ToastContainer />
+                {/** purchase/deposit modal*/}
                 {transactionType.isDeposit && (
                     <Dialog
                         as="div"
                         className="relative z-10"
                         initialFocus={cancelButtonRef}
                         onClose={() => {
-                            setIsModalOpen(false);
                             setTransactionType({ isDeposit: false, isPurchasement: false });
+                            setIsModalOpen(false);
                         }}>
                         <Transition.Child
                             as={Fragment}
@@ -105,11 +139,11 @@ export default function Modal({ transactionType, setTransactionType, nft, isModa
                                     leaveFrom="opacity-100 translate-y-0 sm:scale-100"
                                     leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95">
                                     <Dialog.Panel className="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg">
-                                        {/** donate/deposit modal*/}
                                         <div className="w-full py-2 px-12 text-center text-gray-500 bg-gray-50 font-light border border-b-2">
                                             Donate your NFT
                                         </div>
                                         <div className="mt-2 mr-auto ml-4 flex text-sm font-medium text-gray-600">{walletStatus}</div>
+                                        {/** check login information */}
                                         <div className="">
                                             {walletAddress.length > 0 ? (
                                                 <p className="mt-2 mr-auto ml-4 flex text-sm font-medium text-gray-600">
@@ -126,11 +160,11 @@ export default function Modal({ transactionType, setTransactionType, nft, isModa
                                                 </button>
                                             )}
                                         </div>
+                                        {/** deposit modal */}
                                         <div>
                                             <div className="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
                                                 <div className="sm:flex sm:items-start">
                                                     <div className="mx-auto flex h-24 w-24 flex-shrink-0 items-center justify-center sm:mx-0 sm:h-32 sm:w-32">
-                                                        {/* <ExclamationTriangleIcon className="h-6 w-6 text-red-600" aria-hidden="true" /> */}
                                                         <Image
                                                             className="object-cover shadow-lg rounded-lg"
                                                             width="512"
@@ -151,11 +185,9 @@ export default function Modal({ transactionType, setTransactionType, nft, isModa
                                                             </p>
                                                         </div>
                                                         <div className="mt-4">
-                                                            <label
-                                                                htmlFor="timeframe"
-                                                                className="block flex text-sm font-medium text-gray-600">
+                                                            <label htmlFor="timeframe" className="block text-sm font-medium text-gray-600">
                                                                 Timeframe{'  '}
-                                                                <Tooltip className="inline" text="This is a tooltip">
+                                                                <Tooltip enabled={true} className="inline" text="This is a tooltip">
                                                                     <InformationCircleIcon className="w-4 h-4"></InformationCircleIcon>
                                                                 </Tooltip>
                                                             </label>
@@ -255,9 +287,9 @@ export default function Modal({ transactionType, setTransactionType, nft, isModa
                                                     </div>
                                                 </div>
                                             </div>
+                                            {/** check loading status and show loading spinner or buttons to continue */}
                                             {isLoading ? (
-                                                <div className="py-8 text-red-700 mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
-                                                    {progress}
+                                                <div className="py-8 text-sm font-medium mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
                                                     <div className="flex h-1/3">
                                                         <div className="m-auto justify-center left-1/2 top-1/2">
                                                             <svg
@@ -279,25 +311,53 @@ export default function Modal({ transactionType, setTransactionType, nft, isModa
                                                             </svg>
                                                         </div>
                                                     </div>
+                                                    {/** 
+                                                    {progress.status ? (
+                                                        <div className="text-green-600 flex justify-center">
+                                                            <p>{progress.message}</p>
+                                                            <p>
+                                                                Check out the transaction on{' '}
+                                                                <a
+                                                                    target="_blank"
+                                                                    href={`https://goerli.etherscan.io/tx/${progress.txHash}`}
+                                                                    rel="noopener noreferrer">
+                                                                    Etherscan
+                                                                </a>{' '}
+                                                            </p>
+                                                        </div>
+                                                    ) : (
+                                                        <div className="text-red-600 flex justify-center">{progress.message}</div>
+                                                    )}
+                                                    */}
                                                 </div>
                                             ) : (
                                                 <div className="bg-gray-50 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6">
-                                                    <button
-                                                        type="button"
-                                                        className="inline-flex w-full justify-center rounded-md border border-transparent bg-teal-500 px-4 py-2 text-base font-medium text-white shadow-sm hover:bg-teal-700 focus:outline-none focus:ring-2 focus:ring-teal-500 focus:ring-offset-2 sm:ml-3 sm:w-auto sm:text-sm"
-                                                        onClick={() => {
-                                                            onDepositPressed(nft.tokenId);
-                                                            setIsLoading(true);
-                                                            setProgress('Please wait until the transaction is completed');
-                                                        }}>
-                                                        Sign
-                                                    </button>
+                                                    <Tooltip
+                                                        enabled={!enabled}
+                                                        className="inline text-sm"
+                                                        text="Please agree to the terms.">
+                                                        <button
+                                                            type="button"
+                                                            disabled={!enabled}
+                                                            className="inline-flex w-full justify-center rounded-md border border-transparent bg-teal-500 px-4 py-2 text-base font-medium text-white shadow-sm hover:bg-teal-700 focus:outline-none focus:ring-2 focus:ring-teal-500 focus:ring-offset-2 sm:ml-3 sm:w-auto sm:text-sm disabled:bg-gray-300 disabled:hover:bg-gray-300 disabled:hover:border-red-400"
+                                                            onClick={() => {
+                                                                setIsLoading(true);
+                                                                onDepositPressed(nft.tokenId);
+                                                                setProgress({
+                                                                    message: 'Please follow the instructions on Metamask.',
+                                                                    status: false,
+                                                                });
+                                                            }}>
+                                                            Sign
+                                                        </button>
+                                                    </Tooltip>
+
                                                     <button
                                                         type="button"
                                                         className="mt-3 inline-flex w-full justify-center rounded-md border border-gray-300 bg-white px-4 py-2 text-base font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-teal-500 focus:ring-offset-2 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm"
                                                         onClick={() => {
-                                                            setIsModalOpen(false);
                                                             setTransactionType({ isDeposit: false, isPurchasement: false });
+                                                            setIsModalOpen(false);
                                                         }}
                                                         ref={cancelButtonRef}>
                                                         Cancel
@@ -311,14 +371,14 @@ export default function Modal({ transactionType, setTransactionType, nft, isModa
                         </div>
                     </Dialog>
                 )}
-                {transactionType.isPurchasement && (
+                {transactionType.isPurchase && (
                     <Dialog
                         as="div"
                         className="relative z-10"
                         initialFocus={cancelButtonRef}
                         onClose={() => {
-                            setIsModalOpen(false);
                             setTransactionType({ isDeposit: false, isPurchasement: false });
+                            setIsModalOpen(false);
                         }}>
                         <Transition.Child
                             as={Fragment}
@@ -410,7 +470,7 @@ export default function Modal({ transactionType, setTransactionType, nft, isModa
                                                                 <label
                                                                     htmlFor="minPrice"
                                                                     className="block text-sm font-medium text-gray-600">
-                                                                    Minimum price value:
+                                                                    Accepting offers higher than:
                                                                 </label>
                                                                 <div className="block text-sm font-medium text-gray-500">
                                                                     <span>{nft.price / 10 ** 18} ETH</span>
@@ -443,12 +503,12 @@ export default function Modal({ transactionType, setTransactionType, nft, isModa
                                                                         onInput={event => {
                                                                             if (event.target.value <= nft.price / 10 ** 18) {
                                                                                 console.log('Illegal value ');
-                                                                                setIsError({
+                                                                                setInputError({
                                                                                     isError: true,
                                                                                     status: 'The value does not exceed the minimum price or is not a valid number!',
                                                                                 });
                                                                             } else {
-                                                                                setIsError({
+                                                                                setInputError({
                                                                                     isError: false,
                                                                                     status: '',
                                                                                 });
@@ -462,7 +522,9 @@ export default function Modal({ transactionType, setTransactionType, nft, isModa
                                                                         className="block w-full px-4 py-2 rounded-md border-gray-300 shadow-sm focus:border-teal-500 focus:ring-teal-500 sm:text-sm"
                                                                     />
                                                                 </div>
-                                                                <p className="block text-sm font-medium text-red-600">{isError.status}</p>
+                                                                <p className="block text-sm font-medium text-red-600">
+                                                                    {inputError.status}
+                                                                </p>
                                                             </div>
                                                         </div>
                                                         <div className="mt-4">
@@ -500,7 +562,6 @@ export default function Modal({ transactionType, setTransactionType, nft, isModa
                                             </div>
                                             {isLoading ? (
                                                 <div className="py-8 text-red-700 mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
-                                                    {progress}
                                                     <div className="flex h-1/3">
                                                         <div className="m-auto justify-center left-1/2 top-1/2">
                                                             <svg
@@ -522,26 +583,36 @@ export default function Modal({ transactionType, setTransactionType, nft, isModa
                                                             </svg>
                                                         </div>
                                                     </div>
+                                                    <div className="flex justify-center">{progress.status}</div>
                                                 </div>
                                             ) : (
                                                 <div className="bg-gray-50 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6">
-                                                    <button
-                                                        type="button"
-                                                        disabled={isError.isError}
-                                                        className="inline-flex w-full justify-center rounded-md border border-transparent bg-teal-500 px-4 py-2 text-base font-medium text-white shadow-sm hover:bg-teal-700 focus:outline-none focus:ring-2 focus:ring-teal-500 focus:ring-offset-2 sm:ml-3 sm:w-auto sm:text-sm disabled:hover:bg-teal-500 disabled:pointer-events-none"
-                                                        onClick={() => {
-                                                            setIsLoading(true);
-                                                            onBuyPressed(nft.itemId);
-                                                            setProgress('Please wait until the transaction is completed');
-                                                        }}>
-                                                        Sign
-                                                    </button>
+                                                    <Tooltip
+                                                        enabled={!enabled}
+                                                        className="inline text-sm"
+                                                        text="Please agree to the terms.">
+                                                        <button
+                                                            type="button"
+                                                            disabled={!enabled}
+                                                            className="inline-flex w-full justify-center rounded-md border border-transparent bg-teal-500 px-4 py-2 text-base font-medium text-white shadow-sm hover:bg-teal-700 focus:outline-none focus:ring-2 focus:ring-teal-500 focus:ring-offset-2 sm:ml-3 sm:w-auto sm:text-sm disabled:bg-gray-300 disabled:hover:bg-gray-300 disabled:hover:border-red-400"
+                                                            onClick={() => {
+                                                                setIsLoading(true);
+                                                                onBuyPressed(nft.itemId);
+                                                                setProgress({
+                                                                    message: 'Please follow the instructions on Metamask.',
+                                                                    status: false,
+                                                                });
+                                                            }}>
+                                                            Sign
+                                                        </button>
+                                                    </Tooltip>
+
                                                     <button
                                                         type="button"
                                                         className="mt-3 inline-flex w-full justify-center rounded-md border border-gray-300 bg-white px-4 py-2 text-base font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-teal-500 focus:ring-offset-2 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm"
                                                         onClick={() => {
-                                                            setIsModalOpen(false);
                                                             setTransactionType({ isDeposit: false, isPurchasement: false });
+                                                            setIsModalOpen(false);
                                                         }}
                                                         ref={cancelButtonRef}>
                                                         Cancel
