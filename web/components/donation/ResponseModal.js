@@ -8,7 +8,8 @@ export default function ResponseModal() {
     const cancelButtonRef = useRef(null);
     const shareUrl = 'https://www.patchwork-kingdoms.com/gallery';
     const shareTitle = 'Patchwork Kingdom NFT Donation';
-    const shareDescription = "I've donated my Patchwork Kingdom NFT. Check it out!";
+    const shareDescription =
+        "My Patchwork Kingdom NFT is up for donation. Click here to buy it! All proceeds from this PWK purchase go to UNICEF to help support Giga's mission in connecting schools.";
     const { data: modalData, isOpen, setIsOpen } = useContext(ModalContext);
 
     return (

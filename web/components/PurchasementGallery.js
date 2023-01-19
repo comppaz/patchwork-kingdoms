@@ -68,20 +68,20 @@ export default function PurchasementGallery({
                                         src={el.url}
                                         alt={'Test Token Image'}
                                     />
-
-                                    <p className="text-md text-gray-500">TestToken #{el.tokenId}</p>
-                                    <div>
-                                        <span className="text-gray-600"> {el.price / 10 ** 18} ETH </span>
-                                        <button
-                                            onClick={() => {
-                                                setTransactionType({ isDeposit: false, isPurchase: true });
-                                                setIsModalOpen(true);
-                                                setSelectedNft(el);
-                                            }}
-                                            className="cursor-pointer underline text-teal-500 hover:text-teal-700">
-                                            <span className="sr-only">Buy</span>
-                                            Buy
-                                        </button>
+                                    <div className="grid grid-flow-col ">
+                                        <div className="text-md text-gray-500">PWK #{el.tokenId}</div>
+                                        <div className=" text-lg text-right text-gray-600 font-bold">
+                                            Offer min: {el.price / 10 ** 18} ETH{' '}
+                                            <button
+                                                onClick={() => {
+                                                    setTransactionType({ isDeposit: false, isPurchase: true });
+                                                    setIsModalOpen(true);
+                                                    setSelectedNft(el);
+                                                }}
+                                                className=" cursor-pointer underline text-teal-500 hover:text-teal-700">
+                                                Buy
+                                            </button>
+                                        </div>
                                     </div>
                                 </SwiperSlide>
                             ))}

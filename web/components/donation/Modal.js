@@ -26,19 +26,19 @@ export default function Modal({ transactionType, setTransactionType, nft, isModa
     const [currentExpirationTimeFrame, setExpirationTimeframe] = useState(24 * monthlyTimeUnit);
     const [priceOffer, setPriceOffer] = useState(0.175);
     const [expiration, setExpiration] = useState({});
-    const [inputError, setInputError] = useState({ isError: false, status: '' });
+    const [priceError, setPriceError] = useState({ isError: false, status: '' });
+    const [agreeToTerms, setAgreeToTerms] = useState(false);
     //const [isLoading, setIsLoading] = useState(false);
     const [progress, setProgress] = useState({ status: true, message: '', txHash: '' });
 
     //called only once
     useEffect(() => {
-        let expirationDate = new Date(nft.expiration * 1000);
-        setExpiration(expirationDate.toLocaleDateString());
-        setIsLoading(false);
-        setProgress({ status: false, message: '', txHash: '' });
-        setEnabled(false);
-        setInputError({ isError: false, status: '' });
+        resetModalValues();
     }, [walletAddress, walletStatus, isModalOpen]);
+
+    useEffect(() => {
+        agreeToTerms && !priceError.isError ? setEnabled(true) : setEnabled(false);
+    }, [agreeToTerms, priceError]);
 
     function setTimeframe(value) {
         switch (Number(value)) {
@@ -105,6 +105,24 @@ export default function Modal({ transactionType, setTransactionType, nft, isModa
         }
     };
 
+    const resetModalValues = () => {
+        let expirationDate = new Date(nft.expiration * 1000);
+        setExpiration(expirationDate.toLocaleDateString());
+        setIsLoading(false);
+        setProgress({ status: false, message: '', txHash: '' });
+        setEnabled(false);
+        setAgreeToTerms(false);
+        setPriceError({ isError: false, status: '' });
+    };
+
+    const calculateMinPrice = price => {
+        let expPrice = price.toExponential();
+        let parts = String(expPrice).toLowerCase().split('e');
+        let ePart = parts.pop() - 1;
+        let e = `1e${ePart}`;
+        return { minPrice: Number(expPrice) + Number(e), step: Number(e) };
+    };
+
     return (
         <div>
             <Transition.Root show={isModalOpen}>
@@ -140,7 +158,7 @@ export default function Modal({ transactionType, setTransactionType, nft, isModa
                                     leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95">
                                     <Dialog.Panel className="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg">
                                         <div className="w-full py-2 px-12 text-center text-gray-500 bg-gray-50 font-light border border-b-2">
-                                            Donate your NFT
+                                            Donate this PWK 🎉
                                         </div>
                                         <div className="mt-2 mr-auto ml-4 flex text-sm font-medium text-gray-600">{walletStatus}</div>
                                         {/** check login information */}
@@ -206,16 +224,16 @@ export default function Modal({ transactionType, setTransactionType, nft, isModa
                                                                 />
                                                                 <ul className="flex justify-between w-full px-[10px] text-gray-500">
                                                                     <li className="flex justify-center relative">
-                                                                        <span className="absolute text-xs">3M</span>
+                                                                        <span className="fixed text-xs">3 months</span>
                                                                     </li>
                                                                     <li className="flex justify-center relative">
-                                                                        <span className="absolute text-xs">6M</span>
+                                                                        <span className="fixed text-xs">6 months</span>
                                                                     </li>
                                                                     <li className="flex justify-center relative">
-                                                                        <span className="absolute text-xs">1Y</span>
+                                                                        <span className="fixed text-xs">1 year</span>
                                                                     </li>
                                                                     <li className="flex justify-center relative">
-                                                                        <span className="absolute text-xs">2Y</span>
+                                                                        <span className="fixed text-xs">2 years</span>
                                                                     </li>
                                                                 </ul>
                                                             </div>
@@ -402,7 +420,7 @@ export default function Modal({ transactionType, setTransactionType, nft, isModa
                                     <Dialog.Panel className="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg">
                                         {/** buy modal*/}
                                         <div className="w-full py-2 px-12 text-center text-gray-500 bg-gray-50 font-light border border-b-2">
-                                            Buy this NFT
+                                            Buy this PWK
                                         </div>
                                         <div className="mt-2 mr-auto ml-4 flex text-sm font-medium text-gray-600">{walletStatus}</div>
                                         <div className="">
@@ -450,18 +468,15 @@ export default function Modal({ transactionType, setTransactionType, nft, isModa
                                                         </div>
                                                         <div className="mt-6">
                                                             <div>
-                                                                <label htmlFor="email" className="block text-sm font-medium text-gray-600">
-                                                                    Get notified when the transaction was successful{' '}
-                                                                    <span className="text-xs font-light">(optional)</span>
+                                                                <label
+                                                                    htmlFor="minPrice"
+                                                                    className="block text-sm font-medium text-gray-600">
+                                                                    Sale ends on:
                                                                 </label>
-                                                                <div className="mt-1">
-                                                                    <input
-                                                                        type="email"
-                                                                        name="email"
-                                                                        id="email"
-                                                                        className="block w-full px-4 py-2 rounded-md border-gray-300 shadow-sm focus:border-teal-500 focus:ring-teal-500 sm:text-sm"
-                                                                        placeholder="you@example.com"
-                                                                    />
+                                                                <div>
+                                                                    <span className="block text-sm font-medium text-gray-500">
+                                                                        {expiration.toString()}
+                                                                    </span>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -479,42 +494,29 @@ export default function Modal({ transactionType, setTransactionType, nft, isModa
                                                         </div>
                                                         <div className="mt-6">
                                                             <div>
-                                                                <label
-                                                                    htmlFor="minPrice"
-                                                                    className="block text-sm font-medium text-gray-600">
-                                                                    Expiration Date
-                                                                </label>
-                                                                <div>
-                                                                    <span className="block text-sm font-medium text-gray-500">
-                                                                        {expiration.toString()}
-                                                                    </span>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div className="mt-6">
-                                                            <div>
                                                                 <label htmlFor="price" className="block text-sm font-medium text-gray-600">
-                                                                    Your offer
+                                                                    Your offer:
                                                                 </label>
                                                                 <div className="mt-1">
                                                                     <input
                                                                         type="number"
+                                                                        step={calculateMinPrice(nft.price / 10 ** 18).step}
+                                                                        defaultValue={calculateMinPrice(nft.price / 10 ** 18).minPrice}
                                                                         placeholder="Type in your offer"
                                                                         onInput={event => {
                                                                             if (event.target.value <= nft.price / 10 ** 18) {
                                                                                 console.log('Illegal value ');
-                                                                                setInputError({
+                                                                                setPriceError({
                                                                                     isError: true,
                                                                                     status: 'The value does not exceed the minimum price or is not a valid number!',
                                                                                 });
                                                                             } else {
-                                                                                setInputError({
+                                                                                setPriceError({
                                                                                     isError: false,
                                                                                     status: '',
                                                                                 });
                                                                             }
                                                                         }}
-                                                                        min={0.15}
                                                                         required
                                                                         onChange={event => {
                                                                             setPriceOffer(event.target.value);
@@ -523,8 +525,25 @@ export default function Modal({ transactionType, setTransactionType, nft, isModa
                                                                     />
                                                                 </div>
                                                                 <p className="block text-sm font-medium text-red-600">
-                                                                    {inputError.status}
+                                                                    {priceError.status}
                                                                 </p>
+                                                            </div>
+                                                        </div>
+                                                        <div className="mt-6">
+                                                            <div>
+                                                                <label htmlFor="email" className="block text-sm font-medium text-gray-600">
+                                                                    Get notified when the transaction was successful{' '}
+                                                                    <span className="text-xs font-light">(optional)</span>
+                                                                </label>
+                                                                <div className="mt-1">
+                                                                    <input
+                                                                        type="email"
+                                                                        name="email"
+                                                                        id="email"
+                                                                        className="block w-full px-4 py-2 rounded-md border-gray-300 shadow-sm focus:border-teal-500 focus:ring-teal-500 sm:text-sm"
+                                                                        placeholder="you@example.com"
+                                                                    />
+                                                                </div>
                                                             </div>
                                                         </div>
                                                         <div className="mt-4">
@@ -541,16 +560,16 @@ export default function Modal({ transactionType, setTransactionType, nft, isModa
                                                                     </Switch.Description>
                                                                 </span>
                                                                 <Switch
-                                                                    checked={enabled}
-                                                                    onChange={setEnabled}
+                                                                    checked={agreeToTerms}
+                                                                    onChange={setAgreeToTerms}
                                                                     className={classNames(
-                                                                        enabled ? 'bg-teal-500' : 'bg-gray-200',
+                                                                        agreeToTerms ? 'bg-teal-500' : 'bg-gray-200',
                                                                         'relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-teal-500 focus:ring-offset-2',
                                                                     )}>
                                                                     <span
                                                                         aria-hidden="true"
                                                                         className={classNames(
-                                                                            enabled ? 'translate-x-5' : 'translate-x-0',
+                                                                            agreeToTerms ? 'translate-x-5' : 'translate-x-0',
                                                                             'pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out',
                                                                         )}
                                                                     />

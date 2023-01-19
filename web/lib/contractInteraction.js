@@ -142,7 +142,7 @@ export const buy = async (address, itemId, price) => {
     // check auth
     if (!window.ethereum || address === null) {
         return {
-            status: 'Connect your Metamask wallet to donate your nft.',
+            status: 'Connect your Metamask wallet to buy the nft.',
         };
     }
     // check parameter to call contract methods!
