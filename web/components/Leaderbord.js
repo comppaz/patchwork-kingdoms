@@ -63,14 +63,14 @@ export default function Leaderboard({ data, fixedAuctionValue, roundPriceValue, 
             <div className="mx-auto py-12 px-4 max-w-7xl sm:px-6 lg:px-8 lg:py-24">
                 <div className="space-y-12">
                     <div className="space-y-5 sm:space-y-4 md:max-w-xl lg:max-w-3xl xl:max-w-none">
-                        <h2 className="text-3xl font-extrabold tracking-tight sm:text-4xl">Leaderboard</h2>
+                        <h2 className="text-3xl font-extrabold tracking-tight sm:text-4xl">Patchwork Kingdoms Royalty Ranks</h2>
                         <Statistics
                             stats={tableData}
                             fixedAuctionValue={fixedAuctionValue}
                             roundPriceValue={roundPriceValue}
                             convertToUSD={convertToUSD}
                         />
-                        <p className="text-xl text-gray-500">A list of all nfts and its current ranking.</p>
+                        <p className="text-xl text-gray-500">Patchwork Kingdom Royalty Ranks 👑</p>
                     </div>
                     {/** desktop view */}
                     <div className="hidden sm:inline-block min-w-full py-2 align-middle">

@@ -25,6 +25,7 @@ const NFT = () => {
             if (typeof window === 'undefined' || node === null) return;
 
             const data = await getNftFromJsonBins(tokenId);
+            console.log(data);
             const features = data['schools'].concat(data['schools_no_data']);
             // create featurecCollection of feature GeoJSON Objects
             const featureCollection = createGeoJSONFeatureCollection(features);

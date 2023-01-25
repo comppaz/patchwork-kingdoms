@@ -18,10 +18,8 @@ export default function LeaderboardContent({
         <table className="min-w-full divide-y divide-gray-300">
             <thead className="bg-gray-50">
                 <tr>
-                    <th scope="col" className="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-6"></th>
                     <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">
-                        Rank (weekly rank changes)
-                        <br />
+                        Rank (changes weekly) <br />
                         <span>
                             <button
                                 onClick={() => {
@@ -38,6 +36,9 @@ export default function LeaderboardContent({
                                 <ChevronDownIcon className="h-4 w-4 text-gray-400" aria-hidden="true" />
                             </button>
                         </span>
+                    </th>
+                    <th scope="col" className="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-6">
+                        PWK{' '}
                     </th>
                     <th scope="col" className="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-6">
                         NFT Id
@@ -84,7 +85,7 @@ export default function LeaderboardContent({
 
                     <th scope="col" className="py-3.5 text-left text-sm font-semibold text-gray-900">
                         {' '}
-                        Current Owner{' '}
+                        Patchwork Kingdom Royalty{' '}
                     </th>
 
                     <th scope="col" className="py-3.5  text-left text-sm font-semibold text-gray-900 sm:pl-6"></th>
@@ -95,6 +96,10 @@ export default function LeaderboardContent({
             <tbody className="divide-y divide-gray-200 bg-white">
                 {tableData.slice(currentStartNft, currentPage * maxEntriesOnPage).map(nft => (
                     <tr key={nft.nft_id}>
+                        <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
+                            {nft.rank == 1 && <span>🥇</span>} {nft.rank == 2 && <span>🥈</span>} {nft.rank == 3 && <span>🥉</span>}
+                            {nft.rank} ({calculateRankChanges(nft)})
+                        </td>
                         <td className="p-0 m-0 text-sm font-medium text-gray-900 w-32 ">
                             <Link href={`/nft/${nft.nft_id}`}>
                                 <a className="p-0 m-0">
@@ -108,9 +113,6 @@ export default function LeaderboardContent({
                                     />
                                 </a>
                             </Link>
-                        </td>
-                        <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                            {nft.rank} ({calculateRankChanges(nft)})
                         </td>
                         <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6">
                             <a href={`/nft/${nft.nft_id}`}>{nft.nft_id}</a>
