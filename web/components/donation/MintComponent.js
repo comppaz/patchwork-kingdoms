@@ -94,7 +94,7 @@ export default function MintComponent({ heading: heading, caption: caption, isMo
                                                                 setIsModalOpen(true);
                                                                 setSelectedNft(el);
                                                             }}
-                                                            className="cursor-pointer underline text-teal-500 hover:text-teal-700">
+                                                            className=" mt-2 p-1 rounded-sm bg-teal-500 text-white cursor-pointer hover:text-gray-300">
                                                             <span className="sr-only">Donate</span>
                                                             Donate
                                                         </button>

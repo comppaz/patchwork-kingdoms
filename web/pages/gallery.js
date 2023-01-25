@@ -137,13 +137,10 @@ export default function Gallery() {
                 setIsModalOpen={setIsModalOpen}></MintComponent>
             <PurchasementGallery
                 heading="Up for Sale"
-                caption="The following Patchwork Kingdoms are up for sale."
+                caption="Limited time offers of Patchwork Kingdoms that have generously been donated to Giga by their owners. If you purchase these from this website directly, 100% of the funds you pay are donated to UNICEF. Read more information here "
                 isModalOpen={isModalOpen}
                 setIsModalOpen={setIsModalOpen}></PurchasementGallery>
-            <NftGallery
-                heading="Patchwork Kingdoms Gallery"
-                caption="All Patchwork Kingdoms that have been minted."
-                nfts={data}></NftGallery>
+            <NftGallery heading="Patchwork Kingdoms Gallery" caption=" All Patchwork Kingdoms in the collection." nfts={data}></NftGallery>
 
             <ResponseModal />
         </div>

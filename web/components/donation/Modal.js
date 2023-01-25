@@ -10,6 +10,7 @@ import ModalContext from '../../context/ModalContext';
 import { approveTransaction } from '../../lib/testTokenInteraction';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { calculateMinPrice, convertExpirationToDate } from '../../lib/calculateDonationInteraction';
 
 function classNames(...classes) {
     return classes.filter(Boolean).join(' ');
@@ -30,7 +31,7 @@ export default function Modal({ transactionType, setTransactionType, nft, isModa
     const [agreeToTerms, setAgreeToTerms] = useState(false);
     //const [isLoading, setIsLoading] = useState(false);
     const [progress, setProgress] = useState({ status: true, message: '', txHash: '' });
-
+    const [alert, setAlert] = useState('');
     //called only once
     useEffect(() => {
         resetModalValues();
@@ -106,21 +107,13 @@ export default function Modal({ transactionType, setTransactionType, nft, isModa
     };
 
     const resetModalValues = () => {
-        let expirationDate = new Date(nft.expiration * 1000);
-        setExpiration(expirationDate.toLocaleDateString());
+        setExpiration(convertExpirationToDate(nft.expiration));
         setIsLoading(false);
         setProgress({ status: false, message: '', txHash: '' });
         setEnabled(false);
         setAgreeToTerms(false);
         setPriceError({ isError: false, status: '' });
-    };
-
-    const calculateMinPrice = price => {
-        let expPrice = price.toExponential();
-        let parts = String(expPrice).toLowerCase().split('e');
-        let ePart = parts.pop() - 1;
-        let e = `1e${ePart}`;
-        return { minPrice: Number(expPrice) + Number(e), step: Number(e) };
+        setAlert('');
     };
 
     return (
@@ -160,13 +153,11 @@ export default function Modal({ transactionType, setTransactionType, nft, isModa
                                         <div className="w-full py-2 px-12 text-center text-gray-500 bg-gray-50 font-light border border-b-2">
                                             Donate this PWK 🎉
                                         </div>
-                                        <div className="mt-2 mr-auto ml-4 flex text-sm font-medium text-gray-600">{walletStatus}</div>
                                         {/** check login information */}
                                         <div className="">
                                             {walletAddress.length > 0 ? (
                                                 <p className="mt-2 mr-auto ml-4 flex text-sm font-medium text-gray-600">
-                                                    You are currently connected: ${walletAddress.substring(0, 6)} ... $
-                                                    {walletAddress.substring(38)}
+                                                    Donate your PWK #{nft.tokenId} by putting it up for sale.
                                                 </p>
                                             ) : (
                                                 <button
@@ -178,7 +169,6 @@ export default function Modal({ transactionType, setTransactionType, nft, isModa
                                                 </button>
                                             )}
                                         </div>
-                                        {/** deposit modal */}
                                         <div>
                                             <div className="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
                                                 <div className="sm:flex sm:items-start">
@@ -196,16 +186,19 @@ export default function Modal({ transactionType, setTransactionType, nft, isModa
                                                             <strong>{nft.title}</strong>
                                                         </Dialog.Title>
                                                         <div className="mt-2">
-                                                            <p className="text-sm text-gray-500">
-                                                                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut a massa semper,
-                                                                condimentum dolor in, ornare nisi. Cras mauris tortor, placerat a accumsan
-                                                                vel, dignissim non turpis.
+                                                            <p className="text-sm text-teal-500">
+                                                                By donating, all the proceeds from this PWK purchase go to UNICEF to help
+                                                                support Giga`&apos;`s mission in connecting schools. Learn more about how it
+                                                                works.
                                                             </p>
                                                         </div>
                                                         <div className="mt-4">
                                                             <label htmlFor="timeframe" className="block text-sm font-medium text-gray-600">
                                                                 Timeframe{'  '}
-                                                                <Tooltip enabled={true} className="inline" text="This is a tooltip">
+                                                                <Tooltip
+                                                                    enabled={true}
+                                                                    className=" bg-green-400"
+                                                                    text="Choose how long you want your PWK to stay up for sale. If not sold by this date, your PWK will be returned.">
                                                                     <InformationCircleIcon className="w-4 h-4"></InformationCircleIcon>
                                                                 </Tooltip>
                                                             </label>
@@ -241,7 +234,7 @@ export default function Modal({ transactionType, setTransactionType, nft, isModa
                                                         <div className="mt-6">
                                                             <div>
                                                                 <label htmlFor="email" className="block text-sm font-medium text-gray-600">
-                                                                    Get notified when the NFT is donated{' '}
+                                                                    Notify me by email:{' '}
                                                                     <span className="text-xs font-light">(optional)</span>
                                                                 </label>
                                                                 <div className="mt-1">
@@ -258,7 +251,7 @@ export default function Modal({ transactionType, setTransactionType, nft, isModa
                                                         <div className="mt-6">
                                                             <div>
                                                                 <label htmlFor="email" className="block text-sm font-medium text-gray-600">
-                                                                    Your name on the &quot;hall of fame&quot;?{' '}
+                                                                    Add me to the Hall of Fame:{' '}
                                                                     <span className="text-xs font-light">(optional)</span>
                                                                 </label>
                                                                 <div className="mt-1">
@@ -282,12 +275,15 @@ export default function Modal({ transactionType, setTransactionType, nft, isModa
                                                                         I agree to:
                                                                     </Switch.Label>
                                                                     <Switch.Description as="span" className="text-sm text-gray-500">
-                                                                        Nulla amet tempus sit accumsan. Aliquet turpis sed sit lacinia.
+                                                                        Patchwork Kingdom`&apos;`s Privacy policy{' '}
                                                                     </Switch.Description>
                                                                 </span>
                                                                 <Switch
                                                                     checked={enabled}
-                                                                    onChange={setEnabled}
+                                                                    onChange={() => {
+                                                                        setAlert('');
+                                                                        setEnabled(!enabled);
+                                                                    }}
                                                                     className={classNames(
                                                                         enabled ? 'bg-teal-500' : 'bg-gray-200',
                                                                         'relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-teal-500 focus:ring-offset-2',
@@ -349,37 +345,43 @@ export default function Modal({ transactionType, setTransactionType, nft, isModa
                                                     */}
                                                 </div>
                                             ) : (
-                                                <div className="bg-gray-50 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6">
-                                                    <Tooltip
-                                                        enabled={!enabled}
-                                                        className="inline text-sm"
-                                                        text="Please agree to the terms.">
+                                                <div>
+                                                    <div className="px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6">
+                                                        <div
+                                                            onClick={() => {
+                                                                if (!enabled) {
+                                                                    setAlert('Please agree to the terms first!');
+                                                                }
+                                                            }}>
+                                                            <button
+                                                                type="button"
+                                                                disabled={!enabled}
+                                                                className=" disabled:pointer-events-none inline-flex w-full justify-center rounded-md border border-transparent bg-teal-500 px-4 py-2 text-base font-medium text-white shadow-sm hover:bg-teal-700 focus:outline-none focus:ring-2 focus:ring-teal-500 focus:ring-offset-2 sm:ml-3 sm:w-auto sm:text-sm disabled:bg-gray-300 disabled:hover:bg-gray-300 disabled:hover:border-red-400"
+                                                                onClick={() => {
+                                                                    setIsLoading(true);
+                                                                    onDepositPressed(nft.tokenId);
+                                                                    setProgress({
+                                                                        message: 'Please follow the instructions on Metamask.',
+                                                                        status: false,
+                                                                    });
+                                                                }}>
+                                                                <span>Sign</span>
+                                                            </button>
+                                                        </div>
                                                         <button
                                                             type="button"
-                                                            disabled={!enabled}
-                                                            className="inline-flex w-full justify-center rounded-md border border-transparent bg-teal-500 px-4 py-2 text-base font-medium text-white shadow-sm hover:bg-teal-700 focus:outline-none focus:ring-2 focus:ring-teal-500 focus:ring-offset-2 sm:ml-3 sm:w-auto sm:text-sm disabled:bg-gray-300 disabled:hover:bg-gray-300 disabled:hover:border-red-400"
+                                                            className="mt-3 inline-flex w-full justify-center rounded-md border border-gray-300 bg-white px-4 py-2 text-base font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-teal-500 focus:ring-offset-2 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm"
                                                             onClick={() => {
-                                                                setIsLoading(true);
-                                                                onDepositPressed(nft.tokenId);
-                                                                setProgress({
-                                                                    message: 'Please follow the instructions on Metamask.',
-                                                                    status: false,
-                                                                });
-                                                            }}>
-                                                            Sign
+                                                                setTransactionType({ isDeposit: false, isPurchasement: false });
+                                                                setIsModalOpen(false);
+                                                            }}
+                                                            ref={cancelButtonRef}>
+                                                            Cancel
                                                         </button>
-                                                    </Tooltip>
-
-                                                    <button
-                                                        type="button"
-                                                        className="mt-3 inline-flex w-full justify-center rounded-md border border-gray-300 bg-white px-4 py-2 text-base font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-teal-500 focus:ring-offset-2 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm"
-                                                        onClick={() => {
-                                                            setTransactionType({ isDeposit: false, isPurchasement: false });
-                                                            setIsModalOpen(false);
-                                                        }}
-                                                        ref={cancelButtonRef}>
-                                                        Cancel
-                                                    </button>
+                                                    </div>
+                                                    <div className="  px-4 py-2 sm:flex sm:flex-row-reverse sm:px-6 inline-flex w-full text-xs text-red-600">
+                                                        {alert}
+                                                    </div>
                                                 </div>
                                             )}
                                         </div>
@@ -422,13 +424,12 @@ export default function Modal({ transactionType, setTransactionType, nft, isModa
                                         <div className="w-full py-2 px-12 text-center text-gray-500 bg-gray-50 font-light border border-b-2">
                                             Buy this PWK
                                         </div>
-                                        <div className="mt-2 mr-auto ml-4 flex text-sm font-medium text-gray-600">{walletStatus}</div>
+                                        <div className="mt-2 mr-auto ml-4 flex text-sm font-medium text-gray-600">
+                                            Purchase this PWK #{nft.itemId} up for sale by {nft.giver}
+                                        </div>
                                         <div className="">
                                             {walletAddress.length > 0 ? (
-                                                <p className="mt-2 mr-auto ml-4 flex text-sm font-medium text-gray-600">
-                                                    You are currently connected: ${walletAddress.substring(0, 6)} ... $
-                                                    {walletAddress.substring(38)}
-                                                </p>
+                                                <p></p>
                                             ) : (
                                                 <div>
                                                     <button
@@ -460,10 +461,12 @@ export default function Modal({ transactionType, setTransactionType, nft, isModa
                                                             <strong>{nft.title}</strong>
                                                         </Dialog.Title>
                                                         <div className="mt-2">
-                                                            <p className="text-sm text-gray-500">
-                                                                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut a massa semper,
-                                                                condimentum dolor in, ornare nisi. Cras mauris tortor, placerat a accumsan
-                                                                vel, dignissim non turpis.
+                                                            <p className="text-sm text-teal-500">
+                                                                All proceeds from this PWK purchase go to UNICEF to help support
+                                                                Giga`&apos;`s mission in connecting schools.
+                                                            </p>
+                                                            <p className="text-sm text-gray-500 underline">
+                                                                Learn more about UNICEF and GIGA`&apos;`s mission.
                                                             </p>
                                                         </div>
                                                         <div className="mt-6">
@@ -485,10 +488,10 @@ export default function Modal({ transactionType, setTransactionType, nft, isModa
                                                                 <label
                                                                     htmlFor="minPrice"
                                                                     className="block text-sm font-medium text-gray-600">
-                                                                    Accepting offers higher than:
+                                                                    Accepting offers equal to or higher than:
                                                                 </label>
                                                                 <div className="block text-sm font-medium text-gray-500">
-                                                                    <span>{nft.price / 10 ** 18} ETH</span>
+                                                                    <span>{calculateMinPrice(nft.price / 10 ** 18).minPrice} ETH</span>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -515,6 +518,9 @@ export default function Modal({ transactionType, setTransactionType, nft, isModa
                                                                                     isError: false,
                                                                                     status: '',
                                                                                 });
+                                                                                if (agreeToTerms) {
+                                                                                    setAlert('');
+                                                                                }
                                                                             }
                                                                         }}
                                                                         required
@@ -556,12 +562,17 @@ export default function Modal({ transactionType, setTransactionType, nft, isModa
                                                                         I agree to:
                                                                     </Switch.Label>
                                                                     <Switch.Description as="span" className="text-sm text-gray-500">
-                                                                        Nulla amet tempus sit accumsan. Aliquet turpis sed sit lacinia.
+                                                                        Patchwork Kingdom`&apos;`s Privacy policy{' '}
                                                                     </Switch.Description>
                                                                 </span>
                                                                 <Switch
                                                                     checked={agreeToTerms}
-                                                                    onChange={setAgreeToTerms}
+                                                                    onChange={() => {
+                                                                        if (!priceError.isError) {
+                                                                            setAlert('');
+                                                                        }
+                                                                        setAgreeToTerms(!agreeToTerms);
+                                                                    }}
                                                                     className={classNames(
                                                                         agreeToTerms ? 'bg-teal-500' : 'bg-gray-200',
                                                                         'relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-teal-500 focus:ring-offset-2',
@@ -605,37 +616,45 @@ export default function Modal({ transactionType, setTransactionType, nft, isModa
                                                     <div className="flex justify-center">{progress.status}</div>
                                                 </div>
                                             ) : (
-                                                <div className="bg-gray-50 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6">
-                                                    <Tooltip
-                                                        enabled={!enabled}
-                                                        className="inline text-sm"
-                                                        text="Please agree to the terms.">
+                                                <div>
+                                                    <div className=" px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6">
+                                                        <div
+                                                            onClick={() => {
+                                                                if (!enabled) {
+                                                                    setAlert(
+                                                                        'Please agree to the terms first and insert a valid offer value!',
+                                                                    );
+                                                                }
+                                                            }}>
+                                                            <button
+                                                                type="button"
+                                                                disabled={!enabled}
+                                                                className="disabled:pointer-events-none inline-flex w-full justify-center rounded-md border border-transparent bg-teal-500 px-4 py-2 text-base font-medium text-white shadow-sm hover:bg-teal-700 focus:outline-none focus:ring-2 focus:ring-teal-500 focus:ring-offset-2 sm:ml-3 sm:w-auto sm:text-sm disabled:bg-gray-300 disabled:hover:bg-gray-300 disabled:hover:border-red-400"
+                                                                onClick={() => {
+                                                                    setIsLoading(true);
+                                                                    onBuyPressed(nft.itemId);
+                                                                    setProgress({
+                                                                        message: 'Please follow the instructions on Metamask.',
+                                                                        status: false,
+                                                                    });
+                                                                }}>
+                                                                <span>Sign</span>
+                                                            </button>
+                                                        </div>
                                                         <button
                                                             type="button"
-                                                            disabled={!enabled}
-                                                            className="inline-flex w-full justify-center rounded-md border border-transparent bg-teal-500 px-4 py-2 text-base font-medium text-white shadow-sm hover:bg-teal-700 focus:outline-none focus:ring-2 focus:ring-teal-500 focus:ring-offset-2 sm:ml-3 sm:w-auto sm:text-sm disabled:bg-gray-300 disabled:hover:bg-gray-300 disabled:hover:border-red-400"
+                                                            className="mt-3 inline-flex w-full justify-center rounded-md border border-gray-300 bg-white px-4 py-2 text-base font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-teal-500 focus:ring-offset-2 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm"
                                                             onClick={() => {
-                                                                setIsLoading(true);
-                                                                onBuyPressed(nft.itemId);
-                                                                setProgress({
-                                                                    message: 'Please follow the instructions on Metamask.',
-                                                                    status: false,
-                                                                });
-                                                            }}>
-                                                            Sign
+                                                                setTransactionType({ isDeposit: false, isPurchasement: false });
+                                                                setIsModalOpen(false);
+                                                            }}
+                                                            ref={cancelButtonRef}>
+                                                            Cancel
                                                         </button>
-                                                    </Tooltip>
-
-                                                    <button
-                                                        type="button"
-                                                        className="mt-3 inline-flex w-full justify-center rounded-md border border-gray-300 bg-white px-4 py-2 text-base font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-teal-500 focus:ring-offset-2 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm"
-                                                        onClick={() => {
-                                                            setTransactionType({ isDeposit: false, isPurchasement: false });
-                                                            setIsModalOpen(false);
-                                                        }}
-                                                        ref={cancelButtonRef}>
-                                                        Cancel
-                                                    </button>
+                                                    </div>
+                                                    <div className="  px-4 py-2 sm:flex sm:flex-row-reverse sm:px-6 inline-flex w-full text-xs text-red-600">
+                                                        {alert}
+                                                    </div>
                                                 </div>
                                             )}
                                         </div>

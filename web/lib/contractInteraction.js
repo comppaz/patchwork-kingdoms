@@ -142,13 +142,13 @@ export const buy = async (address, itemId, price) => {
     // check auth
     if (!window.ethereum || address === null) {
         return {
-            status: 'Connect your Metamask wallet to buy the nft.',
+            message: 'Connect your Metamask wallet to buy the nft.',
         };
     }
     // check parameter to call contract methods!
     if (itemId === undefined) {
         return {
-            status: 'Please insert valid parameters.',
+            message: 'Please insert valid parameters.',
         };
     }
     // check if this caller is the one who donated the item!
@@ -196,5 +196,16 @@ export const subscribeToDepositEvent = async () => {
         } else {
             console.log(data);
         }
+    });
+};
+
+export const checkExpirationDate = async (address, nfts, currentTimestamp) => {
+    let isItemExpired = false;
+    nfts.forEach(async el => {
+        if (currentTimestamp >= el.expiration) {
+            await escrowContract.methods.expiration(el.itemId, currentTimestamp).call({ sender: el.giver });
+            isItemExpired = true;
+        }
+        return isItemExpired;
     });
 };

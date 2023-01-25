@@ -146,6 +146,7 @@ contract PatchworkKingdomsEscrow {
         require(_expiration < item.expiration, "The token is not expired.");
         token.transferFrom(address(this), item.giver, item.tokenId);
         delete(items[itemId]);
+        // Event raus für zB Email
     }
 
     /**

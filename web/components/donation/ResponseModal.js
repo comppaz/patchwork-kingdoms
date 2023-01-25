@@ -104,17 +104,20 @@ export default function ResponseModal() {
                                                 </svg>
                                                 Thank you for your purchase!
                                             </p>
-                                            <p className=" text-xs text-gray-400">All proceeds for this purchase goes to UNICEF. </p>
+                                            <p className=" text-xs text-gray-400">
+                                                All proceeds from this PWK purchase go to UNICEF to help support Giga`&apos;`s mission in
+                                                connecting schools.{' '}
+                                            </p>
 
                                             <p className="text-sm text-gray-500">
-                                                You can now see your NFT in your personal collection in the{' '}
+                                                You can now see your purchased NFT when you sign in to your personal collection in the{' '}
                                                 <Link href="/dashboard" passHref>
                                                     <a className="text-blue-600" target="_blank" rel="noopener noreferrer">
                                                         {' '}
                                                         dashboard
                                                     </a>
                                                 </Link>
-                                                . You can also continue and bid for other NFTs.
+                                                . You can also auction your NFTs and bid for other NFTs.
                                             </p>
                                         </div>
                                     )}

@@ -1,15 +1,17 @@
 import { useEffect, useState, useContext } from 'react';
-import { getItems } from '../lib/contractInteraction';
+import { checkExpirationDate, getItems } from '../lib/contractInteraction';
 import Modal from './donation/Modal';
 import Image from 'next/image';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Pagination, Navigation } from 'swiper';
+import { CronJob } from 'cron';
 
 // Import Swiper styles
 import 'swiper/css';
 import 'swiper/css/pagination';
 import 'swiper/css/navigation';
 import AddressContext from '../context/AddressContext';
+import { calculateMinPrice, convertExpirationToDate } from '../lib/calculateDonationInteraction';
 
 export default function PurchasementGallery({
     heading: heading,
@@ -21,11 +23,28 @@ export default function PurchasementGallery({
     const [depositedNfts, setDepositedNfts] = useState([]);
     const [transactionType, setTransactionType] = useState({});
     const { walletAddress, updateWalletAddress, walletStatus } = useContext(AddressContext);
+
     useEffect(() => {
         (async () => {
+            // Event hören und updaten
             setDepositedNfts(await getItems());
         })();
     }, [walletAddress, walletStatus, isModalOpen]);
+
+    /*
+    useEffect(() => {
+        
+        if (depositedNfts) {
+            const job = new CronJob('0 /10 * * * *', async function () {
+                // check for expiration
+                let isTokenExpired = checkExpirationDate(walletAddress, depositedNfts, Math.floor(Date.now() / 1000));
+                if (isTokenExpired) {
+                    setDepositedNfts(await getItems());
+                }
+            });
+            job.start();
+        }
+    }, [depositedNfts]);*/
 
     return (
         <div className="bg-white">
@@ -70,17 +89,20 @@ export default function PurchasementGallery({
                                     />
                                     <div className="grid grid-flow-col ">
                                         <div className="text-md text-gray-500">PWK #{el.tokenId}</div>
-                                        <div className=" text-lg text-right text-gray-600 font-bold">
-                                            Offer min: {el.price / 10 ** 18} ETH{' '}
+                                        <div className=" text-md text-right text-gray-600 font-bold">
+                                            Min. price: {calculateMinPrice(el.price / 10 ** 18).minPrice} ETH{' '}
                                             <button
                                                 onClick={() => {
                                                     setTransactionType({ isDeposit: false, isPurchase: true });
                                                     setIsModalOpen(true);
                                                     setSelectedNft(el);
                                                 }}
-                                                className=" cursor-pointer underline text-teal-500 hover:text-teal-700">
+                                                className=" mt-2 p-1 rounded-sm bg-teal-500 text-white cursor-pointer hover:text-gray-300">
                                                 Buy
                                             </button>
+                                            <div className="text-xs text-gray-500">
+                                                *Available for purchase until {convertExpirationToDate(el.expiration)}
+                                            </div>
                                         </div>
                                     </div>
                                 </SwiperSlide>
