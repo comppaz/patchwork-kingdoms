@@ -2,9 +2,9 @@ import React from 'react';
 
 interface IModalContext {
     isOpen: boolean;
-    data: any; // TODO: add type
+    data: ModalData;
     isLoading: boolean;
-    updateData: (data: any) => void; // TODO: add type
+    updateData: (data: ModalData) => void;
     setIsOpen: (isOpen: boolean) => void;
     setIsLoading: (isLoading: boolean) => void;
 }
