@@ -1,9 +1,8 @@
 import { DateTime } from "luxon";
 import * as dotenv from "dotenv";
 dotenv.config();
-import axios, { AxiosError, AxiosRequestConfig } from "axios";
+import axios, { AxiosRequestConfig } from "axios";
 import { createPrismaEntry, findNFTDetail } from "./helper/updateDetailEntry";
-import { Context } from "aws-lambda";
 import { NFTEntry, TotalObject } from "./types";
 
 const initMintPrice = 0.175;
@@ -20,7 +19,12 @@ const api_options: AxiosRequestConfig = {
 const openSeaUrlPrefix = "https://opensea.io/";
 
 /**
- * calculate donated eth sum for one nft
+ * Calculate the donated eth for a specific nft
+ *
+ * @param tokenId {number} - the id of the nft
+ * @param date {string} - the date of the calculation
+ * @param totalData {NFTEntry[]} - the total data of the nfts where the new data will be added
+ * @returns
  */
 async function calculateDonatedETH(
   tokenId: number,
@@ -66,7 +70,6 @@ async function calculateDonatedETH(
     }
 
     const data = response?.data;
-
     if (data && data.asset_events && data.asset_events.length > 0) {
       for (const element of data.asset_events) {
         let calculatedDonationValue = await getDonatedETHPerValue(
@@ -74,12 +77,29 @@ async function calculateDonatedETH(
           element.total_price
         );
         totalDonated += calculatedDonationValue;
-
-        ownerAddress = openSeaUrlPrefix.concat(element.asset.owner.address);
-        if (element.asset.owner.user) {
-          ownerName = element.asset.owner.user.username;
-        }
       }
+    }
+
+    let owner;
+
+    try {
+      api_options.url = `https://api.opensea.io/api/v1/asset/${asset_contract_address}/${tokenId}/owners?limit=20&order_by=created_date&order_direction=desc`;
+      let owners = await axios(api_options);
+      owner = owners?.data.owners[0].owner;
+    } catch (err) {
+      if (axios.isAxiosError(err) && err.response) {
+        console.log(err);
+        console.log(`ERROR RESPONSE STATUS IS ${err.response.status}`);
+        const retryAfter = err.response.headers["retry-after"];
+        const millisToSleep = getMillisToSleep(retryAfter);
+        await sleep(millisToSleep);
+        return calculateDonatedETH(tokenId, date, totalData);
+      }
+    }
+
+    ownerAddress = openSeaUrlPrefix.concat(owner.address);
+    if (owner.user && owner.user.username) {
+      ownerName = owner.user.username;
     }
   }
   let nftObject = {
@@ -94,7 +114,11 @@ async function calculateDonatedETH(
 }
 
 /**
- * get donated eth value using etherscan api calls
+ * Get the donated eth for a specific transaction
+ *
+ * @param transactionHash {string} - the transaction hash of the transaction
+ * @param totalPrice {number} - the total price of the transaction
+ * @returns {number} - the donated eth for the transaction
  */
 async function getDonatedETHPerValue(
   transactionHash: string,
@@ -111,7 +135,7 @@ async function getDonatedETHPerValue(
 
   if (result !== undefined && result.length > 0) {
     // transaction included only one NFT token
-    if (result.length === 2) {
+    if (result.length <= 2) {
       donationValue = result[0].value / 10 ** 18;
       // multiple NFT token were handled in one transaction
     } else {
@@ -120,7 +144,6 @@ async function getDonatedETHPerValue(
         result.findIndex((element: any) => {
           return element.value === totalPrice;
         }) + 1;
-
       donationValue = result[currentDonationIndex].value / 10 ** 18;
     }
     // catch all transactions not catched by the other api call
@@ -153,7 +176,11 @@ async function getDonatedETHPerValue(
 }
 
 /**
- * calculate sum of each eth value for all nfts together
+ * Calculate the total donated eth for all NFTs
+ *
+ * @param date {string} - the date of the last update
+ * @param totalData {NFTEntry[]} - the total data of all NFTs
+ * @returns
  */
 async function calculateTotalETHValue(date: string, totalData: NFTEntry[]) {
   let i = 1;
@@ -186,9 +213,10 @@ function getMillisToSleep(retryHeaderString: string) {
 }
 
 /**
- * calculate over all rank
+ * Calculate the rank of all NFTs
+ * Used as hourly handler.
  */
-module.exports.handler = async function (event: any, context: Context) {
+export const hourlyHandler = async function () {
   let totalData: NFTEntry[] = [];
 
   console.log("Calculating rank");
@@ -217,9 +245,9 @@ module.exports.handler = async function (event: any, context: Context) {
 };
 
 /**
- * update the weeklyRank-value with the current rank value
+ * Calculate the weekly rank of all NFTs
  */
-module.exports.weeklyHandler = async function () {
+export const weeklyHandler = async function () {
   let tokenId = 1;
   while (tokenId <= totalAmountNFTs) {
     let nft = await findNFTDetail(tokenId);
