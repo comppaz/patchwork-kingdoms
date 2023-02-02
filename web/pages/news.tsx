@@ -5,9 +5,12 @@ import { fetchStrapi } from '../lib/fetchData';
 export default function News() {
     let [articles, setArticles] = useState([]);
 
-    useEffect(async () => {
-        let articles = await fetchStrapi(`articles`, 'date');
-        setArticles(articles.data);
+    useEffect(() => {
+        async function getArticles() {
+            let articles = await fetchStrapi(`articles`, 'date');
+            setArticles(articles.data);
+        }
+        getArticles();
     }, []);
 
     return (

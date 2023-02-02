@@ -22,7 +22,7 @@ export default function Dashboard() {
 
     const { emittingAddress } = useContext(AddressContext);
 
-    const [isModalOpen, setIsModalOpen] = useState();
+    const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
 
     useEffect(() => {
         setIsModalOpen(false);
@@ -40,8 +40,8 @@ export default function Dashboard() {
                 console.log(error);
             } else {
                 console.log('DEPOSIT EVENT WAS EMITTED SUCCESSFULLY');
-                // check that walletAddres is set and equals the emittingAddress
-                if (walletAddress !== '' && walletAddress === emittingAddress) {
+                // check that user is set and equals the emittingAddress
+                if (user.account !== '' && user.account === emittingAddress) {
                     updateModalData({
                         heading: 'Congrats, your NFT is up for sale!',
                         txhash: data.transactionHash,

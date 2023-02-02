@@ -4,17 +4,17 @@ import Leaderboard from '../components/Leaderbord';
 
 const Leaderbord = () => {
     const [data, setData] = useState();
-    const [loading, setLoading] = useState(false);
-    const [exchangeRate, setExchangeRate] = useState(0);
+    const [loading, setLoading] = useState<boolean>(false);
+    const [exchangeRate, setExchangeRate] = useState<number>(0);
     const fixedAuctionValue = 40.9;
 
-    useEffect(async () => {
-        // get and add current statistics values
-        data = await getNFTStatistics();
-        exchangeRate = await getCurrentUSDExchangeRate();
-        setData(data);
-        setExchangeRate(exchangeRate);
-        setLoading(false);
+    useEffect(() => {
+        (async () => {
+            // get and add current statistics values
+            setData(await getNFTStatistics());
+            setExchangeRate(await getCurrentUSDExchangeRate());
+            setLoading(false);
+        })();
     }, []);
 
     const getNFTStatistics = async () => {
