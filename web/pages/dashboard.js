@@ -1,11 +1,62 @@
+import { useEffect, useState, useContext } from 'react';
 import useUser from '../lib/useUser';
 import useOwnedNfts from '../lib/useOwnedNfts';
 import NftGallery from '../components/NftGallery';
+import ModalContext from '../context/ModalContext';
+import AddressContext from '../context/AddressContext';
+import { escrowContractWSS } from '../lib/contractInteraction';
+import ResponseModal from '../components/donation/ResponseModal';
 
 export default function Dashboard() {
     const { user } = useUser();
 
     const { nfts } = useOwnedNfts(user);
+
+    const {
+        updateData: updateModalData,
+        data: modalData,
+        isOpen: isResponseModalOpen,
+        setIsOpen: setResponseModalOpen,
+        setIsLoading,
+    } = useContext(ModalContext);
+
+    const { emittingAddress } = useContext(AddressContext);
+
+    const [isModalOpen, setIsModalOpen] = useState();
+
+    useEffect(() => {
+        setIsModalOpen(false);
+    }, []);
+
+    useEffect(() => {
+        subscribeToDepositEvent();
+    }, [emittingAddress]);
+
+    const subscribeToDepositEvent = async () => {
+        escrowContractWSS.events.Deposited({}, async (error, data) => {
+            setIsModalOpen(false);
+            setIsLoading(false);
+            if (error) {
+                console.log(error);
+            } else {
+                console.log('DEPOSIT EVENT WAS EMITTED SUCCESSFULLY');
+                // check that walletAddres is set and equals the emittingAddress
+                if (walletAddress !== '' && walletAddress === emittingAddress) {
+                    updateModalData({
+                        heading: 'Congrats, your NFT is up for sale!',
+                        txhash: data.transactionHash,
+                        title: 'Transaction complete',
+                        isProcessing: false,
+                        id: data.tokenId,
+                        transactionType: { isDeposit: true, isPurchase: false },
+                    });
+                    setTimeout(() => {
+                        setResponseModalOpen(true);
+                    }, 500);
+                }
+            }
+        });
+    };
 
     if (!user?.isLoggedIn) {
         return (
@@ -52,7 +103,15 @@ export default function Dashboard() {
 
     return (
         <div>
-            <NftGallery heading="Your Collections" caption="All Patchwork Kingdoms that belong to you." nfts={nfts}></NftGallery>
+            <NftGallery
+                heading="Your Kingdoms"
+                caption="All Patchwork Kingdoms that belong to you."
+                nfts={nfts}
+                footer="Yay! You have seen all your Kingdoms."
+                isDonateActivate={true}
+                isModalOpen={isModalOpen}
+                setIsModalOpen={setIsModalOpen}></NftGallery>
+            <ResponseModal />
         </div>
     );
 }

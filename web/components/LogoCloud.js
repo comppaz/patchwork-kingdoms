@@ -39,10 +39,10 @@ export default function LogoCloud() {
             <div className="bg-white">
                 <div className="max-w-7xl mx-auto pt-16 pb-8 px-4 sm:px-6 lg:px-8">
                     <p className="text-center text-sm font-light text-gray-500 tracking-wide">
-                        <a className="text-teal-900 underline" target="_blank" href="https://gigaconnect.org/" rel="noreferrer">
+                        <a className="text-teal-900 underline" target="_blank" href="https://giga.global/" rel="noreferrer">
                             Giga
                         </a>{' '}
-                        (a UNICEF/ITU partnership) is developing this NFT collection in partnership with{' '}
+                        (a UNICEF & ITU partnership) has launched this collection in partnership with{' '}
                         <a className="text-teal-900 underline" target="_blank" href="https://snowcrash.com/" rel="noreferrer">
                             Snowcrash Labs
                         </a>

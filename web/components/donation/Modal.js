@@ -8,16 +8,17 @@ import { ethers } from 'ethers';
 import AddressContext from '../../context/AddressContext';
 import ModalContext from '../../context/ModalContext';
 import { approveTransaction } from '../../lib/testTokenInteraction';
-import { toast, ToastContainer } from 'react-toastify';
+import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { calculateMinPrice, convertExpirationToDate } from '../../lib/calculateDonationInteraction';
+import useUser from '../../lib/useUser';
 
 function classNames(...classes) {
     return classes.filter(Boolean).join(' ');
 }
 export default function Modal({ transactionType, setTransactionType, nft, isModalOpen, setIsModalOpen }) {
     const cancelButtonRef = useRef(null);
-    const { walletAddress, updateWalletAddress, walletStatus, updateEmittingAddress } = useContext(AddressContext);
+    const { updateEmittingAddress } = useContext(AddressContext);
     const { isLoading, setIsLoading } = useContext(ModalContext);
 
     const [enabled, setEnabled] = useState(false);
@@ -32,10 +33,13 @@ export default function Modal({ transactionType, setTransactionType, nft, isModa
     //const [isLoading, setIsLoading] = useState(false);
     const [progress, setProgress] = useState({ status: true, message: '', txHash: '' });
     const [alert, setAlert] = useState('');
+    const { user } = useUser();
+    toast.configure();
+
     //called only once
     useEffect(() => {
         resetModalValues();
-    }, [walletAddress, walletStatus, isModalOpen]);
+    }, [user.account, isModalOpen]);
 
     useEffect(() => {
         agreeToTerms && !priceError.isError ? setEnabled(true) : setEnabled(false);
@@ -60,19 +64,15 @@ export default function Modal({ transactionType, setTransactionType, nft, isModa
         }
     }
 
-    const connectWalletButtonPressed = async () => {
-        await connectWallet();
-    };
-
     const onDepositPressed = async nftId => {
         console.log('Starting Deposit for TokenID: ' + nftId);
-        const approvalResponse = await approveTransaction(walletAddress, nftId);
+        const approvalResponse = await approveTransaction(user.account, nftId);
         notify(approvalResponse.status, approvalResponse.message, approvalResponse.txHash);
         setProgress(approvalResponse);
         if (approvalResponse.status) {
-            const depositResponse = await deposit(walletAddress, nftId, currentExpirationTimeFrame);
+            const depositResponse = await deposit(user.account, nftId, currentExpirationTimeFrame);
             setProgress(depositResponse);
-            updateEmittingAddress(walletAddress);
+            updateEmittingAddress(user.account);
             notify(depositResponse.status, depositResponse.message, depositResponse.txHash);
             console.log(depositResponse);
         } else {
@@ -83,11 +83,11 @@ export default function Modal({ transactionType, setTransactionType, nft, isModa
     const onBuyPressed = async itemId => {
         console.log('Starting Purchase Transaction for TokenID: ' + itemId);
         let price = ethers.utils.parseEther(priceOffer.toString());
-        const response = await buy(walletAddress, itemId, price._hex);
+        const response = await buy(user.account, itemId, price._hex);
         setProgress(response);
         notify(response.status, response.message, response.txHash);
         console.log(response);
-        updateEmittingAddress(walletAddress);
+        updateEmittingAddress(user.account);
     };
 
     const notify = (successful, output, txHash) => {
@@ -95,13 +95,13 @@ export default function Modal({ transactionType, setTransactionType, nft, isModa
             toast.success(output, {
                 hideProgressBar: true,
                 autoClose: false,
-                position: toast.POSITION.BOTTOM_LEFT,
+                position: toast.POSITION.TOP_RIGHT,
             });
         } else {
             toast.error(output, {
                 hideProgressBar: true,
                 autoClose: false,
-                position: toast.POSITION.BOTTOM_LEFT,
+                position: toast.POSITION.TOP_RIGHT,
             });
         }
     };
@@ -119,7 +119,6 @@ export default function Modal({ transactionType, setTransactionType, nft, isModa
     return (
         <div>
             <Transition.Root show={isModalOpen}>
-                <ToastContainer />
                 {/** purchase/deposit modal*/}
                 {transactionType.isDeposit && (
                     <Dialog
@@ -153,22 +152,11 @@ export default function Modal({ transactionType, setTransactionType, nft, isModa
                                         <div className="w-full py-2 px-12 text-center text-gray-500 bg-gray-50 font-light border border-b-2">
                                             Donate this PWK 🎉
                                         </div>
-                                        {/** check login information */}
-                                        <div className="">
-                                            {walletAddress.length > 0 ? (
-                                                <p className="mt-2 mr-auto ml-4 flex text-sm font-medium text-gray-600">
-                                                    Donate your PWK #{nft.tokenId} by putting it up for sale.
-                                                </p>
-                                            ) : (
-                                                <button
-                                                    type="button"
-                                                    className="mt-3 inline-flex w-full justify-center rounded-md border border-gray-300 bg-white px-4 py-2 text-base font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-teal-500 focus:ring-offset-2 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm"
-                                                    onClick={() => connectWalletButtonPressed()}>
-                                                    {' '}
-                                                    Connect
-                                                </button>
-                                            )}
-                                        </div>
+
+                                        <p className="mt-2 mr-auto ml-4 flex text-sm font-medium text-gray-600">
+                                            Donate your PWK #{nft.tokenId} by putting it up for sale.
+                                        </p>
+
                                         <div>
                                             <div className="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
                                                 <div className="sm:flex sm:items-start">
@@ -188,7 +176,7 @@ export default function Modal({ transactionType, setTransactionType, nft, isModa
                                                         <div className="mt-2">
                                                             <p className="text-sm text-teal-500">
                                                                 By donating, all the proceeds from this PWK purchase go to UNICEF to help
-                                                                support Giga`&apos;`s mission in connecting schools. Learn more about how it
+                                                                support Giga&apos;s mission in connecting schools. Learn more about how it
                                                                 works.
                                                             </p>
                                                         </div>
@@ -275,7 +263,7 @@ export default function Modal({ transactionType, setTransactionType, nft, isModa
                                                                         I agree to:
                                                                     </Switch.Label>
                                                                     <Switch.Description as="span" className="text-sm text-gray-500">
-                                                                        Patchwork Kingdom`&apos;`s Privacy policy{' '}
+                                                                        Patchwork Kingdom&apos;s Privacy policy{' '}
                                                                     </Switch.Description>
                                                                 </span>
                                                                 <Switch
@@ -425,23 +413,9 @@ export default function Modal({ transactionType, setTransactionType, nft, isModa
                                             Buy this PWK
                                         </div>
                                         <div className="mt-2 mr-auto ml-4 flex text-sm font-medium text-gray-600">
-                                            Purchase this PWK #{nft.itemId} up for sale by {nft.giver}
+                                            Purchase this PWK #{nft.itemId}
                                         </div>
-                                        <div className="">
-                                            {walletAddress.length > 0 ? (
-                                                <p></p>
-                                            ) : (
-                                                <div>
-                                                    <button
-                                                        type="button"
-                                                        className="mt-3 inline-flex w-full justify-center rounded-md border border-gray-300 bg-white px-4 py-2 text-base font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-teal-500 focus:ring-offset-2 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm"
-                                                        onClick={() => connectWalletButtonPressed()}>
-                                                        {' '}
-                                                        Connect
-                                                    </button>
-                                                </div>
-                                            )}
-                                        </div>
+
                                         <div>
                                             {' '}
                                             <div className="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
@@ -462,11 +436,11 @@ export default function Modal({ transactionType, setTransactionType, nft, isModa
                                                         </Dialog.Title>
                                                         <div className="mt-2">
                                                             <p className="text-sm text-teal-500">
-                                                                All proceeds from this PWK purchase go to UNICEF to help support
-                                                                Giga`&apos;`s mission in connecting schools.
+                                                                All proceeds from this PWK purchase go to UNICEF to help support Giga&apos;s
+                                                                mission in connecting schools.
                                                             </p>
                                                             <p className="text-sm text-gray-500 underline">
-                                                                Learn more about UNICEF and GIGA`&apos;`s mission.
+                                                                Learn more about UNICEF and GIGA&apos;s mission.
                                                             </p>
                                                         </div>
                                                         <div className="mt-6">
@@ -488,7 +462,7 @@ export default function Modal({ transactionType, setTransactionType, nft, isModa
                                                                 <label
                                                                     htmlFor="minPrice"
                                                                     className="block text-sm font-medium text-gray-600">
-                                                                    Accepting offers equal to or higher than:
+                                                                    Accepting offers equal to or greater than:
                                                                 </label>
                                                                 <div className="block text-sm font-medium text-gray-500">
                                                                     <span>{calculateMinPrice(nft.price / 10 ** 18).minPrice} ETH</span>
@@ -562,7 +536,7 @@ export default function Modal({ transactionType, setTransactionType, nft, isModa
                                                                         I agree to:
                                                                     </Switch.Label>
                                                                     <Switch.Description as="span" className="text-sm text-gray-500">
-                                                                        Patchwork Kingdom`&apos;`s Privacy policy{' '}
+                                                                        Patchwork Kingdom&apos;s Privacy policy{' '}
                                                                     </Switch.Description>
                                                                 </span>
                                                                 <Switch
@@ -622,13 +596,15 @@ export default function Modal({ transactionType, setTransactionType, nft, isModa
                                                             onClick={() => {
                                                                 if (!enabled) {
                                                                     setAlert(
-                                                                        'Please agree to the terms first and insert a valid offer value!',
+                                                                        `Please agree to the terms first and insert a valid offer value!`,
                                                                     );
+                                                                } else if (!user?.isLoggedIn) {
+                                                                    setAlert(`You have to log into your Metamask account!`);
                                                                 }
                                                             }}>
                                                             <button
                                                                 type="button"
-                                                                disabled={!enabled}
+                                                                disabled={!enabled || !user?.isLoggedIn}
                                                                 className="disabled:pointer-events-none inline-flex w-full justify-center rounded-md border border-transparent bg-teal-500 px-4 py-2 text-base font-medium text-white shadow-sm hover:bg-teal-700 focus:outline-none focus:ring-2 focus:ring-teal-500 focus:ring-offset-2 sm:ml-3 sm:w-auto sm:text-sm disabled:bg-gray-300 disabled:hover:bg-gray-300 disabled:hover:border-red-400"
                                                                 onClick={() => {
                                                                     setIsLoading(true);

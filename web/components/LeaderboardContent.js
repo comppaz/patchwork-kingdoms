@@ -87,9 +87,8 @@ export default function LeaderboardContent({
                         {' '}
                         Patchwork Kingdom Royalty{' '}
                     </th>
-
-                    <th scope="col" className="py-3.5  text-left text-sm font-semibold text-gray-900 sm:pl-6"></th>
-                    <th scope="col" className="py-3.5 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-6"></th>
+                    <th scope="col" className="py-3.5 text-left text-sm font-semibold text-gray-900"></th>
+                    <th scope="col" className="py-3.5 text-left text-sm font-semibold text-gray-900"></th>
                 </tr>
             </thead>
             {/** table with simple pagination */}
@@ -144,7 +143,7 @@ export default function LeaderboardContent({
                                 View NFT
                             </a>
                         </td>
-                        <td className="whitespace-nowrap py-4 pl-3 text-sm text-gray-500 text-left">
+                        <td className="whitespace-nowrap pr-3 py-4 pl-3 text-sm text-gray-500 text-left">
                             <a
                                 href={`https://opensea.io/assets/${process.env.NEXT_PUBLIC_CONTRACT_ADDRESS}/${nft.nft_id}`}
                                 target="_blank"

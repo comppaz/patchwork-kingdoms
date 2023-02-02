@@ -4,7 +4,11 @@ import Modal from './donation/Modal';
 import Image from 'next/image';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Pagination, Navigation } from 'swiper';
-import { CronJob } from 'cron';
+import { Loading } from './Loading';
+import { injected } from './_web3';
+import { useWeb3React } from '@web3-react/core';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 // Import Swiper styles
 import 'swiper/css';
@@ -12,6 +16,7 @@ import 'swiper/css/pagination';
 import 'swiper/css/navigation';
 import AddressContext from '../context/AddressContext';
 import { calculateMinPrice, convertExpirationToDate } from '../lib/calculateDonationInteraction';
+import useUser from '../lib/useUser';
 
 export default function PurchasementGallery({
     heading: heading,
@@ -23,6 +28,10 @@ export default function PurchasementGallery({
     const [depositedNfts, setDepositedNfts] = useState([]);
     const [transactionType, setTransactionType] = useState({});
     const { walletAddress, updateWalletAddress, walletStatus } = useContext(AddressContext);
+    const { activate } = useWeb3React();
+    const [signedIn, setSignedIn] = useState(false);
+    const { user } = useUser();
+    toast.configure();
 
     useEffect(() => {
         (async () => {
@@ -30,6 +39,14 @@ export default function PurchasementGallery({
             setDepositedNfts(await getItems());
         })();
     }, [walletAddress, walletStatus, isModalOpen]);
+
+    useEffect(async () => {
+        if (user?.isLoggedIn) {
+            setSignedIn(true);
+        } else {
+            setSignedIn(false);
+        }
+    }, [user]);
 
     /*
     useEffect(() => {
@@ -46,9 +63,32 @@ export default function PurchasementGallery({
         }
     }, [depositedNfts]);*/
 
+    async function signIn() {
+        if (!window.web3) {
+        }
+
+        if (signedIn) {
+            mutateUser(
+                await fetchJson(
+                    '/api/logout',
+                    {
+                        method: 'POST',
+                    },
+                    false,
+                ),
+            );
+            await deactivate(injected);
+            return setSignedIn(false);
+        } else {
+            await activate(injected, err => {
+                toast.error(err.message, { position: 'top-right' });
+            });
+        }
+    }
+
     return (
         <div className="bg-white">
-            <div className="mx-auto py-12 px-4 max-w-7xl sm:px-6 lg:px-8 lg:py-24">
+            <div className="mx-auto pt-12 pb-4 px-4 max-w-7xl sm:px-6 lg:px-8 lg:pt-24 lg:pb-4">
                 <div className="space-y-12">
                     <div className="space-y-5 sm:space-y-4 md:max-w-xl lg:max-w-3xl xl:max-w-none">
                         <h2 className="text-3xl font-extrabold tracking-tight sm:text-4xl">{heading}</h2>
@@ -93,11 +133,16 @@ export default function PurchasementGallery({
                                             Min. price: {calculateMinPrice(el.price / 10 ** 18).minPrice} ETH{' '}
                                             <button
                                                 onClick={() => {
+                                                    console.log(user);
+                                                    if (!user?.isLoggedIn) {
+                                                        console.log('SIGN IN!!');
+                                                        signIn();
+                                                    }
                                                     setTransactionType({ isDeposit: false, isPurchase: true });
                                                     setIsModalOpen(true);
                                                     setSelectedNft(el);
                                                 }}
-                                                className=" mt-2 p-1 rounded-sm bg-teal-500 text-white cursor-pointer hover:text-gray-300">
+                                                className=" mt-2 p-1 rounded-sm bg-teal-500 text-white cursor-pointer hover:bg-teal-600">
                                                 Buy
                                             </button>
                                             <div className="text-xs text-gray-500">
@@ -109,8 +154,16 @@ export default function PurchasementGallery({
                             ))}
                         </Swiper>
                     ) : (
-                        <div>Loading?</div>
+                        <Loading></Loading>
                     )}
+                    <p className=" text-md text-gray-500 text-center">
+                        See more on{' '}
+                        <span className=" cursor-pointer text-md text-gray-500 hover:text-gray-700 underline">
+                            <a href="https://opensea.io/collection/patchworkkingdoms" target="_blank" rel="noreferrer">
+                                Opensea
+                            </a>
+                        </span>
+                    </p>
                 </div>
             </div>
         </div>

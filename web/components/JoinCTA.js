@@ -7,9 +7,9 @@ const JoinCTA = () => {
                         Join Discord
                     </button>
                 </a>
-                <a href="https://opensea.io/collection/patchworkkingdoms" target="_blank" rel="noreferrer">
+                <a href="/gallery" target="_blank" rel="noreferrer">
                     <button className="bg-white hover:bg-black hover:text-white text-black font-bold py-2 px-4 ml-2 rounded center uppercase">
-                        Join kingdom
+                        Get a Kingdom
                     </button>
                 </a>
             </div>

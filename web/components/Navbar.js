@@ -73,7 +73,7 @@ export default function Navbar() {
             );
 
             setSignedIn(true);
-            router.push('/dashboard');
+            //router.push('/dashboard');
         }
     }, [active, account]);
 

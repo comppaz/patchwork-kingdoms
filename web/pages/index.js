@@ -4,6 +4,7 @@ import Faq from '../components/Faq';
 import About from '../components/About';
 import Team from '../components/Team';
 import LogoCloud from '../components/LogoCloud';
+import Link from 'next/link';
 
 export default function Home() {
     return (
@@ -12,7 +13,13 @@ export default function Home() {
             <JoinCTA></JoinCTA>
             <LogoCloud></LogoCloud>
             <About></About>
-            <Faq></Faq>
+            <p className=" text-center text-xl text-gray-500">
+                Check out our{' '}
+                <span className=" cursor-pointer text-md text-gray-500 hover:text-gray-700 underline">
+                    <Link href="/faq">FAQ</Link>
+                </span>{' '}
+                or contact us for more information.
+            </p>
             <Team></Team>
         </div>
     );

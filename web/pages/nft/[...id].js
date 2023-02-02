@@ -230,7 +230,20 @@ const NFT = () => {
                             className="inline-flex items-center visible px-8 py-3 text-xl invisible sm:visible absolute z-10 top-10 left-5 w-45 bg-white text-gray-600 hover:text-gray-800 focus:outline-none focus:ring-2 focus:ring-teal-500 focus:ring-offset-2">
                             <span className="text-left pr-4">
                                 Learn more about <br />
-                                <span className="font-bold text-teal-600">{data?.name.split('|')[1]}</span>
+                                <div>
+                                    <span className="font-bold text-teal-600">{data?.name.split('|')[1]}</span>
+                                    <div className="absolute mt-4 inset-x-0">
+                                        <div className="bg-teal-600 px-8 pt-6 pb-8 rounded-b-lg shadow-b-xl">
+                                            <h2 className="text-white font-bold text-xl leading-7">
+                                                Connecting every school in the world to the internet
+                                            </h2>
+                                            <p className="text-white font-medium text-xs leading-5 mt-2">
+                                                Each Patchwork Kingdom tells a unique story on school connectivity. The artwork is data
+                                                generated and based on the connectivity status of real schools spread all over the world.
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
                             </span>
                             <span className="inline-flex items-center w-6 h-6">
                                 <ChevronRightIcon className="h-6 w-6 text-gray-500" aria-hidden="true" />

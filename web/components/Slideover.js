@@ -4,6 +4,7 @@ import Image from 'next/image';
 import { ChevronLeftIcon, ChevronDownIcon } from '@heroicons/react/outline';
 import { InformationCircleIcon } from '@heroicons/react/solid';
 import { DateTime } from 'luxon';
+import Tooltip from './Tooltip';
 
 function formatDate(dateTimeObject) {
     return DateTime.fromISO(dateTimeObject).toLocaleString(DateTime.DATETIME_MED);
@@ -69,8 +70,22 @@ export default function Slideover({ data, isDialogOpen, setDialogOpen }) {
                                                                 clipRule="evenodd"
                                                             />
                                                         </svg>
-                                                        <div className="flex flex-col">
-                                                            <div className="text-l font-bold text-teal-600">Funds raised to date</div>
+                                                        <div className="flex flex-col align-top">
+                                                            <div className="text-l font-bold text-teal-600"></div>
+                                                            <div className="">
+                                                                <label>
+                                                                    Funds raised to date{' '}
+                                                                    <button disabled={true}>
+                                                                        <Tooltip
+                                                                            enabled={true}
+                                                                            className="bg-green-400"
+                                                                            text="Represents the total amount of ETH that was raised as a direct result of this PWK.">
+                                                                            <InformationCircleIcon className="w-4 h-4"></InformationCircleIcon>
+                                                                        </Tooltip>{' '}
+                                                                    </button>
+                                                                </label>
+                                                            </div>
+
                                                             <div className="text-xl font-bold pb-4">
                                                                 {roundETHValue(data?.statistics.eth)} ETH
                                                             </div>
@@ -81,7 +96,7 @@ export default function Slideover({ data, isDialogOpen, setDialogOpen }) {
                                                             <InformationCircleIcon />
                                                         </div>
                                                         <div className="flex flex-col">
-                                                            <div className="text-l font-bold text-teal-600">Rank</div>
+                                                            <div className="text-l font-bold text-teal-600">Current rank</div>
                                                             <div className="text-xl font-bold pb-4">{data?.statistics.rank} / 1,000</div>
                                                         </div>
                                                     </div>
@@ -95,6 +110,7 @@ export default function Slideover({ data, isDialogOpen, setDialogOpen }) {
                                                             objectFit="contain"
                                                         />
                                                     </div>
+                                                    {/** 
                                                     <div className="absolute mt-4 inset-x-0">
                                                         <div className="bg-teal-600 px-8 pt-6 pb-8 rounded-b-lg shadow-b-xl">
                                                             <h2 className="text-white font-bold text-xl leading-7">
@@ -111,6 +127,7 @@ export default function Slideover({ data, isDialogOpen, setDialogOpen }) {
                                                             </p>
                                                         </div>
                                                     </div>
+                                                */}
                                                     {/* /End replace */}
                                                 </div>
                                             </div>

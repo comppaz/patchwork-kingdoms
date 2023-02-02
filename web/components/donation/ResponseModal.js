@@ -105,7 +105,7 @@ export default function ResponseModal() {
                                                 Thank you for your purchase!
                                             </p>
                                             <p className=" text-xs text-gray-400">
-                                                All proceeds from this PWK purchase go to UNICEF to help support Giga`&apos;`s mission in
+                                                All proceeds from this PWK purchase go to UNICEF to help support Giga&apos;s mission in
                                                 connecting schools.{' '}
                                             </p>
 

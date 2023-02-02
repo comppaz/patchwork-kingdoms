@@ -1,4 +1,5 @@
 import { useEffect, useState, useContext } from 'react';
+import useUser from '../lib/useUser';
 import NftGallery from '../components/NftGallery';
 import kingdoms from '../data/kingdoms';
 import MintComponent from '../components/donation/MintComponent';
@@ -10,6 +11,8 @@ import ModalContext from '../context/ModalContext';
 import AddressContext from '../context/AddressContext';
 
 export default function Gallery() {
+    const { user } = useUser();
+
     const [data, setData] = useState([]);
     const {
         updateData: updateModalData,
@@ -18,7 +21,7 @@ export default function Gallery() {
         setIsOpen: setResponseModalOpen,
         setIsLoading,
     } = useContext(ModalContext);
-    const { walletAddress, updateWalletAddress, walletStatus, updateWalletStatus, emittingAddress } = useContext(AddressContext);
+    const { emittingAddress } = useContext(AddressContext);
 
     const [isModalOpen, setIsModalOpen] = useState();
 
@@ -38,43 +41,23 @@ export default function Gallery() {
         return ret;
     }
 
+    /*
     useEffect(() => {
         (async () => {
             const { address, status } = await getConnectedWallet();
             updateWalletAddress(address);
             updateWalletStatus(status);
         })();
-    }, []);
+    }, []);*/
 
     useEffect(() => {
         setIsModalOpen(false);
         setData(buildNftList());
-        setWalletListener();
-    }, [walletAddress]);
+    }, []);
 
     useEffect(() => {
         subscribeToPurchasementEvent();
-        subscribeToDepositEvent();
     }, [emittingAddress]);
-
-    function setWalletListener() {
-        if (window.ethereum) {
-            // Listen to Event
-            window.ethereum.on('accountsChanged', accounts => {
-                if (accounts.length > 0) {
-                    updateWalletAddress(accounts[0]);
-                    updateWalletStatus('Successfully logged in!');
-                } else {
-                    updateWalletAddress('');
-                    updateWalletStatus('Connect to Metamask first.');
-                }
-            });
-        } else {
-            // Metamask is not installed in Browser
-            updateWalletAddress('');
-            updateWalletStatus('You must install Metamask, a virtual Ethereum wallet, in your browser before connecting.');
-        }
-    }
 
     const subscribeToPurchasementEvent = async () => {
         escrowContractWSS.events.Donated({}, async (error, data) => {
@@ -84,8 +67,8 @@ export default function Gallery() {
                 console.log(error);
             } else {
                 console.log('PURCHASEMENT EVENT WAS EMITTED SUCCESSFULLY');
-                // check that walletAddres is set and equals the emittingAddress
-                if (walletAddress !== '' && walletAddress === emittingAddress) {
+                // check that user's address is set and equals the emittingAddress
+                if (user.account !== '' && user.account === emittingAddress) {
                     updateModalData({
                         heading: 'Thank you for your purchase!',
                         txhash: data.transactionHash,
@@ -102,45 +85,25 @@ export default function Gallery() {
         });
     };
 
-    const subscribeToDepositEvent = async () => {
-        escrowContractWSS.events.Deposited({}, async (error, data) => {
-            setIsModalOpen(false);
-            setIsLoading(false);
-            if (error) {
-                console.log(error);
-            } else {
-                console.log('DEPOSIT EVENT WAS EMITTED SUCCESSFULLY');
-                // check that walletAddres is set and equals the emittingAddress
-                if (walletAddress !== '' && walletAddress === emittingAddress) {
-                    updateModalData({
-                        heading: 'Congrats, your NFT is up for sale!',
-                        txhash: data.transactionHash,
-                        title: 'Transaction complete',
-                        isProcessing: false,
-                        id: data.tokenId,
-                        transactionType: { isDeposit: true, isPurchase: false },
-                    });
-                    setTimeout(() => {
-                        setResponseModalOpen(true);
-                    }, 500);
-                }
-            }
-        });
-    };
-
     return (
-        <div className="flex flex-col py-2">
+        <div className="flex flex-col">
+            {/** only needed for testing 
             <MintComponent
                 heading="Mint a Test Token"
                 caption="Mint a token to test the deposit and purchasement functionalities."
                 isModalOpen={isModalOpen}
-                setIsModalOpen={setIsModalOpen}></MintComponent>
+                setIsModalOpen={setIsModalOpen}></MintComponent>*/}
             <PurchasementGallery
                 heading="Up for Sale"
-                caption="Limited time offers of Patchwork Kingdoms that have generously been donated to Giga by their owners. If you purchase these from this website directly, 100% of the funds you pay are donated to UNICEF. Read more information here "
+                caption="Limited time offers of Patchwork Kingdoms that have generously been donated to Giga by their owners. If you purchase these from this website directly, 100% of the funds you pay are donated to UNICEF."
                 isModalOpen={isModalOpen}
                 setIsModalOpen={setIsModalOpen}></PurchasementGallery>
-            <NftGallery heading="Patchwork Kingdoms Gallery" caption=" All Patchwork Kingdoms in the collection." nfts={data}></NftGallery>
+            <NftGallery
+                heading="Patchwork Kingdoms Gallery"
+                caption=" All Patchwork Kingdoms in the collection."
+                nfts={data}
+                footer="Yay! You have seen all the Kingdoms."
+                isDonateActivate={false}></NftGallery>
 
             <ResponseModal />
         </div>

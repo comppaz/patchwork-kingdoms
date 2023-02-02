@@ -48,8 +48,9 @@ export default function Hero() {
                             <h1 className="text-4xl tracking-tight font-extrabold text-gray-900 sm:text-5xl md:text-6xl">
                                 <span className="block xl:inline">Patchwork Kingdoms</span>
                                 <p className="text-left text-lg font-normal text-gray-600 tracking-wider pt-8 pb-4 lg:tracking-wide">
-                                    Let&apos;s build a community of supporters for the Giga initiative and raise funds to bring reliable,
-                                    robust connectivity to schools across the globe.
+                                    Be a part of a global community of people who support the Giga initiative and raise funds to bridge the
+                                    digital divide by connecting every school in the world to the internet by 2030 and every young person to
+                                    information, opportunity and choice.
                                 </p>
                             </h1>
                         </div>

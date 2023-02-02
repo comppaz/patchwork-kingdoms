@@ -29,7 +29,7 @@ const Article = () => {
                     </h1>
                     <p className="mt-8 text-xl text-center text-gray-500 leading-8">
                         <p className="text-sm font-medium text-gray-900">{article.Author}</p>
-                        <div className=" text-sm text-gray-500">
+                        <div className=" text-right text-sm text-gray-500">
                             <time dateTime={article.Date}>{article.Date}</time>
                             <span aria-hidden="true">&middot;</span>
                         </div>

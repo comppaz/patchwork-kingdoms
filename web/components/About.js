@@ -4,7 +4,7 @@ import { Transition } from '@headlessui/react';
 
 const stats = [
     { label: 'Total Supply Of NFTs', value: '1000' },
-    { label: 'Minting Price', value: '0.175 ETH' },
+    { label: 'Original Minting Price', value: '0.175 ETH' },
 ];
 
 export default function About() {
@@ -183,7 +183,7 @@ export default function About() {
                             />
                         </div>
                         <div className="relative lg:col-span-1">
-                            <h2 className="text-3xl text-white font-bold">Background</h2>
+                            <h2 className="text-3xl text-white font-bold">About Giga</h2>
                             <blockquote className="mt-6 text-white">
                                 <p className="text-lg font-normal sm:text-2xl">
                                     Some 2.9 billion people (of which around 1.3 billion are children) do not have access to the Internet.

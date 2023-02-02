@@ -147,7 +147,7 @@ export default function Team() {
                             <h2 className="text-3xl font-extrabold tracking-tight sm:text-4xl">Meet Our Advisors</h2>
                         </div>
                         <div className="mx-auto lg:col-span-2">
-                            <ul role="list" className="space-y-12 sm:grid sm:grid-cols-2 sm:gap-12 sm:space-y-0 lg:gap-x-8">
+                            <ul role="list" className="space-y-12 sm:grid sm:grid-cols-3 sm:gap-12 sm:space-y-0 lg:gap-x-8">
                                 {advisors.map(person => (
                                     <li key={person.attributes.Name}>
                                         <div className="flex items-center space-x-4 lg:space-x-6">

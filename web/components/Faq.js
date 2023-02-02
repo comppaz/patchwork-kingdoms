@@ -87,7 +87,7 @@ export default function Faq() {
                     <h2 className="text-center text-3xl font-extrabold text-gray-900 sm:text-4xl">FAQ</h2>
                     <dl className="mt-6 space-y-6 divide-y divide-gray-200">
                         {faqs.map(faq => (
-                            <Disclosure as="div" key={faq.question} className="pt-6">
+                            <Disclosure defaultOpen as="div" key={faq.question} className="pt-6">
                                 {({ open }) => (
                                     <>
                                         <dt className="text-lg">
