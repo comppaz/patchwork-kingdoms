@@ -43,7 +43,7 @@ export default function NftGallery({
                 setHasMore(false);
             }
         }
-    }, []);
+    });
 
     function fetchData() {
         setAllnfts(allnfts.concat(nfts.slice(pageCounter, pageCounter + pageIncrement)));

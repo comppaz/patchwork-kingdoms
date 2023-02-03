@@ -110,24 +110,6 @@ export default function Slideover({ data, isDialogOpen, setDialogOpen }) {
                                                             objectFit="contain"
                                                         />
                                                     </div>
-                                                    {/** 
-                                                    <div className="absolute mt-4 inset-x-0">
-                                                        <div className="bg-teal-600 px-8 pt-6 pb-8 rounded-b-lg shadow-b-xl">
-                                                            <h2 className="text-white font-bold text-xl leading-7">
-                                                                Connecting every school in the world to the internet
-                                                            </h2>
-                                                            <p className="text-white font-medium text-xs leading-5 mt-2">
-                                                                Each Patchwork Kingdom tells a unique story on school connectivity. The
-                                                                artwork is data generated and based on the connectivity status of real
-                                                                schools spread all over the world. Every square represents a real school
-                                                                with real students. Giga estimates that today, more than 1.3 billion
-                                                                students in the world do not have access to reliable internet at school. The
-                                                                Patchwork Kingdoms is an NFT project raising funds to help close the digital
-                                                                divide.
-                                                            </p>
-                                                        </div>
-                                                    </div>
-                                                */}
                                                     {/* /End replace */}
                                                 </div>
                                             </div>
@@ -210,15 +192,15 @@ export default function Slideover({ data, isDialogOpen, setDialogOpen }) {
                                                 />
                                                 <div className="bg-teal-600 px-8 pt-6 pb-8 rounded-b-lg shadow-b-xl">
                                                     <h2 className="text-white font-bold text-2xl leading-7">
-                                                        Connecting every school in the world to the internet
+                                                        Mission: Universal School Connectivity
                                                     </h2>
                                                     <p className="text-white font-medium text-sm leading-5 mt-2">
-                                                        Each Patchwork Kingdom tells a unique story on school connectivity. The artwork is
-                                                        data generated and based on the connectivity status of real schools spread all over
-                                                        the world. Every square represents a real school with real students. Giga estimates
-                                                        that today, more than 1.3 billion students in the world do not have access to
-                                                        reliable internet at school. The Patchwork Kingdoms is an NFT project raising funds
-                                                        to help close the digital divide.
+                                                        Each Patchwork Kingdom tells a story about the digital divide, with the upper part
+                                                        representing connected schools and the lower part unconnected schools. Funds raised
+                                                        from sales go to support Giga&apos;s mission of universal school connectivity for
+                                                        every child. Funds raised from sales go to support Giga&apos;s mission of universal
+                                                        school connectivity which in turn leads to information, opportunity and choice for
+                                                        every young person.
                                                     </p>
                                                 </div>
                                             </div>
