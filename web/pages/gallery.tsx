@@ -23,7 +23,7 @@ export default function Gallery() {
     } = useContext(ModalContext);
     const { emittingAddress } = useContext(AddressContext);
 
-    const [isModalOpen, setIsModalOpen] = useState();
+    const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
 
     function buildNftList() {
         let ret = [];

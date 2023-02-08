@@ -1,6 +1,14 @@
 import React from 'react';
 
-export const ModalContext = React.createContext({
+interface IModalContext {
+    isOpen: boolean;
+    data: ModalData;
+    isLoading: boolean;
+    updateData: (data: ModalData) => void;
+    setIsOpen: (isOpen: boolean) => void;
+    setIsLoading: (isLoading: boolean) => void;
+}
+export const ModalContext = React.createContext<IModalContext>({
     isOpen: false,
     data: {
         heading: '',
@@ -11,7 +19,6 @@ export const ModalContext = React.createContext({
         transactionType: { isDeposit: false, isPurchase: false },
     },
     isLoading: false,
-
     updateData: () => {},
     setIsOpen: () => {},
     setIsLoading: () => {},

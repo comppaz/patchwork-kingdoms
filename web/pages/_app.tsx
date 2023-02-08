@@ -33,7 +33,7 @@ function MyApp({ Component, pageProps }) {
                             </title>
                             <meta name="viewport" content="initial-scale=1.0, width=device-width" />
 
-                            <meta property="og:title" content="Patchwork Kingdoms | Giga x Snowcrash" />
+                            <meta property="og:title" content="Patchwork Kingdoms | Giga x Snowcrash" />
                             <meta
                                 property="og:site_name"
                                 content="Raise funds to bring reliable and robust connectivity to schools across the globe."
@@ -48,7 +48,7 @@ function MyApp({ Component, pageProps }) {
 
                             <meta name="twitter:card" content="summary" />
                             <meta name="twitter:site" content="@Gigaconnect" />
-                            <meta name="twitter:title" content="Patchwork Kingdoms | Giga x Snowcrash" />
+                            <meta name="twitter:title" content="Patchwork Kingdoms | Giga x Snowcrash" />
                             <meta
                                 name="twitter:description"
                                 content="Let's build a community of supporters for the Giga initiative and raise funds to bring reliable, robust connectivity to schools across the globe."

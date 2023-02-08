@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, FunctionComponent } from 'react';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import Image from 'next/image';
 import Loading from './Loading';
@@ -8,7 +8,17 @@ import Modal from './donation/Modal';
 var pageCounter = 100;
 const pageIncrement = 100;
 
-export default function NftGallery({
+interface IProps {
+    nfts: any[];
+    heading: string;
+    caption: string;
+    footer: string;
+    isDonateActivate: boolean;
+    isModalOpen?: boolean;
+    setIsModalOpen?: (isOpen: boolean) => void;
+}
+
+export const NftGallery: FunctionComponent<IProps> = ({
     nfts: nfts,
     heading: heading,
     caption: caption,
@@ -16,7 +26,7 @@ export default function NftGallery({
     isDonateActivate: isDonateActivated,
     isModalOpen: isModalOpen,
     setIsModalOpen: setIsModalOpen,
-}) {
+}) => {
     const [allnfts, setAllnfts] = useState([]);
     const [hasMore, setHasMore] = useState(true);
 
@@ -129,7 +139,7 @@ export default function NftGallery({
                                                                 onClick={() => {
                                                                     setTransactionType({ isDeposit: true, isPurchase: false });
                                                                     setIsModalOpen(true);
-                                                                    setSelectedNft(el);
+                                                                    setSelectedNft(nft);
                                                                 }}
                                                                 className="justify-end p-1 rounded-sm bg-teal-500 text-white cursor-pointer hover:bg-teal-00">
                                                                 Donate
@@ -209,4 +219,6 @@ export default function NftGallery({
             </div>
         </div>
     );
-}
+};
+
+export default NftGallery;
