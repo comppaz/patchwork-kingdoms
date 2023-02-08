@@ -27,7 +27,6 @@ export default function PurchasementGallery({
     const [selectedNft, setSelectedNft] = useState(null);
     const [depositedNfts, setDepositedNfts] = useState([]);
     const [transactionType, setTransactionType] = useState({});
-    const { walletAddress, updateWalletAddress, walletStatus } = useContext(AddressContext);
     const { activate } = useWeb3React();
     const [signedIn, setSignedIn] = useState(false);
     const { user } = useUser();
@@ -36,9 +35,10 @@ export default function PurchasementGallery({
     useEffect(() => {
         (async () => {
             // Event hören und updaten
+            console.log('huuu');
             setDepositedNfts(await getItems());
         })();
-    }, [walletAddress, walletStatus, isModalOpen]);
+    }, [isModalOpen]);
 
     useEffect(async () => {
         if (user?.isLoggedIn) {

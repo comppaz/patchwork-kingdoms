@@ -37,7 +37,7 @@ export default function Gallery() {
                 highresDownloadUrl: '',
             });
         }
-
+        console.log(ret);
         return ret;
     }
 

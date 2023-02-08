@@ -53,7 +53,7 @@ export const NftGallery: FunctionComponent<IProps> = ({
                 setHasMore(false);
             }
         }
-    }, []);
+    });
 
     function fetchData() {
         setAllnfts(allnfts.concat(nfts.slice(pageCounter, pageCounter + pageIncrement)));
