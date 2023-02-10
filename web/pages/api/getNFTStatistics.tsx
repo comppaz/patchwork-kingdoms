@@ -1,4 +1,6 @@
-export default async function getNFTStatistics(req, res) {
+import { NextApiRequest, NextApiResponse } from 'next';
+
+export default async function getNFTStatistics(req: NextApiRequest, res: NextApiResponse) {
     const options = {
         method: 'GET',
     };
