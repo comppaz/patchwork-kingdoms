@@ -9,6 +9,7 @@ import { escrowContractWSS } from '../lib/contractInteraction';
 import ResponseModal from '../components/donation/ResponseModal';
 import ModalContext from '../context/ModalContext';
 import AddressContext from '../context/AddressContext';
+import { emailType, emailTypeMap } from '../lib/setEmailContentDetails';
 
 export default function Gallery() {
     const { user } = useUser();
@@ -85,8 +86,41 @@ export default function Gallery() {
         });
     };
 
+    const testEmail = async () => {
+        console.log('testing email');
+        let typeId = emailTypeMap.toSeller;
+        let parameter: ToSellerParams = {
+            receiver: 'simona@craft-clarity.com',
+            itemDetails: 'Some Token',
+            dateOfListing: new Date(),
+            timeframe: 12,
+            listingPrice: 12,
+        };
+
+        const response = await fetch('/api/emailHandler', {
+            method: 'POST',
+            body: JSON.stringify({
+                typeId,
+                parameter,
+            }),
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        });
+
+        const res = await response.json();
+        console.log(res);
+        return res;
+    };
+
     return (
         <div className="flex flex-col">
+            <button
+                onClick={() => {
+                    testEmail();
+                }}>
+                TEST EMAIL
+            </button>
             {/** only needed for testing 
             <MintComponent
                 heading="Mint a Test Token"
