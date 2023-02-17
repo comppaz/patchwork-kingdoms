@@ -3,8 +3,10 @@ import { NFTEntry } from "../types";
 
 // setup prisma client
 const prisma = new PrismaClient();
+
 /**
- * create statistic entry for the nft with prisma in db
+ * Create a new entry in the prisma database
+ * @param nft {NFTEntry} - the nft entry to be added
  */
 export const createPrismaEntry = async function (nft: NFTEntry) {
   console.log("Updating Prisma with the following value");
@@ -38,7 +40,12 @@ export const createPrismaEntry = async function (nft: NFTEntry) {
   );
 };
 
-/** get nft details for specific id */
+/**
+ * Find a specific nft entry in the prisma database
+ *
+ * @param tokenId {number} - the id of the nft to be found
+ * @returns
+ */
 export const findNFTDetail = async function (tokenId: number) {
   const nft = await prisma.nFTDetail.findUnique({
     where: {
