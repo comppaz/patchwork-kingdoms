@@ -6,6 +6,8 @@ import ModalContext from '../context/ModalContext';
 import AddressContext from '../context/AddressContext';
 import { escrowContractWSS } from '../lib/contractInteraction';
 import ResponseModal from '../components/donation/ResponseModal';
+import { emailTypeMap } from '../lib/setEmailContentDetails';
+import DonationContext from '../context/DonationContext';
 
 export default function Dashboard() {
     const { user } = useUser();
@@ -21,6 +23,7 @@ export default function Dashboard() {
     } = useContext(ModalContext);
 
     const { emittingAddress } = useContext(AddressContext);
+    const { donationData } = useContext(DonationContext);
 
     const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
 
@@ -31,6 +34,23 @@ export default function Dashboard() {
     useEffect(() => {
         subscribeToDepositEvent();
     }, [emittingAddress]);
+
+    const prepareEmail = async (typeId: number, parameter: ToDonatorParams | ToBuyerParams | ToSellerParams) => {
+        const response = await fetch('/api/emailHandler', {
+            method: 'POST',
+            body: JSON.stringify({
+                typeId,
+                parameter,
+            }),
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        });
+
+        const res = await response.json();
+        console.log(res);
+        return res;
+    };
 
     const subscribeToDepositEvent = async () => {
         escrowContractWSS.events.Deposited({}, async (error, data) => {
@@ -50,6 +70,18 @@ export default function Dashboard() {
                         id: data.tokenId,
                         transactionType: { isDeposit: true, isPurchase: false },
                     });
+
+                    // send E-Mail to the one who donated a token
+                    let toSellerTypeId = emailTypeMap.toSeller;
+                    let toSellerParams: ToSellerParams = {
+                        receiver: donationData.donatorMail,
+                        itemDetails: '',
+                        dateOfListing: donationData.dateOfListing,
+                        timeframe: 0,
+                        listingPrice: 0,
+                    };
+                    prepareEmail(toSellerTypeId, toSellerParams);
+
                     setTimeout(() => {
                         setResponseModalOpen(true);
                     }, 500);

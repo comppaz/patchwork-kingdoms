@@ -2,13 +2,13 @@ import React from 'react';
 
 export const AddressContext = React.createContext({
     walletAddress: '',
-    updateWalletAddress: () => {},
+    updateWalletAddress: address => {},
 
     walletStatus: '',
-    updateWalletStatus: () => {},
+    updateWalletStatus: status => {},
 
     emittingAddress: '',
-    updateEmittingAddress: () => {},
+    updateEmittingAddress: emittingAddress => {},
 });
 
 export const AddressProvider = ({ children }) => {

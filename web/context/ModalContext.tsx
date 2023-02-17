@@ -36,7 +36,7 @@ export const ModalProvider = ({ children }) => {
 
     const [isOpen, setIsOpen] = React.useState(false);
 
-    const updateData = data => {
+    const updateData = (data: ModalData) => {
         setData(data);
     };
 

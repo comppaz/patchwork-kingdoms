@@ -12,6 +12,7 @@ import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { calculateMinPrice, convertExpirationToDate } from '../../lib/calculateDonationInteraction';
 import useUser from '../../lib/useUser';
+import DonationContext from '../../context/DonationContext';
 
 function classNames(...classes) {
     return classes.filter(Boolean).join(' ');
@@ -20,6 +21,7 @@ export default function Modal({ transactionType, setTransactionType, nft, isModa
     const cancelButtonRef = useRef(null);
     const { updateEmittingAddress } = useContext(AddressContext);
     const { isLoading, setIsLoading } = useContext(ModalContext);
+    const { donationData, updateDonationData, purchasementData, updatePurchasementData } = useContext(DonationContext);
 
     const [enabled, setEnabled] = useState(false);
     const monthlyTimeUnit = 2629743;
@@ -33,7 +35,10 @@ export default function Modal({ transactionType, setTransactionType, nft, isModa
     //const [isLoading, setIsLoading] = useState(false);
     const [progress, setProgress] = useState({ status: true, message: '', txHash: '' });
     const [alert, setAlert] = useState('');
+    const [purchaserMail, setPurchaserMail] = useState('');
+    const [donatorMail, setDonatorMail] = useState('');
     const { user } = useUser();
+
     toast.configure();
 
     //called only once
@@ -75,6 +80,23 @@ export default function Modal({ transactionType, setTransactionType, nft, isModa
             updateEmittingAddress(user.account);
             notify(depositResponse.status, depositResponse.message, depositResponse.txHash);
             console.log(depositResponse);
+            if (donatorMail) {
+                // save donatorMail also in database!
+                let currentDate = new Date();
+                const body = { nftId, donatorMail, currentDate };
+                const result = await fetch('/api/emailDB', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(body),
+                });
+                console.log(res.json(result));
+                updateDonationData({
+                    tokenId: nftId,
+                    timeframe: currentExpirationTimeFrame,
+                    donatorMail: donatorMail,
+                    dateOfListing: new Date(),
+                });
+            }
         } else {
             setIsLoading(false);
         }
@@ -88,6 +110,15 @@ export default function Modal({ transactionType, setTransactionType, nft, isModa
         notify(response.status, response.message, response.txHash);
         console.log(response);
         updateEmittingAddress(user.account);
+        if (purchaserMail) {
+            // update context values for outgoing email
+            updatePurchasementData({
+                itemId: itemId,
+                dateOfSale: new Date(),
+                salePrice: price,
+                purchaserMail: purchaserMail,
+            });
+        }
     };
 
     const notify = (successful, output, txHash) => {
@@ -520,6 +551,9 @@ export default function Modal({ transactionType, setTransactionType, nft, isModa
                                                                         type="email"
                                                                         name="email"
                                                                         id="email"
+                                                                        onChange={event => {
+                                                                            setPurchaserMail(event.target.value);
+                                                                        }}
                                                                         className="block w-full px-4 py-2 rounded-md border-gray-300 shadow-sm focus:border-teal-500 focus:ring-teal-500 sm:text-sm"
                                                                         placeholder="you@example.com"
                                                                     />
@@ -606,7 +640,7 @@ export default function Modal({ transactionType, setTransactionType, nft, isModa
                                                                 type="button"
                                                                 disabled={!enabled || !user?.isLoggedIn}
                                                                 className="disabled:pointer-events-none inline-flex w-full justify-center rounded-md border border-transparent bg-teal-500 px-4 py-2 text-base font-medium text-white shadow-sm hover:bg-teal-700 focus:outline-none focus:ring-2 focus:ring-teal-500 focus:ring-offset-2 sm:ml-3 sm:w-auto sm:text-sm disabled:bg-gray-300 disabled:hover:bg-gray-300 disabled:hover:border-red-400"
-                                                                onClick={() => {
+                                                                onClick={event => {
                                                                     setIsLoading(true);
                                                                     onBuyPressed(nft.itemId);
                                                                     setProgress({

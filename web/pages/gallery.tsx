@@ -10,6 +10,7 @@ import ResponseModal from '../components/donation/ResponseModal';
 import ModalContext from '../context/ModalContext';
 import AddressContext from '../context/AddressContext';
 import { emailType, emailTypeMap } from '../lib/setEmailContentDetails';
+import DonationContext from '../context/DonationContext';
 
 export default function Gallery() {
     const { user } = useUser();
@@ -23,6 +24,7 @@ export default function Gallery() {
         setIsLoading,
     } = useContext(ModalContext);
     const { emittingAddress } = useContext(AddressContext);
+    const { purchasementData } = useContext(DonationContext);
 
     const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
 
@@ -41,15 +43,6 @@ export default function Gallery() {
         console.log(ret);
         return ret;
     }
-
-    /*
-    useEffect(() => {
-        (async () => {
-            const { address, status } = await getConnectedWallet();
-            updateWalletAddress(address);
-            updateWalletStatus(status);
-        })();
-    }, []);*/
 
     useEffect(() => {
         setIsModalOpen(false);
@@ -78,6 +71,32 @@ export default function Gallery() {
                         id: data.tokenId,
                         transactionType: { isDeposit: false, isPurchase: true },
                     });
+                    // send E-Mail to donator whose token has been sold
+                    let toDonatorTypeId = emailTypeMap.toDonator;
+                    const res = await fetch(`/api/emailDB?tokenId=${data.tokenId}`);
+                    const emailData = await res.json();
+                    let toDonatorParameter: ToDonatorParams = {
+                        receiver: emailData.email,
+                        itemDetails: '',
+                        dateOfListing: emailData.dateOfListing,
+                        dateOfSale: purchasementData.dateOfSale,
+                        listingPrice: 0,
+                        salePrice: purchasementData.salePrice,
+                        // to calculate
+                        timeDuration: 0,
+                    };
+                    prepareEmail(toDonatorTypeId, toDonatorParameter);
+
+                    // send E-Mail to buyer who purchased a token
+                    let toBuyerTypeId = emailTypeMap.toBuyer;
+                    let toBuyerParameter: ToBuyerParams = {
+                        receiver: purchasementData.purchaserMail,
+                        itemDetails: 'Some Token',
+                        dateOfSale: purchasementData.dateOfSale,
+                        salePrice: purchasementData.salePrice,
+                    };
+                    prepareEmail(toBuyerTypeId, toBuyerParameter);
+
                     setTimeout(() => {
                         setResponseModalOpen(true);
                     }, 500);
@@ -86,17 +105,7 @@ export default function Gallery() {
         });
     };
 
-    const testEmail = async () => {
-        console.log('testing email');
-        let typeId = emailTypeMap.toSeller;
-        let parameter: ToSellerParams = {
-            receiver: 'simona@craft-clarity.com',
-            itemDetails: 'Some Token',
-            dateOfListing: new Date(),
-            timeframe: 12,
-            listingPrice: 12,
-        };
-
+    const prepareEmail = async (typeId: number, parameter: ToDonatorParams | ToBuyerParams | ToSellerParams) => {
         const response = await fetch('/api/emailHandler', {
             method: 'POST',
             body: JSON.stringify({
@@ -117,7 +126,16 @@ export default function Gallery() {
         <div className="flex flex-col">
             <button
                 onClick={() => {
-                    testEmail();
+                    console.log('testing email');
+                    let typeId = emailTypeMap.toSeller;
+                    let parameter: ToSellerParams = {
+                        receiver: 'simona@craft-clarity.com',
+                        itemDetails: 'Some Token',
+                        dateOfListing: new Date(),
+                        timeframe: 12,
+                        listingPrice: 12,
+                    };
+                    prepareEmail(typeId, parameter);
                 }}>
                 TEST EMAIL
             </button>
