@@ -29,6 +29,21 @@ export default function Dashboard() {
 
     const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
 
+    const [testNfts, setTestNfts] = useState([]);
+    const [selectedTestToken, setSelectedTestToken] = useState(null);
+    const [transactionType, setTransactionType] = useState({});
+
+    useEffect(() => {
+        if (!process.env.PROD_FLAG && user && user.account) {
+            console.log('DASHBOARD');
+            console.log(user.account);
+
+            (async () => {
+                setTestNfts(await getOwnedTestNfts(user.account));
+            })();
+        }
+    }, [user]);
+
     useEffect(() => {
         setIsModalOpen(false);
     }, []);
@@ -97,21 +112,6 @@ export default function Dashboard() {
 
     // activates testing component only in dev stage
     if (!process.env.PROD_FLAG) {
-        const [testNfts, setTestNfts] = useState([]);
-        const [selectedTestToken, setSelectedTestToken] = useState(null);
-        const [transactionType, setTransactionType] = useState({});
-
-        useEffect(() => {
-            if (user && user.account) {
-                console.log('DASHBOARD');
-                console.log(user.account);
-
-                (async () => {
-                    setTestNfts(await getOwnedTestNfts(user.account));
-                })();
-            }
-        }, [user]);
-
         if (!user?.isLoggedIn) {
             return (
                 <div className="min-h-full pt-16 pb-12 flex flex-col bg-white">
