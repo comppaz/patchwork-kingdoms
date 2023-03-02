@@ -1,6 +1,5 @@
 import { useEffect, useState, useContext } from 'react';
 import { checkExpirationDate, getItems } from '../lib/contractInteraction';
-import Modal from './donation/Modal';
 import Image from 'next/image';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Pagination, Navigation } from 'swiper';
@@ -17,6 +16,7 @@ import 'swiper/css/navigation';
 import AddressContext from '../context/AddressContext';
 import { calculateMinPrice, convertExpirationToDate } from '../lib/calculateDonationInteraction';
 import useUser from '../lib/useUser';
+import Modal from './donation/Modal';
 
 export default function PurchasementGallery({
     heading: heading,
@@ -35,7 +35,6 @@ export default function PurchasementGallery({
     useEffect(() => {
         (async () => {
             // Event hören und updaten
-            console.log('huuu');
             setDepositedNfts(await getItems());
         })();
     }, [isModalOpen]);

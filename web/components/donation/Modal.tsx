@@ -1,4 +1,4 @@
-import { Fragment, useRef, useState, useEffect, useContext } from 'react';
+import { Fragment, useRef, useState, useEffect, useContext, ChangeEvent } from 'react';
 import { Dialog, Transition, Switch } from '@headlessui/react';
 import Image from 'next/image';
 import { InformationCircleIcon } from '@heroicons/react/outline';
@@ -28,12 +28,12 @@ export default function Modal({ transactionType, setTransactionType, nft, isModa
 
     // default timeframe starts with 24 months
     const [currentExpirationTimeFrame, setExpirationTimeframe] = useState(24 * monthlyTimeUnit);
-    const [priceOffer, setPriceOffer] = useState(0.175);
+    const [priceOffer, setPriceOffer] = useState(nft.price / 10 ** 18);
+    const [minPriceObj, setMinPriceObj] = useState(calculateMinPrice(nft.price / 10 ** 18));
     const [expiration, setExpiration] = useState({});
     const [priceError, setPriceError] = useState({ isError: false, status: '' });
     const [agreeToTerms, setAgreeToTerms] = useState(false);
     //const [isLoading, setIsLoading] = useState(false);
-    const [progress, setProgress] = useState({ status: true, message: '', txHash: '' });
     const [alert, setAlert] = useState('');
     const [purchaserMail, setPurchaserMail] = useState('');
     const [donatorMail, setDonatorMail] = useState('');
@@ -44,6 +44,8 @@ export default function Modal({ transactionType, setTransactionType, nft, isModa
     //called only once
     useEffect(() => {
         resetModalValues();
+        console.log(minPriceObj);
+        setPriceOffer(calculateMinPrice(nft.price / 10 ** 18).minPrice);
     }, [user.account, isModalOpen]);
 
     useEffect(() => {
@@ -72,56 +74,54 @@ export default function Modal({ transactionType, setTransactionType, nft, isModa
     const onDepositPressed = async nftId => {
         console.log('Starting Deposit for TokenID: ' + nftId);
         const approvalResponse = await approveTransaction(user.account, nftId);
-        notify(approvalResponse.status, approvalResponse.message, approvalResponse.txHash);
-        setProgress(approvalResponse);
+        notify(approvalResponse.status, approvalResponse.message);
         if (approvalResponse.status) {
             const depositResponse = await deposit(user.account, nftId, currentExpirationTimeFrame);
-            setProgress(depositResponse);
             updateEmittingAddress(user.account);
-            notify(depositResponse.status, depositResponse.message, depositResponse.txHash);
-            console.log(depositResponse);
-            if (donatorMail) {
-                // save donatorMail also in database!
+            notify(depositResponse.status, depositResponse.message);
+            if (donatorMail && depositResponse.status) {
                 let currentDate = new Date();
-                const body = { nftId, donatorMail, currentDate };
-                const result = await fetch('/api/emailDB', {
+                let minPrice = minPriceObj.minPrice;
+                const body = { nftId, donatorMail, currentDate, currentExpirationTimeFrame, minPrice };
+                const result = await fetch('/api/donationDB', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(body),
                 });
-                console.log(res.json(result));
-                updateDonationData({
-                    tokenId: nftId,
-                    timeframe: currentExpirationTimeFrame,
-                    donatorMail: donatorMail,
-                    dateOfListing: new Date(),
-                });
+                console.log('DB REQUEST WAS...');
+                console.log(result);
             }
         } else {
             setIsLoading(false);
         }
+        console.log(donationData);
     };
 
-    const onBuyPressed = async itemId => {
+    const onBuyPressed = async (itemId: number, tokenId: number) => {
         console.log('Starting Purchase Transaction for TokenID: ' + itemId);
         let price = ethers.utils.parseEther(priceOffer.toString());
         const response = await buy(user.account, itemId, price._hex);
-        setProgress(response);
-        notify(response.status, response.message, response.txHash);
-        console.log(response);
+        notify(response.status, response.message);
         updateEmittingAddress(user.account);
-        if (purchaserMail) {
-            // update context values for outgoing email
-            updatePurchasementData({
-                itemId: itemId,
-                dateOfSale: new Date(),
-                salePrice: price,
-                purchaserMail: purchaserMail,
+        if (purchaserMail && response.status) {
+            console.log('ARE WE TRYING TO UPDATE ANYTHING?');
+            // save purchaserMailData in database
+            let currentDate = new Date();
+            let minPrice = minPriceObj.min;
+            console.log(minPrice);
+            const body = { tokenId, purchaserMail, currentDate, priceOffer, minPriceObj };
+            const result = await fetch('/api/purchasementDB', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(body),
             });
+            console.log('DB REQUEST WAS...');
+            console.log(result);
         }
+        console.log(purchasementData);
     };
 
-    const notify = (successful, output, txHash) => {
+    const notify = (successful, output) => {
         if (successful) {
             toast.success(output, {
                 hideProgressBar: true,
@@ -140,7 +140,6 @@ export default function Modal({ transactionType, setTransactionType, nft, isModa
     const resetModalValues = () => {
         setExpiration(convertExpirationToDate(nft.expiration));
         setIsLoading(false);
-        setProgress({ status: false, message: '', txHash: '' });
         setEnabled(false);
         setAgreeToTerms(false);
         setPriceError({ isError: false, status: '' });
@@ -259,6 +258,9 @@ export default function Modal({ transactionType, setTransactionType, nft, isModa
                                                                 <div className="mt-1">
                                                                     <input
                                                                         type="email"
+                                                                        onChange={event => {
+                                                                            setDonatorMail(event.target.value);
+                                                                        }}
                                                                         name="email"
                                                                         id="email"
                                                                         className="block w-full px-4 py-2 rounded-md border-gray-300 shadow-sm focus:border-teal-500 focus:ring-teal-500 sm:text-sm"
@@ -269,7 +271,7 @@ export default function Modal({ transactionType, setTransactionType, nft, isModa
                                                         </div>
                                                         <div className="mt-6">
                                                             <div>
-                                                                <label htmlFor="email" className="block text-sm font-medium text-gray-600">
+                                                                <label htmlFor="hall" className="block text-sm font-medium text-gray-600">
                                                                     Add me to the Hall of Fame:{' '}
                                                                     <span className="text-xs font-light">(optional)</span>
                                                                 </label>
@@ -344,24 +346,9 @@ export default function Modal({ transactionType, setTransactionType, nft, isModa
                                                             </svg>
                                                         </div>
                                                     </div>
-                                                    {/** 
-                                                    {progress.status ? (
-                                                        <div className="text-green-600 flex justify-center">
-                                                            <p>{progress.message}</p>
-                                                            <p>
-                                                                Check out the transaction on{' '}
-                                                                <a
-                                                                    target="_blank"
-                                                                    href={`https://goerli.etherscan.io/tx/${progress.txHash}`}
-                                                                    rel="noopener noreferrer">
-                                                                    Etherscan
-                                                                </a>{' '}
-                                                            </p>
-                                                        </div>
-                                                    ) : (
-                                                        <div className="text-red-600 flex justify-center">{progress.message}</div>
-                                                    )}
-                                                    */}
+                                                    <span className=" flex justify-center text-gray-500 text-xs">
+                                                        Please follow the instructions on Metamask!
+                                                    </span>
                                                 </div>
                                             ) : (
                                                 <div>
@@ -379,10 +366,6 @@ export default function Modal({ transactionType, setTransactionType, nft, isModa
                                                                 onClick={() => {
                                                                     setIsLoading(true);
                                                                     onDepositPressed(nft.tokenId);
-                                                                    setProgress({
-                                                                        message: 'Please follow the instructions on Metamask.',
-                                                                        status: false,
-                                                                    });
                                                                 }}>
                                                                 <span>Sign</span>
                                                             </button>
@@ -477,7 +460,7 @@ export default function Modal({ transactionType, setTransactionType, nft, isModa
                                                         <div className="mt-6">
                                                             <div>
                                                                 <label
-                                                                    htmlFor="minPrice"
+                                                                    htmlFor="expiration"
                                                                     className="block text-sm font-medium text-gray-600">
                                                                     Sale ends on:
                                                                 </label>
@@ -496,7 +479,7 @@ export default function Modal({ transactionType, setTransactionType, nft, isModa
                                                                     Accepting offers equal to or greater than:
                                                                 </label>
                                                                 <div className="block text-sm font-medium text-gray-500">
-                                                                    <span>{calculateMinPrice(nft.price / 10 ** 18).minPrice} ETH</span>
+                                                                    <span>{minPriceObj.minPrice} ETH</span>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -508,11 +491,11 @@ export default function Modal({ transactionType, setTransactionType, nft, isModa
                                                                 <div className="mt-1">
                                                                     <input
                                                                         type="number"
-                                                                        step={calculateMinPrice(nft.price / 10 ** 18).step}
-                                                                        defaultValue={calculateMinPrice(nft.price / 10 ** 18).minPrice}
+                                                                        step={minPriceObj.step}
+                                                                        defaultValue={minPriceObj.minPrice}
                                                                         placeholder="Type in your offer"
-                                                                        onInput={event => {
-                                                                            if (event.target.value <= nft.price / 10 ** 18) {
+                                                                        onInput={(e: ChangeEvent<HTMLInputElement>) => {
+                                                                            if (Number(e.target.value) <= nft.price / 10 ** 18) {
                                                                                 console.log('Illegal value ');
                                                                                 setPriceError({
                                                                                     isError: true,
@@ -529,8 +512,8 @@ export default function Modal({ transactionType, setTransactionType, nft, isModa
                                                                             }
                                                                         }}
                                                                         required
-                                                                        onChange={event => {
-                                                                            setPriceOffer(event.target.value);
+                                                                        onChange={(e: ChangeEvent<HTMLInputElement>) => {
+                                                                            setPriceOffer(Number(e.target.value));
                                                                         }}
                                                                         className="block w-full px-4 py-2 rounded-md border-gray-300 shadow-sm focus:border-teal-500 focus:ring-teal-500 sm:text-sm"
                                                                     />
@@ -621,7 +604,6 @@ export default function Modal({ transactionType, setTransactionType, nft, isModa
                                                             </svg>
                                                         </div>
                                                     </div>
-                                                    <div className="flex justify-center">{progress.status}</div>
                                                 </div>
                                             ) : (
                                                 <div>
@@ -642,11 +624,7 @@ export default function Modal({ transactionType, setTransactionType, nft, isModa
                                                                 className="disabled:pointer-events-none inline-flex w-full justify-center rounded-md border border-transparent bg-teal-500 px-4 py-2 text-base font-medium text-white shadow-sm hover:bg-teal-700 focus:outline-none focus:ring-2 focus:ring-teal-500 focus:ring-offset-2 sm:ml-3 sm:w-auto sm:text-sm disabled:bg-gray-300 disabled:hover:bg-gray-300 disabled:hover:border-red-400"
                                                                 onClick={event => {
                                                                     setIsLoading(true);
-                                                                    onBuyPressed(nft.itemId);
-                                                                    setProgress({
-                                                                        message: 'Please follow the instructions on Metamask.',
-                                                                        status: false,
-                                                                    });
+                                                                    onBuyPressed(nft.itemId, nft.tokenId);
                                                                 }}>
                                                                 <span>Sign</span>
                                                             </button>

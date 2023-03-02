@@ -41,7 +41,6 @@ export const NftGallery: FunctionComponent<IProps> = ({
         if (nfts === undefined) {
             console.log('not ready');
         } else {
-            console.log(nfts[0]);
             if (nfts.length > 0 && allnfts.length === 0) {
                 setAllnfts(nfts.slice(0, pageIncrement));
                 setHasMore(true);

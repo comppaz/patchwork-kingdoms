@@ -8,6 +8,9 @@ import { escrowContractWSS } from '../lib/contractInteraction';
 import ResponseModal from '../components/donation/ResponseModal';
 import { emailTypeMap } from '../lib/setEmailContentDetails';
 import DonationContext from '../context/DonationContext';
+import Image from 'next/image';
+import Modal from '../components/donation/Modal';
+import { getOwnedTestNfts } from '../lib/testTokenInteraction';
 
 export default function Dashboard() {
     const { user } = useUser();
@@ -23,7 +26,6 @@ export default function Dashboard() {
     } = useContext(ModalContext);
 
     const { emittingAddress } = useContext(AddressContext);
-    const { donationData } = useContext(DonationContext);
 
     const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
 
@@ -35,7 +37,7 @@ export default function Dashboard() {
         subscribeToDepositEvent();
     }, [emittingAddress]);
 
-    const prepareEmail = async (typeId: number, parameter: ToDonatorParams | ToBuyerParams | ToSellerParams) => {
+    const prepareEmail = async (typeId: number, parameter: ToDonatorParams | ToBuyerParams | ToSellerParams, txHash: string) => {
         const response = await fetch('/api/emailHandler', {
             method: 'POST',
             body: JSON.stringify({
@@ -53,6 +55,7 @@ export default function Dashboard() {
     };
 
     const subscribeToDepositEvent = async () => {
+        console.log('SUBSCRIBING TO DEPOSIT?');
         escrowContractWSS.events.Deposited({}, async (error, data) => {
             setIsModalOpen(false);
             setIsLoading(false);
@@ -60,8 +63,9 @@ export default function Dashboard() {
                 console.log(error);
             } else {
                 console.log('DEPOSIT EVENT WAS EMITTED SUCCESSFULLY');
+                console.log(user);
                 // check that user is set and equals the emittingAddress
-                if (user.account !== '' && user.account === emittingAddress) {
+                if (user && user.account !== '' && user.account === emittingAddress) {
                     updateModalData({
                         heading: 'Congrats, your NFT is up for sale!',
                         txhash: data.transactionHash,
@@ -70,7 +74,8 @@ export default function Dashboard() {
                         id: data.tokenId,
                         transactionType: { isDeposit: true, isPurchase: false },
                     });
-
+                    const resDonation = await fetch(`/api/donationDB?tokenId=${data.returnValues.tokenId}`);
+                    const donationData = await resDonation.json();
                     // send E-Mail to the one who donated a token
                     let toSellerTypeId = emailTypeMap.toSeller;
                     let toSellerParams: ToSellerParams = {
@@ -78,9 +83,9 @@ export default function Dashboard() {
                         itemDetails: '',
                         dateOfListing: donationData.dateOfListing,
                         timeframe: 0,
-                        listingPrice: 0,
+                        listingPrice: donationData.minPrice,
                     };
-                    prepareEmail(toSellerTypeId, toSellerParams);
+                    prepareEmail(toSellerTypeId, toSellerParams, data.transactionHash);
 
                     setTimeout(() => {
                         setResponseModalOpen(true);
@@ -89,6 +94,101 @@ export default function Dashboard() {
             }
         });
     };
+
+    // activates testing component only in dev stage
+    if (!process.env.PROD_FLAG) {
+        const [testNfts, setTestNfts] = useState([]);
+        const [selectedTestToken, setSelectedTestToken] = useState(null);
+        const [transactionType, setTransactionType] = useState({});
+
+        useEffect(() => {
+            if (user && user.account) {
+                console.log('DASHBOARD');
+                console.log(user.account);
+
+                (async () => {
+                    setTestNfts(await getOwnedTestNfts(user.account));
+                })();
+            }
+        }, [user]);
+
+        if (!user?.isLoggedIn) {
+            return (
+                <div className="min-h-full pt-16 pb-12 flex flex-col bg-white">
+                    <main className="flex-grow flex flex-col justify-center max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8">
+                        <div className="py-16 mt-8">
+                            <div className="text-center">
+                                <p className="text-sm font-semibold text-teal-600 uppercase tracking-wide">
+                                    Please sign in through Metamask
+                                </p>
+
+                                <p className="mt-2 text-base text-gray-500">When you sign in, you&apos;ll be able to see your NFTs.</p>
+                            </div>
+                        </div>
+                    </main>
+                </div>
+            );
+        }
+
+        return (
+            <div>
+                <NftGallery
+                    heading="Your Kingdoms"
+                    caption="All Patchwork Kingdoms that belong to you."
+                    nfts={nfts}
+                    footer="Yay! You have seen all your Kingdoms."
+                    isDonateActivate={true}
+                    isModalOpen={isModalOpen}
+                    setIsModalOpen={setIsModalOpen}></NftGallery>
+                <ResponseModal />
+                {selectedTestToken && (
+                    <Modal
+                        transactionType={transactionType}
+                        setTransactionType={setTransactionType}
+                        isModalOpen={isModalOpen}
+                        setIsModalOpen={setIsModalOpen}
+                        nft={selectedTestToken}
+                    />
+                )}
+                <p className="text-md text-gray-500">Your Test Token:</p>
+                {testNfts ? (
+                    <section className="overflow-hidden text-gray-700">
+                        <div className="container px-5 py-2 mx-auto lg:pt-12 lg:px-32">
+                            <div className="flex flex-wrap -m-1 md:-m-2">
+                                {testNfts.map((el, index) => (
+                                    <div className="flex flex-wrap w-1/3" key={index}>
+                                        <div className=" w-full p-1 md:p-2">
+                                            <Image
+                                                className="block object-cover object-center shadow-lg rounded-lg"
+                                                width={300}
+                                                height={300}
+                                                src={el.url}
+                                                alt={'Test Token Image'}
+                                            />
+                                            <p className="text-md text-gray-500">TestToken #{el.tokenId}</p>
+                                            <button
+                                                onClick={() => {
+                                                    //setModalOpen(true);
+                                                    setTransactionType({ isDeposit: true, isPurchase: false });
+                                                    setIsModalOpen(true);
+                                                    setSelectedTestToken(el);
+                                                }}
+                                                className=" mt-2 p-1 rounded-sm bg-teal-500 text-white cursor-pointer hover:text-gray-300">
+                                                <span className="sr-only">Donate</span>
+                                                Donate
+                                            </button>
+                                        </div>
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+                    </section>
+                ) : (
+                    <div className="text-md text-gray-500">You currently do not own test tokens. Please mint some tokens first.</div>
+                )}
+            </div>
+        );
+    }
 
     if (!user?.isLoggedIn) {
         return (

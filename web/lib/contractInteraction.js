@@ -1,5 +1,6 @@
 // setup
 import { createAlchemyWeb3 } from '@alch/alchemy-web3';
+import Link from 'next/link';
 import { approveTransaction } from './testTokenInteraction';
 
 const web3Wss = createAlchemyWeb3(process.env.NEXT_PUBLIC_ALCHEMY_WSS_URL);
@@ -124,8 +125,9 @@ export const deposit = async (address, tokenId, expiration) => {
             method: 'eth_sendTransaction',
             params: [depositParameter],
         });
+        let output = LinkOnToast('The deposit request was successful. Please wait for it to complete!', txHash);
         return {
-            message: 'The deposit request was successful.',
+            message: output,
             status: true,
             txHash: txHash,
         };
@@ -174,9 +176,9 @@ export const buy = async (address, itemId, price) => {
             method: 'eth_sendTransaction',
             params: [buyParameters],
         });
-        console.log(txHash);
+        let output = LinkOnToast('The purchasement request was successful. Please wait for it to complete!', txHash);
         return {
-            message: 'The purchasement was successful!',
+            message: output,
             status: true,
             txHash: txHash,
         };
@@ -189,7 +191,6 @@ export const buy = async (address, itemId, price) => {
 };
 
 export const subscribeToDepositEvent = async () => {
-    console.log('SUBSCRIBIING TO EVENT?');
     escrowContractWSS.events.Deposited({}, (error, data) => {
         if (error) {
             console.log(error);
@@ -209,3 +210,20 @@ export const checkExpirationDate = async (address, nfts, currentTimestamp) => {
         return isItemExpired;
     });
 };
+
+const LinkOnToast = (output, txHash) => (
+    <div>
+        <p>{output}</p>
+        <p>
+            {' '}
+            Check out your Transaction{' '}
+            <a
+                className=" text-indigo-700 underline"
+                target="_blank"
+                rel="noopener noreferrer"
+                href={`https://goerli.etherscan.io/tx/${txHash}`}>
+                here
+            </a>
+        </p>
+    </div>
+);

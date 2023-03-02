@@ -51,16 +51,30 @@ export async function setToDonatorEmail(parameter: ToDonatorParams): Promise<Ema
         Giga.
         `,
         to: parameter.receiver,
-        from: '',
+        from: 'antonio@craft-clarity.com',
     };
 }
 
 export async function setToBuyerEmail(parameter: ToBuyerParams): Promise<EmailParameter> {
     return {
-        subject: '',
-        text: '',
+        subject: 'Your Purchase has made a Difference!',
+        text: `Dear (Buyer Name),
+        We are happy to inform you that your purchase has been successful. We 
+        would like to extend our heartfelt gratitude for your generosity and for 
+        supporting the Giga mission.
+        Here is a summary of the purchase details:
+        •	Item Details: ${parameter.itemDetails}                            
+        •	Date of Sale: ${parameter.dateOfSale}
+        •	Sale Price: ${parameter.salePrice}
+        
+        We hope that you enjoy your purchase of your new Patchwork Kingdom NFTs. All the proceeds from the purchase of your Patchwork Kingdom NFT 
+        will go to fund the Giga initiative, to connect every school to the internet and every young person to information, opportunity and choice.
+        Once again, thank you for supporting Giga’s mission. Your generosity is greatly appreciated and we are proud to have you as part of our community.
+
+        Best regards,
+        Giga.`,
         to: parameter.receiver,
-        from: '',
+        from: 'antonio@craft-clarity.com',
     };
 }
 

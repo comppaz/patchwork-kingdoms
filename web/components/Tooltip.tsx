@@ -1,6 +1,6 @@
 import React, { memo } from 'react';
 
-const Tooltip = memo(props => {
+const Tooltip = memo((props: any) => {
     return (
         <p>
             {props.enabled ? (

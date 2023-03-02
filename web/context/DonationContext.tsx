@@ -33,6 +33,9 @@ export const DonationProvider = ({ children }) => {
     });
 
     const updateDonationData = (data: DonationData) => {
+        console.log('Are we updating donation data?');
+        console.log(data);
+        console.log(typeof data);
         setDonationData(data);
     };
 
@@ -44,6 +47,9 @@ export const DonationProvider = ({ children }) => {
     });
 
     const updatePurchasementData = (data: PurchasementData) => {
+        console.log('Are we updating purchaseement data?');
+        console.log(data);
+        console.log(typeof data);
         setPurchasementData(data);
     };
 

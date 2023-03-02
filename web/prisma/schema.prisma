@@ -1,5 +1,6 @@
 generator client {
   provider = "prisma-client-js"
+  binaryTargets = ["native"]
 }
 
 datasource db {
@@ -21,5 +22,15 @@ model NFTDetail {
 model DonatorInformation {
   donatedTokenId  Int       @id
   email           String
-  dateOfListing   String 
+  dateOfListing   String
+  timeframe       Float
+  minPrice        Float 
+}
+
+model PurchaserInformation {
+  purchasedTokenId  Int     @id
+  email             String
+  dateOfSale        String
+  salePrice         Float
+  minPrice          Float
 }

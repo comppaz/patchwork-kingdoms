@@ -4,8 +4,10 @@ import { mintTestToken, getOwnedTestNfts } from '../../lib/testTokenInteraction'
 import Modal from './Modal';
 import Image from 'next/image';
 import AddressContext from '../../context/AddressContext';
+import useUser from '../../lib/useUser';
 
-export default function MintComponent({ heading: heading, caption: caption, isModalOpen: isModalOpen, setIsModalOpen: setIsModalOpen }) {
+export default function MintComponent({}) {
+    /*
     const [ownedNfts, setOwnedNfts] = useState([]);
     const [selectedNft, setSelectedNft] = useState(null);
     const [transactionType, setTransactionType] = useState({});
@@ -22,17 +24,28 @@ export default function MintComponent({ heading: heading, caption: caption, isMo
 
     const connectWalletButtonPressed = async () => {
         await connectWallet();
-    };
+    };*/
+    const { user } = useUser();
 
     const onMintPressed = async () => {
-        console.log('Starting Mint');
-        if (walletAddress) {
-            await mintTestToken(walletAddress);
+        console.log(user.account);
+        if (user.account) {
+            console.log('Starting Mint');
+            await mintTestToken(user.account);
         }
     };
 
     return (
         <div className="bg-white">
+            <button
+                onClick={() => {
+                    onMintPressed();
+                }}
+                className="cursor-pointer py-2 px-4 text-gray-400 hover:text-gray-500 font-bold border border-black">
+                <span className="sr-only">Mint</span>
+                Mint
+            </button>
+            {/** 
             <div className="mx-auto py-12 px-4 max-w-7xl sm:px-6 lg:px-8 lg:py-24">
                 <div className="space-y-12">
                     <div className="space-y-5 sm:space-y-4 md:max-w-xl lg:max-w-3xl xl:max-w-none">
@@ -112,7 +125,7 @@ export default function MintComponent({ heading: heading, caption: caption, isMo
                         </div>
                     </div>
                 </div>
-            </div>
+            </div>*/}
         </div>
     );
 }

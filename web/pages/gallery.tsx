@@ -4,7 +4,6 @@ import NftGallery from '../components/NftGallery';
 import kingdoms from '../data/kingdoms';
 import MintComponent from '../components/donation/MintComponent';
 import PurchasementGallery from '../components/PurchasementGallery';
-import { getConnectedWallet, getItem } from '../lib/contractInteraction';
 import { escrowContractWSS } from '../lib/contractInteraction';
 import ResponseModal from '../components/donation/ResponseModal';
 import ModalContext from '../context/ModalContext';
@@ -24,7 +23,6 @@ export default function Gallery() {
         setIsLoading,
     } = useContext(ModalContext);
     const { emittingAddress } = useContext(AddressContext);
-    const { purchasementData } = useContext(DonationContext);
 
     const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
 
@@ -40,7 +38,6 @@ export default function Gallery() {
                 highresDownloadUrl: '',
             });
         }
-        console.log(ret);
         return ret;
     }
 
@@ -62,40 +59,42 @@ export default function Gallery() {
             } else {
                 console.log('PURCHASEMENT EVENT WAS EMITTED SUCCESSFULLY');
                 // check that user's address is set and equals the emittingAddress
-                if (user.account !== '' && user.account === emittingAddress) {
+                if (user && user.account !== '' && user.account === emittingAddress) {
                     updateModalData({
                         heading: 'Thank you for your purchase!',
                         txhash: data.transactionHash,
                         title: 'Transaction complete',
                         isProcessing: false,
-                        id: data.tokenId,
+                        id: data.returnValues.tokenId,
                         transactionType: { isDeposit: false, isPurchase: true },
                     });
-                    // send E-Mail to donator whose token has been sold
-                    let toDonatorTypeId = emailTypeMap.toDonator;
-                    const res = await fetch(`/api/emailDB?tokenId=${data.tokenId}`);
-                    const emailData = await res.json();
-                    let toDonatorParameter: ToDonatorParams = {
-                        receiver: emailData.email,
-                        itemDetails: '',
-                        dateOfListing: emailData.dateOfListing,
-                        dateOfSale: purchasementData.dateOfSale,
-                        listingPrice: 0,
-                        salePrice: purchasementData.salePrice,
-                        // to calculate
-                        timeDuration: 0,
-                    };
-                    prepareEmail(toDonatorTypeId, toDonatorParameter);
 
                     // send E-Mail to buyer who purchased a token
                     let toBuyerTypeId = emailTypeMap.toBuyer;
+                    const resPurchasement = await fetch(`/api/purchasementDB?tokenId=${data.returnValues.tokenId}`);
+                    const purchasementData = await resPurchasement.json();
                     let toBuyerParameter: ToBuyerParams = {
-                        receiver: purchasementData.purchaserMail,
+                        receiver: purchasementData.email,
                         itemDetails: 'Some Token',
                         dateOfSale: purchasementData.dateOfSale,
                         salePrice: purchasementData.salePrice,
                     };
-                    prepareEmail(toBuyerTypeId, toBuyerParameter);
+                    prepareEmail(toBuyerTypeId, toBuyerParameter, data.transactionHash);
+
+                    // send E-Mail to donator whose token has been sold
+                    let toDonatorTypeId = emailTypeMap.toDonator;
+                    const resDonation = await fetch(`/api/donationDB?tokenId=${data.returnValues.tokenId}`);
+                    const donationData = await resDonation.json();
+                    let toDonatorParameter: ToDonatorParams = {
+                        receiver: donationData.email,
+                        itemDetails: '',
+                        dateOfListing: donationData.dateOfListing,
+                        dateOfSale: purchasementData.dateOfSale,
+                        listingPrice: 0,
+                        salePrice: purchasementData.salePrice,
+                        timeDuration: donationData.timeframe,
+                    };
+                    prepareEmail(toDonatorTypeId, toDonatorParameter, data.transactionHash);
 
                     setTimeout(() => {
                         setResponseModalOpen(true);
@@ -105,7 +104,7 @@ export default function Gallery() {
         });
     };
 
-    const prepareEmail = async (typeId: number, parameter: ToDonatorParams | ToBuyerParams | ToSellerParams) => {
+    const prepareEmail = async (typeId: number, parameter: ToDonatorParams | ToBuyerParams | ToSellerParams, txHash: string) => {
         const response = await fetch('/api/emailHandler', {
             method: 'POST',
             body: JSON.stringify({
@@ -118,27 +117,13 @@ export default function Gallery() {
         });
 
         const res = await response.json();
-        console.log(res);
         return res;
     };
 
     return (
         <div className="flex flex-col">
-            <button
-                onClick={() => {
-                    console.log('testing email');
-                    let typeId = emailTypeMap.toSeller;
-                    let parameter: ToSellerParams = {
-                        receiver: 'simona@craft-clarity.com',
-                        itemDetails: 'Some Token',
-                        dateOfListing: new Date(),
-                        timeframe: 12,
-                        listingPrice: 12,
-                    };
-                    prepareEmail(typeId, parameter);
-                }}>
-                TEST EMAIL
-            </button>
+            {!process.env.PROD_FLAG ? <MintComponent></MintComponent> : null}
+
             {/** only needed for testing 
             <MintComponent
                 heading="Mint a Test Token"
@@ -156,7 +141,6 @@ export default function Gallery() {
                 nfts={data}
                 footer="Yay! You have seen all the Kingdoms."
                 isDonateActivate={false}></NftGallery>
-
             <ResponseModal />
         </div>
     );
