@@ -1,6 +1,7 @@
 interface EmailParameter {
     subject: string;
-    text: string;
+    text?: string;
+    html?: string;
     to: string;
     from: string;
 }
@@ -9,6 +10,7 @@ interface EmailParameter {
  * who donates a PWK
  */
 interface ToSellerParams {
+    tokenId: string;
     receiver: string;
     itemDetails: string;
     dateOfListing: Date;
@@ -20,6 +22,7 @@ interface ToSellerParams {
  * whose PWK got sold
  */
 interface ToDonatorParams {
+    tokenId: string;
     receiver: string;
     itemDetails: string;
     dateOfListing: Date;
@@ -33,6 +36,7 @@ interface ToDonatorParams {
  * the one who buys a PWK
  */
 interface ToBuyerParams {
+    tokenId: string;
     receiver: string;
     itemDetails: string;
     dateOfSale: Date;

@@ -6,7 +6,6 @@ import ModalContext from '../context/ModalContext';
 import AddressContext from '../context/AddressContext';
 import { escrowContractWSS } from '../lib/contractInteraction';
 import ResponseModal from '../components/donation/ResponseModal';
-import { emailTypeMap } from '../lib/setEmailContentDetails';
 import DonationContext from '../context/DonationContext';
 import Image from 'next/image';
 import Modal from '../components/donation/Modal';
@@ -52,23 +51,6 @@ export default function Dashboard() {
         subscribeToDepositEvent();
     }, [emittingAddress]);
 
-    const prepareEmail = async (typeId: number, parameter: ToDonatorParams | ToBuyerParams | ToSellerParams, txHash: string) => {
-        const response = await fetch('/api/emailHandler', {
-            method: 'POST',
-            body: JSON.stringify({
-                typeId,
-                parameter,
-            }),
-            headers: {
-                'Content-Type': 'application/json',
-            },
-        });
-
-        const res = await response.json();
-        console.log(res);
-        return res;
-    };
-
     const subscribeToDepositEvent = async () => {
         console.log('SUBSCRIBING TO DEPOSIT?');
         escrowContractWSS.events.Deposited({}, async (error, data) => {
@@ -89,18 +71,15 @@ export default function Dashboard() {
                         id: data.tokenId,
                         transactionType: { isDeposit: true, isPurchase: false },
                     });
-                    const resDonation = await fetch(`/api/donationDB?tokenId=${data.returnValues.tokenId}`);
-                    const donationData = await resDonation.json();
-                    // send E-Mail to the one who donated a token
-                    let toSellerTypeId = emailTypeMap.toSeller;
-                    let toSellerParams: ToSellerParams = {
-                        receiver: donationData.donatorMail,
-                        itemDetails: '',
-                        dateOfListing: donationData.dateOfListing,
-                        timeframe: 0,
-                        listingPrice: donationData.minPrice,
-                    };
-                    prepareEmail(toSellerTypeId, toSellerParams, data.transactionHash);
+
+                    await fetch('/api/completeDonation', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                            tokenId: data.returnValues.tokenId,
+                            txHash: data.transactionHash,
+                        }),
+                    });
 
                     setTimeout(() => {
                         setResponseModalOpen(true);

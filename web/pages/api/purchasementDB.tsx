@@ -17,35 +17,28 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
     if (req.method === 'POST') {
         try {
             const { tokenId, purchaserMail, currentDate, salePrice, minPrice } = req.body;
-            const result = await prisma.PurchaserInformation.create({
-                data: {
-                    purchasedTokenId: tokenId,
+            const result = await prisma.PurchaserInformation.upsert({
+                where: {
+                    purchasedTokenId: Number(tokenId),
+                },
+                create: {
+                    purchasedTokenId: Number(tokenId),
+                    email: purchaserMail,
+                    dateOfSale: currentDate,
+                    salePrice: salePrice,
+                    minPrice: minPrice,
+                },
+                update: {
                     email: purchaserMail,
                     dateOfSale: currentDate,
                     salePrice: salePrice,
                     minPrice: minPrice,
                 },
             });
-            console.log(result);
             return res.status(200).json(result);
         } catch (error) {
             console.log(error);
             return res.status(500).json({ error: 'Error occured when trying to update data.' });
-        }
-    } else if (req.method === 'GET') {
-        try {
-            console.log('GETTING');
-            const { tokenId } = req.query;
-            console.log(tokenId);
-            const result = await prisma.PurchaserInformation.findUnique({
-                where: {
-                    purchasedTokenId: Number(tokenId),
-                },
-            });
-            console.log(result);
-            return res.status(200).json(result);
-        } catch (error) {
-            return res.status(500).json({ error: 'Error occured when trying to receive data.' });
         }
     } else {
         return res.status(405).send({ message: 'Wrong message type was sent!' });

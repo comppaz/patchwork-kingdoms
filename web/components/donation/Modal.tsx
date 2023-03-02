@@ -82,7 +82,7 @@ export default function Modal({ transactionType, setTransactionType, nft, isModa
             if (donatorMail && depositResponse.status) {
                 let currentDate = new Date();
                 let minPrice = minPriceObj.minPrice;
-                const body = { nftId, donatorMail, currentDate, currentExpirationTimeFrame, minPrice };
+                const body = { nftId, donatorMail, currentDate, timeframe: currentExpirationTimeFrame, minPrice };
                 const result = await fetch('/api/donationDB', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
@@ -107,9 +107,7 @@ export default function Modal({ transactionType, setTransactionType, nft, isModa
             console.log('ARE WE TRYING TO UPDATE ANYTHING?');
             // save purchaserMailData in database
             let currentDate = new Date();
-            let minPrice = minPriceObj.min;
-            console.log(minPrice);
-            const body = { tokenId, purchaserMail, currentDate, priceOffer, minPriceObj };
+            const body = { tokenId, purchaserMail, currentDate, salePrice: priceOffer, minPrice: minPriceObj.minPrice };
             const result = await fetch('/api/purchasementDB', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },

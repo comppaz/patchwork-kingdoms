@@ -1,0 +1,125 @@
+<mjml>
+  <mj-body>
+    <mj-raw>
+      <!-- Company Header -->
+    </mj-raw>
+    <mj-section background-color="#ffffff">
+      <mj-column>
+        <mj-text font-family="ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans', sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji'" font-style="sans-serif" font-weight="bold" font-size="20px" padding-bottom="0">
+          <h2>Patchwork Kingdoms</h2>
+        </mj-text>
+      </mj-column>
+    </mj-section>
+    <mj-raw>
+      <!-- Image Header -->
+    </mj-raw>
+    
+          <mj-hero padding-top="0" mode="fluid-height" padding="0px 0px">
+            <mj-image padding-left="0" padding-right="0" padding-bottom="0" height="180px"         src="https://uc36165543dc1de28e8b5270a328.previews.dropboxusercontent.com/p/thumb/AB1sDMdC9I6YNM6CTI40XWPtRlH_jSwFbmLNscks4Wp9S8PsecVdRXOQkvx69hkQGBcbM3RbD95V-sI7nYLmFPBqcor0fe_8PMHh4rfUvjgoBdNg95D9vKNaW2cxF8-YeiBKuSA_3DGP62mzuFPHD4FODZOyLH6odBTeB6X5hUey0C5mJXovgoy9rLWWpRZE_yj5zpW_z88p6ifLYpDCJ-crjEgTxVlTVP5_qm74iBnk9DoPtDEltAKduiWOwGuEUUQGi0CNm0wjnGAsZ5fMDGge_m2GmeDUl4quL2ed4T5stbLs-PLrDSg9p_SKmNaM5zu8QYwIQ4Zen1BA0AHAmprPOW20yl1Pn0R2eoPcDqoa6pR4RD2DQL1J5yCStnGcd14/p.png" />
+            <mj-text align="center" container-background-color="#319795" color="white" font-family="ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans', sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji'" font-style="sans-serif">
+       	<h3>Thank you! Your <span style="color:black">PWK</span> has been successfully listed for donation.</h3>     
+       </mj-text>
+    </mj-hero>
+    <!-- main content -->
+    <mj-section background-color="white">
+      <mj-column>
+        	<mj-text font-family="ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans', sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji'" font-style="sans-serif" color="#525252" line-height="1.5">
+          	<p>Dear Giga Friend, 
+          		<p>We are pleased to inform you that the  
+              	<span style="font-weight:bold">Patchwork Kingdoms NFT</span>
+                <span>that you recently listed on our website has been </span>
+                <span style="font-weight:bold">successfully processed.</span>
+                <span>Giga truly appreciates your generosity and support of our mission. </span>
+              </p>
+          	</p>
+          </mj-text>   
+              <mj-divider border-width="3px" border-style="solid" border-color="lightgrey" />
+      </mj-column>
+    </mj-section>
+    <mj-section>
+  <!-- Left image -->
+  <mj-column>
+    <mj-image width="200px" height="200px" border-radius="5%"
+              src="{{ TOKEN_THUMBNAIL_URL }}" />
+  </mj-column>
+  <!-- Right Information -->
+      <mj-column>
+        <mj-text font-family="ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans', sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji'" font-style="sans-serif">
+          <h2><span style="color:319795">Donation</span><span style="color:black"> Details</span></h2>
+         </mj-text>
+         <mj-table color="grey" font-weight="normal">
+      		<tr style="font-weight:100">
+            <th font-weight="normal" align="left">Item</th>
+            <th align="left">{{ TOKEN_NAME }}</th>
+          </tr>
+          <tr>
+            <th align="left">Listing Date</th>
+            <th align="left">{{ LISTING_DATE }}</th>
+          </tr>
+          <tr>
+            <th align="left">Timeframe</th>
+            <th align="left">{{ TIMEFRAME }}</th>
+          </tr>
+          <tr>
+            <th align="left">Listing Price</th>
+            <th align="left">{{ LISTING_PRICE }}</th>
+          </tr>
+      	</mj-table>
+      </mj-column> 
+    </mj-section>
+    <mj-section>
+    	<mj-column>
+                    <mj-divider padding-top="0" padding-bottom="0" border-width="3px" border-style="solid" border-color="lightgrey" />
+      </mj-column>
+    </mj-section>
+
+    <mj-section background-color="white" padding-top="0">
+      <mj-column>
+        	<mj-text font-family="ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans', sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji'" font-style="sans-serif" color="#525252" line-height="1.5">
+          		<p>All the proceeds from the sale of your Patchwork Kingdom NFT would go to fund the Giga initiative, to 
+              	<span style="font-weight:bold">connect every school to the internet and every young person to information, opportunity and choice</span>
+                <span>. </span>
+          	</p>
+                      		<p>We will update you once your listed Patchwork Kingdom NFT is successfully sold.
+              	<span style="font-weight:bold">Thank you</span>
+                <span> again for supporting the Giga mission and for your commitment to making a difference.</span>
+          	</p>
+            <p>Best regards,
+          	</p>
+            <p>
+            Giga</p>
+          </mj-text>   
+              <mj-divider border-width="3px" border-style="solid" border-color="lightgrey" />
+      </mj-column>
+    </mj-section>
+    
+    
+    
+    <!-- goodbye -->
+    <mj-section>
+      <mj-column vertical-align="middle">
+        <mj-social align="left" icon-padding="5px" icon-size="80px">
+          <mj-social-element href="https://giga.global/" target="_blank" src="https://uc63e97082c147c6d94234e59edc.previews.dropboxusercontent.com/p/thumb/AB1Y8LeTOcTiIm8MZbQ6XlvNxbiCZY10FNRkFyRAkXbxQTcKicgIKgec6aHmE1DQ7umaFzx0OerPxtJWjNZlOTjA0R8xsYQbRkscx587dsfz5PMydDd0_d_Cnyahi1riFAlE3PS26OILXpO4P8bi1CFClTQ12OsASLmjvNC9E1dpVvcgXhpIR-v05X0VgC2-MlbmxyMy1Z1mEs3dgIuniFasVHUk4LoU11I4nl84GyCqG_KiMZ0cn8gDBootTik6nSSlL3Yku93j8vZDGHrdhVStJ9faSqldHUA1V8HUoCFGB0QwEodvCBg9w5npJm9aBYYIpFSaU6Vrg26YWBcOUCDdWXnAlGLw6P29ipxmgF1ReElFAwxZKi-Pv5m5Ql82wO4p-YMr94ULDfTYUwSRffqmmAB0AXURlY-8NDZgxL9srg/p.png">
+          </mj-social-element>
+          <mj-social-element href="https://www.patchwork-kingdoms.com/" target="_blank" src="https://uccaea185267956a290140ebe892.previews.dropboxusercontent.com/p/thumb/AB0-l0WZS9zYc5m8fh4oM71DTFf2MIazZ23WA-2R4dhk6q4anMu3t5s0cZwvOkgraM5oTtXSAXR_YWZ_-KTVOhjppSmY0cNAokeAC2crRnir8FmyPOjFUrxZHx--yNl0msQToZio5HNk8ywT3xjqm4Ihl7ZGQ_IhdULJ0TBZCyhMhpLZ9-6Dp5hzYwOwcRq0_1NdGGYpvxsd8h-okGiJkEJH6wJuNsFpU2DvtLXsSHXTmcHlz5R8mgvvSHQrR_e2ySmJ0h8bdEuBwErZOecWUgBYMKJG5OxZ5umEhkqeNqonBHRG-hsQtZginCmxhY_7N8nMouoeJkV5-CAXZhB3-rVzchy104AYpKsPW82uN4SXQDHoIgFjvhjBJkEAhpvzqmznxDjkx5ovlt42fAvFYGoTgeDkXa8e2dKO7CxwnTpyUA/p.png">
+          </mj-social-element>
+</mj-social>
+      </mj-column>
+      <!-- empty col 
+      <mj-column>
+      </mj-column>-->
+      <mj-column vertical-align="middle">
+ <mj-social align="right" icon-padding="5px" icon-size="20px">
+          <mj-social-element href="https://www.instagram.com/patchworkgiga/" target="_blank" src="https://uc88f4b98de137b29e2bf1ca1cae.previews.dropboxusercontent.com/p/thumb/AB0h7FJfQNyqtQeyaxn9fMJPMC9LBceIlud8ly4M8qPKdP3dF6xQ-9nIqoIgoLx4tt0rPwLB3OcPRYBMlbBafI1ov0lPXHOR8krxGGvhkSCYq-rlSd6c7WRsVyKi6_e8KsGfsBxLtZutB3Om25L7Fazj_xJzdg9Ks_Q-YL_z9jHLmKLNw1r8YTiQI_njTWGKBnNA5G2ZqjraFc57aKhqbTFSOSU9p_faR7-C8czSMOksMok7K-iSmQlUtFY_CMiYbhdanQf5z8XO939cJXRvNyXE-TqCiuhtLb8FUzUe_g2Jra1VQpiqtS7qypJGHh4OGVcsPOeINQCZpJi4DtYGaUi_Xqoh2ItaJSmQ42829eGglejXD1BJ5aOf4x8kuFCE-aftwXd-ib3JQi6WW9eO-DEhlFmYm_GrAtnCK3xvjtYp6A/p.png">
+          </mj-social-element>
+          <mj-social-element href="https://twitter.com/PatchworkGiga" target="_blank" src="https://uce612cec911af985561826a143a.previews.dropboxusercontent.com/p/thumb/AB1Vzo6RMHwjeSVhBo3m9rYOK-FLgaiMTsndwEJgVNOJvfOQjj-HnWG6EXq1TcHfWuz3Skl4YpvSsqdoANAS7PXXJOVi9e9BkKUBcfkaJlhldOasWwx3XkisEq_eF1KcnKduvbrRZautbUjs5jsTanHx6bfFGOilaSdrmfdiVBmGTDzpvllaJvwJI5tTL_8m169FPtCXx7MIDS90sKeR1dd2aI4tym5dTSGfT4gxqyJ-B09qagY4kSIZNGWmOzEmTsfl0awKdwoV6p9C6nwHpiRc6u93QGkfr856MQVml-RKDQdxyvJe8baGQLPBO_nnmWDYU72EjLxx1-w_xn1DnpcI3cNJpwmCdBSlX_2tQm94tF2VqHIvJQ3s_rIwpfv9dn7N3uxaTycq4igJo-xTSel4w3sxKcHif7WLqNy8FrJ9HQ/p.png">
+          </mj-social-element>
+          <mj-social-element href="https://discord.com/invite/vS9QguncHu" target="_blank" src="https://uc600448584db041059f2b0becbe.previews.dropboxusercontent.com/p/thumb/AB38isNZDdJloOYXbyO4Rv_HobN9KQ8LKazPQ9a2SQwrtAYBZGi8hG69gyJ0KpWIrjk0uHqZdVInKANOoDO58lpGb8t7kQbNRgZtSeRJY1bRsLt8a3jFwZiXV1VxzOYRBU7NVkhOahWS2jQZZhpff6meq9HW92DiCk06ktMhcPxjT0Qvd_YXBgFLUY2On94Jp_u5ntXPadcmJmeJmNrOZtdVfKZsLIxnYBZH_VMY_d9TW3q5OtTff3jYk7uxuzBKgl_nqv72OgU-QJyaXMHQfH27mKbU4G6LxdFuLgsAOOpb_qXcZ_z1v_B-wApwKOeXjSlh3rnQxKSPlEyhoaH1fXzHGA--qJOBFZp7OLCnDpx_yYxBPKTLrvWjQGdkrLlup0SE1L0ou_jD9CCup95DNqJ1q7SAHDcWtGNU9t2o6cqszA/p.png">
+          </mj-social-element>
+             <mj-social-element href="https://www.linkedin.com/showcase/gigaglobal/" target="_blank" src="https://ucd86dea216eaa9c5eb681db6a6b.previews.dropboxusercontent.com/p/thumb/AB2ZgzgT_yqfi1Y6Du4SkFQYaVkvkQ-mfTAUzNWyDp_ifQ33sfJYIa5gwMajSdgevq32wscXVE8P9qQwum81aVGZlhnNvKe63cnrHlN-yxwg7bRfqXFDjZidP21zPhst_PfT5-yvxNz-v-VVu8_qtmQI0nf-q7M_jCKpd4uP3HohIxqvz8j6KA42gFhrTEDuTRSbG6kNtuC6d5BSxz9HEqhW8uxq6bh9LHZXnOFPcxygVmdqSPp9vLkgnq1yCvLsAmshp6u5G8-mP096rb3ZYNeNEANzvPXfqTgLuCbmcdV8pzGAK7yNvgnlxiHLXyQg2BQoDDxdV9h0IVd0tVDXlmBjW8frW_H3eOdURyscDm9syIF3zJpDtNbLXIin7I3a9BXQqDvcB4JRH5Pl-AACpr5j4puChqm8swI40gQBc3Zvpg/p.png">
+          </mj-social-element>
+</mj-social>
+      </mj-column>
+    </mj-section>
+  </mj-body>
+</mjml>

@@ -6,7 +6,8 @@
         "start": "next start",
         "export": "next build && next export",
         "prod": "next build && next start",
-        "prepare": "cd .. && husky install web/.husky"
+        "prepare": "cd .. && husky install web/.husky",
+        "generate-emails": "mjml lib/emailService/templates/mjml/* -o lib/emailService/templates/html/"
     },
     "engines": {
         "node": "16.x"
@@ -36,6 +37,7 @@
         "luxon": "^3.0.1",
         "mapbox-gl": "^2.8.2",
         "merkletreejs": "^0.2.27",
+        "mustache": "^4.2.0",
         "next": "^12.1.5",
         "react": "^17.0.2",
         "react-dom": "^17.0.2",
@@ -62,8 +64,10 @@
         "eslint": "^8.22.0",
         "eslint-config-next": "12.1.4",
         "eslint-plugin-next": "0.0.0",
+        "html-loader": "^4.2.0",
         "husky": "^8.0.1",
         "lint-staged": "^12.4.1",
+        "mjml": "^4.13.0",
         "postcss": "^8.3.5",
         "prettier": "2.7.1",
         "prisma": "^3.6.0",

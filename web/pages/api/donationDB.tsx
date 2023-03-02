@@ -17,9 +17,18 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
     if (req.method === 'POST') {
         try {
             const { nftId, donatorMail, currentDate, timeframe, minPrice } = req.body;
-            const result = await prisma.DonatorInformation.create({
-                data: {
+            const result = await prisma.DonatorInformation.upsert({
+                where: {
                     donatedTokenId: nftId,
+                },
+                create: {
+                    donatedTokenId: nftId,
+                    email: donatorMail,
+                    dateOfListing: currentDate,
+                    timeframe: timeframe,
+                    minPrice: minPrice,
+                },
+                update: {
                     email: donatorMail,
                     dateOfListing: currentDate,
                     timeframe: timeframe,
@@ -31,21 +40,6 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
         } catch (error) {
             console.log(error);
             return res.status(500).json({ error: 'Error occured when trying to update data.' });
-        }
-    } else if (req.method === 'GET') {
-        try {
-            console.log('GETTING');
-            const { tokenId } = req.query;
-            console.log(tokenId);
-            const result = await prisma.DonatorInformation.findUnique({
-                where: {
-                    donatedTokenId: Number(tokenId),
-                },
-            });
-            console.log(result);
-            return res.status(200).json(result);
-        } catch (error) {
-            return res.status(500).json({ error: 'Error occured when trying to receive data.' });
         }
     } else {
         return res.status(405).send({ message: 'Wrong message type was sent!' });

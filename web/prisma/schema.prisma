@@ -24,7 +24,7 @@ model DonatorInformation {
   email           String
   dateOfListing   String
   timeframe       Float
-  minPrice        Float 
+  minPrice        Float?
 }
 
 model PurchaserInformation {

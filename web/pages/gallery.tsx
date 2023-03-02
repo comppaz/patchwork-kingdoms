@@ -8,8 +8,6 @@ import { escrowContractWSS } from '../lib/contractInteraction';
 import ResponseModal from '../components/donation/ResponseModal';
 import ModalContext from '../context/ModalContext';
 import AddressContext from '../context/AddressContext';
-import { emailType, emailTypeMap } from '../lib/setEmailContentDetails';
-import DonationContext from '../context/DonationContext';
 
 export default function Gallery() {
     const { user } = useUser();
@@ -55,9 +53,9 @@ export default function Gallery() {
             setIsModalOpen(false);
             setIsLoading(false);
             if (error) {
-                console.log(error);
+                console.error(error);
             } else {
-                console.log('PURCHASEMENT EVENT WAS EMITTED SUCCESSFULLY');
+                console.debug('PURCHASEMENT EVENT WAS EMITTED SUCCESSFULLY.');
                 // check that user's address is set and equals the emittingAddress
                 if (user && user.account !== '' && user.account === emittingAddress) {
                     updateModalData({
@@ -69,32 +67,16 @@ export default function Gallery() {
                         transactionType: { isDeposit: false, isPurchase: true },
                     });
 
-                    // send E-Mail to buyer who purchased a token
-                    let toBuyerTypeId = emailTypeMap.toBuyer;
-                    const resPurchasement = await fetch(`/api/purchasementDB?tokenId=${data.returnValues.tokenId}`);
-                    const purchasementData = await resPurchasement.json();
-                    let toBuyerParameter: ToBuyerParams = {
-                        receiver: purchasementData.email,
-                        itemDetails: 'Some Token',
-                        dateOfSale: purchasementData.dateOfSale,
-                        salePrice: purchasementData.salePrice,
-                    };
-                    prepareEmail(toBuyerTypeId, toBuyerParameter, data.transactionHash);
+                    await fetch('/api/completePurchase', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                            tokenId: data.returnValues.tokenId,
+                            txHash: data.transactionHash,
+                        }),
+                    });
 
-                    // send E-Mail to donator whose token has been sold
-                    let toDonatorTypeId = emailTypeMap.toDonator;
-                    const resDonation = await fetch(`/api/donationDB?tokenId=${data.returnValues.tokenId}`);
-                    const donationData = await resDonation.json();
-                    let toDonatorParameter: ToDonatorParams = {
-                        receiver: donationData.email,
-                        itemDetails: '',
-                        dateOfListing: donationData.dateOfListing,
-                        dateOfSale: purchasementData.dateOfSale,
-                        listingPrice: 0,
-                        salePrice: purchasementData.salePrice,
-                        timeDuration: donationData.timeframe,
-                    };
-                    prepareEmail(toDonatorTypeId, toDonatorParameter, data.transactionHash);
+                    console.debug('EMAILS SENT SUCCESSFULLY.');
 
                     setTimeout(() => {
                         setResponseModalOpen(true);
@@ -102,22 +84,6 @@ export default function Gallery() {
                 }
             }
         });
-    };
-
-    const prepareEmail = async (typeId: number, parameter: ToDonatorParams | ToBuyerParams | ToSellerParams, txHash: string) => {
-        const response = await fetch('/api/emailHandler', {
-            method: 'POST',
-            body: JSON.stringify({
-                typeId,
-                parameter,
-            }),
-            headers: {
-                'Content-Type': 'application/json',
-            },
-        });
-
-        const res = await response.json();
-        return res;
     };
 
     return (

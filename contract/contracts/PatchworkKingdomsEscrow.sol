@@ -69,7 +69,10 @@ contract PatchworkKingdomsEscrow {
     @param itemId: id of the deposited item
     */
     function setLastMinPrice(uint256 lastMinPrice, uint256 itemId) public {
-        console.log("Setting new Price value");
+        require(
+            msg.sender == owner,
+            "Last min price can only be set by an admin."
+        );
         items[itemId].price = lastMinPrice;
         console.log(items[itemId].price);
         console.log(lastMinPrice);
@@ -152,7 +155,7 @@ contract PatchworkKingdomsEscrow {
     /**
     withdraw function allows the admin to withdraw the received eths on this address
     */
-    function withdraw() public {
+    function withdraw() external {
         require(
             msg.sender == owner,
             "Tokens can only be withdrawn by the admin."
