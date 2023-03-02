@@ -9,7 +9,7 @@ const adminAddress = "0x3112aF4cE798B63A1f6B318BA4CB50a2Ee248971";
 const web3: AlchemyWeb3 = createAlchemyWeb3(
   `https://eth-goerli.g.alchemy.com/v2/${process.env.ALCHEMY_API_KEY}`
 );
-const contractAddress: string = process.env.ESCROW_DEPLOYMENT_ADDRESS;
+const contractAddress: string = process.env.ESCROW_DEPLOYMENT_ADDRESS!;
 const contractABI: any = require("./contracts/PatchworkKingdomsEscrow.json");
 const escrowContract: Contract = new web3.eth.Contract(
   contractABI["abi"],
