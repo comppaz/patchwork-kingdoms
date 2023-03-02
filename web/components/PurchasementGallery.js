@@ -2,7 +2,7 @@ import { useEffect, useState, useContext } from 'react';
 import { checkExpirationDate, getItems } from '../lib/contractInteraction';
 import Image from 'next/image';
 import { Swiper, SwiperSlide } from 'swiper/react';
-import { Pagination, Navigation } from 'swiper';
+import { Pagination, Autoplay } from 'swiper';
 import { Loading } from './Loading';
 import { injected } from './_web3';
 import { useWeb3React } from '@web3-react/core';
@@ -13,10 +13,10 @@ import 'react-toastify/dist/ReactToastify.css';
 import 'swiper/css';
 import 'swiper/css/pagination';
 import 'swiper/css/navigation';
-import AddressContext from '../context/AddressContext';
 import { calculateMinPrice, convertExpirationToDate } from '../lib/calculateDonationInteraction';
 import useUser from '../lib/useUser';
 import Modal from './donation/Modal';
+import kingdoms from '../data/kingdoms';
 
 export default function PurchasementGallery({
     heading: heading,
@@ -34,7 +34,6 @@ export default function PurchasementGallery({
 
     useEffect(() => {
         (async () => {
-            // Event hören und updaten
             setDepositedNfts(await getItems());
         })();
     }, [isModalOpen]);
@@ -46,21 +45,6 @@ export default function PurchasementGallery({
             setSignedIn(false);
         }
     }, [user]);
-
-    /*
-    useEffect(() => {
-        
-        if (depositedNfts) {
-            const job = new CronJob('0 /10 * * * *', async function () {
-                // check for expiration
-                let isTokenExpired = checkExpirationDate(walletAddress, depositedNfts, Math.floor(Date.now() / 1000));
-                if (isTokenExpired) {
-                    setDepositedNfts(await getItems());
-                }
-            });
-            job.start();
-        }
-    }, [depositedNfts]);*/
 
     async function signIn() {
         if (!window.web3) {
@@ -105,19 +89,36 @@ export default function PurchasementGallery({
                     {depositedNfts ? (
                         <Swiper
                             key={1}
-                            modules={[Navigation, Pagination]}
-                            slidesPerView={3}
-                            spaceBetween={30}
-                            slidesPerGroup={3}
+                            modules={[Autoplay, Pagination]}
                             loop={true}
                             loopFillGroupWithBlank={true}
                             pagination={{
                                 clickable: true,
                             }}
-                            navigation
-                            className="w-100 h-100">
+                            autoplay={{
+                                delay: 2500,
+                                disableOnInteraction: true,
+                            }}
+                            className="w-100 h-100"
+                            breakpoints={{
+                                640: {
+                                    slidesPerView: 1,
+                                    spaceBetween: 0,
+                                    slidesPerGroup: 1,
+                                },
+                                768: {
+                                    slidesPerView: 2,
+                                    spaceBetween: 0,
+                                    slidesPerGroup: 2,
+                                },
+                                1024: {
+                                    slidesPerView: 3,
+                                    spaceBetween: 0,
+                                    slidesPerGroup: 3,
+                                },
+                            }}>
                             {depositedNfts.map((el, index) => (
-                                <SwiperSlide className="block" key={el.itemId}>
+                                <SwiperSlide className="block py-6 px-4 sm:p-12" key={el.itemId}>
                                     <Image
                                         className=" rounded-md"
                                         height={300}
@@ -126,26 +127,33 @@ export default function PurchasementGallery({
                                         src={el.url}
                                         alt={'Test Token Image'}
                                     />
-                                    <div className="grid grid-flow-col ">
-                                        <div className="text-md text-gray-500">PWK #{el.tokenId}</div>
-                                        <div className=" text-md text-right text-gray-600 font-bold">
-                                            Min. price: {calculateMinPrice(el.price / 10 ** 18).minPrice} ETH{' '}
-                                            <button
-                                                onClick={() => {
-                                                    console.log(user);
-                                                    if (!user?.isLoggedIn) {
-                                                        console.log('SIGN IN!!');
-                                                        signIn();
-                                                    }
-                                                    setTransactionType({ isDeposit: false, isPurchase: true });
-                                                    setIsModalOpen(true);
-                                                    setSelectedNft(el);
-                                                }}
-                                                className=" mt-2 p-1 rounded-sm bg-teal-500 text-white cursor-pointer hover:bg-teal-600">
-                                                Buy
-                                            </button>
-                                            <div className="text-xs text-gray-500">
-                                                *Available for purchase until {convertExpirationToDate(el.expiration)}
+                                    <div className="grid grid-flow-row ">
+                                        <div className="text-md grid grid-flow-col">
+                                            <p className="py-4 font-bold font-medium">
+                                                {kingdoms[el.tokenId].title && kingdoms[el.tokenId].title.replace('Patchwork Kingdom ', '')}
+                                            </p>
+                                            <div className="text-right">
+                                                <button
+                                                    onClick={() => {
+                                                        console.log(user);
+                                                        if (!user?.isLoggedIn) {
+                                                            console.log('SIGN IN!!');
+                                                            signIn();
+                                                        }
+                                                        setTransactionType({ isDeposit: false, isPurchase: true });
+                                                        setIsModalOpen(true);
+                                                        setSelectedNft(el);
+                                                    }}
+                                                    className="mt-2 py-1 w-16 rounded-md bg-teal-500 text-white cursor-pointer font-bold hover:bg-teal-600">
+                                                    Buy
+                                                </button>
+                                                <div className="mt-2 text-md text-right text-gray-600 text-xs">
+                                                    <span className="font-bold ">Min. Price:</span>{' '}
+                                                    {calculateMinPrice(el.price / 10 ** 18).minPrice} ETH{' '}
+                                                    <div className="text-gray-500">
+                                                        *Available for purchase until {convertExpirationToDate(el.expiration)}
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -155,7 +163,7 @@ export default function PurchasementGallery({
                     ) : (
                         <Loading></Loading>
                     )}
-                    <p className=" text-md text-gray-500 text-center">
+                    <p className="text-md text-gray-500 text-center">
                         See more on{' '}
                         <span className=" cursor-pointer text-md text-gray-500 hover:text-gray-700 underline">
                             <a href="https://opensea.io/collection/patchworkkingdoms" target="_blank" rel="noreferrer">

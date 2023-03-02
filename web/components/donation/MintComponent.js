@@ -36,14 +36,14 @@ export default function MintComponent({}) {
     };
 
     return (
-        <div className="bg-white">
+        <div className="bg-white mx-auto p-8">
             <button
                 onClick={() => {
                     onMintPressed();
                 }}
                 className="cursor-pointer py-2 px-4 text-gray-400 hover:text-gray-500 font-bold border border-black">
-                <span className="sr-only">Mint</span>
-                Mint
+                <span className="sr-only">Mint Test Token</span>
+                Mint Test Token
             </button>
             {/** 
             <div className="mx-auto py-12 px-4 max-w-7xl sm:px-6 lg:px-8 lg:py-24">

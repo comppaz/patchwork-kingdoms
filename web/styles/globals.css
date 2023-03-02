@@ -22,3 +22,7 @@
     background-color: white !important;
     border-radius: 15px !important;
 }
+
+.swiper-pagination-bullet-active {
+    background-color: rgba(20, 184, 166, var(--tw-bg-opacity)) !important;
+}
