@@ -57,6 +57,7 @@ contract PatchworkKingdomsEscrow {
             giver: msg.sender,
             tokenId: tokenId,
             expiration: block.timestamp + _expiration,
+            // 0.175 ether
             price: 0
         });
         counter += 1;
