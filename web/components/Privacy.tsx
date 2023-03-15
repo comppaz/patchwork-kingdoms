@@ -67,13 +67,13 @@ export default function Privacy() {
                 <div className="max-w-3xl mx-auto">
                     <h2 className="text-center text-3xl font-extrabold text-gray-900 sm:text-4xl">Privacy Policy</h2>
                     <div className=" font-bold mt-5 text-md text-gray-600 sm:text-md">
-                        This Privacy Policy ("Policy") is designed to assist users of the Patchwork Kingdoms NFT Collection in understanding
-                        how their personal information is collected, used, and disclosed when they choose to donate their Patchwork Kingdoms
-                        NFTs ("Donation") to the Giga initiative through the Patchwork Kingdoms website. Please read this Policy carefully
-                        to understand how we collect and use your personal information in connection with the Donation. By donating your
-                        Patchwork Kingdoms NFTs, you agree to the collection and use of your personal information as outlined in this
-                        Policy. If you do not agree with this Policy, please do not donate your Patchwork Kingdoms NFTs through the
-                        Patchwork Kingdoms website.
+                        This Privacy Policy (&quot;Policy&quot;) is designed to assist users of the Patchwork Kingdoms NFT Collection in
+                        understanding how their personal information is collected, used, and disclosed when they choose to donate their
+                        Patchwork Kingdoms NFTs (&quot;Donation&quot;) to the Giga initiative through the Patchwork Kingdoms website. Please
+                        read this Policy carefully to understand how we collect and use your personal information in connection with the
+                        Donation. By donating your Patchwork Kingdoms NFTs, you agree to the collection and use of your personal information
+                        as outlined in this Policy. If you do not agree with this Policy, please do not donate your Patchwork Kingdoms NFTs
+                        through the Patchwork Kingdoms website.
                     </div>
                 </div>
                 <div className="max-w-3xl mx-auto divide-y-2 divide-gray-200">
