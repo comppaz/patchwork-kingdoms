@@ -1,5 +1,6 @@
 const { ethers } = require('ethers');
 import { createAlchemyWeb3 } from '@alch/alchemy-web3';
+import { isSuccessfulTransaction, waitTransaction } from './checkApprovalStatus';
 
 const tokenAddress = process.env.NEXT_PUBLIC_TESTTOKEN_DEPLOYMENT_ADDRESS;
 const contractAddress = process.env.NEXT_PUBLIC_ESCROW_DEPLOYMENT_ADDRESS;
@@ -10,12 +11,11 @@ const provider = new ethers.providers.AlchemyProvider(network, `${process.env.NE
 const signer = wallet.connect(provider);
 const testERC721token = new ethers.Contract(tokenAddress, tokenAbi['abi'], signer);
 
-const web3 = createAlchemyWeb3(`https://eth-goerli.g.alchemy.com/v2/${process.env.NEXT_PUBLIC_ALCHEMY_API_KEY}`);
+const web3 = createAlchemyWeb3(process.env.NEXT_PUBLIC_ALCHEMY_HTTPS_URL);
 
 const testERC721Token = new web3.eth.Contract(tokenAbi['abi'], tokenAddress);
 
 export const approveTransaction = async (address, tokenId) => {
-    console.log('APPROVE TRANSACTION');
     const accountNonce = '0x' + ((await web3.eth.getTransactionCount(address)) + 1).toString(16);
     const approveParameter = {
         to: tokenAddress,
@@ -28,6 +28,9 @@ export const approveTransaction = async (address, tokenId) => {
             method: 'eth_sendTransaction',
             params: [approveParameter],
         });
+
+        await waitTransaction(txHash);
+
         return {
             message: 'The approval was succesful. Please confirm the transaction on Metamask.',
             status: true,
@@ -70,11 +73,20 @@ export const getOwnedTestNfts = async address => {
     for (let nft of nfts.ownedNfts) {
         if (nft.contract.address === tokenAddress) {
             let tokenId = parseInt(nft['id']['tokenId'], 16);
-            let object = {
-                tokenId: tokenId,
-                contractAddress: nft.contract.address,
-                url: 'https://api.lorem.space/image/drink',
-            };
+            let object;
+            if (process.env.PROD_FLAG) {
+                object = {
+                    tokenId: tokenId,
+                    contractAddress: nft.contract.address,
+                    url: `https://${process.env.NEXT_PUBLIC_BUCKET_NAME}.fra1.digitaloceanspaces.com/thumbnail/${tokenId}.png`,
+                };
+            } else {
+                object = {
+                    tokenId: tokenId,
+                    contractAddress: nft.contract.address,
+                    url: `https://api.lorem.space/image/drink`,
+                };
+            }
             ownedNfts.push(object);
         }
     }

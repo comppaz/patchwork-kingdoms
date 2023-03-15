@@ -1,5 +1,5 @@
 import { useEffect, useState, useContext } from 'react';
-import { checkExpirationDate, getItems } from '../lib/contractInteraction';
+import { getItems } from '../lib/contractInteraction';
 import Image from 'next/image';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Pagination, Autoplay } from 'swiper';
@@ -8,6 +8,7 @@ import { injected } from './_web3';
 import { useWeb3React } from '@web3-react/core';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import checkExpirationDate from '../lib/checkExpirationDate';
 
 // Import Swiper styles
 import 'swiper/css';
@@ -17,6 +18,7 @@ import { calculateMinPrice, convertExpirationToDate } from '../lib/calculateDona
 import useUser from '../lib/useUser';
 import Modal from './donation/Modal';
 import kingdoms from '../data/kingdoms';
+import cron from 'cron';
 
 export default function PurchasementGallery({
     heading: heading,
@@ -37,6 +39,19 @@ export default function PurchasementGallery({
             setDepositedNfts(await getItems());
         })();
     }, [isModalOpen]);
+
+    useEffect(() => {
+        if (depositedNfts) {
+            const job = new cron.CronJob('0 */10 * * * *', async function () {
+                // check for expiration
+                let isTokenExpired = await checkExpirationDate(depositedNfts, Math.floor(Date.now() / 1000));
+                if (isTokenExpired) {
+                    setDepositedNfts(await getItems());
+                }
+            });
+            job.start();
+        }
+    }, [depositedNfts]);
 
     useEffect(async () => {
         if (user?.isLoggedIn) {
@@ -135,9 +150,7 @@ export default function PurchasementGallery({
                                             <div className="text-right">
                                                 <button
                                                     onClick={() => {
-                                                        console.log(user);
                                                         if (!user?.isLoggedIn) {
-                                                            console.log('SIGN IN!!');
                                                             signIn();
                                                         }
                                                         setTransactionType({ isDeposit: false, isPurchase: true });

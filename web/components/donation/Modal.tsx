@@ -12,7 +12,6 @@ import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { calculateMinPrice, convertExpirationToDate } from '../../lib/calculateDonationInteraction';
 import useUser from '../../lib/useUser';
-import DonationContext from '../../context/DonationContext';
 
 function classNames(...classes) {
     return classes.filter(Boolean).join(' ');
@@ -21,10 +20,12 @@ export default function Modal({ transactionType, setTransactionType, nft, isModa
     const cancelButtonRef = useRef(null);
     const { updateEmittingAddress } = useContext(AddressContext);
     const { isLoading, setIsLoading } = useContext(ModalContext);
-    const { donationData, updateDonationData, purchasementData, updatePurchasementData } = useContext(DonationContext);
 
     const [enabled, setEnabled] = useState(false);
+    // 1 month = 2629743 seconds
     const monthlyTimeUnit = 2629743;
+    // for testing
+    const minutlyTimeUnit = 60;
 
     // default timeframe starts with 24 months
     const [currentExpirationTimeFrame, setExpirationTimeframe] = useState(24 * monthlyTimeUnit);
@@ -33,6 +34,7 @@ export default function Modal({ transactionType, setTransactionType, nft, isModa
     const [expiration, setExpiration] = useState({});
     const [priceError, setPriceError] = useState({ isError: false, status: '' });
     const [agreeToTerms, setAgreeToTerms] = useState(false);
+    const [minPriceValue, setMinPriceValue] = useState(0);
     //const [isLoading, setIsLoading] = useState(false);
     const [alert, setAlert] = useState('');
     const [purchaserMail, setPurchaserMail] = useState('');
@@ -44,35 +46,60 @@ export default function Modal({ transactionType, setTransactionType, nft, isModa
     //called only once
     useEffect(() => {
         resetModalValues();
-        console.log(minPriceObj);
         setPriceOffer(calculateMinPrice(nft.price / 10 ** 18).minPrice);
+        if (transactionType.isDeposit) {
+            (async () => {
+                setMinPriceValue(await getMinPriceValue(nft.tokenId));
+            })();
+        }
     }, [user.account, isModalOpen]);
 
     useEffect(() => {
         agreeToTerms && !priceError.isError ? setEnabled(true) : setEnabled(false);
     }, [agreeToTerms, priceError]);
 
-    function setTimeframe(value) {
-        switch (Number(value)) {
-            case 1:
-                setExpirationTimeframe(3 * monthlyTimeUnit);
-                break;
-            case 2:
-                setExpirationTimeframe(6 * monthlyTimeUnit);
-                break;
-            case 3:
-                setExpirationTimeframe(12 * monthlyTimeUnit);
-                break;
-            case 4:
-                setExpirationTimeframe(24 * monthlyTimeUnit);
-                break;
-            default:
-                console.log('Error with TimeframeValue');
+    function setTimeframe(value: String) {
+        // production case
+        if (process.env.PROD_FLAG) {
+            switch (Number(value)) {
+                case 1:
+                    setExpirationTimeframe(3 * monthlyTimeUnit);
+                    break;
+                case 2:
+                    setExpirationTimeframe(6 * monthlyTimeUnit);
+                    break;
+                case 3:
+                    setExpirationTimeframe(12 * monthlyTimeUnit);
+                    break;
+                case 4:
+                    setExpirationTimeframe(24 * monthlyTimeUnit);
+                    break;
+                default:
+                    console.log('Error with TimeframeValue');
+            }
+        }
+        // test case
+        else {
+            switch (Number(value)) {
+                case 1:
+                    setExpirationTimeframe(3 * minutlyTimeUnit);
+                    break;
+                case 2:
+                    setExpirationTimeframe(6 * minutlyTimeUnit);
+                    break;
+                case 3:
+                    setExpirationTimeframe(12 * minutlyTimeUnit);
+                    break;
+                case 4:
+                    setExpirationTimeframe(24 * minutlyTimeUnit);
+                    break;
+                default:
+                    console.log('Error with TimeframeValue');
+            }
         }
     }
 
-    const onDepositPressed = async nftId => {
-        console.log('Starting Deposit for TokenID: ' + nftId);
+    const onDepositPressed = async (nftId: Number) => {
         const approvalResponse = await approveTransaction(user.account, nftId);
         notify(approvalResponse.status, approvalResponse.message);
         if (approvalResponse.status) {
@@ -88,23 +115,18 @@ export default function Modal({ transactionType, setTransactionType, nft, isModa
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(body),
                 });
-                console.log('DB REQUEST WAS...');
-                console.log(result);
             }
         } else {
             setIsLoading(false);
         }
-        console.log(donationData);
     };
 
     const onBuyPressed = async (itemId: number, tokenId: number) => {
-        console.log('Starting Purchase Transaction for TokenID: ' + itemId);
         let price = ethers.utils.parseEther(priceOffer.toString());
         const response = await buy(user.account, itemId, price._hex);
         notify(response.status, response.message);
         updateEmittingAddress(user.account);
         if (purchaserMail && response.status) {
-            console.log('ARE WE TRYING TO UPDATE ANYTHING?');
             // save purchaserMailData in database
             let currentDate = new Date();
             const body = { tokenId, purchaserMail, currentDate, salePrice: priceOffer, minPrice: minPriceObj.minPrice };
@@ -113,10 +135,7 @@ export default function Modal({ transactionType, setTransactionType, nft, isModa
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(body),
             });
-            console.log('DB REQUEST WAS...');
-            console.log(result);
         }
-        console.log(purchasementData);
     };
 
     const notify = (successful, output) => {
@@ -142,8 +161,19 @@ export default function Modal({ transactionType, setTransactionType, nft, isModa
         setAgreeToTerms(false);
         setPriceError({ isError: false, status: '' });
         setAlert('');
+        setMinPriceValue(0);
+        setExpirationTimeframe(24 * monthlyTimeUnit);
     };
-
+    const getMinPriceValue = async (tokenId: Number) => {
+        const response = await fetch(`/api/getMinPriceValue/${tokenId}`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        });
+        const res = await response.json();
+        return res.message;
+    };
     return (
         <div>
             <Transition.Root show={isModalOpen}>
@@ -249,6 +279,18 @@ export default function Modal({ transactionType, setTransactionType, nft, isModa
                                                         </div>
                                                         <div className="mt-6">
                                                             <div>
+                                                                <label
+                                                                    htmlFor="priceEstimate"
+                                                                    className="block text-sm font-medium text-gray-600">
+                                                                    Estimated minimum price value: {}
+                                                                </label>
+                                                                <div className="block text-sm font-medium text-gray-500">
+                                                                    <span>{minPriceValue / 10 ** 18} ETH</span>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div className="mt-6">
+                                                            <div>
                                                                 <label htmlFor="email" className="block text-sm font-medium text-gray-600">
                                                                     Notify me by email:{' '}
                                                                     <span className="text-xs font-light">(optional)</span>
@@ -294,7 +336,11 @@ export default function Modal({ transactionType, setTransactionType, nft, isModa
                                                                         I agree to:
                                                                     </Switch.Label>
                                                                     <Switch.Description as="span" className="text-sm text-gray-500">
-                                                                        Patchwork Kingdom&apos;s Privacy policy{' '}
+                                                                        Patchwork Kingdom&apos;s Privacy policy:
+                                                                        <a href="/privacy" className="underline">
+                                                                            {' '}
+                                                                            Read here{' '}
+                                                                        </a>
                                                                     </Switch.Description>
                                                                 </span>
                                                                 <Switch
@@ -494,7 +540,6 @@ export default function Modal({ transactionType, setTransactionType, nft, isModa
                                                                         placeholder="Type in your offer"
                                                                         onInput={(e: ChangeEvent<HTMLInputElement>) => {
                                                                             if (Number(e.target.value) <= nft.price / 10 ** 18) {
-                                                                                console.log('Illegal value ');
                                                                                 setPriceError({
                                                                                     isError: true,
                                                                                     status: 'The value does not exceed the minimum price or is not a valid number!',
@@ -551,7 +596,11 @@ export default function Modal({ transactionType, setTransactionType, nft, isModa
                                                                         I agree to:
                                                                     </Switch.Label>
                                                                     <Switch.Description as="span" className="text-sm text-gray-500">
-                                                                        Patchwork Kingdom&apos;s Privacy policy{' '}
+                                                                        Patchwork Kingdom&apos;s Privacy policy:
+                                                                        <a href="/privacy" className="underline">
+                                                                            {' '}
+                                                                            Read here{' '}
+                                                                        </a>
                                                                     </Switch.Description>
                                                                 </span>
                                                                 <Switch

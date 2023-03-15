@@ -1,10 +1,8 @@
 // setup
 import { createAlchemyWeb3 } from '@alch/alchemy-web3';
-import Link from 'next/link';
-import { approveTransaction } from './testTokenInteraction';
 
 const web3Wss = createAlchemyWeb3(process.env.NEXT_PUBLIC_ALCHEMY_WSS_URL);
-const web3 = createAlchemyWeb3(`https://eth-goerli.g.alchemy.com/v2/${process.env.NEXT_PUBLIC_ALCHEMY_API_KEY}`);
+const web3 = createAlchemyWeb3(process.env.NEXT_PUBLIC_ALCHEMY_HTTPS_URL);
 
 const contractAddress = process.env.NEXT_PUBLIC_ESCROW_DEPLOYMENT_ADDRESS;
 const contractABI = require('../contracts/PatchworkKingdomsEscrow.json');
@@ -68,7 +66,6 @@ export const getConnectedWallet = async () => {
 };
 
 export const getItem = async itemId => {
-    console.log('START GET ITEM REQUEST');
     const item = await escrowContract.methods.getItem(itemId).call();
     return item;
 };
@@ -78,16 +75,30 @@ export const getItems = async () => {
     let output = [];
     items.forEach((el, i) => {
         let item = {};
-        // check giver of deposited item is a currently valid address and that the price is neither undefined nor zero
-        if (el[1] !== '0x0000000000000000000000000000000000000000' || el[4] === 0 || el[4] === undefined) {
-            item.itemId = el.itemId;
-            item.giver = el.giver;
-            item.expiration = el.expiration;
-            item.length = el.length;
-            item.price = el.price;
-            item.tokenId = el.tokenId;
-            item.url = 'https://api.lorem.space/image/drink';
-            output.push(item);
+        if (process.env.PROD_FLAG) {
+            // check giver of deposited item is a currently valid address and that the price is neither undefined nor zero
+            if (el[1] !== '0x0000000000000000000000000000000000000000' || el[4] === 0 || el[4] === undefined) {
+                item.itemId = el.itemId;
+                item.giver = el.giver;
+                item.expiration = el.expiration;
+                item.length = el.length;
+                item.price = el.price;
+                item.tokenId = el.tokenId;
+                item.url = `https://${process.env.NEXT_PUBLIC_BUCKET_NAME}.fra1.digitaloceanspaces.com/thumbnail/${el.tokenId}.png`;
+                output.push(item);
+            }
+        } else {
+            // check giver of deposited item is a currently valid address and that the price is neither undefined nor zero
+            if (el[1] !== '0x0000000000000000000000000000000000000000' || el[4] === 0 || el[4] === undefined) {
+                item.itemId = el.itemId;
+                item.giver = el.giver;
+                item.expiration = el.expiration;
+                item.length = el.length;
+                item.price = el.price;
+                item.tokenId = el.tokenId;
+                item.url = 'https://api.lorem.space/image/drink';
+                output.push(item);
+            }
         }
     });
     return output;
@@ -107,8 +118,6 @@ export const deposit = async (address, tokenId, expiration) => {
             message: 'Please insert valid parameters.',
         };
     }
-
-    //await approveTransaction(address, tokenId);
 
     const accountNonce = '0x' + ((await web3.eth.getTransactionCount(address)) + 2).toString(16);
 
@@ -140,7 +149,6 @@ export const deposit = async (address, tokenId, expiration) => {
 };
 
 export const buy = async (address, itemId, price) => {
-    console.log('START DONATION ITEM REQUEST');
     // check auth
     if (!window.ethereum || address === null) {
         return {
@@ -153,16 +161,18 @@ export const buy = async (address, itemId, price) => {
             message: 'Please insert valid parameters.',
         };
     }
-    // check if this caller is the one who donated the item!
-    // TODO: Deactivated for testing
-    /*
-    const item = await getItem(itemId);
-    if (item[1].toLowerCase() === address.toLowerCase()) {
-        console.log('Giver equals address, purchasement will fail!');
-        return {
-            status: 'You previously donated this nft. You can't buy it!',
-        };
-    }*/
+
+    // check if this caller is the one who donated the item only in PROD
+    if (process.env.PROD_FLAG) {
+        const item = await getItem(itemId);
+        if (item[1].toLowerCase() === address.toLowerCase()) {
+            console.log('Giver equals address, purchasement will fail!');
+            return {
+                status: `You previously donated this nft. You can't buy it!`,
+            };
+        }
+    }
+
     // start buy transaction
     const buyParameters = {
         to: contractAddress,
@@ -200,17 +210,6 @@ export const subscribeToDepositEvent = async () => {
     });
 };
 
-export const checkExpirationDate = async (address, nfts, currentTimestamp) => {
-    let isItemExpired = false;
-    nfts.forEach(async el => {
-        if (currentTimestamp >= el.expiration) {
-            await escrowContract.methods.expiration(el.itemId, currentTimestamp).call({ sender: el.giver });
-            isItemExpired = true;
-        }
-        return isItemExpired;
-    });
-};
-
 const LinkOnToast = (output, txHash) => (
     <div>
         <p>{output}</p>
@@ -221,7 +220,7 @@ const LinkOnToast = (output, txHash) => (
                 className=" text-indigo-700 underline"
                 target="_blank"
                 rel="noopener noreferrer"
-                href={`https://goerli.etherscan.io/tx/${txHash}`}>
+                href={`${process.env.ETHERSCAN_URL}/tx/${txHash}`}>
                 here
             </a>
         </p>
