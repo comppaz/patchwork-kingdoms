@@ -348,9 +348,8 @@ export default function Modal({ transactionType, setTransactionType, nft, isModa
                                                                     </Switch.Label>
                                                                     <Switch.Description as="span" className="text-sm text-gray-500">
                                                                         Patchwork Kingdom&apos;s Privacy policy:
-                                                                        <Link href="/privacy" className="underline">
-                                                                            {' '}
-                                                                            Read here{' '}
+                                                                        <Link key="donatorPriv" href={'/privacy'} className="underline">
+                                                                            Read here
                                                                         </Link>
                                                                     </Switch.Description>
                                                                 </span>
@@ -608,9 +607,8 @@ export default function Modal({ transactionType, setTransactionType, nft, isModa
                                                                     </Switch.Label>
                                                                     <Switch.Description as="span" className="text-sm text-gray-500">
                                                                         Patchwork Kingdom&apos;s Privacy policy:
-                                                                        <Link href="/privacy" className="underline">
-                                                                            {' '}
-                                                                            Read here{' '}
+                                                                        <Link key="buyerPriv" href={'/privacy'} className="underline">
+                                                                            Read here
                                                                         </Link>
                                                                     </Switch.Description>
                                                                 </span>

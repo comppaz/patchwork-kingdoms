@@ -145,6 +145,7 @@ contract PatchworkKingdomsEscrow {
 
     /// @notice This function allows to return the deposited token back to the original giver if the expiration time is exceeded.
     /// @param itemId This is the id of a deposited token in the escrow contract.
+    /// @param _expiration This is the current timestamp.
     function expiration(uint256 itemId, uint256 _expiration) public {
         ERC721Item memory item = items[itemId];
 
@@ -152,7 +153,7 @@ contract PatchworkKingdomsEscrow {
             (msg.sender == owner || msg.sender == item.giver),
             "Tokens can only be expired by the admin or the original token owner."
         );
-        require(_expiration < item.expiration, "The token is not expired.");
+        require(_expiration >= item.expiration, "The token is not expired.");
 
         token.transferFrom(address(this), item.giver, item.tokenId);
         delete(items[itemId]);
