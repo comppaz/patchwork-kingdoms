@@ -34,7 +34,7 @@ export default function Modal({ transactionType, setTransactionType, nft, isModa
     const [expiration, setExpiration] = useState({});
     const [priceError, setPriceError] = useState({ isError: false, status: '' });
     const [agreeToTerms, setAgreeToTerms] = useState(false);
-    const [minPriceValue, setMinPriceValue] = useState(0);
+    const [estimatedPrice, setEstimatedPrice] = useState(0);
     //const [isLoading, setIsLoading] = useState(false);
     const [alert, setAlert] = useState('');
     const [purchaserMail, setPurchaserMail] = useState('');
@@ -49,7 +49,7 @@ export default function Modal({ transactionType, setTransactionType, nft, isModa
         setPriceOffer(calculateMinPrice(nft.price / 10 ** 18).minPrice);
         if (transactionType.isDeposit) {
             (async () => {
-                setMinPriceValue(await getMinPriceValue(nft.tokenId));
+                setEstimatedPrice(await getEstimatedPrice(nft.tokenId));
             })();
         }
     }, [user.account, isModalOpen]);
@@ -108,8 +108,7 @@ export default function Modal({ transactionType, setTransactionType, nft, isModa
             notify(depositResponse.status, depositResponse.message);
             if (donatorMail && depositResponse.status) {
                 let currentDate = new Date();
-                let minPrice = minPriceObj.minPrice;
-                const body = { nftId, donatorMail, currentDate, timeframe: currentExpirationTimeFrame, minPrice };
+                const body = { nftId, donatorMail, currentDate, timeframe: currentExpirationTimeFrame, minPrice: estimatedPrice };
                 const result = await fetch('/api/donationDB', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
@@ -161,10 +160,10 @@ export default function Modal({ transactionType, setTransactionType, nft, isModa
         setAgreeToTerms(false);
         setPriceError({ isError: false, status: '' });
         setAlert('');
-        setMinPriceValue(0);
+        setEstimatedPrice(0);
         setExpirationTimeframe(24 * monthlyTimeUnit);
     };
-    const getMinPriceValue = async (tokenId: Number) => {
+    const getEstimatedPrice = async (tokenId: Number) => {
         const response = await fetch(`/api/getMinPriceValue/${tokenId}`, {
             method: 'GET',
             headers: {
@@ -239,7 +238,9 @@ export default function Modal({ transactionType, setTransactionType, nft, isModa
                                                             </p>
                                                         </div>
                                                         <div className="mt-4">
-                                                            <label htmlFor="timeframe" className="block text-sm font-medium text-gray-600">
+                                                            <label
+                                                                htmlFor="timeframe"
+                                                                className="text-sm font-medium text-gray-600 invisible sm:visible">
                                                                 Timeframe{'  '}
                                                                 <Tooltip
                                                                     enabled={true}
@@ -247,6 +248,15 @@ export default function Modal({ transactionType, setTransactionType, nft, isModa
                                                                     text="Choose how long you want your PWK to stay up for sale. If not sold by this date, your PWK will be returned.">
                                                                     <InformationCircleIcon className="w-4 h-4"></InformationCircleIcon>
                                                                 </Tooltip>
+                                                            </label>
+                                                            <label
+                                                                htmlFor="timeframeMobile"
+                                                                className="visible sm:hidden text-sm font-medium text-gray-600">
+                                                                Timeframe{'  '}
+                                                                <div className="text-xs">
+                                                                    Choose how long you want your PWK to stay up for sale. If not sold by
+                                                                    this date, your PWK will be returned.
+                                                                </div>
                                                             </label>
 
                                                             <div className="flex flex-col space-y-2 p-2 w-80">
@@ -285,7 +295,7 @@ export default function Modal({ transactionType, setTransactionType, nft, isModa
                                                                     Estimated minimum price value: {}
                                                                 </label>
                                                                 <div className="block text-sm font-medium text-gray-500">
-                                                                    <span>{minPriceValue / 10 ** 18} ETH</span>
+                                                                    <span>{estimatedPrice / 10 ** 18} ETH</span>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -651,6 +661,9 @@ export default function Modal({ transactionType, setTransactionType, nft, isModa
                                                             </svg>
                                                         </div>
                                                     </div>
+                                                    <span className=" flex justify-center text-gray-500 text-xs">
+                                                        Please follow the instructions on Metamask!
+                                                    </span>
                                                 </div>
                                             ) : (
                                                 <div>

@@ -34,14 +34,11 @@ export default function Dashboard() {
 
     useEffect(() => {
         if (!process.env.PROD_FLAG && user && user.account) {
-            console.log('DASHBOARD');
-            console.log(user.account);
-
             (async () => {
                 setTestNfts(await getOwnedTestNfts(user.account));
             })();
         }
-    }, [user]);
+    }, [user, isResponseModalOpen]);
 
     useEffect(() => {
         setIsModalOpen(false);
@@ -52,15 +49,12 @@ export default function Dashboard() {
     }, [emittingAddress]);
 
     const subscribeToDepositEvent = async () => {
-        console.log('SUBSCRIBING TO DEPOSIT?');
         escrowContractWSS.events.Deposited({}, async (error, data) => {
             setIsModalOpen(false);
             setIsLoading(false);
             if (error) {
                 console.log(error);
             } else {
-                console.log('DEPOSIT EVENT WAS EMITTED SUCCESSFULLY');
-                console.log(user);
                 // check that user is set and equals the emittingAddress
                 if (user && user.account !== '' && user.account === emittingAddress) {
                     updateModalData({

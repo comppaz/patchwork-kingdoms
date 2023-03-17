@@ -27,7 +27,7 @@ export async function setToSellerEmail(parameter: ToSellerParams): Promise<Email
         TOKEN_NAME: `${kingdoms[parameter.tokenId].title.replace('Patchwork Kingdom ', '')}`,
         LISTING_DATE: DateTime.fromISO(parameter.dateOfListing).toLocaleString(DateTime.DATETIME_MED),
         TIMEFRAME: timeframeToString(parameter.timeframe),
-        LISTING_PRICE: `to be determined`,
+        LISTING_PRICE: `${parameter.listingPrice / 10 ** 18} ETH`,
     });
 
     return {
