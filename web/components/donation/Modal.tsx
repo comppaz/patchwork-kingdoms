@@ -347,7 +347,7 @@ export default function Modal({ transactionType, setTransactionType, nft, isModa
                                                                         I agree to:
                                                                     </Switch.Label>
                                                                     <Switch.Description as="span" className="text-sm text-gray-500">
-                                                                        Patchwork Kingdom&apos;s Privacy policy:
+                                                                        Patchwork Kingdom&apos;s Privacy policy:{' '}
                                                                         <Link key="donatorPriv" href={'/privacy'} className="underline">
                                                                             Read here
                                                                         </Link>
@@ -606,7 +606,7 @@ export default function Modal({ transactionType, setTransactionType, nft, isModa
                                                                         I agree to:
                                                                     </Switch.Label>
                                                                     <Switch.Description as="span" className="text-sm text-gray-500">
-                                                                        Patchwork Kingdom&apos;s Privacy policy:
+                                                                        Patchwork Kingdom&apos;s Privacy policy:{' '}
                                                                         <Link key="buyerPriv" href={'/privacy'} className="underline">
                                                                             Read here
                                                                         </Link>
