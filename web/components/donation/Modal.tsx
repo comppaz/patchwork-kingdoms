@@ -12,6 +12,7 @@ import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { calculateMinPrice, convertExpirationToDate } from '../../lib/calculateDonationInteraction';
 import useUser from '../../lib/useUser';
+import Link from 'next/link';
 
 function classNames(...classes) {
     return classes.filter(Boolean).join(' ');
@@ -347,10 +348,10 @@ export default function Modal({ transactionType, setTransactionType, nft, isModa
                                                                     </Switch.Label>
                                                                     <Switch.Description as="span" className="text-sm text-gray-500">
                                                                         Patchwork Kingdom&apos;s Privacy policy:
-                                                                        <a href="/privacy" className="underline">
+                                                                        <Link href="/privacy" className="underline">
                                                                             {' '}
                                                                             Read here{' '}
-                                                                        </a>
+                                                                        </Link>
                                                                     </Switch.Description>
                                                                 </span>
                                                                 <Switch
@@ -607,10 +608,10 @@ export default function Modal({ transactionType, setTransactionType, nft, isModa
                                                                     </Switch.Label>
                                                                     <Switch.Description as="span" className="text-sm text-gray-500">
                                                                         Patchwork Kingdom&apos;s Privacy policy:
-                                                                        <a href="/privacy" className="underline">
+                                                                        <Link href="/privacy" className="underline">
                                                                             {' '}
                                                                             Read here{' '}
-                                                                        </a>
+                                                                        </Link>
                                                                     </Switch.Description>
                                                                 </span>
                                                                 <Switch

@@ -14,7 +14,7 @@ export default async function getMinPriceValue(req: NextApiRequest, res: NextApi
     const { tokenId } = req.query;
     const tokenAddress = process.env.NEXT_PUBLIC_CONTRACT_ADDRESS;
 
-    options.url = options.url.concat(tokenAddress).concat('/').concat(tokenId).concat('/transfers');
+    options.url = options.url.concat(tokenAddress).concat('/').concat(tokenId.toString()).concat('/transfers');
     let response = await axios(options);
     const data = await response.data;
     let lastMinPriceValue = 0;

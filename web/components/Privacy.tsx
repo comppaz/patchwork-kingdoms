@@ -1,6 +1,7 @@
 /* This example requires Tailwind CSS v2.0+ */
 import { Disclosure } from '@headlessui/react';
 import { ChevronDownIcon } from '@heroicons/react/outline';
+import Link from 'next/link';
 
 const policy = [
     {
@@ -51,7 +52,7 @@ const policy = [
     {
         header: 'Section 10: Contact Us',
         content:
-            'If you have any questions or concerns about this privacy policy, please contact us at <a class="underline" href="mailto:info@giga.global">info@giga.global</a>',
+            'If you have any questions or concerns about this privacy policy, please contact us at <Link class="underline" href="mailto:info@giga.global">info@giga.global</Link>',
     },
 ];
 
