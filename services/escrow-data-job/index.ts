@@ -61,7 +61,7 @@ export const checkHandler = async function () {
       console.log(`Deposited Expir. Timestamp: ${el.expiration}`);
       // call expiration method
       await escrowContract.methods
-        .expiration(el.itemId, currentTimestamp.toString())
+        .expiration(el.itemId, currentTimestamp)
         .call({ sender: adminAddress });
     }
   });
