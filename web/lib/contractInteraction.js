@@ -168,7 +168,9 @@ export const buy = async (address, itemId, price) => {
         if (item[1].toLowerCase() === address.toLowerCase()) {
             console.log('Giver equals address, purchasement will fail!');
             return {
-                status: `You previously donated this nft. You can't buy it!`,
+                message: "You previously donated this nft. You can't buy it again!",
+                status: false,
+                txHash: txHash,
             };
         }
     }
@@ -194,7 +196,7 @@ export const buy = async (address, itemId, price) => {
         };
     } catch (error) {
         return {
-            message: 'Something went wrong: ' + error.message,
+            message: error.message,
             status: false,
         };
     }

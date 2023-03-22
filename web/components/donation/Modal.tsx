@@ -13,6 +13,8 @@ import 'react-toastify/dist/ReactToastify.css';
 import { calculateMinPrice, convertExpirationToDate } from '../../lib/calculateDonationInteraction';
 import useUser from '../../lib/useUser';
 import Link from 'next/link';
+import ProgressStatusContext from '../../context/ProgressStatusContext';
+import { waitTransaction } from '../../lib/checkApprovalStatus';
 
 function classNames(...classes) {
     return classes.filter(Boolean).join(' ');
@@ -21,8 +23,11 @@ export default function Modal({ transactionType, setTransactionType, nft, isModa
     const cancelButtonRef = useRef(null);
     const { updateEmittingAddress } = useContext(AddressContext);
     const { isLoading, setIsLoading } = useContext(ModalContext);
+    const { setProgressStatus, progressStatus } = useContext(ProgressStatusContext);
 
     const [enabled, setEnabled] = useState(false);
+
+    const progressDefault = 'Please follow the instructions on Metamask!';
     // 1 month = 2629743 seconds
     const monthlyTimeUnit = 2629743;
     // for testing
@@ -36,7 +41,6 @@ export default function Modal({ transactionType, setTransactionType, nft, isModa
     const [priceError, setPriceError] = useState({ isError: false, status: '' });
     const [agreeToTerms, setAgreeToTerms] = useState(false);
     const [estimatedPrice, setEstimatedPrice] = useState(0);
-    //const [isLoading, setIsLoading] = useState(false);
     const [alert, setAlert] = useState('');
     const [purchaserMail, setPurchaserMail] = useState('');
     const [donatorMail, setDonatorMail] = useState('');
@@ -44,7 +48,6 @@ export default function Modal({ transactionType, setTransactionType, nft, isModa
 
     toast.configure();
 
-    //called only once
     useEffect(() => {
         resetModalValues();
         setPriceOffer(calculateMinPrice(nft.price / 10 ** 18).minPrice);
@@ -102,12 +105,17 @@ export default function Modal({ transactionType, setTransactionType, nft, isModa
 
     const onDepositPressed = async (nftId: Number) => {
         const approvalResponse = await approveTransaction(user.account, nftId);
-        notify(approvalResponse.status, approvalResponse.message);
         if (approvalResponse.status) {
+            console.log(approvalResponse);
+            setProgressStatus(
+                'Your approval request was successful! Please do not close this window and wait for further instructions on Metamask!',
+            );
+            await waitTransaction(approvalResponse.txHash);
             const depositResponse = await deposit(user.account, nftId, currentExpirationTimeFrame);
             updateEmittingAddress(user.account);
             notify(depositResponse.status, depositResponse.message);
             if (donatorMail && depositResponse.status) {
+                setProgressStatus(depositResponse.message);
                 let currentDate = new Date();
                 const body = { nftId, donatorMail, currentDate, timeframe: currentExpirationTimeFrame, minPrice: estimatedPrice };
                 const result = await fetch('/api/donationDB', {
@@ -117,7 +125,7 @@ export default function Modal({ transactionType, setTransactionType, nft, isModa
                 });
             }
         } else {
-            setIsLoading(false);
+            notify(approvalResponse.status, approvalResponse.message);
         }
     };
 
@@ -146,6 +154,8 @@ export default function Modal({ transactionType, setTransactionType, nft, isModa
                 position: toast.POSITION.TOP_RIGHT,
             });
         } else {
+            setIsModalOpen(false);
+            resetModalValues();
             toast.error(output, {
                 hideProgressBar: true,
                 autoClose: false,
@@ -163,6 +173,7 @@ export default function Modal({ transactionType, setTransactionType, nft, isModa
         setAlert('');
         setEstimatedPrice(0);
         setExpirationTimeframe(24 * monthlyTimeUnit);
+        setProgressStatus(progressDefault);
     };
     const getEstimatedPrice = async (tokenId: Number) => {
         const response = await fetch(`/api/getMinPriceValue/${tokenId}`, {
@@ -400,9 +411,7 @@ export default function Modal({ transactionType, setTransactionType, nft, isModa
                                                             </svg>
                                                         </div>
                                                     </div>
-                                                    <span className=" flex justify-center text-gray-500 text-xs">
-                                                        Please follow the instructions on Metamask!
-                                                    </span>
+                                                    <span className=" p-4 flex justify-center text-gray-500 text-sm">{progressStatus}</span>
                                                 </div>
                                             ) : (
                                                 <div>
@@ -660,9 +669,7 @@ export default function Modal({ transactionType, setTransactionType, nft, isModa
                                                             </svg>
                                                         </div>
                                                     </div>
-                                                    <span className=" flex justify-center text-gray-500 text-xs">
-                                                        Please follow the instructions on Metamask!
-                                                    </span>
+                                                    <span className=" p-4 flex justify-center text-gray-500 text-sm">{progressStatus}</span>
                                                 </div>
                                             ) : (
                                                 <div>

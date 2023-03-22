@@ -28,11 +28,8 @@ export const approveTransaction = async (address, tokenId) => {
             method: 'eth_sendTransaction',
             params: [approveParameter],
         });
-
-        await waitTransaction(txHash);
-
         return {
-            message: 'The approval was succesful. Please confirm the transaction on Metamask.',
+            message: 'Your request was successful.',
             status: true,
             txHash: txHash,
         };
