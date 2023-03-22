@@ -2,12 +2,12 @@ import * as dotenv from "dotenv";
 import { createAlchemyWeb3, AlchemyWeb3 } from "@alch/alchemy-web3";
 import { NFTEntry } from "./types/types";
 import { Contract } from "web3-eth-contract";
-const { ethers } = require("ethers");
+import { ethers } from "ethers";
 
 dotenv.config();
 
 // setup variables
-const wallet = new ethers.Wallet(process.env.PRIVATE_KEY);
+const wallet = new ethers.Wallet(process.env.PRIVATE_KEY!);
 const network = process.env.NETWORK;
 const provider = new ethers.providers.AlchemyProvider(
   network,
@@ -17,7 +17,7 @@ const signer = wallet.connect(provider);
 const adminAddress = process.env.ADMIN_ADDRESS;
 const contractAddress: string = process.env.ESCROW_DEPLOYMENT_ADDRESS!;
 const contractABI: any = require("./contracts/PatchworkKingdomsEscrow.json");
-const escrowContract: Contract = new ethers.Contract(
+const escrowContract = new ethers.Contract(
   contractAddress,
   contractABI["abi"],
   signer
