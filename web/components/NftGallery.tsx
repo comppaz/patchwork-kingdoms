@@ -4,6 +4,7 @@ import Image from 'next/image';
 import Loading from './Loading';
 import { FacebookIcon, FacebookShareButton, TwitterIcon, TwitterShareButton } from 'react-share';
 import Modal from './donation/Modal';
+import kingdoms from '../data/kingdoms';
 
 var pageCounter = 100;
 const pageIncrement = 100;
@@ -97,39 +98,39 @@ export const NftGallery: FunctionComponent<IProps> = ({
                                         <div className="space-y-4">
                                             <div className="aspect-w-3 aspect-h-3">
                                                 <a href={`/nft/${nft.tokenId}`}>
-                                                    {isDonateActivated ? (
-                                                        <div className=" flex flex-row">
-                                                            <Image
-                                                                className=" object-cover shadow-lg rounded-lg"
-                                                                layout="fill"
-                                                                src={nft.imageUrl}
-                                                                alt={nft.title + ' NFT Image'}
-                                                            />
-                                                            <p className="relative m-2 ml-auto space-x-0.5">
-                                                                {' '}
-                                                                <FacebookShareButton
-                                                                    url={shareUrl}
-                                                                    title={shareTitle}
-                                                                    quote={shareDescription}>
-                                                                    <FacebookIcon size={24} round={true}></FacebookIcon>
-                                                                </FacebookShareButton>
-                                                                <TwitterShareButton url={shareUrl} title={shareDescription}>
-                                                                    <TwitterIcon size={24} round={true}></TwitterIcon>
-                                                                </TwitterShareButton>
-                                                            </p>
-                                                        </div>
-                                                    ) : (
-                                                        <Image
-                                                            className="object-cover shadow-lg rounded-lg"
-                                                            layout="fill"
-                                                            src={nft.imageUrl}
-                                                            alt={nft.title + ' NFT Image'}
-                                                        />
-                                                    )}
+                                                    <Image
+                                                        className="object-cover shadow-lg rounded-lg"
+                                                        //layout="fill"
+                                                        layout="responsive"
+                                                        width={300}
+                                                        height={300}
+                                                        src={nft.imageUrl}
+                                                        alt={nft.title + ' NFT Image'}
+                                                    />
                                                 </a>
+                                                <div className="grid grid-flow-row ">
+                                                    <div className="text-md grid grid-flow-col">
+                                                        <p className="py-4 font-bold font-medium">
+                                                            {kingdoms[nft.tokenId].title &&
+                                                                kingdoms[nft.tokenId].title.replace('Patchwork Kingdom ', '')}
+                                                        </p>
+                                                        <div className="text-right">
+                                                            <button
+                                                                onClick={() => {
+                                                                    setTransactionType({ isDeposit: true, isPurchase: false });
+                                                                    setIsModalOpen(true);
+                                                                    setSelectedNft(nft);
+                                                                }}
+                                                                className="mt-2 py-1 w-16 rounded-md bg-teal-500 text-white cursor-pointer font-bold hover:bg-teal-600">
+                                                                Donate
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                </div>
                                             </div>
 
                                             <div className="space-y-2">
+                                                {/** 
                                                 {isDonateActivated ? (
                                                     <div>
                                                         <div className="flex flex-row justify-between items-start ">
@@ -140,7 +141,7 @@ export const NftGallery: FunctionComponent<IProps> = ({
                                                                     setIsModalOpen(true);
                                                                     setSelectedNft(nft);
                                                                 }}
-                                                                className="justify-end p-1 rounded-sm bg-teal-500 text-white cursor-pointer hover:bg-teal-00">
+                                                                className="mt-2 py-1 w-16 rounded-md bg-teal-500 text-white cursor-pointer font-bold hover:bg-teal-600">
                                                                 Donate
                                                             </button>
                                                         </div>
@@ -151,7 +152,7 @@ export const NftGallery: FunctionComponent<IProps> = ({
                                                         <h3>{nft.title}</h3>
                                                         <p className="text-indigo-600">Token Id: {nft.tokenId}</p>
                                                     </div>
-                                                )}
+                                                )}*/}
                                                 <ul role="list" className="flex space-x-5">
                                                     <li>
                                                         <a href={`/nft/${nft.tokenId}`} className="text-gray-400 hover:text-gray-500">
@@ -169,30 +170,6 @@ export const NftGallery: FunctionComponent<IProps> = ({
                                                             View on Opensea
                                                         </a>
                                                     </li>
-                                                    {
-                                                        isDonateActivated ? null : <li></li>
-
-                                                        /** gibt eigentlich keinen Sinn hier sharen zu wollen
-
-                                                        <li>
-                                                            <p className="flex text-gray-400 space-x-1">
-                                                                <span className="text-gray-400 sr-only">Share </span> Share
-                                                                <p className=" space-x-0.5 flex-row">
-                                                                    {' '}
-                                                                    <FacebookShareButton
-                                                                        url={shareUrl}
-                                                                        title={shareTitle}
-                                                                        quote={shareDescription}>
-                                                                        <FacebookIcon size={24} round={true}></FacebookIcon>
-                                                                    </FacebookShareButton>
-                                                                    <TwitterShareButton url={shareUrl} title={shareDescription}>
-                                                                        <TwitterIcon size={24} round={true}></TwitterIcon>
-                                                                    </TwitterShareButton>
-                                                                </p>
-                                                            </p>
-                                                        </li>*/
-                                                    }
-
                                                     <li>
                                                         {nft.highresDownloadUrl != '' ? (
                                                             <a

@@ -89,13 +89,6 @@ export default function Gallery() {
     return (
         <div className="flex flex-col">
             {!process.env.PROD_FLAG ? <MintComponent></MintComponent> : null}
-
-            {/** only needed for testing 
-            <MintComponent
-                heading="Mint a Test Token"
-                caption="Mint a token to test the deposit and purchasement functionalities."
-                isModalOpen={isModalOpen}
-                setIsModalOpen={setIsModalOpen}></MintComponent>*/}
             <PurchasementGallery
                 heading="Up for Sale"
                 caption="Limited time offers of Patchwork Kingdoms that have generously been donated to Giga by their owners. If you purchase these from this website directly, 100% of the funds you pay are donated to UNICEF."

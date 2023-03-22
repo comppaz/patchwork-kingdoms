@@ -6,10 +6,10 @@ import ModalContext from '../context/ModalContext';
 import AddressContext from '../context/AddressContext';
 import { escrowContractWSS } from '../lib/contractInteraction';
 import ResponseModal from '../components/donation/ResponseModal';
-import DonationContext from '../context/DonationContext';
 import Image from 'next/image';
 import Modal from '../components/donation/Modal';
 import { getOwnedTestNfts } from '../lib/testTokenInteraction';
+import kingdoms from '../data/kingdoms';
 
 export default function Dashboard() {
     const { user } = useUser();
@@ -34,14 +34,11 @@ export default function Dashboard() {
 
     useEffect(() => {
         if (!process.env.PROD_FLAG && user && user.account) {
-            console.log('DASHBOARD');
-            console.log(user.account);
-
             (async () => {
                 setTestNfts(await getOwnedTestNfts(user.account));
             })();
         }
-    }, [user]);
+    }, [user, isResponseModalOpen]);
 
     useEffect(() => {
         setIsModalOpen(false);
@@ -52,15 +49,12 @@ export default function Dashboard() {
     }, [emittingAddress]);
 
     const subscribeToDepositEvent = async () => {
-        console.log('SUBSCRIBING TO DEPOSIT?');
         escrowContractWSS.events.Deposited({}, async (error, data) => {
             setIsModalOpen(false);
             setIsLoading(false);
             if (error) {
                 console.log(error);
             } else {
-                console.log('DEPOSIT EVENT WAS EMITTED SUCCESSFULLY');
-                console.log(user);
                 // check that user is set and equals the emittingAddress
                 if (user && user.account !== '' && user.account === emittingAddress) {
                     updateModalData({
@@ -142,20 +136,28 @@ export default function Dashboard() {
                                                 width={300}
                                                 height={300}
                                                 src={el.url}
+                                                layout="responsive"
                                                 alt={'Test Token Image'}
                                             />
-                                            <p className="text-md text-gray-500">TestToken #{el.tokenId}</p>
-                                            <button
-                                                onClick={() => {
-                                                    //setModalOpen(true);
-                                                    setTransactionType({ isDeposit: true, isPurchase: false });
-                                                    setIsModalOpen(true);
-                                                    setSelectedTestToken(el);
-                                                }}
-                                                className=" mt-2 p-1 rounded-sm bg-teal-500 text-white cursor-pointer hover:text-gray-300">
-                                                <span className="sr-only">Donate</span>
-                                                Donate
-                                            </button>
+                                            <div className="grid grid-flow-row ">
+                                                <div className="text-md grid grid-flow-col">
+                                                    <p className="py-4 font-bold font-medium">
+                                                        {kingdoms[el.tokenId].title &&
+                                                            kingdoms[el.tokenId].title.replace('Patchwork Kingdom ', '')}
+                                                    </p>
+                                                    <div className="text-right">
+                                                        <button
+                                                            onClick={() => {
+                                                                setTransactionType({ isDeposit: true, isPurchase: false });
+                                                                setIsModalOpen(true);
+                                                                setSelectedTestToken(el);
+                                                            }}
+                                                            className="mt-2 py-1 w-16 rounded-md bg-teal-500 text-white cursor-pointer font-bold hover:bg-teal-600">
+                                                            Donate
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                 ))}

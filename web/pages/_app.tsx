@@ -10,7 +10,6 @@ import { SWRConfig } from 'swr';
 import { fetchJson } from '../lib/fetchData';
 import { ModalProvider } from '../context/ModalContext';
 import { AddressProvider } from '../context/AddressContext';
-import { DonationProvider } from '../context/DonationContext';
 
 function getLibrary(provider) {
     return new Web3(provider);
