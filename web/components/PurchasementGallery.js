@@ -83,7 +83,6 @@ export default function PurchasementGallery({
             });
         }
     }
-
     return (
         <div className="bg-white">
             <div className="mx-auto pt-12 pb-4 px-4 max-w-7xl sm:px-6 lg:px-8 lg:pt-24 lg:pb-4">
@@ -105,7 +104,7 @@ export default function PurchasementGallery({
                         <Swiper
                             key={1}
                             modules={[Autoplay, Pagination]}
-                            loop={true}
+                            loop={false}
                             loopFillGroupWithBlank={true}
                             pagination={{
                                 clickable: true,

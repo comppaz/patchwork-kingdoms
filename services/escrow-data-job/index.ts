@@ -2,20 +2,36 @@ import * as dotenv from "dotenv";
 import { createAlchemyWeb3, AlchemyWeb3 } from "@alch/alchemy-web3";
 import { NFTEntry } from "./types/types";
 import { Contract } from "web3-eth-contract";
+const { ethers } = require("ethers");
+
 dotenv.config();
 
 // setup variables
-const adminAddress = "0x3112aF4cE798B63A1f6B318BA4CB50a2Ee248971";
+const wallet = new ethers.Wallet(process.env.PRIVATE_KEY);
+const network = process.env.NETWORK;
+const provider = new ethers.providers.AlchemyProvider(
+  network,
+  `${process.env.ALCHEMY_API_KEY}`
+);
+const signer = wallet.connect(provider);
+const adminAddress = process.env.ADMIN_ADDRESS;
+const contractAddress: string = process.env.ESCROW_DEPLOYMENT_ADDRESS!;
+const contractABI: any = require("./contracts/PatchworkKingdomsEscrow.json");
+const escrowContract: Contract = new ethers.Contract(
+  contractAddress,
+  contractABI["abi"],
+  signer
+);
+
+/*
 const web3: AlchemyWeb3 = createAlchemyWeb3(
   `https://eth-goerli.g.alchemy.com/v2/${process.env.ALCHEMY_API_KEY}`
 );
-const contractAddress: string = process.env.ESCROW_DEPLOYMENT_ADDRESS!;
-const contractABI: any = require("./contracts/PatchworkKingdomsEscrow.json");
 const escrowContract: Contract = new web3.eth.Contract(
   contractABI["abi"],
   contractAddress
 );
-web3.eth.handleRevert = true;
+web3.eth.handleRevert = true;*/
 
 async function getItems() {
   console.log("...GETTING ITEMS...");
