@@ -23,19 +23,10 @@ const escrowContract = new ethers.Contract(
   signer
 );
 
-/*
-const web3: AlchemyWeb3 = createAlchemyWeb3(
-  `https://eth-goerli.g.alchemy.com/v2/${process.env.ALCHEMY_API_KEY}`
-);
-const escrowContract: Contract = new web3.eth.Contract(
-  contractABI["abi"],
-  contractAddress
-);
-web3.eth.handleRevert = true;*/
-
 async function getItems() {
   console.log("...GETTING ITEMS...");
-  const items = await escrowContract.methods.getItems().call();
+  // wenn escrow contract items = [] check
+  const items = await escrowContract.getItems();
   console.log(items);
 
   let depositedItems: NFTEntry[] = [];

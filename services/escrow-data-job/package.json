@@ -5,7 +5,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "tsc",
-    "start": "ts-node index.ts"
+    "start": "ts-node index.ts",
+    "run-check": "ts-node scripts/check.ts"
   },
   "license": "MIT",
   "devDependencies": {
