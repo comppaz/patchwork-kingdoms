@@ -16,16 +16,16 @@ async function main() {
   );
   const testERC721token = await TestERC721Token.deploy();
 
+  const testTokenAddress = "0xc1794a6682683052c446ab4cfd78a8990b2ab0e1";
+
   // TODO: change to pwkAddress when deploying on same net
   const patchworkKingdomsEscrow = await PatchworkKingdomsEscrow.deploy(
-    testERC721token.address
+    testTokenAddress
   );
 
   await patchworkKingdomsEscrow.deployed();
 
-  console.log(
-    `deployed to ${patchworkKingdomsEscrow.address} and ${testERC721token.address}`
-  );
+  console.log(`deployed to ${patchworkKingdomsEscrow.address}`);
 }
 
 // We recommend this pattern to be able to use async/await everywhere

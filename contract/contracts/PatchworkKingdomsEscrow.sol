@@ -123,7 +123,8 @@ contract PatchworkKingdomsEscrow {
             msg.value > item.price,
             "The price value does not exceed or is equal to the minimum price."
         );
-        require(block.timestamp > item.expiration, "The token is expired.");
+        require(items[itemId].isReady == true, "Item is not activated.");
+        require(block.timestamp <= item.expiration, "The token is expired.");
 
         token.safeTransferFrom(address(this), msg.sender, item.tokenId);
 
