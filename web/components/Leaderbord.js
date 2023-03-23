@@ -66,10 +66,11 @@ export default function Leaderboard({ data, fixedAuctionValue, roundPriceValue, 
                 <div className="space-y-5 sm:space-y-4">
                     <div className="space-y-5 sm:space-y-4 md:max-w-xl lg:max-w-3xl xl:max-w-none">
                         <h2 className="text-3xl font-extrabold tracking-tight sm:text-4xl">Leaderboard</h2>
+                        {/** 
                         <div className="grid grid-cols-3 gap-4">
                             <h4 className="col-span-2 text-2xl font-extrabold tracking-tight sm:text-xl">Hall of Fame</h4>
                         </div>
-                        <HallOfFame />
+                        <HallOfFame />*/}
                         <h4 className="text-2xl font-extrabold tracking-tight sm:text-xl">Summaries</h4>
                         <Statistics
                             stats={tableData}
