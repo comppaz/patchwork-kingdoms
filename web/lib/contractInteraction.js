@@ -76,8 +76,8 @@ export const getItems = async () => {
     items.forEach((el, i) => {
         let item = {};
         if (process.env.PROD_FLAG) {
-            // check giver of deposited item is a currently valid address and that the price is neither undefined nor zero
-            if (el[1] !== '0x0000000000000000000000000000000000000000' || el[4] === 0 || el[4] === undefined) {
+            // make sure giver of deposited item is neither invalid nor the element is not ready nor that the price is neither undefined nor zero
+            if (el[1] !== '0x0000000000000000000000000000000000000000' || el[5] === true || el[4] !== 0 || el[4] !== undefined) {
                 item.itemId = el.itemId;
                 item.giver = el.giver;
                 item.expiration = el.expiration;
