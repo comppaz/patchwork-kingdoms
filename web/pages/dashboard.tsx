@@ -1,15 +1,13 @@
 import { useEffect, useState, useContext } from 'react';
 import useUser from '../lib/useUser';
 import useOwnedNfts from '../lib/useOwnedNfts';
-import NftGallery from '../components/NftGallery';
 import ModalContext from '../context/ModalContext';
 import AddressContext from '../context/AddressContext';
 import { escrowContractWSS } from '../lib/contractInteraction';
 import ResponseModal from '../components/donation/ResponseModal';
-import Image from 'next/image';
 import Modal from '../components/donation/Modal';
 import { getOwnedTestNfts } from '../lib/testTokenInteraction';
-import kingdoms from '../data/kingdoms';
+import DashboardGallery from '../components/DashboardGallery';
 
 export default function Dashboard() {
     const { user } = useUser();
@@ -27,7 +25,7 @@ export default function Dashboard() {
     const { emittingAddress } = useContext(AddressContext);
 
     const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
-
+    // testNfts only updated in test environment
     const [testNfts, setTestNfts] = useState([]);
     const [selectedTestToken, setSelectedTestToken] = useState(null);
     const [transactionType, setTransactionType] = useState({});
@@ -82,7 +80,7 @@ export default function Dashboard() {
             }
         });
     };
-
+    console.log(testNfts);
     // activates testing component only in dev stage
     if (!process.env.PROD_FLAG) {
         if (!user?.isLoggedIn) {
@@ -105,14 +103,6 @@ export default function Dashboard() {
 
         return (
             <div>
-                <NftGallery
-                    heading="Your Kingdoms"
-                    caption="All Patchwork Kingdoms that belong to you."
-                    nfts={nfts}
-                    footer="Yay! You have seen all your Kingdoms."
-                    isDonateActivate={true}
-                    isModalOpen={isModalOpen}
-                    setIsModalOpen={setIsModalOpen}></NftGallery>
                 <ResponseModal />
                 {selectedTestToken && (
                     <Modal
@@ -123,47 +113,17 @@ export default function Dashboard() {
                         nft={selectedTestToken}
                     />
                 )}
-                <p className="text-md text-gray-500">Your Test Token:</p>
                 {testNfts ? (
-                    <section className="overflow-hidden text-gray-700">
-                        <div className="container px-5 py-2 mx-auto lg:pt-12 lg:px-32">
-                            <div className="flex flex-wrap -m-1 md:-m-2">
-                                {testNfts.map((el, index) => (
-                                    <div className="flex flex-wrap w-1/3" key={index}>
-                                        <div className=" w-full p-1 md:p-2">
-                                            <Image
-                                                className="block object-cover object-center shadow-lg rounded-lg"
-                                                width={300}
-                                                height={300}
-                                                src={el.url}
-                                                layout="responsive"
-                                                alt={'Test Token Image'}
-                                            />
-                                            <div className="grid grid-flow-row ">
-                                                <div className="text-md grid grid-flow-col">
-                                                    <p className="py-4 font-bold font-medium">
-                                                        {kingdoms[el.tokenId].title &&
-                                                            kingdoms[el.tokenId].title.replace('Patchwork Kingdom ', '')}
-                                                    </p>
-                                                    <div className="text-right">
-                                                        <button
-                                                            onClick={() => {
-                                                                setTransactionType({ isDeposit: true, isPurchase: false });
-                                                                setIsModalOpen(true);
-                                                                setSelectedTestToken(el);
-                                                            }}
-                                                            className="mt-2 py-1 w-16 rounded-md bg-teal-500 text-white cursor-pointer font-bold hover:bg-teal-600">
-                                                            Donate
-                                                        </button>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                ))}
-                            </div>
-                        </div>
-                    </section>
+                    <div>
+                        <DashboardGallery
+                            heading="Your Kingdoms"
+                            caption="All Patchwork Kingdoms that belong to you."
+                            nfts={testNfts}
+                            footer="Yay! You have seen all your Kingdoms."
+                            isModalOpen={isModalOpen}
+                            setIsModalOpen={setIsModalOpen}
+                        />
+                    </div>
                 ) : (
                     <div className="text-md text-gray-500">You currently do not own test tokens. Please mint some tokens first.</div>
                 )}
@@ -216,15 +176,24 @@ export default function Dashboard() {
 
     return (
         <div>
-            <NftGallery
+            <ResponseModal />
+            {selectedTestToken && (
+                <Modal
+                    transactionType={transactionType}
+                    setTransactionType={setTransactionType}
+                    isModalOpen={isModalOpen}
+                    setIsModalOpen={setIsModalOpen}
+                    nft={selectedTestToken}
+                />
+            )}
+            <DashboardGallery
                 heading="Your Kingdoms"
                 caption="All Patchwork Kingdoms that belong to you."
                 nfts={nfts}
                 footer="Yay! You have seen all your Kingdoms."
-                isDonateActivate={true}
                 isModalOpen={isModalOpen}
-                setIsModalOpen={setIsModalOpen}></NftGallery>
-            <ResponseModal />
+                setIsModalOpen={setIsModalOpen}
+            />
         </div>
     );
 }

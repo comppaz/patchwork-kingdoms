@@ -76,15 +76,15 @@ export const getItems = async () => {
     items.forEach((el, i) => {
         let item = {};
         if (process.env.PROD_FLAG) {
-            // check giver of deposited item is a currently valid address and that the price is neither undefined nor zero
-            if (el[1] !== '0x0000000000000000000000000000000000000000' || el[4] === 0 || el[4] === undefined) {
+            // make sure giver of deposited item is neither invalid nor the element is not ready nor that the price is neither undefined nor zero
+            if (el[1] !== '0x0000000000000000000000000000000000000000' || el[5] === true || el[4] !== 0 || el[4] !== undefined) {
                 item.itemId = el.itemId;
                 item.giver = el.giver;
                 item.expiration = el.expiration;
                 item.length = el.length;
                 item.price = el.price;
                 item.tokenId = el.tokenId;
-                item.url = `https://${process.env.NEXT_PUBLIC_BUCKET_NAME}.fra1.digitaloceanspaces.com/thumbnail/${el.tokenId}.png`;
+                item.imageUrl = `https://${process.env.NEXT_PUBLIC_BUCKET_NAME}.fra1.digitaloceanspaces.com/thumbnail/${el.tokenId}.png`;
                 output.push(item);
             }
         } else {
@@ -96,7 +96,7 @@ export const getItems = async () => {
                 item.length = el.length;
                 item.price = el.price;
                 item.tokenId = el.tokenId;
-                item.url = 'https://api.lorem.space/image/drink';
+                item.imageUrl = 'https://api.lorem.space/image/drink';
                 output.push(item);
             }
         }
@@ -168,7 +168,9 @@ export const buy = async (address, itemId, price) => {
         if (item[1].toLowerCase() === address.toLowerCase()) {
             console.log('Giver equals address, purchasement will fail!');
             return {
-                status: `You previously donated this nft. You can't buy it!`,
+                message: "You previously donated this nft. You can't buy it again!",
+                status: false,
+                txHash: txHash,
             };
         }
     }
@@ -194,7 +196,7 @@ export const buy = async (address, itemId, price) => {
         };
     } catch (error) {
         return {
-            message: 'Something went wrong: ' + error.message,
+            message: error.message,
             status: false,
         };
     }

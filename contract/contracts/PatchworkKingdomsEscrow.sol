@@ -30,6 +30,7 @@ contract PatchworkKingdomsEscrow {
         uint256 tokenId;
         uint256 expiration;
         uint256 price;
+        bool isReady;
     }
 
     mapping(uint256 => ERC721Item) public items;
@@ -73,14 +74,14 @@ contract PatchworkKingdomsEscrow {
             giver: msg.sender,
             tokenId: tokenId,
             expiration: block.timestamp + _expiration,
-            // 0.175 ether
-            price: 0.175 ether
+            price: 0.175 ether,
+            isReady: false
         });
         counter += 1;
         emit Deposited(itemId, address(token), items[itemId].tokenId);
     }
 
-    /// @notice This function is called by the oracle service after the Deposited event has been triggered.
+    /// @notice This function is called by the oracle service after the Deposited event has been triggered. After setting the price, the isReady-Flag is updated.
     /// @param lastMinPrice This is the value the oracle calculates. 
     /// @param itemId This is the id of the deposited item.
     function setLastMinPrice(uint256 lastMinPrice, uint256 itemId) public {
@@ -90,6 +91,7 @@ contract PatchworkKingdomsEscrow {
         );
 
         items[itemId].price = lastMinPrice;
+        items[itemId].isReady = true;
     }
 
     /// @notice This function returns a specific item to be displayed.

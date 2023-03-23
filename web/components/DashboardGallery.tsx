@@ -2,7 +2,6 @@ import { useEffect, useState, FunctionComponent } from 'react';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import Image from 'next/image';
 import Loading from './Loading';
-import { FacebookIcon, FacebookShareButton, TwitterIcon, TwitterShareButton } from 'react-share';
 import Modal from './donation/Modal';
 import kingdoms from '../data/kingdoms';
 
@@ -14,11 +13,23 @@ interface IProps {
     heading: string;
     caption: string;
     footer: string;
+    isModalOpen?: boolean;
+    setIsModalOpen?: (isOpen: boolean) => void;
 }
 
-export const NftGallery: FunctionComponent<IProps> = ({ nfts: nfts, heading: heading, caption: caption, footer: footer }) => {
+export const DashboardGallery: FunctionComponent<IProps> = ({
+    nfts: nfts,
+    heading: heading,
+    caption: caption,
+    footer: footer,
+    isModalOpen: isModalOpen,
+    setIsModalOpen: setIsModalOpen,
+}) => {
     const [allnfts, setAllnfts] = useState([]);
     const [hasMore, setHasMore] = useState(true);
+
+    const [selectedNft, setSelectedNft] = useState(null);
+    const [transactionType, setTransactionType] = useState({});
 
     useEffect(() => {
         if (nfts === undefined) {
@@ -51,6 +62,15 @@ export const NftGallery: FunctionComponent<IProps> = ({ nfts: nfts, heading: hea
                     <div className="space-y-5 sm:space-y-4 md:max-w-xl lg:max-w-3xl xl:max-w-none">
                         <h2 className="text-3xl font-extrabold tracking-tight sm:text-4xl">{heading}</h2>
                         <p className="text-xl text-gray-500">{caption}</p>
+                        {selectedNft && (
+                            <Modal
+                                transactionType={transactionType}
+                                setTransactionType={setTransactionType}
+                                isModalOpen={isModalOpen}
+                                setIsModalOpen={setIsModalOpen}
+                                nft={selectedNft}
+                            />
+                        )}
                     </div>
                     <InfiniteScroll
                         dataLength={allnfts.length} // This is important field to render the next data
@@ -73,8 +93,8 @@ export const NftGallery: FunctionComponent<IProps> = ({ nfts: nfts, heading: hea
                                                 <a href={`/nft/${nft.tokenId}`}>
                                                     <Image
                                                         className="object-cover shadow-lg rounded-lg"
-                                                        //layout="fill"
-                                                        layout="responsive"
+                                                        layout="fill"
+                                                        //layout="responsive"
                                                         width={300}
                                                         height={300}
                                                         src={nft.imageUrl}
@@ -84,9 +104,24 @@ export const NftGallery: FunctionComponent<IProps> = ({ nfts: nfts, heading: hea
                                             </div>
 
                                             <div className="space-y-2">
-                                                <div className="text-lg leading-6 font-medium space-y-1">
-                                                    <h3>{nft.title}</h3>
-                                                    <p className="text-indigo-600">Token Id: {nft.tokenId}</p>
+                                                <div className="grid grid-flow-row ">
+                                                    <div className="text-md grid grid-flow-col">
+                                                        <p className="py-4 font-bold font-medium">
+                                                            {kingdoms[nft.tokenId].title &&
+                                                                kingdoms[nft.tokenId].title.replace('Patchwork Kingdom ', '')}
+                                                        </p>
+                                                        <div className="text-right">
+                                                            <button
+                                                                onClick={() => {
+                                                                    setTransactionType({ isDeposit: true, isPurchase: false });
+                                                                    setIsModalOpen(true);
+                                                                    setSelectedNft(nft);
+                                                                }}
+                                                                className="mt-2 py-1 w-16 rounded-md bg-teal-500 text-white cursor-pointer font-bold hover:bg-teal-600">
+                                                                Donate
+                                                            </button>
+                                                        </div>
+                                                    </div>
                                                 </div>
                                                 <ul role="list" className="flex space-x-5">
                                                     <li>
@@ -132,4 +167,4 @@ export const NftGallery: FunctionComponent<IProps> = ({ nfts: nfts, heading: hea
     );
 };
 
-export default NftGallery;
+export default DashboardGallery;

@@ -1,3 +1,5 @@
+import Link from 'next/link';
+
 const navigation = {
     main: [],
     social: [
@@ -43,6 +45,12 @@ export default function Footer() {
                             <item.icon className="h-6 w-6" aria-hidden="true" />
                         </a>
                     ))}
+                </div>
+                <div className="mt-8 text-center text-base text-gray-400">
+                    {' '}
+                    <Link href="/privacy">
+                        <a>Privacy Policy</a>
+                    </Link>
                 </div>
                 <p className="mt-8 text-center text-base text-gray-400">&copy; {new Date().getFullYear()} Giga. All rights reserved.</p>
             </div>
