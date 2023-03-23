@@ -40,6 +40,8 @@ export default function PurchasementGallery({
         })();
     }, [isModalOpen]);
 
+    console.log(depositedNfts);
+
     useEffect(() => {
         if (depositedNfts) {
             const job = new cron.CronJob('0 */10 * * * *', async function () {
@@ -138,8 +140,8 @@ export default function PurchasementGallery({
                                         height={300}
                                         width={300}
                                         layout="responsive"
-                                        src={el.url}
-                                        alt={'Test Token Image'}
+                                        src={el.imageUrl}
+                                        alt={'NFT Image'}
                                     />
                                     <div className="grid grid-flow-row ">
                                         <div className="text-md grid grid-flow-col">

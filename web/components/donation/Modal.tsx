@@ -234,7 +234,7 @@ export default function Modal({ transactionType, setTransactionType, nft, isModa
                                                             className="object-cover shadow-lg rounded-lg"
                                                             width="512"
                                                             height="512"
-                                                            src={nft.url}
+                                                            src={nft.imageUrl}
                                                             alt={nft.title + ' NFT Image'}
                                                         />
                                                     </div>
@@ -503,7 +503,7 @@ export default function Modal({ transactionType, setTransactionType, nft, isModa
                                                             className="object-cover shadow-lg rounded-lg"
                                                             width="512"
                                                             height="512"
-                                                            src={nft.url}
+                                                            src={nft.imageUrl}
                                                             alt={nft.title + ' NFT Image'}
                                                         />
                                                     </div>

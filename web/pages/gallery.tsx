@@ -98,8 +98,7 @@ export default function Gallery() {
                 heading="Patchwork Kingdoms Gallery"
                 caption=" All Patchwork Kingdoms in the collection."
                 nfts={data}
-                footer="Yay! You have seen all the Kingdoms."
-                isDonateActivate={false}></NftGallery>
+                footer="Yay! You have seen all the Kingdoms."></NftGallery>
             <ResponseModal />
         </div>
     );

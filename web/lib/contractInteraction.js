@@ -84,7 +84,7 @@ export const getItems = async () => {
                 item.length = el.length;
                 item.price = el.price;
                 item.tokenId = el.tokenId;
-                item.url = `https://${process.env.NEXT_PUBLIC_BUCKET_NAME}.fra1.digitaloceanspaces.com/thumbnail/${el.tokenId}.png`;
+                item.imageUrl = `https://${process.env.NEXT_PUBLIC_BUCKET_NAME}.fra1.digitaloceanspaces.com/thumbnail/${el.tokenId}.png`;
                 output.push(item);
             }
         } else {
@@ -96,7 +96,7 @@ export const getItems = async () => {
                 item.length = el.length;
                 item.price = el.price;
                 item.tokenId = el.tokenId;
-                item.url = 'https://api.lorem.space/image/drink';
+                item.imageUrl = 'https://api.lorem.space/image/drink';
                 output.push(item);
             }
         }
