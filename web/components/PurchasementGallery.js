@@ -44,7 +44,7 @@ export default function PurchasementGallery({
 
     useEffect(() => {
         if (depositedNfts) {
-            const job = new cron.CronJob('0 */10 * * * *', async function () {
+            const job = new cron.CronJob('0 */1 * * * *', async function () {
                 // check for expiration
                 let isTokenExpired = await checkExpirationDate(depositedNfts, Math.floor(Date.now() / 1000));
                 if (isTokenExpired) {

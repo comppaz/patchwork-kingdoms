@@ -8,7 +8,6 @@ const contractAddress = process.env.NEXT_PUBLIC_ESCROW_DEPLOYMENT_ADDRESS;
 const contractABI = require('../contracts/PatchworkKingdomsEscrow.json');
 const escrowContract = new web3.eth.Contract(contractABI['abi'], contractAddress);
 export const escrowContractWSS = new web3Wss.eth.Contract(contractABI['abi'], contractAddress);
-
 export const connectWallet = async () => {
     if (window.ethereum) {
         try {
@@ -77,7 +76,7 @@ export const getItems = async () => {
         let item = {};
         if (process.env.PROD_FLAG) {
             // make sure giver of deposited item is neither invalid nor the element is not ready nor that the price is neither undefined nor zero
-            if (el[1] !== '0x0000000000000000000000000000000000000000' || el[5] === true || el[4] !== 0 || el[4] !== undefined) {
+            if (el.isReady) {
                 item.itemId = el.itemId;
                 item.giver = el.giver;
                 item.expiration = el.expiration;
@@ -89,7 +88,7 @@ export const getItems = async () => {
             }
         } else {
             // check giver of deposited item is a currently valid address and that the price is neither undefined nor zero
-            if (el[1] !== '0x0000000000000000000000000000000000000000' || el[4] === 0 || el[4] === undefined) {
+            if (el.isReady) {
                 item.itemId = el.itemId;
                 item.giver = el.giver;
                 item.expiration = el.expiration;

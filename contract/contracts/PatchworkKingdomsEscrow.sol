@@ -89,7 +89,7 @@ contract PatchworkKingdomsEscrow {
             msg.sender == owner,
             "Last min price can only be set by an admin."
         );
-
+        require(lastMinPrice > 0, "Last min price has to be greater 0");
         items[itemId].price = lastMinPrice;
         items[itemId].isReady = true;
     }

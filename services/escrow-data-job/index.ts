@@ -32,11 +32,7 @@ async function getItems() {
   let depositedItems: NFTEntry[] = [];
   items.forEach((el: any[]) => {
     // check giver of deposited item is a currently valid address and that the price is neither undefined nor zero
-    if (
-      el[1] !== "0x0000000000000000000000000000000000000000" ||
-      el[4] === 0 ||
-      el[4] === undefined
-    ) {
+    if (el[1] !== "0x0000000000000000000000000000000000000000") {
       depositedItems.push({
         itemId: el[0],
         giver: el[1],

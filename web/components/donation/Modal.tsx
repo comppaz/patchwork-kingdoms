@@ -331,6 +331,7 @@ export default function Modal({ transactionType, setTransactionType, nft, isModa
                                                                 </div>
                                                             </div>
                                                         </div>
+                                                        {/** 
                                                         <div className="mt-6">
                                                             <div>
                                                                 <label htmlFor="hall" className="block text-sm font-medium text-gray-600">
@@ -348,6 +349,7 @@ export default function Modal({ transactionType, setTransactionType, nft, isModa
                                                                 </div>
                                                             </div>
                                                         </div>
+                                                        */}
                                                         <div className="mt-4">
                                                             <Switch.Group as="div" className="flex items-center justify-between">
                                                                 <span className="flex flex-grow flex-col">
