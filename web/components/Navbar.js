@@ -10,6 +10,7 @@ import { useRouter } from 'next/router';
 import { ToastContainer, toast } from 'react-toastify';
 
 import 'react-toastify/dist/ReactToastify.min.css';
+import NavbarDropdown from './NavbarDropdown';
 
 const navigation = [
     {
@@ -113,7 +114,11 @@ export default function Navbar() {
                                     <Link href="/">
                                         <a>
                                             <span className="sr-only">Patchwork Kingdoms</span>
-                                            <img className="h-16 w-auto md:h-24" src="/images/GIGA_allcolour_RGB_horizontal.png" alt="" />
+                                            <img
+                                                className=" mt-8 h-16 w-auto md:h-18 md:ml-10 md:mt-4"
+                                                src="https://patchwork-kingdoms.fra1.digitaloceanspaces.com/email%2FpwkLogo.png"
+                                                alt=""
+                                            />
                                         </a>
                                     </Link>
                                     <div className="-mr-2 flex items-center md:hidden">
@@ -129,16 +134,10 @@ export default function Navbar() {
                                     <a className="inline-flex font-medium text-gray-500 hover:text-gray-900">News</a>
                                 </Link>
 
-                                <Link href="/dashboard">
-                                    <a className="inline-flex font-medium text-gray-500 hover:text-gray-900">Dashboard</a>
-                                </Link>
+                                <NavbarDropdown />
 
-                                <Link href="/gallery">
-                                    <a className="inline-flex font-medium text-gray-500 hover:text-gray-900">Gallery</a>
-                                </Link>
-
-                                <Link href="/leaderboard">
-                                    <a className="inline-flex font-medium text-gray-500 hover:text-gray-900">Leaderboard</a>
+                                <Link href="/faq">
+                                    <a className="inline-flex font-medium text-gray-500 hover:text-gray-900">FAQ</a>
                                 </Link>
 
                                 {navigation.map(item => (
@@ -176,7 +175,11 @@ export default function Navbar() {
                             <div className="rounded-lg shadow-md bg-white ring-1 ring-black ring-opacity-5 overflow-hidden">
                                 <div className="px-4 pt-4 flex items-center justify-between">
                                     <div>
-                                        <img className="h-16 w-auto" src="/images/GIGA_allcolour_RGB_horizontal.png" alt="" />
+                                        <img
+                                            className="h-8 w-auto"
+                                            src="https://patchwork-kingdoms.fra1.digitaloceanspaces.com/email%2FpwkLogo.png"
+                                            alt=""
+                                        />
                                     </div>
                                     <div className="-mr-2">
                                         <Popover.Button className="bg-white rounded-md p-2 inline-flex items-center justify-center text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-teal-500">
@@ -206,6 +209,12 @@ export default function Navbar() {
                                             Leaderboard
                                         </a>
                                     </Link>
+                                    <Link href="/faq">
+                                        <a className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-50">
+                                            FAQ
+                                        </a>
+                                    </Link>
+
                                     <div className="flex items-center w-full justify-center mt-4 border-t-2 pt-8">
                                         <button
                                             onClick={() => toggleSignIn()}

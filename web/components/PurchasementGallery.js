@@ -87,7 +87,7 @@ export default function PurchasementGallery({
     }
     return (
         <div className="bg-white">
-            <div className="mx-auto pt-12 pb-4 px-4 max-w-7xl sm:px-6 lg:px-8 lg:pt-24 lg:pb-4">
+            <div className="mx-auto pt-12 pb-4 px-4 max-w-7xl sm:px-6 lg:pt-24 lg:pb-4">
                 <div className="space-y-12">
                     <div className="space-y-5 sm:space-y-4 md:max-w-xl lg:max-w-3xl xl:max-w-none">
                         <h2 className="text-3xl font-extrabold tracking-tight sm:text-4xl">{heading}</h2>
