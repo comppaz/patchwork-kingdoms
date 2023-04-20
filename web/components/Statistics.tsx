@@ -1,12 +1,12 @@
 import { useState, useEffect } from 'react';
 
 export default function Statistics({ stats, fixedAuctionValue, roundPriceValue, convertToUSD }) {
-    const [overallFunds, setOverallFunds] = useState(0);
-    const [overallOwner, setOverallOwner] = useState(0);
+    var [overallFunds, setOverallFunds] = useState(0);
+    var [overallOwner, setOverallOwner] = useState(0);
 
     /** calculate overall stats based on incoming dataset  */
     useEffect(() => {
-        if (stats !== undefined) {
+        if (stats !== undefined && stats.length !== 0) {
             if (overallFunds === 0) {
                 calculateOverallFunds(stats);
             }

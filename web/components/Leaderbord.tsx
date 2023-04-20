@@ -7,7 +7,7 @@ import HallOfFame from './HallOfFame';
 import Link from 'next/link';
 
 export default function Leaderboard({ data, fixedAuctionValue, roundPriceValue, convertToUSD }) {
-    const [tableData, setTableData] = useState();
+    const [tableData, setTableData] = useState([]);
     const [currentStartNft, setCurrentStartNft] = useState(0);
     const [currentPage, setCurrentPage] = useState(1);
 
@@ -43,21 +43,22 @@ export default function Leaderboard({ data, fixedAuctionValue, roundPriceValue, 
 
     const calculateRankChanges = nft => {
         let rankChange = 0;
+        let rankChangeResult: string;
         if (nft.weeklyRank) {
             rankChange = nft.rank - nft.weeklyRank;
         }
         // modify output with respective sign for each value
         switch (true) {
             case rankChange > 0:
-                rankChange = '+'.concat(rankChange);
+                rankChangeResult = '+'.concat(rankChange.toString());
                 break;
             case rankChange < 0:
                 break;
             case rankChange === 0:
-                rankChange = '+-'.concat(rankChange);
+                rankChangeResult = '+-'.concat(rankChange.toString());
                 break;
         }
-        return rankChange;
+        return rankChangeResult;
     };
 
     return (
