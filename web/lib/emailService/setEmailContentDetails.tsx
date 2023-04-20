@@ -44,7 +44,7 @@ export async function setToDonatorEmail(parameter: ToDonatorParams): Promise<Ema
         TOKEN_NAME: `${kingdoms[parameter.tokenId].title.replace('Patchwork Kingdom ', '')}`,
         LISTING_DATE: DateTime.fromISO(parameter.dateOfListing).toLocaleString(DateTime.DATETIME_MED),
         TIMEFRAME: timeframeToString(parameter.timeDuration),
-        LISTING_PRICE: `${parameter.listingPrice} ETH`,
+        LISTING_PRICE: `${parameter.salePrice} ETH`,
     });
 
     return {
