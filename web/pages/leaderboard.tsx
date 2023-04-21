@@ -51,6 +51,7 @@ const Leaderbord = () => {
             },
         });
         const res = await response.json();
+        console.log('donators');
         console.log(res);
         return res;
     };
@@ -74,7 +75,8 @@ const Leaderbord = () => {
                     data={data}
                     fixedAuctionValue={fixedAuctionValue}
                     roundPriceValue={roundPriceValue}
-                    convertToUSD={convertToUSD}></Leaderboard>
+                    convertToUSD={convertToUSD}
+                    donators={donators}></Leaderboard>
             )}
         </>
     );

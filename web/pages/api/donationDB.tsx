@@ -16,7 +16,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
     }
     if (req.method === 'POST') {
         try {
-            const { nftId, donatorMail, currentDate, timeframe, minPrice } = req.body;
+            const { nftId, donatorMail, currentDate, timeframe, minPrice, address } = req.body;
             const result = await prisma.DonatorInformation.upsert({
                 where: {
                     donatedTokenId: nftId,
@@ -27,12 +27,14 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
                     dateOfListing: currentDate,
                     timeframe: timeframe,
                     minPrice: minPrice,
+                    address: address,
                 },
                 update: {
                     email: donatorMail,
                     dateOfListing: currentDate,
                     timeframe: timeframe,
                     minPrice: minPrice,
+                    address: address,
                 },
             });
             console.log(result);

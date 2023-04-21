@@ -6,10 +6,13 @@ import LeaderboardContent from './LeaderboardContent';
 import HallOfFame from './HallOfFame';
 import Link from 'next/link';
 
-export default function Leaderboard({ data, fixedAuctionValue, roundPriceValue, convertToUSD }) {
+export default function Leaderboard({ data, fixedAuctionValue, roundPriceValue, convertToUSD, donators }) {
+    const minHallOfFameDonators = 3;
+
     const [tableData, setTableData] = useState([]);
     const [currentStartNft, setCurrentStartNft] = useState(0);
     const [currentPage, setCurrentPage] = useState(1);
+    const [isHallOfFame, setIsHallOfFame] = useState(false);
 
     /** sort incoming dataset according to its ranking */
     useEffect(() => {
@@ -21,6 +24,16 @@ export default function Leaderboard({ data, fixedAuctionValue, roundPriceValue, 
             );
         }
     }, [data]);
+
+    useEffect(() => {
+        if (donators !== undefined) {
+            if (shouldHallOfFameVisible(donators) >= minHallOfFameDonators) {
+                setIsHallOfFame(true);
+            } else {
+                setIsHallOfFame(false);
+            }
+        }
+    }, [donators]);
 
     /** update the displayed data */
     useEffect(() => {
@@ -61,17 +74,33 @@ export default function Leaderboard({ data, fixedAuctionValue, roundPriceValue, 
         return rankChangeResult;
     };
 
+    const shouldHallOfFameVisible = donators => {
+        let uniqueAddressCount = new Set(
+            donators.map(don => {
+                don.address;
+                console.log(don.address);
+            }),
+        ).size;
+        console.log(uniqueAddressCount);
+        return uniqueAddressCount;
+    };
+
     return (
         <div className="bg-white">
             <div className="mx-auto py-12 px-4 max-w-7xl sm:px-6  lg:py-24">
                 <div className="space-y-5 sm:space-y-4">
                     <div className="space-y-5 sm:space-y-4 md:max-w-xl lg:max-w-3xl xl:max-w-none">
                         <h2 className="text-3xl font-extrabold tracking-tight sm:text-4xl">Leaderboard</h2>
-                        {/** 
-                        <div className="grid grid-cols-3 gap-4">
-                            <h4 className="col-span-2 text-2xl font-extrabold tracking-tight sm:text-xl">Hall of Fame</h4>
-                        </div>
-                        <HallOfFame />*/}
+                        {isHallOfFame ? (
+                            <>
+                                <div className="grid grid-cols-3 gap-4">
+                                    <h4 className="col-span-2 text-2xl font-extrabold tracking-tight sm:text-xl">Hall of Fame</h4>
+                                </div>
+                                <HallOfFame />
+                            </>
+                        ) : null}
+                        {/**
+                         */}
                         <h4 className="text-2xl font-extrabold tracking-tight sm:text-xl">Summaries</h4>
                         <Statistics
                             stats={tableData}
