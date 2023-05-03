@@ -81,7 +81,7 @@ export const getOwnedTestNfts = async address => {
                 object = {
                     tokenId: tokenId,
                     contractAddress: nft.contract.address,
-                    imageUrl: `https://api.lorem.space/image/drink`,
+                    imageUrl: 'https://picsum.photos/200/300',
                 };
             }
             ownedNfts.push(object);

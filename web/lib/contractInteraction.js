@@ -95,7 +95,7 @@ export const getItems = async () => {
                 item.length = el.length;
                 item.price = el.price;
                 item.tokenId = el.tokenId;
-                item.imageUrl = 'https://api.lorem.space/image/drink';
+                item.imageUrl = 'https://picsum.photos/200/300';
                 output.push(item);
             }
         }

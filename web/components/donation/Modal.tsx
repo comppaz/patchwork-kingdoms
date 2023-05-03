@@ -117,7 +117,15 @@ export default function Modal({ transactionType, setTransactionType, nft, isModa
             if (donatorMail && depositResponse.status) {
                 setProgressStatus(depositResponse.message);
                 let currentDate = new Date();
-                const body = { nftId, donatorMail, currentDate, timeframe: currentExpirationTimeFrame, minPrice: estimatedPrice };
+                const body = {
+                    nftId,
+                    donatorMail,
+                    currentDate,
+                    timeframe: currentExpirationTimeFrame,
+                    minPrice: estimatedPrice,
+                    address: user.account,
+                    isSold: false,
+                };
                 const result = await fetch('/api/donationDB', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
