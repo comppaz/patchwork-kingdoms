@@ -6,7 +6,7 @@ export default function Statistics({ stats, fixedAuctionValue, roundPriceValue, 
 
     /** calculate overall stats based on incoming dataset  */
     useEffect(() => {
-        if (stats !== undefined && stats.length !== 0) {
+        if (stats && stats.length !== 0) {
             if (overallFunds === 0) {
                 calculateOverallFunds(stats);
             }

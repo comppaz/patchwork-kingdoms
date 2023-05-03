@@ -29,7 +29,7 @@ export default function Leaderboard({ data, fixedAuctionValue, roundPriceValue, 
     useEffect(() => {
         if (donators !== undefined && donators.length !== 0) {
             donators.forEach(don => {
-                if (don.isSold === undefined || don.isSold === null) {
+                if (!don.isSold) {
                     setIsHallOfFame(false);
                 } else {
                     setIsHallOfFame(true);
