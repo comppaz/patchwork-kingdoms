@@ -1,11 +1,26 @@
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 
-export default function HallOfFame({}) {
-    const [seller, setSeller] = useState([]);
+export default function HallOfFame({ donators }) {
+    const [rankedDonators, setRankedDonators] = useState([]);
 
-    /** calculate overall stats based on incoming dataset  */
-    useEffect(() => {}, []);
+    useEffect(() => {
+        donators.forEach(don => {
+            const obj = rankedDonators.find(el => el.address === don.address);
+            if (obj) {
+                obj.salePrice = obj.salePrice + don.salePrice;
+            } else {
+                rankedDonators.push(don);
+            }
+        });
+        setRankedDonators(
+            rankedDonators.sort((currentNft, previousNft) => {
+                return previousNft.salePrice - currentNft.salePrice;
+            }),
+        );
+    }, [donators]);
+
+    console.log(rankedDonators);
 
     return (
         <div>
@@ -22,19 +37,16 @@ export default function HallOfFame({}) {
                     .
                 </p>
             </div>
-            <dl className="mt-5 grid grid-cols-1 gap-5 sm:grid-cols-3">
-                <div className="px-4 py-5 bg-white shadow rounded-lg overflow-hidden sm:p-6">
-                    <dt className="text-sm font-medium text-gray-500 truncate">1</dt>
-                    <dd className="mt-1 text-3xl tracking-tight font-semibold text-gray-900"></dd>
-                </div>
-                <div className="px-4 py-5 bg-white shadow rounded-lg overflow-hidden sm:p-6">
-                    <dt className="text-sm font-medium text-gray-500 truncate">2</dt>
-                    <dd className="mt-1 text-3xl tracking-tight font-semibold text-gray-900"></dd>
-                </div>
-                <div className="px-4 py-5 bg-white shadow rounded-lg overflow-hidden sm:p-6">
-                    <dt className="text-sm font-medium text-gray-500 truncate">3</dt>
-                    <dd className="mt-1 text-3xl tracking-tight font-semibold text-gray-900"></dd>
-                </div>
+            <dl className="mt-5 grid grid-cols-1 gap-5 sm:grid-cols-1">
+                {rankedDonators.map((don, index) => (
+                    <div className="px-4 py-5 bg-white shadow rounded-lg overflow-hidden sm:p-6" key={index}>
+                        <dt className="text-sm font-medium text-gray-500 truncate">
+                            Rank: {index + 1} - Total Sale:
+                            {don.salePrice} - Address: {don.address}
+                        </dt>
+                        <dd className="mt-1 text-3xl tracking-tight font-semibold text-gray-900"></dd>
+                    </div>
+                ))}
             </dl>
         </div>
     );

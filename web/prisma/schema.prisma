@@ -26,6 +26,8 @@ model DonatorInformation {
   timeframe       Float
   minPrice        Float?
   address         String?
+  isSold          Boolean?
+  salePrice       Float?
 }
 
 model PurchaserInformation {

@@ -7,12 +7,13 @@ import HallOfFame from './HallOfFame';
 import Link from 'next/link';
 
 export default function Leaderboard({ data, fixedAuctionValue, roundPriceValue, convertToUSD, donators }) {
-    const minHallOfFameDonators = 3;
+    const minHallOfFameDonators = 1;
 
     const [tableData, setTableData] = useState([]);
     const [currentStartNft, setCurrentStartNft] = useState(0);
     const [currentPage, setCurrentPage] = useState(1);
     const [isHallOfFame, setIsHallOfFame] = useState(false);
+    const [successfulDonators, setSuccessfulDonators] = useState([]);
 
     /** sort incoming dataset according to its ranking */
     useEffect(() => {
@@ -26,12 +27,15 @@ export default function Leaderboard({ data, fixedAuctionValue, roundPriceValue, 
     }, [data]);
 
     useEffect(() => {
-        if (donators !== undefined) {
-            if (shouldHallOfFameVisible(donators) >= minHallOfFameDonators) {
-                setIsHallOfFame(true);
-            } else {
-                setIsHallOfFame(false);
-            }
+        if (donators !== undefined && donators.length !== 0) {
+            donators.forEach(don => {
+                if (don.isSold === undefined || don.isSold === null) {
+                    setIsHallOfFame(false);
+                } else {
+                    setIsHallOfFame(true);
+                    successfulDonators.push(don);
+                }
+            });
         }
     }, [donators]);
 
@@ -74,15 +78,15 @@ export default function Leaderboard({ data, fixedAuctionValue, roundPriceValue, 
         return rankChangeResult;
     };
 
-    const shouldHallOfFameVisible = donators => {
-        let uniqueAddressCount = new Set(
+    const totalDonators = donators => {
+        let totalDonators = new Set(
             donators.map(don => {
                 don.address;
                 console.log(don.address);
             }),
         ).size;
-        console.log(uniqueAddressCount);
-        return uniqueAddressCount;
+        console.log(totalDonators);
+        return totalDonators;
     };
 
     return (
@@ -96,7 +100,7 @@ export default function Leaderboard({ data, fixedAuctionValue, roundPriceValue, 
                                 <div className="grid grid-cols-3 gap-4">
                                     <h4 className="col-span-2 text-2xl font-extrabold tracking-tight sm:text-xl">Hall of Fame</h4>
                                 </div>
-                                <HallOfFame />
+                                <HallOfFame donators={successfulDonators} />
                             </>
                         ) : null}
                         {/**

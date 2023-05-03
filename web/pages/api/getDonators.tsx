@@ -7,7 +7,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     if (req.method === 'GET') {
         try {
             const result = await prisma.DonatorInformation.findMany({});
-            console.log(result);
             return res.status(200).json(result);
         } catch (error) {
             console.log(error);

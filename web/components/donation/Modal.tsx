@@ -124,6 +124,7 @@ export default function Modal({ transactionType, setTransactionType, nft, isModa
                     timeframe: currentExpirationTimeFrame,
                     minPrice: estimatedPrice,
                     address: user.account,
+                    isSold: false,
                 };
                 const result = await fetch('/api/donationDB', {
                     method: 'POST',

@@ -60,6 +60,17 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
 
         await sendEmail(emailTypeMap.toDonator, toDonatorParameter);
 
+        // update columns of salePrice and if isSold in DonatorInformation
+        const result = await prisma.DonatorInformation.update({
+            where: {
+                donatedTokenId: Number(tokenId),
+            },
+            data: {
+                isSold: true,
+                salePrice: purchaseData.salePrice,
+            },
+        });
+
         return res.status(200).json({ message: 'Purchase completed successfully!' });
     } else {
         return res.status(405).send({ message: 'Wrong message type was sent!' });

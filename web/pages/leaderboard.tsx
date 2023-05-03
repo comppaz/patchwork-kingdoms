@@ -51,8 +51,6 @@ const Leaderbord = () => {
             },
         });
         const res = await response.json();
-        console.log('donators');
-        console.log(res);
         return res;
     };
 
