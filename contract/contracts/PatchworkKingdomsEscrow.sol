@@ -2,6 +2,7 @@
 pragma solidity ^0.8.0;
 
 import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
+import "@openzeppelin/contracts/utils/structs/EnumerableSet.sol";
 import "hardhat/console.sol";
 
 /*
@@ -20,9 +21,14 @@ import "hardhat/console.sol";
 /// @notice Let's build a community of supporters for the Giga initiative and raise funds to bring reliable, robust connectivity to schools across the globe.
 
 contract PatchworkKingdomsEscrow {
+    
+    using EnumerableSet for EnumerableSet.UintSet;
+
     IERC721 token;
     uint256 counter;
     address payable private owner;
+
+    EnumerableSet.UintSet private _itemIds;
 
     struct ERC721Item {
         uint256 itemId;
@@ -77,6 +83,8 @@ contract PatchworkKingdomsEscrow {
             price: 0.175 ether,
             isReady: false
         });
+        
+        _itemIds.add(itemId);
         counter += 1;
         emit Deposited(itemId, address(token), items[itemId].tokenId);
     }
@@ -103,8 +111,8 @@ contract PatchworkKingdomsEscrow {
 
     /// @notice This function returns all items to be displayed.
     function getItems() public view returns(ERC721Item[] memory){
-        ERC721Item[] memory allItems = new ERC721Item[](counter);
-        for (uint256 i; i < counter; i++) allItems[i] = items[i];
+        ERC721Item[] memory allItems = new ERC721Item[](_itemIds.length());
+        for (uint256 i; i < _itemIds.length(); i++) allItems[i] = items[_itemIds.at(i)];
         return allItems;
     }
 
@@ -130,6 +138,7 @@ contract PatchworkKingdomsEscrow {
 
         emit Donated(itemId, msg.value, address(token), item.tokenId);
         delete(items[itemId]);
+        _itemIds.remove(itemId);
     }
 
     /// @notice This function allows the admin to cancel a deposit and transfer back the token to the original token giver.
@@ -144,6 +153,7 @@ contract PatchworkKingdomsEscrow {
 
         token.transferFrom(address(this), item.giver, item.tokenId);
         delete(items[itemId]);
+        _itemIds.remove(itemId);
     }
 
     /// @notice This function allows to return the deposited token back to the original giver if the expiration time is exceeded.
@@ -160,6 +170,7 @@ contract PatchworkKingdomsEscrow {
 
         token.transferFrom(address(this), item.giver, item.tokenId);
         delete(items[itemId]);
+        _itemIds.remove(itemId);
     }
 
     /// @notice This function allows the admin to withdraw the received eths on this contract

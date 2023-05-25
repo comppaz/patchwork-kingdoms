@@ -1,57 +1,49 @@
-const { expect, assert, Assertion } = require("chai");
-const chai = require("chai");
+const { expect } = require("chai");
 const { ethers } = require("hardhat");
 
 describe("PatchworkKingdomEscrow", function () {
   let escrowContract;
   let testERC721token;
 
-  let item;
   let owner;
   let addr1;
   let addr2;
-  let addrs;
-  let tokenId = 0;
-  let itemId = 0;
-  let expiration = 1;
+  let tokenId = 1;
+  let depositedItemId = 0;
+  // 1 month in seconds
+  const expiration = 2629743;
+  const itemKeys = ["giver", "tokenId", "expiration", "price", "isReady"];
 
   this.beforeAll(async function () {
     const PatchworkKingdomEscrow = await ethers.getContractFactory(
       "PatchworkKingdomsEscrow"
     );
     const TestERC721Token = await ethers.getContractFactory("ERC721TestToken");
-    [owner, addr1, addr2, ...addrs] = await ethers.getSigners();
+    [owner, addr1, addr2] = await ethers.getSigners();
 
     testERC721token = await TestERC721Token.deploy();
     escrowContract = await PatchworkKingdomEscrow.deploy(
       testERC721token.address
     );
-
-    item = {
-      giver: addr1,
-      tokenId: tokenId,
-      expiration: 1981787987,
-      price: ethers.utils.parseEther("0.01"),
-    };
   });
 
   /**
    * make deposit preparation as mint based on current tokenId
    */
-  async function prepareDeposit() {
+  async function prepareDeposit(_tokenId) {
     const mintTx = await testERC721token.mint(addr1.address);
     await mintTx.wait();
 
-    expect(await testERC721token.ownerOf(tokenId)).to.equal(addr1.address);
+    expect(await testERC721token.ownerOf(_tokenId)).to.equal(addr1.address);
     const approveERC721TokenTx = await testERC721token
       .connect(addr1)
-      .approve(escrowContract.address, tokenId);
+      .approve(escrowContract.address, _tokenId);
     await approveERC721TokenTx.wait();
   }
 
   describe("Deposit", function () {
     it("Should allow to deposit ERC721 compatible token.", async function () {
-      await prepareDeposit();
+      await prepareDeposit(tokenId);
       const depositTx = await escrowContract
         .connect(addr1)
         .deposit(tokenId, expiration);
@@ -62,60 +54,58 @@ describe("PatchworkKingdomEscrow", function () {
 
       await expect(depositTx)
         .to.emit(escrowContract, "Deposited")
-        .withArgs(itemId, testERC721token.address, tokenId);
-
-      // increase tokenId and pointer after deposit for next calls
-      tokenId++;
-      itemId++;
-    });
-  });
-
-  describe("Donation", function () {
-    it("Should allow to donate and to receive the respective token.", async function () {
-      // pointer to access the previously deposited token
-      let _itemId = 0;
-      let wei = ethers.utils.parseEther("0.01");
-
-      const donationTx = await escrowContract
-        .connect(addr2)
-        .donation(_itemId, { value: wei });
-      await donationTx.wait();
-
-      await expect(donationTx)
-        .to.emit(escrowContract, "Donated")
-        .withArgs(_itemId, item.price, testERC721token.address, item.tokenId);
+        .withArgs(depositedItemId, testERC721token.address, tokenId);
     });
   });
 
   describe("Helper", function () {
     it("Should get item", async function () {
-      let itemId = 0;
-
-      let result = await escrowContract.getItem(itemId);
-      Object.keys(item).forEach((key) => {
-        expect(result.hasOwnProperty(key)).to.equal(true);
+      const result = await escrowContract.getItem(depositedItemId);
+      itemKeys.forEach((key) => {
+        expect(Object.prototype.hasOwnProperty.call(result, key)).to.equal(
+          true
+        );
       });
     });
 
     it("Should get all items", async function () {
       let result = await escrowContract.getItems();
-      console.log(result);
+      expect(result.length).not.to.equal(0);
     });
 
     it("Should set last price", async function () {
-      let lastMinPrice = ethers.utils.parseEther("0.01");
-      let itemId = 0;
-      await escrowContract.setLastMinPrice(lastMinPrice, itemId);
-      let result = await escrowContract.getItem(itemId);
+      const lastMinPrice = ethers.utils.parseEther("0.01");
+      await escrowContract.setLastMinPrice(lastMinPrice, depositedItemId);
+      const result = await escrowContract.getItem(depositedItemId);
 
       expect(result.price - lastMinPrice).to.equal(0);
     });
   });
 
+  describe("Donation", function () {
+    it("Should allow to donate and to receive the respective token.", async function () {
+      const offerPrice = "0.176";
+      const wei = ethers.utils.parseEther(offerPrice);
+
+      const donationTx = await escrowContract
+        .connect(addr2)
+        .donation(depositedItemId, { value: wei });
+      await donationTx.wait();
+
+      await expect(donationTx)
+        .to.emit(escrowContract, "Donated")
+        .withArgs(depositedItemId, wei, testERC721token.address, tokenId);
+    });
+  });
+
   describe("Admin Functions", function () {
+    // before each a mint and deposit are needed
     it("Should cancel deposit", async function () {
+      // increase tokenId and pointer
+      tokenId++;
+      depositedItemId++;
       // deposit a token before removing it
-      await prepareDeposit();
+      await prepareDeposit(tokenId);
       await escrowContract.connect(addr1).deposit(tokenId, expiration);
       // after deposit contract address is the new owner of the token
       expect(await testERC721token.ownerOf(tokenId)).to.equal(
@@ -125,40 +115,34 @@ describe("PatchworkKingdomEscrow", function () {
       // cancellation process
       const cancellationTx = await escrowContract
         .connect(owner)
-        .cancelDeposit(itemId);
+        .cancelDeposit(depositedItemId);
       await cancellationTx.wait();
 
       // previous owner returns to be the owner of the token
       expect(await testERC721token.ownerOf(tokenId)).to.equal(addr1.address);
-
-      // increase tokenId and pointer after process for next calls
-      tokenId++;
-      itemId++;
     });
 
     it("Should expire", async function () {
+      // increase tokenId and pointer
+      tokenId++;
+      depositedItemId++;
       // deposit a token before removing it
-      await prepareDeposit();
+      await prepareDeposit(tokenId);
       await escrowContract.connect(addr1).deposit(tokenId, expiration);
       // after deposit contract address is the new owner of the token
       expect(await testERC721token.ownerOf(tokenId)).to.equal(
         escrowContract.address
       );
-
-      let _expiration = 2;
+      const _expiration = 1887643181;
 
       // expiration process
       const expirationTx = await escrowContract
         .connect(owner)
-        .expiration(itemId, _expiration);
+        .expiration(depositedItemId, _expiration);
       await expirationTx.wait();
 
       // previous owner returns to be the owner of the token
       expect(await testERC721token.ownerOf(tokenId)).to.equal(addr1.address);
-
-      // increase tokenId and pointer after process for next calls
-      tokenId++;
-      itemId++;
     });
 
     it("Should withdraw correct amount.", async function () {
