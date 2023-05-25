@@ -112,7 +112,7 @@ export default function Leaderboard({ data, fixedAuctionValue, roundPriceValue, 
                             roundPriceValue={roundPriceValue}
                             convertToUSD={convertToUSD}
                         />
-                        <h4 className="text-2xl font-extrabold tracking-tight sm:text-xl">Patchwork Kingdom Royalty Ranks 👑</h4>
+                        <h4 className="text-2xl font-extrabold tracking-tight sm:text-xl">Patchwork Kingdom Royalty Ranking 👑</h4>
                     </div>
                     {/** desktop view */}
                     <div className="hidden sm:inline-block min-w-full py-2 align-middle">

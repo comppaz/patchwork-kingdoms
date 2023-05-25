@@ -19,7 +19,7 @@ export default function LeaderboardContent({
             <thead className="bg-gray-50">
                 <tr>
                     <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">
-                        Rank (changes weekly) <br />
+                        Weekly Rank <br />
                         <span>
                             <button
                                 onClick={() => {
@@ -38,7 +38,8 @@ export default function LeaderboardContent({
                         </span>
                     </th>
                     <th scope="col" className="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-6">
-                        PWK{' '}
+                        PWK <br />
+                        <span className=" invisible">a</span>
                     </th>
                     <th scope="col" className="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-6">
                         NFT Id
@@ -85,7 +86,8 @@ export default function LeaderboardContent({
 
                     <th scope="col" className="py-3.5 text-left text-sm font-semibold text-gray-900">
                         {' '}
-                        Patchwork Kingdom Royalty{' '}
+                        Patchwork Kingdom Royalty <br />
+                        <span className=" invisible">a</span>
                     </th>
                     <th scope="col" className="py-3.5 text-left text-sm font-semibold text-gray-900"></th>
                     <th scope="col" className="py-3.5 text-left text-sm font-semibold text-gray-900"></th>
@@ -96,8 +98,13 @@ export default function LeaderboardContent({
                 {tableData.slice(currentStartNft, currentPage * maxEntriesOnPage).map(nft => (
                     <tr key={nft.nft_id}>
                         <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                            {nft.rank == 1 && <span>🥇</span>} {nft.rank == 2 && <span>🥈</span>} {nft.rank == 3 && <span>🥉</span>}
-                            {nft.rank} ({calculateRankChanges(nft)})
+                            {nft.rank == 1 && <p className="text-center text-2xl">🥇</p>}{' '}
+                            {nft.rank == 2 && <p className="text-center text-2xl">🥈</p>}{' '}
+                            {nft.rank == 3 && <p className="text-center text-2xl">🥉</p>}
+                            <p className="text-center">
+                                {' '}
+                                {nft.rank} ({calculateRankChanges(nft)})
+                            </p>{' '}
                         </td>
                         <td className="p-0 m-0 text-sm font-medium text-gray-900 w-32 ">
                             <Link href={`/nft/${nft.nft_id}`}>

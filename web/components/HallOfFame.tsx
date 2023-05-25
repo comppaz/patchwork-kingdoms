@@ -32,19 +32,21 @@ export default function HallOfFame({ donators }) {
                 <p className="text-md text-gray-500 font-bold">
                     Want to join the Hall of Fame? Donate your PWK today. Go to your{' '}
                     <Link href="/dashboard">
-                        <a className="inline-flex font-medium underline text-gray-500 hover:text-gray-900">Dashboard</a>
+                        <a target="_blank" className=" text-teal-500 inline-flex font-medium underline hover:text-teal-700">
+                            Dashboard
+                        </a>
                     </Link>
                     .
                 </p>
             </div>
-            <dl className="mt-5 grid grid-cols-1 gap-5 sm:grid-cols-1">
-                {rankedDonators.map((don, index) => (
-                    <div className="px-4 py-5 bg-white shadow rounded-lg overflow-hidden sm:p-6" key={index}>
-                        <dt className="text-sm font-medium text-gray-500 truncate">
-                            Rank: {index + 1} - Total Sale:
-                            {don.salePrice} - Address: {don.address}
-                        </dt>
-                        <dd className="mt-1 text-3xl tracking-tight font-semibold text-gray-900"></dd>
+            <dl className="mt-5 grid grid-cols-1 gap-5 sm:grid-cols-3">
+                {rankedDonators.slice(0, 3).map((don, index) => (
+                    <div className=" w-13/15 px-4 py-5 bg-white shadow rounded-lg overflow-hidden sm:p-6" key={index}>
+                        <dt className="text-sm font-medium text-gray-500 truncate">Rank: {index + 1}</dt>
+                        <dd className="text-sm font-medium text-gray-500 truncate">Total Sale: {don.salePrice} ETH</dd>
+                        <dd className="text-sm font-medium text-gray-500 truncate">
+                            Address: {`${don.address.replace(don.address.substr(12, 24), '...')}`}
+                        </dd>
                     </div>
                 ))}
             </dl>
