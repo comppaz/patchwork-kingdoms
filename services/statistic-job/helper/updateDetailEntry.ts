@@ -40,6 +40,29 @@ export const createPrismaEntry = async function (nft: NFTEntry) {
   );
 };
 
+export const updateEntryValues = async function (nft: any) {
+  console.log("Updating Prisma with the following value");
+  console.log(nft);
+  if (!nft.eth || Number.isNaN(nft.eth)) {
+    nft.eth = undefined;
+  }
+  const updated = await prisma.nFTDetail.update({
+    where: { nft_id: nft.id },
+    data: {
+      nft_id: nft.id,
+      eth: nft.eth,
+      lastUpdate: nft.lastUpdated,
+      nft_owner_url: nft.ownerUrl,
+      nft_owner_name: nft.ownerName,
+    },
+  });
+  console.log(updated);
+};
+
+export const retrieveEntries = async function (): Promise<any[]> {
+  const entries = await prisma.nFTDetail.findMany();
+  return entries;
+};
 /**
  * Find a specific nft entry in the prisma database
  *
@@ -53,4 +76,25 @@ export const findNFTDetail = async function (tokenId: number) {
     },
   });
   return nft;
+};
+
+export const saveUpdatedValues = async function (entries: any[]) {
+  let results = entries.map((nft) => {
+    return prisma.nFTDetail.update({
+      where: {
+        nft_id: nft.nft_id,
+      },
+      data: {
+        nft_id: nft.nft_id,
+        eth: nft.eth,
+        relativeEth: nft.relativeEth!,
+        rank: nft.rank!,
+        lastUpdate: nft.lastUpdated,
+        nft_owner_url: nft.ownerUrl,
+        nft_owner_name: nft.ownerName,
+        weeklyRank: nft.weeklyRank!,
+      },
+    });
+  });
+  return results;
 };

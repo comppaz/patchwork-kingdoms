@@ -2,7 +2,13 @@ import { DateTime } from "luxon";
 import * as dotenv from "dotenv";
 dotenv.config();
 import axios, { AxiosRequestConfig } from "axios";
-import { createPrismaEntry, findNFTDetail } from "./helper/updateDetailEntry";
+import {
+  createPrismaEntry,
+  findNFTDetail,
+  retrieveEntries,
+  saveUpdatedValues,
+  updateEntryValues,
+} from "./helper/updateDetailEntry";
 import { NFTEntry, TotalObject } from "./types";
 
 const initMintPrice = 0.175;
@@ -28,9 +34,8 @@ const openSeaUrlPrefix = "https://opensea.io/";
  */
 async function calculateDonatedETH(
   tokenId: number,
-  date: string,
-  totalData: NFTEntry[]
-): Promise<TotalObject> {
+  date: string
+): Promise<any> {
   console.log(
     "Getting donated eth sum calculated for " + tokenId + " at " + date
   );
@@ -60,12 +65,15 @@ async function calculateDonatedETH(
       response = await axios(api_options);
     } catch (err) {
       if (axios.isAxiosError(err) && err.response) {
-        console.log(err);
         console.log(`ERROR RESPONSE STATUS IS ${err.response.status}`);
         const retryAfter = err.response.headers["retry-after"];
         const millisToSleep = getMillisToSleep(retryAfter);
-        await sleep(millisToSleep);
-        return calculateDonatedETH(tokenId, date, totalData);
+        if (millisToSleep <= 60000) {
+          await sleep(millisToSleep);
+          return calculateDonatedETH(tokenId, date);
+        }
+        await sleep(10000);
+        return;
       }
     }
 
@@ -88,12 +96,15 @@ async function calculateDonatedETH(
       owner = owners?.data.owners[0].owner;
     } catch (err) {
       if (axios.isAxiosError(err) && err.response) {
-        console.log(err);
         console.log(`ERROR RESPONSE STATUS IS ${err.response.status}`);
         const retryAfter = err.response.headers["retry-after"];
         const millisToSleep = getMillisToSleep(retryAfter);
-        await sleep(millisToSleep);
-        return calculateDonatedETH(tokenId, date, totalData);
+        if (millisToSleep <= 60000) {
+          await sleep(millisToSleep);
+          return calculateDonatedETH(tokenId, date);
+        }
+        await sleep(10000);
+        return;
       }
     }
 
@@ -102,15 +113,15 @@ async function calculateDonatedETH(
       ownerName = owner.user.username;
     }
   }
-  let nftObject = {
+  let updatedToken = {
     id: tokenId,
     eth: totalDonated,
     lastUpdated: date,
     ownerUrl: ownerAddress,
     ownerName: ownerName,
   };
-  totalData.push(nftObject);
-  return { totalData: totalData, totalDonated: totalDonated };
+  // totalData.push(nftObject);
+  return updatedToken;
 }
 
 /**
@@ -182,18 +193,26 @@ async function getDonatedETHPerValue(
  * @param totalData {NFTEntry[]} - the total data of all NFTs
  * @returns
  */
-async function calculateTotalETHValue(date: string, totalData: NFTEntry[]) {
+
+async function calculateTotalETHValue(totalData: any[]) {
   let i = 1;
   let totalSum = 0;
-  let result: TotalObject = {};
   while (i <= totalAmountNFTs) {
     // add single eth value to total sum
-    result = await calculateDonatedETH(i, date, totalData);
-    totalSum += result.totalDonated!;
+    if (totalData[i]) {
+      totalSum += totalData[i].eth;
+    }
     i++;
   }
-  console.log("CALCULATED TOTAL: " + totalSum);
-  return { totalSum: totalSum, totalData: result.totalData };
+  return totalSum;
+}
+
+async function calculateRanks(totalData: any[], totalSum: number) {
+  totalData?.sort((currentNft: NFTEntry, previousNft: NFTEntry) => {
+    currentNft.relativeEth = currentNft.eth / totalSum;
+    previousNft.relativeEth = previousNft.eth / totalSum;
+    return previousNft.eth / totalSum - currentNft.relativeEth;
+  });
 }
 
 // helper function to slow down open sea api requests
@@ -203,6 +222,8 @@ function sleep(milliseconds: number) {
 // helper function to slow down open sea api requests
 function getMillisToSleep(retryHeaderString: string) {
   let millisToSleep = Math.round(parseFloat(retryHeaderString) * 1000);
+  console.log("Sleeping...");
+  console.log(millisToSleep);
   if (isNaN(millisToSleep)) {
     millisToSleep = Math.max(
       0,
@@ -215,7 +236,7 @@ function getMillisToSleep(retryHeaderString: string) {
 /**
  * Calculate the rank of all NFTs
  * Used as hourly handler.
- */
+ 
 export const hourlyHandler = async function () {
   let totalData: NFTEntry[] = [];
 
@@ -242,6 +263,30 @@ export const hourlyHandler = async function () {
     total.totalData![i].weeklyRank = previousNFTInfo!.weeklyRank;
     await createPrismaEntry(total.totalData![i]);
   }
+};*/
+
+export const hourlyHandler = async function () {
+  // receive updated information from apis
+  let i = 1;
+
+  while (i <= 1000) {
+    let updatedObject = await calculateDonatedETH(i, DateTime.utc().toISO());
+    // sleep >4s to avoid opensea throttling
+    sleep(10000);
+    // save received information for each token in db
+    if (updatedObject) {
+      updateEntryValues(updatedObject);
+    }
+    i++;
+  }
+  // retrieve updated data from db
+  const entries = await retrieveEntries();
+  // calculate total amount of sales
+  let totalSales = await calculateTotalETHValue(entries);
+  // calculate relative sales value and ranks
+  await calculateRanks(entries, totalSales);
+  // save updated values
+  await saveUpdatedValues(entries);
 };
 
 /**
@@ -266,3 +311,5 @@ export const weeklyHandler = async function () {
     tokenId++;
   }
 };
+
+hourlyHandler();
