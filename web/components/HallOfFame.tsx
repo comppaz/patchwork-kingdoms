@@ -53,11 +53,11 @@ export default function HallOfFame({ donators }) {
                         </dt>
                         <dd className="col-span-2 text-sm font-medium text-gray-500 truncate">
                             {' '}
-                            <span className="font-bold">Total Sale: </span>
+                            <span className="font-bold">Total sales: </span>
                             {don.salePrice} ETH
                         </dd>
                         <dd className="col-span-2 text-sm font-medium text-gray-500 truncate">
-                            <span className="font-bold">Address: </span>
+                            <span className="font-bold">Donator: </span>
                             {`${don.address.replace(don.address.substr(12, 24), '...')}`}
                         </dd>
                     </div>
