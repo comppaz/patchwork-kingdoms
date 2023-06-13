@@ -9,7 +9,10 @@ export interface NFTEntry {
   weeklyRank?: number;
 }
 
-export interface TotalObject {
-  totalDonated?: number;
-  totalData?: NFTEntry[];
+export interface NFTUpdateEntry {
+  id: number;
+  eth: numnber;
+  lastUpdated: string;
+  ownerUrl: string;
+  ownerName: string;
 }

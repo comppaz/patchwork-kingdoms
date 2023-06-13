@@ -1,5 +1,5 @@
 import { PrismaClient } from "@prisma/client";
-import { NFTEntry } from "../types";
+import { NFTEntry, NFTUpdateEntry } from "../types";
 
 // setup prisma client
 const prisma = new PrismaClient();
@@ -40,23 +40,23 @@ export const createPrismaEntry = async function (nft: NFTEntry) {
   );
 };
 
-export const updateEntryValues = async function (nft: any) {
-  console.log("Updating Prisma with the following value");
-  console.log(nft);
-  if (!nft.eth || Number.isNaN(nft.eth)) {
-    nft.eth = undefined;
+export const updateEntryValues = async function (nft: NFTUpdateEntry) {
+  console.log(nft.eth);
+  if (nft.eth && !isNaN(nft.eth)) {
+    console.log(`Updating Prisma with the following value:`);
+    console.log(nft);
+    const updated = await prisma.nFTDetail.update({
+      where: { nft_id: nft.id },
+      data: {
+        nft_id: nft.id,
+        eth: nft.eth,
+        lastUpdate: nft.lastUpdated,
+        nft_owner_url: nft.ownerUrl,
+        nft_owner_name: nft.ownerName,
+      },
+    });
   }
-  const updated = await prisma.nFTDetail.update({
-    where: { nft_id: nft.id },
-    data: {
-      nft_id: nft.id,
-      eth: nft.eth,
-      lastUpdate: nft.lastUpdated,
-      nft_owner_url: nft.ownerUrl,
-      nft_owner_name: nft.ownerName,
-    },
-  });
-  console.log(updated);
+  return;
 };
 
 export const retrieveEntries = async function (): Promise<any[]> {
