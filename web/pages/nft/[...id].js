@@ -205,58 +205,61 @@ const NFT = () => {
     return (
         <>
             {loading && <Loading />}
-            <div className="relative pt-4 bg-white overflow-hidden">
-                {!isDialogOpen ? (
-                    <div>
-                        {/* mobile screens: open dialog panel from bottom */}
-                        <button
-                            onClick={() => {
-                                setDialogOpen(true);
-                            }}
-                            className="inline-flex items-center visible px-8 py-3 text-xl sm:invisible absolute z-10 bottom-10 left-5 bg-white text-gray-600 hover:text-gray-800 focus:outline-none focus:ring-2 focus:ring-teal-500 focus:ring-offset-2">
-                            <span className="text-left pr-4">
-                                Learn more about <br />
-                                <span className="font-bold text-teal-600">{data?.name.split('|')[1]}</span>
-                            </span>
-                            <span className="inline-flex items-center w-6 h-6">
-                                <ChevronUpIcon className="h-6 w-6 text-gray-500" aria-hidden="true" />
-                            </span>
-                        </button>
-                        {/* desktop screens: open dialog panel from left side */}
-                        <button
-                            onClick={() => {
-                                setDialogOpen(true);
-                            }}
-                            className="inline-flex items-center visible px-8 py-3 text-xl invisible sm:visible absolute z-10 top-10 left-5 w-45 bg-white text-gray-600 hover:text-gray-800 focus:outline-none focus:ring-2 focus:ring-teal-500 focus:ring-offset-2">
-                            <span className="text-left pr-4">
-                                Learn more about <br />
-                                <div>
+            <div className="pt-6">
+                <div className="relative pt-4 bg-white overflow-hidden">
+                    {!isDialogOpen ? (
+                        <div>
+                            {/* mobile screens: open dialog panel from bottom */}
+                            <button
+                                onClick={() => {
+                                    setDialogOpen(true);
+                                }}
+                                className="inline-flex items-center visible px-8 py-3 text-xl sm:invisible absolute z-10 bottom-10 left-5 bg-white text-gray-600 hover:text-gray-800 focus:outline-none focus:ring-2 focus:ring-teal-500 focus:ring-offset-2">
+                                <span className="text-left pr-4">
+                                    Learn more about <br />
                                     <span className="font-bold text-teal-600">{data?.name.split('|')[1]}</span>
-                                    <div className="absolute mt-4 inset-x-0">
-                                        <div className="bg-teal-600 px-8 pt-6 pb-8 rounded-b-lg shadow-b-xl">
-                                            <h2 className="text-white font-bold text-xl leading-7">
-                                                Mission: Universal School Connectivity
-                                            </h2>
-                                            <p className="text-white font-medium text-xs leading-5 mt-2">
-                                                Each Patchwork Kingdom tells a story about the digital divide, with the upper part
-                                                representing connected schools and the lower part unconnected schools. Funds raised from
-                                                sales go to support Giga&apos;s mission of universal school connectivity for every child.
-                                                Funds raised from sales go to support Giga&apos;s mission of universal school connectivity
-                                                which in turn leads to information, opportunity and choice for every young person.
-                                            </p>
+                                </span>
+                                <span className="inline-flex items-center w-6 h-6">
+                                    <ChevronUpIcon className="h-6 w-6 text-gray-500" aria-hidden="true" />
+                                </span>
+                            </button>
+                            {/* desktop screens: open dialog panel from left side */}
+                            <button
+                                onClick={() => {
+                                    setDialogOpen(true);
+                                }}
+                                className="inline-flex items-center visible px-8 py-3 text-xl invisible sm:visible absolute z-10 top-10 left-5 w-45 bg-white text-gray-600 hover:text-gray-800 focus:outline-none focus:ring-2 focus:ring-teal-500 focus:ring-offset-2">
+                                <span className="text-left pr-4">
+                                    Learn more about <br />
+                                    <div>
+                                        <span className="font-bold text-teal-600">{data?.name.split('|')[1]}</span>
+                                        <div className="absolute mt-4 inset-x-0">
+                                            <div className="bg-teal-600 px-8 pt-6 pb-8 rounded-b-lg shadow-b-xl">
+                                                <h2 className="text-white font-bold text-xl leading-7">
+                                                    Mission: Universal School Connectivity
+                                                </h2>
+                                                <p className="text-white font-medium text-xs leading-5 mt-2">
+                                                    Each Patchwork Kingdom tells a story about the digital divide, with the upper part
+                                                    representing connected schools and the lower part unconnected schools. Funds raised from
+                                                    sales go to support Giga&apos;s mission of universal school connectivity for every
+                                                    child. Funds raised from sales go to support Giga&apos;s mission of universal school
+                                                    connectivity which in turn leads to information, opportunity and choice for every young
+                                                    person.
+                                                </p>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                            </span>
-                            <span className="inline-flex items-center w-6 h-6">
-                                <ChevronRightIcon className="h-6 w-6 text-gray-500" aria-hidden="true" />
-                            </span>
-                        </button>
-                    </div>
-                ) : null}
-                <div ref={mapNode} style={{ width: 'auto', height: '82vh' }} />
+                                </span>
+                                <span className="inline-flex items-center w-6 h-6">
+                                    <ChevronRightIcon className="h-6 w-6 text-gray-500" aria-hidden="true" />
+                                </span>
+                            </button>
+                        </div>
+                    ) : null}
+                    <div ref={mapNode} style={{ width: 'auto', height: '82vh' }} />
+                </div>
+                {!loading && <Slideover data={data} isDialogOpen={isDialogOpen} setDialogOpen={setDialogOpen}></Slideover>}
             </div>
-            {!loading && <Slideover data={data} isDialogOpen={isDialogOpen} setDialogOpen={setDialogOpen}></Slideover>}
         </>
     );
 };
