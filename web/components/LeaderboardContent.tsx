@@ -37,12 +37,28 @@ export default function LeaderboardContent({
                             </button>
                         </span>
                     </th>
-                    <th scope="col" className="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-6">
+                    <th scope="col" className="px-3 py-3.5 pl-2 pr-2 text-left text-sm font-semibold text-gray-900 sm:pl-6 sm:pr-3">
                         PWK <br />
-                        <span className=" invisible">a</span>
+                        <span className="sm:invisible pl-0 pr-3">
+                            <button
+                                onClick={() => {
+                                    sortDataByRankDown('nft_id');
+                                }}
+                                className="inline-flex items-center w-4 h-4">
+                                <ChevronUpIcon className="h-4 w-4 text-gray-400" aria-hidden="true" />
+                            </button>
+                            <button
+                                onClick={() => {
+                                    sortDataByRankUp('nft_id');
+                                }}
+                                className="inline-flex items-center w-4 h-4">
+                                <ChevronDownIcon className="h-4 w-4 text-gray-400" aria-hidden="true" />
+                            </button>
+                        </span>
+                        <p className="invisible">a</p>
                     </th>
-                    <th scope="col" className="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-6">
-                        NFT Id
+                    <th scope="col" className="hidden sm:table-cell py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-6">
+                        NFT ID
                         <br />
                         <span>
                             <button
@@ -62,8 +78,8 @@ export default function LeaderboardContent({
                         </span>
                     </th>
                     <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">
-                        Funds raised to date (ETH/USD)
-                        <br />
+                        <p className="hidden sm:flex">Funds raised to date (ETH/USD)</p>
+                        <p className="visible sm:hidden">Funds raised</p>
                         <span>
                             <button
                                 onClick={() => {
@@ -82,14 +98,17 @@ export default function LeaderboardContent({
                         </span>
                     </th>
 
-                    <th></th>
-
-                    <th scope="col" className="py-3.5 text-left text-sm font-semibold text-gray-900">
-                        {' '}
-                        Patchwork Kingdom Royalty <br />
-                        <span className=" invisible">a</span>
+                    {/** empty col for address */}
+                    <th className="hidden sm:table-cell"></th>
+                    {/** name col */}
+                    <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">
+                        <p className="hidden sm:flex">Patchwork Kingdom Royalty </p>
+                        <p className="visible sm:hidden">PWK Royalty</p>
+                        <p className="invisible">a</p>
                     </th>
-                    <th scope="col" className="py-3.5 text-left text-sm font-semibold text-gray-900"></th>
+                    {/** CTA button */}
+                    <th scope="col" className="hidden lg:table-cell py-3.5 text-left text-sm font-semibold text-gray-900"></th>
+                    {/** OpenSea button */}
                     <th scope="col" className="py-3.5 text-left text-sm font-semibold text-gray-900"></th>
                 </tr>
             </thead>
@@ -97,13 +116,14 @@ export default function LeaderboardContent({
             <tbody className="divide-y divide-gray-200 bg-white">
                 {tableData.slice(currentStartNft, currentPage * maxEntriesOnPage).map(nft => (
                     <tr key={nft.nft_id}>
-                        <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
+                        <td className=" px-3 py-4 text-sm text-gray-500">
                             {nft.rank == 1 && <p className="text-center text-2xl">🥇</p>}{' '}
                             {nft.rank == 2 && <p className="text-center text-2xl">🥈</p>}{' '}
                             {nft.rank == 3 && <p className="text-center text-2xl">🥉</p>}
-                            <p className="text-center">
+                            <p className=" text-center">
                                 {' '}
-                                {nft.rank} ({calculateRankChanges(nft)})
+                                <span>{nft.rank}</span>
+                                <span className="hidden sm:table-cell">({calculateRankChanges(nft)})</span>
                             </p>{' '}
                         </td>
                         <td className="p-0 m-0 text-sm font-medium text-gray-900 w-32 ">
@@ -119,15 +139,26 @@ export default function LeaderboardContent({
                                     />
                                 </a>
                             </Link>
+                            <dl className="lg:hidden">
+                                <dt className="sr-only sm:hidden">ID</dt>
+                                <dd className="mt-1 mb-1 truncate whitespace-nowrap  text-xs font-small text-gray-900 sm:pl-6 sm:hidden">
+                                    ID:
+                                    <a href={`/nft/${nft.nft_id}`}>{nft.nft_id}</a>
+                                </dd>
+                            </dl>
                         </td>
-                        <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6">
+                        <td className="hidden sm:table-cell whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6">
                             <a href={`/nft/${nft.nft_id}`}>{nft.nft_id}</a>
                         </td>
                         <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                            {roundPriceValue(nft.eth, 3)} ETH / {roundPriceValue(convertToUSD(nft.eth), 3)} $
+                            <p className="hidden sm:flex">
+                                {roundPriceValue(nft.eth, 3)} ETH / {roundPriceValue(convertToUSD(nft.eth), 3)} $
+                            </p>
+                            <p className="visible sm:hidden">{roundPriceValue(nft.eth, 2)} ETH</p>
                         </td>
 
-                        <td className="whitespace-nowrap py-4 text-sm text-gray-500">
+                        {/** address col */}
+                        <td className="hidden md:table-cell whitespace-nowrap py-4 text-sm text-gray-500">
                             <a href={nft.nft_owner_url.replace('https://opensea.io/', 'https://etherscan.io/address/')}>
                                 {`${nft.nft_owner_url.replace('https://opensea.io/', '').substr(0, 12)}...${nft.nft_owner_url
                                     .replace('https://opensea.io/', '')
@@ -135,13 +166,15 @@ export default function LeaderboardContent({
                             </a>
                         </td>
 
-                        <td className="whitespace-nowrap py-4 text-sm text-gray-500">
+                        {/** name col */}
+                        <td className="hidden sm:table-cell whitespace-nowrap py-4 text-sm text-gray-500">
                             <a href={nft.nft_owner_url}>
                                 {!nft.nft_owner_name && nft.nft_owner_url ? <p>Unnamed</p> : <p>{nft.nft_owner_name}</p>}
                             </a>
                         </td>
 
-                        <td className="whitespace-nowrap pr-3 py-4 text-sm text-gray-500 text-center">
+                        {/** CTA col */}
+                        <td className="hidden lg:table-cell whitespace-nowrap pr-3 py-4 text-sm text-gray-500 text-center">
                             <a
                                 href={`/nft/${nft.nft_id}`}
                                 target="_blank"
@@ -150,9 +183,11 @@ export default function LeaderboardContent({
                                 View NFT
                             </a>
                         </td>
+
+                        {/** OpenSeaButton col */}
                         <td className="whitespace-nowrap pr-3 py-4 pl-3 text-sm text-gray-500 text-left">
                             <a
-                                href={`https://opensea.io/assets/${process.env.NEXT_PUBLIC_CONTRACT_ADDRESS}/${nft.nft_id}`}
+                                href={`https://opensea.io/assets/ethereum/${process.env.NEXT_PUBLIC_CONTRACT_ADDRESS}/${nft.nft_id}`}
                                 target="_blank"
                                 rel="noreferrer">
                                 <Image
