@@ -120,11 +120,12 @@ export default function LeaderboardContent({
                             {nft.rank == 1 && <p className="text-center text-2xl">🥇</p>}{' '}
                             {nft.rank == 2 && <p className="text-center text-2xl">🥈</p>}{' '}
                             {nft.rank == 3 && <p className="text-center text-2xl">🥉</p>}
-                            <p className=" text-center">
+                            <p className="  whitespace-pre-line flex justify-center">
                                 {' '}
-                                <span>{nft.rank}</span>
-                                <span className="hidden sm:table-cell">({calculateRankChanges(nft)})</span>
-                            </p>{' '}
+                                <span className="text-center">
+                                    {nft.rank} <span className="hidden sm:table-cell">({calculateRankChanges(nft)})</span>
+                                </span>
+                            </p>
                         </td>
                         <td className="p-0 m-0 text-sm font-medium text-gray-900 w-32 ">
                             <Link href={`/nft/${nft.nft_id}`}>

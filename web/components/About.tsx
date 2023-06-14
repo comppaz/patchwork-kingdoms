@@ -40,7 +40,11 @@ export default function About() {
                                 <p className="text-lg">
                                     We’ve partnered with data visualization scientist, designer and artist{' '}
                                     <strong className="tracking-wide">Nadieh Bremer</strong>. Bremer effectively ‘paints’ with data that{' '}
-                                    <a className="text-teal-900 underline" target="_blank" href="https://gigaconnect.org/" rel="noreferrer">
+                                    <a
+                                        className="text-teal-900 underline"
+                                        target="_blank"
+                                        href="https://giga.global/connect/"
+                                        rel="noreferrer">
                                         Giga
                                     </a>{' '}
                                     has collected from schools themselves, creating a unique and visually striking collection of 1,000 NFTs
@@ -202,7 +206,7 @@ export default function About() {
                                             Giga{' '}
                                             <a
                                                 className="underline"
-                                                href="https://gigaconnect.org/scaling-ai-to-map-every-school-on-the-planet/"
+                                                href="https://developmentseed.org/blog/2021-03-18-ai-enabling-school-mapping"
                                                 target="_blank"
                                                 rel="noreferrer">
                                                 uses satellite imagery and machine learning

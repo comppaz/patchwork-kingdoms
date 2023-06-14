@@ -16,7 +16,9 @@ export default function Home() {
             <p className=" text-center text-xl text-gray-500">
                 Check out our{' '}
                 <span className=" cursor-pointer text-md text-gray-500 hover:text-gray-700 underline">
-                    <Link href="/faq">FAQ</Link>
+                    <Link href="/faq">
+                        <a target="_blank">FAQ</a>
+                    </Link>
                 </span>{' '}
                 or contact us for more information.
             </p>
