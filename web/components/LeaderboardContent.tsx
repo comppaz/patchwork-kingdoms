@@ -55,7 +55,6 @@ export default function LeaderboardContent({
                                 <ChevronDownIcon className="h-4 w-4 text-gray-400" aria-hidden="true" />
                             </button>
                         </span>
-                        <p className="invisible">a</p>
                     </th>
                     <th scope="col" className="hidden sm:table-cell py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-6">
                         NFT ID
