@@ -180,7 +180,7 @@ export default function Slideover({ data, isDialogOpen, setDialogOpen }) {
                                                         <div className="text-xl font-bold pb-4">{data?.statistics.rank} / 1,000</div>
                                                     </div>
                                                 </div>
-                                                <div className="flex flex-row">Last update: {date}</div>
+                                                <div className="flex flex-row text-sm">Last update: {date}</div>
                                             </div>
                                             <div className="relative inset-x-0">
                                                 <Image

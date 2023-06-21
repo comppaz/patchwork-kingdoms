@@ -363,16 +363,24 @@ export default function Modal({ transactionType, setTransactionType, nft, isModa
                                                                 <span className="flex flex-grow flex-col">
                                                                     <Switch.Label
                                                                         as="span"
-                                                                        className="text-sm font-medium text-gray-900"
+                                                                        className="text-xs font-light text-gray-900"
                                                                         passive>
-                                                                        I agree to:
+                                                                        I agree to the Patchwork Kingdom&apos;s{' '}
+                                                                        <Link key="donatorPriv" href={'/privacy'}>
+                                                                            <a className="underline" target="_blank">
+                                                                                Privacy Policy
+                                                                            </a>
+                                                                        </Link>
+                                                                        .
                                                                     </Switch.Label>
+                                                                    {/** 
                                                                     <Switch.Description as="span" className="text-sm text-gray-500">
-                                                                        Patchwork Kingdom&apos;s Privacy policy:{' '}
+                                                                        Patchwork Kingdom&apos;s Privacy Policy:{' '}
                                                                         <Link key="donatorPriv" href={'/privacy'} className="underline">
                                                                             Read here
                                                                         </Link>
                                                                     </Switch.Description>
+                                                                    */}
                                                                 </span>
                                                                 <Switch
                                                                     checked={enabled}
@@ -620,16 +628,24 @@ export default function Modal({ transactionType, setTransactionType, nft, isModa
                                                                 <span className="flex flex-grow flex-col">
                                                                     <Switch.Label
                                                                         as="span"
-                                                                        className="text-sm font-medium text-gray-900"
+                                                                        className="text-xs font-light text-gray-900"
                                                                         passive>
-                                                                        I agree to:
+                                                                        I agree to the Patchwork Kingdom&apos;s{' '}
+                                                                        <Link key="donatorPriv" href={'/privacy'}>
+                                                                            <a className="underline" target="_blank">
+                                                                                Privacy Policy
+                                                                            </a>
+                                                                        </Link>
+                                                                        .
                                                                     </Switch.Label>
+                                                                    {/** 
                                                                     <Switch.Description as="span" className="text-sm text-gray-500">
                                                                         Patchwork Kingdom&apos;s Privacy policy:{' '}
                                                                         <Link key="buyerPriv" href={'/privacy'} className="underline">
                                                                             Read here
                                                                         </Link>
                                                                     </Switch.Description>
+                                                                    */}
                                                                 </span>
                                                                 <Switch
                                                                     checked={agreeToTerms}

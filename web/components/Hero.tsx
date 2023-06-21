@@ -55,7 +55,7 @@ export default function Hero() {
                             </h1>
                         </div>
                     </main>
-                    <div className="w-screen mt-8">
+                    <div className="w-screen mt-8 pb-0 bg-teal-600">
                         <Slider {...settings}>
                             <div>
                                 <Image

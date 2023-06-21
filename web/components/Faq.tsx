@@ -71,7 +71,7 @@ const faqs = [
     },
     {
         question: 'Where can I get more information?',
-        answer: 'For more information about Giga please go to <a class="underline" href="https://www.gigaconnect.org">www.gigaconnect.org</a> and tweet at us at <a target="_blank" className="underline" href="https://twitter.com/Gigaconnect">@gigaconnect</a>. To learn more about the Patchwork Kingdoms collection and be part of the community, join the <a target="_blank" class="underline" href="https://discord.gg/vS9QguncHu">Discord channel</a> or <a class="underline" href="https://twitter.com/Gigaconnect" target="_blank">follow us on Twitter.</a>',
+        answer: 'For more information about Giga please go to <a class="underline" href="https://giga.global/connect/">https://giga.global/connect/</a> and tweet at us at <a target="_blank" className="underline" href="https://twitter.com/Gigaconnect">@gigaconnect</a>. To learn more about the Patchwork Kingdoms collection and be part of the community, join the <a target="_blank" class="underline" href="https://discord.gg/vS9QguncHu">Discord channel</a> or <a class="underline" href="https://twitter.com/Gigaconnect" target="_blank">follow us on Twitter.</a>',
     },
 ];
 

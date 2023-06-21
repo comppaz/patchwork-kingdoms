@@ -29,39 +29,42 @@ export default function NavbarDropdown() {
                 <Menu.Items className="absolute -right-20 z-10 mt-2 w-56 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
                     <div className="py-1">
                         <Menu.Item>
-                            {({ active }) => (
+                            {({ active, close }) => (
                                 <Link href="/dashboard">
                                     <a
                                         className={classNames(
                                             active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
                                             'block px-4 py-2 text-sm',
-                                        )}>
+                                        )}
+                                        onClick={close}>
                                         Dashboard
                                     </a>
                                 </Link>
                             )}
                         </Menu.Item>
                         <Menu.Item>
-                            {({ active }) => (
+                            {({ active, close }) => (
                                 <Link href="/gallery">
                                     <a
                                         className={classNames(
                                             active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
                                             'block px-4 py-2 text-sm',
-                                        )}>
+                                        )}
+                                        onClick={close}>
                                         Gallery
                                     </a>
                                 </Link>
                             )}
                         </Menu.Item>
                         <Menu.Item>
-                            {({ active }) => (
+                            {({ active, close }) => (
                                 <Link href="/leaderboard">
                                     <a
                                         className={classNames(
                                             active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
                                             'block px-4 py-2 text-sm',
-                                        )}>
+                                        )}
+                                        onClick={close}>
                                         Leaderboard
                                     </a>
                                 </Link>
