@@ -4,6 +4,7 @@ import Image from 'next/image';
 import Loading from './Loading';
 import Modal from './donation/Modal';
 import kingdoms from '../data/kingdoms';
+import { checkIfFeatureIsActive } from '../lib/checkIfFeatureIsActive';
 
 var pageCounter = 100;
 const pageIncrement = 100;
@@ -62,15 +63,19 @@ export const DashboardGallery: FunctionComponent<IProps> = ({
                     <div className="space-y-5 sm:space-y-4 md:max-w-xl lg:max-w-3xl xl:max-w-none">
                         <h2 className="text-3xl font-extrabold tracking-tight sm:text-4xl">{heading}</h2>
                         <p className="text-xl text-gray-500">{caption}</p>
-                        {selectedNft && (
-                            <Modal
-                                transactionType={transactionType}
-                                setTransactionType={setTransactionType}
-                                isModalOpen={isModalOpen}
-                                setIsModalOpen={setIsModalOpen}
-                                nft={selectedNft}
-                            />
-                        )}
+                        {checkIfFeatureIsActive() ? (
+                            <div>
+                                {selectedNft && (
+                                    <Modal
+                                        transactionType={transactionType}
+                                        setTransactionType={setTransactionType}
+                                        isModalOpen={isModalOpen}
+                                        setIsModalOpen={setIsModalOpen}
+                                        nft={selectedNft}
+                                    />
+                                )}
+                            </div>
+                        ) : null}
                     </div>
                     <InfiniteScroll
                         dataLength={allnfts.length} // This is important field to render the next data
@@ -110,17 +115,19 @@ export const DashboardGallery: FunctionComponent<IProps> = ({
                                                             {kingdoms[nft.tokenId].title &&
                                                                 kingdoms[nft.tokenId].title.replace('Patchwork Kingdom ', '')}
                                                         </p>
-                                                        <div className="text-right">
-                                                            <button
-                                                                onClick={() => {
-                                                                    setTransactionType({ isDeposit: true, isPurchase: false });
-                                                                    setIsModalOpen(true);
-                                                                    setSelectedNft(nft);
-                                                                }}
-                                                                className="mt-2 py-1 w-16 rounded-md bg-teal-500 text-white cursor-pointer font-bold hover:bg-teal-600">
-                                                                Donate
-                                                            </button>
-                                                        </div>
+                                                        {checkIfFeatureIsActive() ? (
+                                                            <div className="text-right">
+                                                                <button
+                                                                    onClick={() => {
+                                                                        setTransactionType({ isDeposit: true, isPurchase: false });
+                                                                        setIsModalOpen(true);
+                                                                        setSelectedNft(nft);
+                                                                    }}
+                                                                    className="mt-2 py-1 w-16 rounded-md bg-teal-500 text-white cursor-pointer font-bold hover:bg-teal-600">
+                                                                    Donate
+                                                                </button>
+                                                            </div>
+                                                        ) : null}
                                                     </div>
                                                 </div>
                                                 <ul role="list" className="flex space-x-5">

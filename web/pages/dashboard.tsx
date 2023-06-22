@@ -8,6 +8,7 @@ import ResponseModal from '../components/donation/ResponseModal';
 import Modal from '../components/donation/Modal';
 import { getOwnedTestNfts } from '../lib/testTokenInteraction';
 import DashboardGallery from '../components/DashboardGallery';
+import { checkIfFeatureIsActive } from '../lib/checkIfFeatureIsActive';
 
 export default function Dashboard() {
     const { user } = useUser();
@@ -31,10 +32,12 @@ export default function Dashboard() {
     const [transactionType, setTransactionType] = useState({});
 
     useEffect(() => {
-        if (!process.env.PROD_FLAG && user && user.account) {
-            (async () => {
-                setTestNfts(await getOwnedTestNfts(user.account));
-            })();
+        if (checkIfFeatureIsActive()) {
+            if (!process.env.PROD_FLAG && user && user.account) {
+                (async () => {
+                    setTestNfts(await getOwnedTestNfts(user.account));
+                })();
+            }
         }
     }, [user, isResponseModalOpen]);
 
@@ -80,7 +83,7 @@ export default function Dashboard() {
             }
         });
     };
-    console.log(testNfts);
+
     // activates testing component only in dev stage
     if (!process.env.PROD_FLAG) {
         if (!user?.isLoggedIn) {
@@ -176,16 +179,21 @@ export default function Dashboard() {
 
     return (
         <div>
-            <ResponseModal />
-            {selectedTestToken && (
-                <Modal
-                    transactionType={transactionType}
-                    setTransactionType={setTransactionType}
-                    isModalOpen={isModalOpen}
-                    setIsModalOpen={setIsModalOpen}
-                    nft={selectedTestToken}
-                />
-            )}
+            {checkIfFeatureIsActive() ? (
+                <div>
+                    <ResponseModal />
+                    {selectedTestToken && (
+                        <Modal
+                            transactionType={transactionType}
+                            setTransactionType={setTransactionType}
+                            isModalOpen={isModalOpen}
+                            setIsModalOpen={setIsModalOpen}
+                            nft={selectedTestToken}
+                        />
+                    )}
+                </div>
+            ) : null}
+
             <DashboardGallery
                 heading="Your Kingdoms"
                 caption="All Patchwork Kingdoms that belong to you."
