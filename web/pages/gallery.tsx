@@ -33,7 +33,7 @@ export default function Gallery() {
                 title: kingdoms[i].title,
                 imageUrl: `https://${process.env.NEXT_PUBLIC_BUCKET_NAME}.fra1.digitaloceanspaces.com/thumbnail/${i}.png`,
                 tokenId: i,
-                openseaUrl: `https://opensea.io/assets/${process.env.NEXT_PUBLIC_CONTRACT_ADDRESS}/${i}`,
+                openseaUrl: `https://opensea.io/assets/ethereum/${process.env.NEXT_PUBLIC_CONTRACT_ADDRESS}/${i}`,
                 highresDownloadUrl: '',
             });
         }

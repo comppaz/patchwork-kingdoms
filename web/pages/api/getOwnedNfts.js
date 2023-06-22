@@ -50,7 +50,7 @@ async function getOwnedNftsRoute(req, res) {
                 title: nft.title,
                 imageUrl: `https://${process.env.BUCKET_NAME}.fra1.digitaloceanspaces.com/thumbnail/${tokenId}.png`,
                 tokenId: tokenId,
-                openseaUrl: `https://opensea.io/assets/${process.env.CONTRACT_ADDRESS}/${tokenId}`,
+                openseaUrl: `https://opensea.io/assets/ethereum/${process.env.CONTRACT_ADDRESS}/${tokenId}`,
                 highresDownloadUrl: signedUrl,
             });
         }
