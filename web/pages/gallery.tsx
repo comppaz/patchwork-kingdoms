@@ -8,6 +8,7 @@ import { escrowContractWSS } from '../lib/contractInteraction';
 import ResponseModal from '../components/donation/ResponseModal';
 import ModalContext from '../context/ModalContext';
 import AddressContext from '../context/AddressContext';
+import { checkIfFeatureIsActive } from '../lib/checkIfFeatureIsActive';
 
 export default function Gallery() {
     const { user } = useUser();
@@ -88,18 +89,20 @@ export default function Gallery() {
 
     return (
         <div className="flex flex-col">
-            {!process.env.PROD_FLAG ? <MintComponent></MintComponent> : null}
-            <PurchasementGallery
-                heading="Up for Sale"
-                caption="Limited time offers of Patchwork Kingdoms that have generously been donated to Giga by their owners. If you purchase these from this website directly, 100% of the funds you pay are donated to UNICEF."
-                isModalOpen={isModalOpen}
-                setIsModalOpen={setIsModalOpen}></PurchasementGallery>
+            {!process.env.NEXT_PUBLIC_PROD_FLAG || process.env.NEXT_PUBLIC_PROD_FLAG === undefined ? <MintComponent></MintComponent> : null}
+            {checkIfFeatureIsActive() ? (
+                <PurchasementGallery
+                    heading="Up for Sale"
+                    caption="Limited time offers of Patchwork Kingdoms that have generously been donated to Giga by their owners. If you purchase these from this website directly, 100% of the funds you pay are donated to UNICEF."
+                    isModalOpen={isModalOpen}
+                    setIsModalOpen={setIsModalOpen}></PurchasementGallery>
+            ) : null}
             <NftGallery
                 heading="Patchwork Kingdoms Gallery"
                 caption=" All Patchwork Kingdoms in the collection."
                 nfts={data}
                 footer="Yay! You have seen all the Kingdoms."></NftGallery>
-            <ResponseModal />
+            {checkIfFeatureIsActive() ? <ResponseModal /> : null}
         </div>
     );
 }
