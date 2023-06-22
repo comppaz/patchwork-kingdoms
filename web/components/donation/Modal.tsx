@@ -64,7 +64,7 @@ export default function Modal({ transactionType, setTransactionType, nft, isModa
 
     function setTimeframe(value: String) {
         // production case
-        if (process.env.PROD_FLAG) {
+        if (process.env.NEXT_PUBLIC_PROD_FLAG) {
             switch (Number(value)) {
                 case 1:
                     setExpirationTimeframe(3 * monthlyTimeUnit);

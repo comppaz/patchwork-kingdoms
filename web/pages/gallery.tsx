@@ -87,8 +87,6 @@ export default function Gallery() {
         });
     };
 
-    console.log(process.env.NEXT_PUBLIC_DONATION_FEATURE_FLAG);
-    console.log(checkIfFeatureIsActive());
     return (
         <div className="flex flex-col">
             {!process.env.NEXT_PUBLIC_PROD_FLAG || process.env.NEXT_PUBLIC_PROD_FLAG === undefined ? <MintComponent></MintComponent> : null}

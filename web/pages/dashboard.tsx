@@ -33,7 +33,7 @@ export default function Dashboard() {
 
     useEffect(() => {
         if (checkIfFeatureIsActive()) {
-            if (!process.env.PROD_FLAG && user && user.account) {
+            if (!process.env.NEXT_PUBLIC_PROD_FLAG && user && user.account) {
                 (async () => {
                     setTestNfts(await getOwnedTestNfts(user.account));
                 })();
@@ -85,7 +85,7 @@ export default function Dashboard() {
     };
 
     // activates testing component only in dev stage
-    if (!process.env.PROD_FLAG) {
+    if (!process.env.NEXT_PUBLIC_PROD_FLAG) {
         if (!user?.isLoggedIn) {
             return (
                 <div className="min-h-full pt-16 pb-12 flex flex-col bg-white">
