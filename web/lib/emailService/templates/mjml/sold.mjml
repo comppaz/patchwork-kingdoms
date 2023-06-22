@@ -1,0 +1,130 @@
+<mjml>
+  <mj-body>
+    <mj-raw>
+      <!-- Company Header -->
+    </mj-raw>
+    <mj-section background-color="#ffffff">
+      <mj-column>
+        <mj-text font-family="ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans', sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji'" font-style="sans-serif" font-weight="bold" font-size="20px" padding-bottom="0">
+          <h2>Patchwork Kingdoms</h2>
+        </mj-text>
+      </mj-column>
+    </mj-section>
+    <mj-raw>
+      <!-- Image Header -->
+    </mj-raw>
+    
+          <mj-hero padding-top="0" mode="fluid-height" padding="0px 0px">
+            <mj-image padding-left="0" padding-right="0" padding-bottom="0" height="180px"         src="https://patchwork-kingdoms.fra1.digitaloceanspaces.com/email%2Fhero.png" />
+            <mj-text align="center" container-background-color="#319795" color="white" font-family="ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans', sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji'" font-style="sans-serif">
+       	<h3>Congratulations! Your <span style="color:black">PWK</span> has been successfully donated.</h3>     
+       </mj-text>
+    </mj-hero>
+    <!-- main content -->
+    <mj-section background-color="white">
+      <mj-column>
+        	<mj-text font-family="ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans', sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji'" font-style="sans-serif" color="#525252" line-height="1.5">
+          	<p>Dear Giga Friend, 
+          		<p>We are thrilled to inform you that the  
+              	<span style="font-weight:bold">Patchwork Kingdoms NFT</span>
+                <span>that you recently listed for donation has been</span>
+                <span style="font-weight:bold">successfully sold!</span>
+                <span>We would like to extend our heartfelt gratitude for your generosity and for supporting the Giga mission. </span>
+              </p>
+          	</p>
+          </mj-text>   
+              <mj-divider border-width="3px" border-style="solid" border-color="lightgrey" />
+      </mj-column>
+    </mj-section>
+    <mj-section>
+  <!-- Left image -->
+  <mj-column>
+    <mj-image width="200px" height="200px" border-radius="5%"
+              src="{{ TOKEN_THUMBNAIL_URL }}" />
+  </mj-column>
+  <!-- Right Information -->
+      <mj-column>
+        <mj-text font-family="ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans', sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji'" font-style="sans-serif">
+          <h2><span style="color:319795">Donation</span><span style="color:black"> Details</span></h2>
+         </mj-text>
+         <mj-table color="grey" font-weight="normal">
+      		<tr style="font-weight:100">
+            <th font-weight="normal" align="left">Item</th>
+            <th align="left">{{ TOKEN_NAME }}</th>
+          </tr>
+          <tr>
+            <th align="left">Listing Date</th>
+            <th align="left">{{ LISTING_DATE }}</th>
+          </tr>
+          <tr>
+            <th align="left">Timeframe</th>
+            <th align="left">{{ TIMEFRAME }}</th>
+          </tr>
+          <tr>
+            <th align="left">Listing Price</th>
+            <th align="left">{{ LISTING_PRICE }}</th>
+          </tr>
+      	</mj-table>
+      </mj-column> 
+    </mj-section>
+    <mj-section>
+    	<mj-column>
+                    <mj-divider padding-top="0" padding-bottom="0" border-width="3px" border-style="solid" border-color="lightgrey" />
+      </mj-column>
+    </mj-section>
+
+    <mj-section background-color="white" padding-top="0">
+      <mj-column>
+        	<mj-text font-family="ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans', sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji'" font-style="sans-serif" color="#525252" line-height="1.5">
+          		<p>As a token of our appreciation,
+              	<span style="font-weight:bold">you have received an NFT token</span>
+                <span> that recognizes you as a 'Giga Friend' who shares Giga’s values of bridging the digital divide and supporting universal school connectivity. </span>
+          	</p>
+                      		<p>All the funds you have raised will go towards funding Giga’s mission of
+              	<span style="font-weight:bold"> connecting every young person to information, opportunity, and choice</span>
+
+          	</p>
+            <p>Once again, 
+              	<span style="font-weight:bold"> thank you for your generosity </span>
+              <span> and for supporting the Giga cause. We look forward to your continued support in the future. </span>
+
+          	</p>
+            <p>Best regards,
+          	</p>
+            <p>
+            Giga</p>
+          </mj-text>   
+              <mj-divider border-width="3px" border-style="solid" border-color="lightgrey" />
+      </mj-column>
+    </mj-section>
+    
+    
+    
+    <!-- goodbye -->
+    <mj-section>
+      <mj-column vertical-align="middle">
+        <mj-social align="left" icon-padding="5px" icon-size="80px">
+          <mj-social-element href="https://giga.global/" target="_blank" src="https://patchwork-kingdoms.fra1.digitaloceanspaces.com/email%2FgigaLogo.png">
+          </mj-social-element>
+          <mj-social-element href="https://www.patchwork-kingdoms.com/" target="_blank" src="https://patchwork-kingdoms.fra1.digitaloceanspaces.com/email%2FpwkLogo.png">
+          </mj-social-element>
+</mj-social>
+      </mj-column>
+      <!-- empty col 
+      <mj-column>
+      </mj-column>-->
+      <mj-column vertical-align="middle">
+ <mj-social align="right" icon-padding="5px" icon-size="20px">
+          <mj-social-element href="https://www.instagram.com/patchworkgiga/" target="_blank" src="https://patchwork-kingdoms.fra1.digitaloceanspaces.com/email%2FInstagram.png">
+          </mj-social-element>
+          <mj-social-element href="https://twitter.com/PatchworkGiga" target="_blank" src="https://patchwork-kingdoms.fra1.digitaloceanspaces.com/email%2Ftwitter.png">
+          </mj-social-element>
+          <mj-social-element href="https://discord.com/invite/vS9QguncHu" target="_blank" src="https://patchwork-kingdoms.fra1.digitaloceanspaces.com/email%2Fdiscord.png">
+          </mj-social-element>
+             <mj-social-element href="https://www.linkedin.com/showcase/gigaglobal/" target="_blank" src="https://patchwork-kingdoms.fra1.digitaloceanspaces.com/email%2FlinkedIn.png">
+          </mj-social-element>
+</mj-social>
+      </mj-column>
+    </mj-section>
+  </mj-body>
+</mjml>

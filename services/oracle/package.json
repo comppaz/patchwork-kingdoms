@@ -1,0 +1,24 @@
+{
+  "name": "oracle",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^1.1.2",
+    "chai": "^4.3.6",
+    "dotenv": "^16.0.3",
+    "hardhat": "^2.12.0",
+    "mocha": "^10.1.0",
+    "web3": "^1.8.0"
+  },
+  "devDependencies": {
+    "@nomicfoundation/hardhat-chai-matchers": "^1.0.4",
+    "@nomiclabs/hardhat-etherscan": "^3.1.1",
+    "axios-mock-adapter": "^1.21.2"
+  }
+}

@@ -3,14 +3,17 @@
 The frontend for the Patchwork Kingdoms project (https://patchwork-kingdoms.com) in next.js.
 
 **Requirements**
-- Node.js >= v14.17.0
 
-**Setup** 
+-   Node.js >= v14.17.0
+
+**Setup**
+
 ```
-npm install 
+npm install
 ```
 
-Prepare a *.env.local* file:
+Prepare a _.env.local_ file:
+
 ```
 CONTRACT_ADDRESS=0xD24a7C412f2279B1901E591898c1E96C140be8c5
 NEXT_PUBLIC_CONTRACT_ADDRESS=0xD24a7C412f2279B1901E591898c1E96C140be8c5
@@ -22,7 +25,8 @@ BUCKET_NAME=
 NEXT_PUBLIC_BUCKET_NAME=
 ```
 
-**Run project locally** 
+**Run project locally**
+
 ```
 npm run dev
 ```

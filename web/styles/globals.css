@@ -9,16 +9,20 @@
     height: 35px;
     border-radius: 50%;
     cursor: pointer;
-  }
+}
 
-  .mapboxgl-popup {
+.mapboxgl-popup {
     border-radius: 100%;
     max-width: 24rem !important;
-  }
-  
-  .mapboxgl-popup-content {
+}
+
+.mapboxgl-popup-content {
     text-align: left;
     font-family: 'Open Sans', sans-serif;
     background-color: white !important;
     border-radius: 15px !important;
-  }
+}
+
+.swiper-pagination-bullet-active {
+    background-color: rgba(20, 184, 166, var(--tw-bg-opacity)) !important;
+}
